@@ -8,7 +8,7 @@ It integrates the [CppUTest](https://cpputest.github.io/) unit testing framework
 ## Requirements
 
  - [**CppUTest**](https://cpputest.github.io/) - *testing framework*
- - **NetBeans 8**
+ - [**NetBeans 8**](https://netbeans.org)
 
 *The plugin has not been tested with earlier versions of NetBeans yet.*
 
