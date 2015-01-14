@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: true
+OpenIDE-Module: bv.offa.netbeans.cnd.unittest
+OpenIDE-Module-Localizing-Bundle: bv/offa/netbeans/cnd/unittest/Bundle.properties
+OpenIDE-Module-Specification-Version: 0.1
+
