@@ -30,11 +30,22 @@ import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 import org.netbeans.modules.gsf.testrunner.api.Testcase;
 import org.netbeans.modules.gsf.testrunner.api.Trouble;
 
+/**
+ * The class {@code GoogleTestTestHandlerFactory} implements a factory for
+ * test handler.
+ * 
+ * @author  offa
+ */
 public class GoogleTestTestHandlerFactory implements TestHandlerFactory
 {
     private static final String GOOGLETEST = "GoogleTest";
 
 
+    /**
+     * Creates heandlers for the unit test output.
+     * 
+     * @return  Test output handler
+     */
     @Override
     public List<TestRecognizerHandler> createHandlers()
     {
@@ -47,7 +58,13 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
         
         return testHandler;
     }
-
+    
+    
+    /**
+     * Returns whether a summary is printed.
+     * 
+     * @return  Always {@code true}
+     */
     @Override
     public boolean printSummary()
     {
@@ -55,14 +72,27 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
     }
     
     
+    
+    /**
+     * The class {@code GoogleTestSuiteStartedHandler} handles the start of a
+     * test suite.
+     */
     static class GoogleTestSuiteStartedHandler extends TestRecognizerHandler
     {
+        
         public GoogleTestSuiteStartedHandler()
         {
             super("^.*?\\[[-]{10}\\].*? [0-9]+? tests from ([^ ]+?)$");
         }
         
         
+        
+        /**
+         * Updates the ui and test states.
+         * 
+         * @param mngr  Manager
+         * @param ts    Test session
+         */
         @Override
         public void updateUI(Manager mngr, TestSession ts)
         {
@@ -92,31 +122,59 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
     
     
     
+    /**
+     * The class {@code GoogleTestSuiteFinishedHandler} handles the finish of a
+     * test suite.
+     */
     static class GoogleTestSuiteFinishedHandler extends TestRecognizerHandler
     {
         public GoogleTestSuiteFinishedHandler()
         {
             super("^.*?\\[[-]{10}\\].*? [0-9]+? tests from ([^ ]+?) \\(([0-9]+?) ms total\\)$");
         }
-
+        
+        
+        
+        /**
+         * Updates the ui and test states.
+         * 
+         * @param mngr  Manager
+         * @param ts    Test session
+         */
         @Override
         public void updateUI(Manager mngr, TestSession ts)
         {
-            long time = Long.parseLong(matcher.group(2));
+            /*
+             * Disabled since this causes an assert failure if a trouble is set.
+             */
             
-            // Disabled since this causes an assert failure if a trouble is set
+//            long time = Long.parseLong(matcher.group(2));
 //            mngr.displayReport(ts, ts.getReport(time));
         }
     }
     
     
+    
+    /**
+     * The class {@code GoogleTestSessionFinishedHandler} handles the finish of
+     * a test session.
+     */
     static class GoogleTestSessionFinishedHandler extends TestRecognizerHandler
     {
+        
         public GoogleTestSessionFinishedHandler()
         {
             super("^.*?\\[[=]{10}\\].*? [0-9]+? tests from [0-9]+? test cases ran\\. \\(([0-9]+?) ms total\\)$");
         }
 
+        
+        
+        /**
+         * Updates the ui and test states.
+         * 
+         * @param mngr  Manager
+         * @param ts    Test session
+         */
         @Override
         public void updateUI(Manager mngr, TestSession ts)
         {
@@ -127,6 +185,11 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
     }
     
     
+    
+    /**
+     * The class {@code GoogleTestTestStartedHandler} handles the start of
+     * a test case.
+     */
     static class GoogleTestTestStartedHandler extends TestRecognizerHandler
     {
 
@@ -136,7 +199,13 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
         }
         
         
-
+        
+        /**
+         * Updates the ui and test states.
+         * 
+         * @param mngr  Manager
+         * @param ts    Test session
+         */
         @Override
         public void updateUI(Manager mngr, TestSession ts)
         {
@@ -155,19 +224,31 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
         
     }
     
-
     
+    
+    /**
+     * The class {@code GoogleTestTestFinishedHandler} handles the finish of a
+     * test case.
+     */
     static class GoogleTestTestFinishedHandler extends TestRecognizerHandler
     {
         private static final String MSG_OK = "     OK";
         private static final String MSG_FAILED = "FAILED ";
 
+        
         public GoogleTestTestFinishedHandler()
         {
             super("^.*?\\[  (     OK|FAILED ) \\].*? (.+?)\\.(.+?) \\(([0-9]+?) ms\\)$");
         }
 
         
+        
+        /**
+         * Updates the ui and test states.
+         * 
+         * @param mngr  Manager
+         * @param ts    Test session
+         */
         @Override
         public void updateUI(Manager mngr, TestSession ts)
         {

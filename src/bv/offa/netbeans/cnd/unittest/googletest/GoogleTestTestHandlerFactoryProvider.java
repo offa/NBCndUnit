@@ -24,10 +24,21 @@ import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactory;
 import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactoryProvider;
 import org.openide.util.lookup.ServiceProvider;
 
+/**
+ * The class {@code GoogleTestTestHandlerFactoryProvider} implements a service
+ * that provides test handler for unit tests.
+ * 
+ * @author  offa
+ */
 @ServiceProvider(service = TestHandlerFactoryProvider.class)
 public class GoogleTestTestHandlerFactoryProvider implements TestHandlerFactoryProvider
 {
-
+    
+    /**
+     * Creates a test handler factory.
+     * 
+     * @return  Test handler factory
+     */
     @Override
     public TestHandlerFactory getFactory()
     {
