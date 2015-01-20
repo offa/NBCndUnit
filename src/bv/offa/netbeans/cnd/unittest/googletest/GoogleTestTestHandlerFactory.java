@@ -209,15 +209,7 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
         @Override
         public void updateUI(Manager mngr, TestSession ts)
         {
-            final TestSuite currentTestSuite = ts.getCurrentSuite();
-            
-            if( currentTestSuite == null )
-            {
-                throw new IllegalStateException("No suite found for test "
-                        + matcher.group(1) + "." + matcher.group(2));
-            }
-            
-            Testcase testcase = new Testcase(matcher.group(2), GOOGLETEST, ts);
+            final Testcase testcase = new Testcase(matcher.group(2), GOOGLETEST, ts);
             testcase.setClassName(matcher.group(1));
             ts.addTestCase(testcase);
         }
@@ -290,7 +282,7 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
             else
             {
                 throw new IllegalStateException("No test found for: " 
-                        + matcher.group(2) + "." + matcher.group(3));
+                        + matcher.group(2) + ":" + matcher.group(3));
             }
         }
         
