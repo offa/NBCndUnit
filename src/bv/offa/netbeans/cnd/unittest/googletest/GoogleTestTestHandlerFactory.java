@@ -147,9 +147,6 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
             /*
              * Disabled since this causes an assert failure if a trouble is set.
              */
-            
-//            long time = Long.parseLong(matcher.group(2));
-//            mngr.displayReport(ts, ts.getReport(time));
         }
     }
     
