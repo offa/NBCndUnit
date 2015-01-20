@@ -38,7 +38,7 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
  */
 public class GoogleTestTestHandlerFactory implements TestHandlerFactory
 {
-    private static final String GOOGLETEST = "GoogleTest";
+    private static final String GOOGLETEST = "GoogleTest"; //NOI18N
 
 
     /**
@@ -82,7 +82,7 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
         
         public GoogleTestSuiteStartedHandler()
         {
-            super("^.*?\\[[-]{10}\\].*? [0-9]+? tests from ([^ ]+?)$");
+            super("^.*?\\[[-]{10}\\].*? [0-9]+? tests from ([^ ]+?)$"); //NOI18N
         }
         
         
@@ -130,7 +130,7 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
     {
         public GoogleTestSuiteFinishedHandler()
         {
-            super("^.*?\\[[-]{10}\\].*? [0-9]+? tests from ([^ ]+?) \\(([0-9]+?) ms total\\)$");
+            super("^.*?\\[[-]{10}\\].*? [0-9]+? tests from ([^ ]+?) \\(([0-9]+?) ms total\\)$"); //NOI18N
         }
         
         
@@ -164,7 +164,7 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
         
         public GoogleTestSessionFinishedHandler()
         {
-            super("^.*?\\[[=]{10}\\].*? [0-9]+? tests from [0-9]+? test cases ran\\. \\(([0-9]+?) ms total\\)$");
+            super("^.*?\\[[=]{10}\\].*? [0-9]+? tests from [0-9]+? test cases ran\\. \\(([0-9]+?) ms total\\)$"); //NOI18N
         }
 
         
@@ -195,7 +195,7 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
 
         public GoogleTestTestStartedHandler()
         {
-            super("^.*?\\[ RUN      \\].*? (.+?)\\.(.+?)$");
+            super("^.*?\\[ RUN      \\].*? (.+?)\\.(.+?)$"); //NOI18N
         }
         
         
@@ -232,13 +232,13 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
      */
     static class GoogleTestTestFinishedHandler extends TestRecognizerHandler
     {
-        private static final String MSG_OK = "     OK";
-        private static final String MSG_FAILED = "FAILED ";
+        private static final String MSG_OK = "     OK"; //NOI18N
+        private static final String MSG_FAILED = "FAILED "; //NOI18N
 
         
         public GoogleTestTestFinishedHandler()
         {
-            super("^.*?\\[  (     OK|FAILED ) \\].*? (.+?)\\.(.+?) \\(([0-9]+?) ms\\)$");
+            super("^.*?\\[  (     OK|FAILED ) \\].*? (.+?)\\.(.+?) \\(([0-9]+?) ms\\)$"); //NOI18N
         }
 
         
@@ -284,7 +284,7 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
                 }
                 else
                 {
-                    throw new IllegalStateException("Unknown result: <" + result + ">");
+                    throw new IllegalStateException("Unknown result: <" + result + ">"); //NOI18N
                 }
             }
             else
