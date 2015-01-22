@@ -19,7 +19,7 @@ It integrates the [CppUTest](https://cpputest.github.io/) and [Google Test](http
 
  1. Create a new NetBeans C/C++ project
  1. Add CppUTest / Google Test library and headers to the test settings
- 1. Write tests *(CppUTest only: in addition a main with *verbose* output enabled)*
+ 1. Write tests *(CppUTest only: in addition a main with __verbose__ output enabled)*
  1. Test project
 
 
