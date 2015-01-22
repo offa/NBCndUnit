@@ -83,7 +83,7 @@ public class CppUTestTestHandlerFactory implements TestHandlerFactory
         
         public CppUTestHandler(TestSessionInformation info)
         {
-            super("^TEST\\(([^, ]+?), ([^, ]+?)\\)( \\- ([0-9]+?) ms)?$"); //NOI18N
+            super("^TEST\\(([^, ]+?), ([^, ]+?)\\)( \\- ([0-9]+?) ms)?$", true); //NOI18N
             this.info = info;
         }
 
