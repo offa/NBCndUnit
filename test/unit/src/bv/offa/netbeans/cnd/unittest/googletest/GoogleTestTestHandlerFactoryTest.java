@@ -173,11 +173,13 @@ public class GoogleTestTestHandlerFactoryTest
         final String input[] = new String[]
         {
             "[==========] 1200 tests from 307 test cases ran. (123456 ms total)",
-            "[==========] 1 tests from 1 test cases ran. (0 ms total)"
+            "[==========] 1 tests from 2 test cases ran. (0 ms total)",
+            "[==========] 4 tests from 1 test case ran. (25 ms total)"
         };
         
         assertTrue(handler.matches(input[0]));
         assertTrue(handler.matches(input[1]));
+        assertTrue(handler.matches(input[2]));
         
         Matcher m = handler.match(input[0]);
         assertTrue(m.find());
@@ -186,5 +188,9 @@ public class GoogleTestTestHandlerFactoryTest
         m = handler.match(input[1]);
         assertTrue(m.find());
         assertEquals(0L, Long.parseLong(m.group(1)));
+        
+        m = handler.match(input[2]);
+        assertTrue(m.find());
+        assertEquals(25L, Long.parseLong(m.group(1)));
     }
 }

@@ -161,7 +161,7 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
         
         public GoogleTestSessionFinishedHandler()
         {
-            super("^.*?\\[[=]{10}\\].*? [0-9]+? tests from [0-9]+? test cases ran\\. \\(([0-9]+?) ms total\\)$", true); //NOI18N
+            super("^.*?\\[[=]{10}\\].*? [0-9]+? tests from [0-9]+? test cases?? ran\\. \\(([0-9]+?) ms total\\)$", true); //NOI18N
         }
 
         
