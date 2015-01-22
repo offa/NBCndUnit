@@ -25,8 +25,8 @@ It integrates the [CppUTest](https://cpputest.github.io/) and [Google Test](http
 
 *For more informations about writing tests, please see the manuals:*
 
- - [CppUTest Manual](https://cpputest.github.io/manual.html)
- - [Google Test](https://code.google.com/p/googletest/w/list)
+ - [CppUTest manual](https://cpputest.github.io/manual.html)
+ - [Google Test manual](https://code.google.com/p/googletest/w/list)
 
 
 ## Examples
