@@ -47,7 +47,7 @@ CppUTest does not show test details per default, therefore the *verbose mode* mu
 
 This can be done through the commandline arguments of the tests main:
 
-**`AllTests.cpp`**
+**AllTests.cpp**
 
 ```cpp
 #include <vector>
