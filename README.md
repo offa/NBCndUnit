@@ -66,11 +66,6 @@ int main(int argc, char** argv)
 The file `examples/cpputest/AllTests.cpp` contains a boilerplate for a test main.
 
 
-## Google Test
-
-*Nothing yet.*
-
-
 ## License
 
 **GNU General Public License (GPL)**
