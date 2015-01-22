@@ -2,13 +2,15 @@
 
 NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing.
 
-It integrates the [CppUTest](https://cpputest.github.io/) unit testing framework into the NetBeans test runner (as JUnit does).
+It integrates the [CppUTest](https://cpputest.github.io/) and [Google Test](https://code.google.com/p/googletest/) unit testing frameworks.
 
 
 ## Requirements
 
- - [**CppUTest**](https://cpputest.github.io/) - *testing framework*
  - [**NetBeans 8**](https://netbeans.org)
+ - **Testing framework** - *at least one*
+  - [CppUTest](https://cpputest.github.io/)
+  - [Google Test](https://code.google.com/p/googletest/)
 
 *The plugin has not been tested with earlier versions of NetBeans yet.*
 
@@ -16,18 +18,20 @@ It integrates the [CppUTest](https://cpputest.github.io/) unit testing framework
 ## Getting started
 
  1. Create a new NetBeans C/C++ project
- 1. Add CppUTest library and headers to the test settings
- 1. Write tests and it's main (make sure *verbose* output is set)
+ 1. Add CppUTest / Google Test library and headers to the test settings
+ 1. Write tests *(CppUTest only: in addition a main with *verbose* output enabled)*
  1. Test project
 
-The file `examples/cpputest/AllTests.cpp` contains a boilerplate for a test main.
 
-*For more informations about writing tests, please see the [CppUTest Manual](https://cpputest.github.io/manual.html)*
+*For more informations about writing tests, please see the manuals:*
+
+ - [CppUTest Manual](https://cpputest.github.io/manual.html)
+ - [Google Test](https://code.google.com/p/googletest/w/list)
 
 
 ## Examples
 
-An example test suite (`Example.cpp`) and the test main (`AllTests.cpp`) is located in `examples/cpputest`.
+Example test suites are available in the `examples` direcotry.
 
 
 ## Running tests
@@ -37,7 +41,7 @@ The tests are run as usual using the Test button.
 The *Test Results* window will show the result of the tests.
 
 
-### Important note
+## CppUTest
 
 CppUTest does not show test details per default, therefore the *verbose mode* must be set.
 
@@ -59,8 +63,12 @@ int main(int argc, char** argv)
     return CommandLineTestRunner::RunAllTests(args.size(), &args[0]);
 }
 ```
+The file `examples/cpputest/AllTests.cpp` contains a boilerplate for a test main.
 
-This file is also included in `examples/cpputest`.
+
+## Google Test
+
+*Nothing yet.*
 
 
 ## License
