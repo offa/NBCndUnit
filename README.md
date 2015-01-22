@@ -8,11 +8,11 @@ It integrates the [CppUTest](https://cpputest.github.io/) and [Google Test](http
 ## Requirements
 
  - [**NetBeans 8**](https://netbeans.org)
- - **Testing framework** - *at least one*
+ - **Testing framework** (*at least one*)
   - [CppUTest](https://cpputest.github.io/)
   - [Google Test](https://code.google.com/p/googletest/)
 
-*The plugin has not been tested with earlier versions of NetBeans yet.*
+*(The plugin has not been tested with earlier versions of NetBeans yet.)*
 
 
 ## Getting started
