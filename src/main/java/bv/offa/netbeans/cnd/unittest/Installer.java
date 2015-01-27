@@ -1,7 +1,6 @@
 package bv.offa.netbeans.cnd.unittest;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
@@ -63,7 +62,7 @@ public class Installer extends ModuleInstall
                 updateFriendsValue(friendNamesField, dataValue, codeNameBase);
             }
         }
-        catch( NoSuchMethodException ex )
+        catch( ReflectiveOperationException ex )
         {
             throw new IllegalStateException(ex);
         }
@@ -71,23 +70,7 @@ public class Installer extends ModuleInstall
         {
             throw new IllegalStateException(ex);
         }
-        catch( IllegalAccessException ex )
-        {
-            throw new IllegalStateException(ex);
-        }
         catch( IllegalArgumentException ex )
-        {
-            throw new IllegalStateException(ex);
-        }
-        catch( InvocationTargetException ex )
-        {
-            throw new IllegalStateException(ex);
-        }
-        catch( ClassNotFoundException ex )
-        {
-            throw new IllegalStateException(ex);
-        }
-        catch( NoSuchFieldException ex )
         {
             throw new IllegalStateException(ex);
         }
