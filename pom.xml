@@ -7,7 +7,7 @@
     <packaging>nbm</packaging>
     
     <name>NBCndUnit</name>
-    <description>C/C++ unit tests for NetBeans supporting CppUTest and Google Test.</description>
+    <description>C/C++ unit tests for NetBeans - supporting CppUTest and Google Test.</description>
     
     <build>
         <plugins>
@@ -17,6 +17,11 @@
                 <version>3.13</version>
                 <extensions>true</extensions>
                 <configuration>
+                    <author>offa</author>
+                    <homePageUrl>https://github.com/offa/NBCndUnit</homePageUrl>
+                    <licenseName>GPLv3</licenseName>
+                    <licenseFile>./LICENSE</licenseFile>
+                    
                     <verifyRuntime>warn</verifyRuntime>
                 </configuration>
             </plugin>
