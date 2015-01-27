@@ -138,7 +138,6 @@ public class Installer extends ModuleInstall
         Set<String> value = (Set<String>) friendField.get(obj);
         assert(value != null);
         
-        // TODO: Test for null and add then!?
         Set<String> newValue = new HashSet<String>(value);
         newValue.add(friendToAdd);
         friendField.set(obj, newValue);
