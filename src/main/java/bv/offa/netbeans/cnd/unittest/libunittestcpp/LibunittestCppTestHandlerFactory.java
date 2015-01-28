@@ -30,11 +30,22 @@ import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 import org.netbeans.modules.gsf.testrunner.api.Testcase;
 import org.netbeans.modules.gsf.testrunner.api.Trouble;
 
+/**
+ * The class {@code LibunittestCppTestHandlerFactory} implements a factory for
+ * <i>libunittestc++</i> test handler.
+ * 
+ * @author  offa
+ */
 public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
 {
     private static final String LIBUNITTESTCPP = "LibunittestC++";
     
-
+    
+    /**
+     * Creates handlers for the unit test output.
+     * 
+     * @return  Test output handler
+     */
     @Override
     public List<TestRecognizerHandler> createHandlers()
     {
@@ -44,7 +55,13 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
         
         return testHandler;
     }
-
+    
+    
+    /**
+     * Returns whether a summary is printed.
+     * 
+     * @return  Always {@code true}
+     */
     @Override
     public boolean printSummary()
     {
@@ -52,7 +69,15 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
     }
     
     
-    static long parseTimeMillis(String str)
+    /**
+     * Parses the input string - containing a seconds time - to milliseconds.
+     * The value is rounded.
+     * 
+     * @param str   Input string (sec)
+     * @return      Time in ms or {@code 0L} if an invalid or negative time is
+     *              passed
+     */
+    static long parseSecTimeToMillis(String str)
     {
         long result = 0L;
         
@@ -76,7 +101,10 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
     
     
     
-    
+    /**
+     * The class {@code LibunittestCppTestFinishedHandler} handles the test
+     * output.
+     */
     static class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
     {
 
@@ -85,7 +113,14 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
             super("^(.+?)::test \\.{3} \\[([0-9].+?)s\\] (ok|FAIL)$", true);
         }
         
-
+        
+        
+        /**
+         * Updates the ui and test states.
+         * 
+         * @param mngr  Manager
+         * @param ts    Test session
+         */
         @Override
         public void updateUI(Manager mngr, TestSession ts)
         {
@@ -102,7 +137,7 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
             
             Testcase testCase = new Testcase(matcher.group(1), LIBUNITTESTCPP, ts);
             testCase.setClassName(suiteName);
-            testCase.setTimeMillis(parseTimeMillis(matcher.group(2)));
+            testCase.setTimeMillis(parseSecTimeToMillis(matcher.group(2)));
 
             final String result = matcher.group(3);
             
@@ -127,6 +162,11 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
     }
     
     
+    
+    /**
+     * The class {@code LibunittestCppTestSessionFinishedHandler} handles the 
+     * test session end.
+     */
     static class LibunittestCppTestSessionFinishedHandler extends TestRecognizerHandler
     {
 
@@ -136,10 +176,17 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
         }
 
         
+        
+        /**
+         * Updates the ui and test states.
+         * 
+         * @param mngr  Manager
+         * @param ts    Test session
+         */
         @Override
         public void updateUI(Manager mngr, TestSession ts)
         {
-            final long time = parseTimeMillis(matcher.group(1));
+            final long time = parseSecTimeToMillis(matcher.group(1));
             mngr.displayReport(ts, ts.getReport(time));
             mngr.sessionFinished(ts);
         }

@@ -164,6 +164,6 @@ public class LibunittestCppTestHandlerFactoryTest
     
     private long parseTimeStoMs(String timeSec)
     {
-        return LibunittestCppTestHandlerFactory.parseTimeMillis(timeSec);
+        return LibunittestCppTestHandlerFactory.parseSecTimeToMillis(timeSec);
     }
 }

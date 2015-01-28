@@ -32,7 +32,7 @@ import org.netbeans.modules.gsf.testrunner.api.Manager;
 
 /**
  * The class {@code CppUTestTestHandlerFactory} implements a factory for
- * test handler.
+ * <i>CppUTest</i> test handler.
  * 
  * @author  offa
  */
@@ -42,7 +42,7 @@ public class CppUTestTestHandlerFactory implements TestHandlerFactory
 
     
     /**
-     * Creates heandlers for the unit test output.
+     * Creates handlers for the unit test output.
      * 
      * @return  Test output handler
      */
@@ -74,7 +74,7 @@ public class CppUTestTestHandlerFactory implements TestHandlerFactory
     
     
     /**
-     * The class {@code CppUTestHandler} handles test output.
+     * The class {@code CppUTestHandler} handles the test output.
      */
     static class CppUTestHandler extends TestRecognizerHandler
     {

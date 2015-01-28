@@ -26,7 +26,7 @@ import org.openide.util.lookup.ServiceProvider;
 
 /**
  * The class {@code CppUTestTestHandlerFactoryProvider} implements a service
- * that provides test handler for unit tests.
+ * that provides test handler for <i>CppUTest</i> unit tests.
  * 
  * @author  offa
  */
