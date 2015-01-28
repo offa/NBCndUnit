@@ -4,15 +4,19 @@ NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing.
 
 It integrates the [CppUTest](https://cpputest.github.io/) and [Google Test](https://code.google.com/p/googletest/) unit testing frameworks.
 
+Stable releases are avaialble at the [NetBeans Plugin Portal](http://plugins.netbeans.org/plugin/57174/nbcndunit).
+
 
 ## Requirements
 
  - [**NetBeans 8**](https://netbeans.org)
- - **Testing framework** (*at least one*)
-  - [CppUTest](https://cpputest.github.io/)
-  - [Google Test](https://code.google.com/p/googletest/)
+ - **Testing framework**
 
-*(The plugin has not been tested with earlier versions of NetBeans yet.)*
+
+## Supported C/C++ unit testing frameworks
+
+ - [CppUTest](https://cpputest.github.io/)
+ - [Google Test](https://code.google.com/p/googletest/)
 
 
 ## Getting started
