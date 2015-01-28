@@ -19,19 +19,19 @@ NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing. I
 
 ## Getting started
 
- 1. Create a new NetBeans C/C++ project
- 1. Add unit testing framework (binaries and headers) to the test settings
- 1. Write tests
- 1. Run tests
+ 1. **Create** a new NetBeans C/C++ **project**
+ 1. **Add** unit testing **framework** (binaries and headers) to the test settings
+ 1. **Write** tests
+ 1. **Run** tests
 
-**Note:** Some frameworks require *verbose output*.
+**Note:** Some frameworks require ***verbose*** output.
 
 *For more informations about writing tests, please see the appropriate manuals.*
 
 
 ## Examples
 
-Example test suites are available in the `examples` direcotry.
+Example test suites are available in the `examples` directory.
 
 
 ## Running tests
