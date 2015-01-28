@@ -97,12 +97,13 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
         public void updateUI(Manager mngr, TestSession ts)
         {
             final String suiteName = matcher.group(1);
-            final TestSuite currentSuite = ts.getCurrentSuite();
+            TestSuite currentSuite = ts.getCurrentSuite();
             
             if( currentSuite == null )
             {
                 mngr.testStarted(ts);
-                ts.addSuite(new TestSuite(suiteName));
+                currentSuite = new TestSuite(suiteName);
+                ts.addSuite(currentSuite);
                 mngr.displaySuiteRunning(ts, currentSuite);
             }
             else if( currentSuite.getName().equals(suiteName) == false )
