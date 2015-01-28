@@ -1,10 +1,8 @@
 # [NBCndUnit](https://github.com/offa/NBCndUnit)
 
-NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing.
+NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing. It integrates the [CppUTest](https://cpputest.github.io/) and [Google Test](https://code.google.com/p/googletest/) unit testing frameworks.
 
-It integrates the [CppUTest](https://cpputest.github.io/) and [Google Test](https://code.google.com/p/googletest/) unit testing frameworks.
-
-Stable releases are avaialble at the [NetBeans Plugin Portal](http://plugins.netbeans.org/plugin/57174/nbcndunit).
+**Stable releases** are available at the [NetBeans Plugin Portal](http://plugins.netbeans.org/plugin/57174/nbcndunit).
 
 
 ## Requirements
