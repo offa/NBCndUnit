@@ -78,7 +78,7 @@ public class Installer extends ModuleInstall
         try
         {
             final ModuleInfo moduleInfoOfThis = Modules.getDefault().ownerOf(this.getClass());
-            assert( moduleInfoOfThis != null);
+            assert(moduleInfoOfThis != null);
             final String codeNameBase = moduleInfoOfThis.getCodeNameBase();
             
             final Method getManagerMethod = moduleInfoOfThis.getClass().getMethod("getManager");
