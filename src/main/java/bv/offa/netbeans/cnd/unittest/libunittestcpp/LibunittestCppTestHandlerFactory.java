@@ -58,11 +58,11 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
         
         try
         {
-            final double prasedValue = Double.parseDouble(str) * 1000.0;
+            final double value = Double.parseDouble(str) * 1000.0;
             
-            if( Math.signum(prasedValue) > 0 )
+            if( Math.signum(value) > 0 )
             {
-                result = Math.round(prasedValue);
+                result = Math.round(value);
             }
             
         }
