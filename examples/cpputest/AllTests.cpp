@@ -1,6 +1,6 @@
 
-#include <vector>
 #include <CppUTest/CommandLineTestRunner.h>
+#include <vector>
 
 int main(int argc, char** argv)
 {
