@@ -238,6 +238,9 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
          * 
          * @param mngr  Manager
          * @param ts    Test session
+         * @exception IllegalStateException If the handler gets into an
+         *                                  illegal state or parses unknown
+         *                                  output values
          */
         @Override
         public void updateUI(Manager mngr, TestSession ts)
