@@ -9,15 +9,13 @@ NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing. I
 
  - [**NetBeans 8**](https://netbeans.org)
  - **Testing framework** (*at least one*)
-  - [CppUTest](https://cpputest.github.io/)
-  - [Google Test](https://code.google.com/p/googletest/)
-  - [libunittest C++](http://libunittest.sourceforge.net/)
 
 
 ## Supported C/C++ unit testing frameworks
 
  - [CppUTest](https://cpputest.github.io/)
  - [Google Test](https://code.google.com/p/googletest/)
+ - [libunittest C++](http://libunittest.sourceforge.net/)
 
 
 ## Getting started
@@ -44,11 +42,13 @@ The tests are run as usual using the Test button.
 The *Test Results* window shows the result of the tests.
 
 
-## CppUTest
+## Enabling verbose mode
 
-CppUTest does not show test details per default, therefore the *verbose mode* must be set.
+*CppUTest* and *libunittest C++* do not show test details per default, therefore the *verbose mode* must be set.
 
-This can be done through the commandline arguments of the tests main:
+This can be done through the commandline arguments of the tests main.
+
+### CppUTest
 
 **AllTests.cpp**
 
@@ -66,7 +66,27 @@ int main(int argc, char** argv)
     return CommandLineTestRunner::RunAllTests(args.size(), &args[0]);
 }
 ```
-The file `examples/cpputest/AllTests.cpp` contains a boilerplate for a test main.
+The file `examples/cpputest/AllTests.cpp` contains a boilerplate fore t test main.
+
+
+### libunittest C++
+
+```cpp
+
+#include <libunittest/main.hpp>
+#include <vector>
+
+int main(int argc, char** argv)
+{
+    std::vector<const char*> args(argv, argv + argc);
+    args.push_back("-v"); // Set verbose mode
+    
+    return unittest::process(args.size(), const_cast<char**>(&args[0]));
+}
+
+```
+
+The file `examples/libunittest/AllTests.cpp` contains a boilerplate for the test main.
 
 
 ## License
