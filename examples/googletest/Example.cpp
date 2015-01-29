@@ -4,6 +4,7 @@
 TEST(Example, testThatWorks)
 {
     int i = 3;
+
     EXPECT_EQ(3, i);
 }
 
@@ -16,9 +17,9 @@ TEST(Example, testThatWorks2)
 
 TEST(Example, testThatTakesSomeTime)
 {
-    unsigned long value = 0;
+    unsigned long value = 0UL;
     
-    for( unsigned long i=0; i<10000000; i++ )
+    for( unsigned long i=0UL; i<10000000; i++ )
     {
         value += i;
     }
@@ -35,3 +36,4 @@ TEST(Example, testThatFails)
     
     EXPECT_EQ(99999, i);
 }
+

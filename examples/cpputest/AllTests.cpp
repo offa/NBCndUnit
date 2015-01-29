@@ -10,3 +10,4 @@ int main(int argc, char** argv)
     
     return CommandLineTestRunner::RunAllTests(args.size(), &args[0]);
 }
+

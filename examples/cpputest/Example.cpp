@@ -9,6 +9,7 @@ TEST_GROUP(Example)
 TEST(Example, testThatWorks)
 {
     int i = 3;
+
     CHECK_EQUAL(3, i);
 }
 
@@ -21,9 +22,9 @@ TEST(Example, testThatWorks2)
 
 TEST(Example, testThatTakesSomeTime)
 {
-    unsigned long value = 0;
+    unsigned long value = 0UL;
     
-    for( unsigned long i=0; i<10000000; i++ )
+    for( unsigned long i=0UL; i<10000000; i++ )
     {
         value += i;
     }
@@ -40,3 +41,4 @@ TEST(Example, testThatFails)
     
     CHECK_EQUAL(99999, i);
 }
+
