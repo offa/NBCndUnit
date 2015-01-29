@@ -1,44 +1,44 @@
 # [NBCndUnit](https://github.com/offa/NBCndUnit)
 
-NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing.
+NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing. It integrates the [CppUTest](https://cpputest.github.io/) and [Google Test](https://code.google.com/p/googletest/) unit testing frameworks.
 
-It integrates the [CppUTest](https://cpputest.github.io/) and [Google Test](https://code.google.com/p/googletest/) unit testing frameworks.
+**Stable releases** are available at the [NetBeans Plugin Portal](http://plugins.netbeans.org/plugin/57174/nbcndunit).
 
 
 ## Requirements
 
  - [**NetBeans 8**](https://netbeans.org)
- - **Testing framework** (*at least one*)
-  - [CppUTest](https://cpputest.github.io/)
-  - [Google Test](https://code.google.com/p/googletest/)
+ - **Testing framework(s)**
 
-*(The plugin has not been tested with earlier versions of NetBeans yet.)*
+
+## Supported C/C++ unit testing frameworks
+
+ - [CppUTest](https://cpputest.github.io/)
+ - [Google Test](https://code.google.com/p/googletest/)
 
 
 ## Getting started
 
- 1. Create a new NetBeans C/C++ project
- 1. Add CppUTest / Google Test library and headers to the test settings
- 1. Write tests *(CppUTest only: in addition a main with __verbose__ output enabled)*
- 1. Test project
+ 1. **Create** a new NetBeans C/C++ **project**
+ 1. **Add** unit testing **framework** (binaries and headers) to the test settings
+ 1. **Write** tests
+ 1. **Run** tests
 
+**Note:** Some frameworks require ***verbose*** output.
 
-*For more informations about writing tests, please see the manuals:*
-
- - [CppUTest manual](https://cpputest.github.io/manual.html)
- - [Google Test manual](https://code.google.com/p/googletest/w/list)
+*For more informations about writing tests, please see the appropriate manuals.*
 
 
 ## Examples
 
-Example test suites are available in the `examples` direcotry.
+Example test suites are available in the `examples` directory.
 
 
 ## Running tests
 
 The tests are run as usual using the Test button.
 
-The *Test Results* window will show the result of the tests.
+The *Test Results* window shows the result of the tests.
 
 
 ## CppUTest

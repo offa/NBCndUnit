@@ -97,12 +97,13 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
         public void updateUI(Manager mngr, TestSession ts)
         {
             final String suiteName = matcher.group(1);
-            final TestSuite currentSuite = ts.getCurrentSuite();
+            TestSuite currentSuite = ts.getCurrentSuite();
             
             if( currentSuite == null )
             {
                 mngr.testStarted(ts);
-                ts.addSuite(new TestSuite(suiteName));
+                currentSuite = new TestSuite(suiteName);
+                ts.addSuite(currentSuite);
                 mngr.displaySuiteRunning(ts, currentSuite);
             }
             else if( currentSuite.getName().equals(suiteName) == false )
@@ -237,6 +238,9 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
          * 
          * @param mngr  Manager
          * @param ts    Test session
+         * @exception IllegalStateException If the handler gets into an
+         *                                  illegal state or parses unknown
+         *                                  output values
          */
         @Override
         public void updateUI(Manager mngr, TestSession ts)
