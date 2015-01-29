@@ -1,6 +1,6 @@
 # [NBCndUnit](https://github.com/offa/NBCndUnit)
 
-NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing. It integrates the [CppUTest](https://cpputest.github.io/) and [Google Test](https://code.google.com/p/googletest/) unit testing frameworks.
+NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing. It integrates the [CppUTest](https://cpputest.github.io/), [Google Test](https://code.google.com/p/googletest/) and [libunittest C++](http://libunittest.sourceforge.net/) unit testing frameworks.
 
 **Stable releases** are available at the [NetBeans Plugin Portal](http://plugins.netbeans.org/plugin/57174/nbcndunit).
 
@@ -8,7 +8,7 @@ NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing. I
 ## Requirements
 
  - [**NetBeans 8**](https://netbeans.org)
- - **Testing framework** (*at least one*)
+ - **Testing framework(s)**
 
 
 ## Supported C/C++ unit testing frameworks
@@ -48,13 +48,14 @@ The *Test Results* window shows the result of the tests.
 
 This can be done through the commandline arguments of the tests main.
 
+*There are `AllTests.cpp` boilerplates in the example directory of each framework.*
+
 ### CppUTest
 
-**AllTests.cpp**
-
 ```cpp
-#include <vector>
+
 #include <CppUTest/CommandLineTestRunner.h>
+#include <vector>
 
 int main(int argc, char** argv)
 {
@@ -66,7 +67,6 @@ int main(int argc, char** argv)
     return CommandLineTestRunner::RunAllTests(args.size(), &args[0]);
 }
 ```
-The file `examples/cpputest/AllTests.cpp` contains a boilerplate fore t test main.
 
 
 ### libunittest C++
@@ -85,8 +85,6 @@ int main(int argc, char** argv)
 }
 
 ```
-
-The file `examples/libunittest/AllTests.cpp` contains a boilerplate for the test main.
 
 
 ## License
