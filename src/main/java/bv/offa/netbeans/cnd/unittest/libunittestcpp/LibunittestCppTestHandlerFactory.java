@@ -38,7 +38,7 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
  */
 public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
 {
-    private static final String LIBUNITTESTCPP = "LibunittestC++";
+    private static final String LIBUNITTESTCPP = "LibunittestC++"; //NOI18N
     
     
     /**
@@ -107,10 +107,13 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
      */
     static class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
     {
-
+        private static final String MSG_OK = "ok"; //NOI18N
+        private static final String MSG_FAILED = "FAIL"; //NOI18N
+        
+        
         public LibunittestCppTestFinishedHandler()
         {
-            super("^(.+?)::test \\.{3} \\[([0-9].+?)s\\] (ok|FAIL)$", true);
+            super("^(.+?)::test \\.{3} \\[([0-9].+?)s\\] (ok|FAIL)$", true); //NOI18N
         }
         
         
@@ -144,11 +147,11 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
 
             final String result = matcher.group(3);
             
-            if( result.equals("ok") == true )
+            if( result.equals(MSG_OK) == true )
             {
                 // Testcase ok
             }
-            else if( result.equals("FAIL") == true )
+            else if( result.equals(MSG_FAILED) == true )
             {
                 Trouble trouble = new Trouble(true);
                 testCase.setTrouble(trouble);
@@ -175,7 +178,7 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
 
         public LibunittestCppTestSessionFinishedHandler()
         {
-            super("^Ran [0-9]+? tests in ([0-9].+?)s$", true);
+            super("^Ran [0-9]+? tests in ([0-9].+?)s$", true); //NOI18N
         }
 
         
