@@ -130,13 +130,13 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
         @Override
         public void updateUI(Manager mngr, TestSession ts)
         {
-            final String suiteName = TestSuite.ANONYMOUS_SUITE; // TODO: Get a name
+            final String suiteName = TestSuite.ANONYMOUS_SUITE;
             TestSuite currentSuite = ts.getCurrentSuite();
             
             if( currentSuite == null )
             {
                 mngr.testStarted(ts);
-                currentSuite = TestSuite.ANONYMOUS_TEST_SUITE;
+                currentSuite = new TestSuite(suiteName);
                 ts.addSuite(currentSuite); 
                 mngr.displaySuiteRunning(ts, currentSuite);
             }
