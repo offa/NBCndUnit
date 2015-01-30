@@ -7,8 +7,8 @@
     <packaging>nbm</packaging>
     
     <name>NBCndUnit</name>
-    <description>C/C++ unit tests for NetBeans - supporting CppUTest and Google Test.</description>
-    
+    <description>C/C++ unit tests for NetBeans - supporting CppUTest, Google Test and libunittest C++.</description>
+
     <build>
         <plugins>
             <plugin>
