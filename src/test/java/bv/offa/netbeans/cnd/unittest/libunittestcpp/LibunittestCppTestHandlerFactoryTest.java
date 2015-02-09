@@ -72,32 +72,32 @@ public class LibunittestCppTestHandlerFactoryTest
         Matcher m = handler.match(input[0]);
         assertTrue(m.find());
         assertEquals("test_name", m.group(1));
-        assertEquals("1.551e-05", m.group(2));
-        assertEquals("ok", m.group(3));
+        assertEquals("1.551e-05", m.group(3));
+        assertEquals("ok", m.group(4));
         
         m = handler.match(input[1]);
         assertTrue(m.find());
         assertEquals("test_name", m.group(1));
-        assertEquals("0.000108249", m.group(2));
-        assertEquals("FAIL", m.group(3));
+        assertEquals("0.000108249", m.group(3));
+        assertEquals("FAIL", m.group(4));
         
         m = handler.match(input[2]);
         assertTrue(m.find());
         assertEquals("test_name", m.group(1));
-        assertEquals("0.100113", m.group(2));
-        assertEquals("ok", m.group(3));
+        assertEquals("0.100113", m.group(3));
+        assertEquals("ok", m.group(4));
         
         m = handler.match(input[3]);
         assertTrue(m.find());
         assertEquals("test_name", m.group(1));
-        assertEquals("477.100486", m.group(2));
-        assertEquals("ok", m.group(3));
+        assertEquals("477.100486", m.group(3));
+        assertEquals("ok", m.group(4));
         
         m = handler.match(input[4]);
         assertTrue(m.find());
         assertEquals("test_name", m.group(1));
-        assertEquals("0", m.group(2));
-        assertEquals("SKIP", m.group(3));
+        assertEquals("0", m.group(3));
+        assertEquals("SKIP", m.group(4));
     }
     
     

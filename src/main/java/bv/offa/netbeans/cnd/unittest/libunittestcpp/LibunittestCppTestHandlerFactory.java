@@ -115,7 +115,7 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
         
         public LibunittestCppTestFinishedHandler()
         {
-            super("^(.+?)::test \\.{3} \\[([0-9].*?)s\\] (ok|FAIL|SKIP).*?$", true); //NOI18N
+            super("^(.+?)::(.+?) \\.{3} \\[([0-9].*?)s\\] (ok|FAIL|SKIP).*?$", true); //NOI18N
         }
         
         
@@ -145,9 +145,9 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
             
             Testcase testCase = new Testcase(matcher.group(1), LIBUNITTESTCPP, ts);
             testCase.setClassName(suiteName);
-            testCase.setTimeMillis(parseSecTimeToMillis(matcher.group(2)));
+            testCase.setTimeMillis(parseSecTimeToMillis(matcher.group(3)));
 
-            final String result = matcher.group(3);
+            final String result = matcher.group(4);
             
             if( result.equals(MSG_OK) == true )
             {
