@@ -132,7 +132,7 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
         @Override
         public void updateUI(Manager mngr, TestSession ts)
         {
-            final String suiteName = matcher.group(1);
+            final String suiteName = normalise(matcher.group(1));
             TestSuite currentSuite = ts.getCurrentSuite();
             
             if( currentSuite == null )
@@ -155,10 +155,11 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
                 /* Empty */
             }
             
-            Testcase testCase = new Testcase(matcher.group(2), LIBUNITTESTCPP, ts);
+            final String testName = normalise(matcher.group(2));
+            Testcase testCase = new Testcase(testName, LIBUNITTESTCPP, ts);
             testCase.setClassName(suiteName);
             testCase.setTimeMillis(parseSecTimeToMillis(matcher.group(3)));
-
+            
             final String result = matcher.group(4);
             
             if( result.equals(MSG_OK) == true )
@@ -183,6 +184,16 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
         }
         
 
+        /**
+         * Normalises the input. This will replace all prohibited characters.
+         * 
+         * @param input     Input string
+         * @return          Normalised output
+         */
+        private String normalise(String input)
+        {
+            return input.replace('<', '(').replace('>', ')');
+        }
     }
     
     
