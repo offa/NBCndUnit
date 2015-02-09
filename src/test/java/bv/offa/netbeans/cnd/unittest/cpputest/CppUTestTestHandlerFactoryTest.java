@@ -54,7 +54,7 @@ public class CppUTestTestHandlerFactoryTest
 
             assertTrue(m.find());
             assertFalse(m.find());
-            assertEquals(4, m.groupCount());
+            assertEquals(5, m.groupCount());
         }
 
         assertTrue(handler.matches("TEST(SuiteName, testCase)"));
@@ -82,27 +82,27 @@ public class CppUTestTestHandlerFactoryTest
 
         Matcher m = handler.match(lines[0]);
         assertTrue(m.find());
-        assertEquals(4, m.groupCount());
+        assertEquals(5, m.groupCount());
         assertEquals("TEST(SuiteName, testCase1) - 0 ms", m.group());
-        assertEquals("SuiteName", m.group(1));
-        assertEquals("testCase1", m.group(2));
-        assertEquals(" - 0 ms", m.group(3));
-        assertEquals("0", m.group(4));
+        assertEquals("SuiteName", m.group(2));
+        assertEquals("testCase1", m.group(3));
+        assertEquals(" - 0 ms", m.group(4));
+        assertEquals("0", m.group(5));
 
         m = handler.match(lines[1]);
         assertTrue(m.find());
-        assertEquals(4, m.groupCount());
-        assertEquals("SuiteName2", m.group(1));
-        assertEquals("testCase1", m.group(2));
-        long time = Long.valueOf(m.group(4));
+        assertEquals(5, m.groupCount());
+        assertEquals("SuiteName2", m.group(2));
+        assertEquals("testCase1", m.group(3));
+        long time = Long.valueOf(m.group(5));
         assertEquals(8L, time);
 
         m = handler.match(lines[2]);
         assertTrue(m.find());
-        assertEquals(4, m.groupCount());
-        assertEquals("SuiteName2", m.group(1));
-        assertEquals("testCase2", m.group(2));
-        time = Long.valueOf(m.group(4));
+        assertEquals(5, m.groupCount());
+        assertEquals("SuiteName2", m.group(2));
+        assertEquals("testCase2", m.group(3));
+        time = Long.valueOf(m.group(5));
         assertEquals(1234567890L, time);
     }
 
@@ -158,11 +158,50 @@ public class CppUTestTestHandlerFactoryTest
 
         m = handler.match(lines[1]);
         assertTrue(m.find());
-        assertNull(m.group(3));
+        assertNull(m.group(4));
 
         m = handler.match(lines[7]);
         assertTrue(m.find());
-        assertNotNull(m.group(3));
+        assertNotNull(m.group(4));
+    }
+    
+    @Test
+    public void testCppUTestTestIgnore()
+    {
+        final String ignoreInput[] = new String[]
+        {
+            "IGNORE_TEST(SuiteName, testName) - 0 ms",
+            "IGNORE_TEST(SuiteName2, testName) - 0 ms"
+        };
+        
+        final String notIgnoredInput[] = new String[]
+        {
+            "TEST(SuiteName, testCase1) - 0 ms",
+            "TEST(SuiteName, testCase2) - 8 ms"
+        };
+        
+        CppUTestHandler handler = new CppUTestHandler(DONT_CARE_INFO);
+        
+        Matcher m = handler.match(ignoreInput[0]);
+        assertTrue(m.find());
+        assertNotNull(m.group(1));
+        assertEquals("IGNORE_", m.group(1));
+        
+        m = handler.match(ignoreInput[1]);
+        assertTrue(m.find());
+        assertEquals(5, m.groupCount());
+        assertNotNull(m.group(1));
+        assertEquals("IGNORE_", m.group(1));
+        
+        m = handler.match(notIgnoredInput[0]);
+        assertTrue(m.find());
+        assertEquals(5, m.groupCount());
+        assertNull(m.group(1));
+        
+        m = handler.match(notIgnoredInput[1]);
+        assertTrue(m.find());
+        assertEquals(5, m.groupCount());
+        assertNull(m.group(1));
     }
 
     @Test
@@ -231,7 +270,7 @@ public class CppUTestTestHandlerFactoryTest
         {
             Matcher m = handler.match(line);
             assertTrue(m.find());
-            time += Long.valueOf(m.group(4));
+            time += Long.valueOf(m.group(5));
         }
 
         assertEquals(expected, time);

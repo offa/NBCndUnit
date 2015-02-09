@@ -29,6 +29,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 import org.netbeans.modules.gsf.testrunner.api.Testcase;
 import org.netbeans.modules.gsf.testrunner.api.Trouble;
 import org.netbeans.modules.gsf.testrunner.api.Manager;
+import org.netbeans.modules.gsf.testrunner.api.Status;
 
 /**
  * The class {@code CppUTestTestHandlerFactory} implements a factory for
@@ -83,7 +84,7 @@ public class CppUTestTestHandlerFactory implements TestHandlerFactory
         
         public CppUTestHandler(TestSessionInformation info)
         {
-            super("^TEST\\(([^, ]+?), ([^, ]+?)\\)( \\- ([0-9]+?) ms)?$", true); //NOI18N
+            super("^(IGNORE_)??TEST\\(([^, ]+?), ([^, ]+?)\\)( \\- ([0-9]+?) ms)?$", true); //NOI18N
             this.info = info;
         }
 
@@ -98,7 +99,7 @@ public class CppUTestTestHandlerFactory implements TestHandlerFactory
         @Override
         public void updateUI(Manager mngr, TestSession ts)
         {
-            final String suiteName = matcher.group(1);
+            final String suiteName = matcher.group(2);
             TestSuite currentSuite = ts.getCurrentSuite();
 
             if( currentSuite == null )
@@ -122,16 +123,20 @@ public class CppUTestTestHandlerFactory implements TestHandlerFactory
                 /* Empty */
             }
 
-            Testcase testcase = new Testcase(matcher.group(2), CPPUTEST, ts);
+            Testcase testcase = new Testcase(matcher.group(3), CPPUTEST, ts);
             testcase.setClassName(suiteName);
 
-            if( matcher.group(3) == null )
+            if( matcher.group(1) != null )
+            {
+                testcase.setStatus(Status.SKIPPED);
+            }
+            else if( matcher.group(4) == null )
             {
                 testcase.setTrouble(new Trouble(false));
             }
             else
             {
-                long testTime = Long.valueOf(matcher.group(4));
+                long testTime = Long.valueOf(matcher.group(5));
                 testcase.setTimeMillis(testTime);
                 info.addTime(testTime);
             }
