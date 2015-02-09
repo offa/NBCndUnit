@@ -25,6 +25,7 @@ import java.util.List;
 import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactory;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.api.Manager;
+import org.netbeans.modules.gsf.testrunner.api.Status;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 import org.netbeans.modules.gsf.testrunner.api.Testcase;
@@ -109,11 +110,12 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
     {
         private static final String MSG_OK = "ok"; //NOI18N
         private static final String MSG_FAILED = "FAIL"; //NOI18N
+        private static final String MSG_SKIP = "SKIP"; //NOI18N
         
         
         public LibunittestCppTestFinishedHandler()
         {
-            super("^(.+?)::test \\.{3} \\[([0-9].+?)s\\] (ok|FAIL)$", true); //NOI18N
+            super("^(.+?)::test \\.{3} \\[([0-9].*?)s\\] (ok|FAIL|SKIP).*?$", true); //NOI18N
         }
         
         
@@ -155,6 +157,10 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
             {
                 Trouble trouble = new Trouble(true);
                 testCase.setTrouble(trouble);
+            }
+            else if( result.equals(MSG_SKIP) == true )
+            {
+                testCase.setStatus(Status.SKIPPED);
             }
             else
             {

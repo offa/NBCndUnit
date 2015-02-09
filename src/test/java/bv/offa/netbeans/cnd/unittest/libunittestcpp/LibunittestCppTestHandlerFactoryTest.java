@@ -42,7 +42,8 @@ public class LibunittestCppTestHandlerFactoryTest
             "test_name::test ... [1.551e-05s] ok",
             "test_name::test ... [0.000108249s] FAIL",
             "test_name::test ... [0.100113s] ok",
-            "test_name::test ... [477.100486s] ok"
+            "test_name::test ... [477.100486s] ok",
+            "test_name::test ... [0s] SKIP skip message"
         };
         
         final String inputWrong[] = new String[]
@@ -60,6 +61,7 @@ public class LibunittestCppTestHandlerFactoryTest
         assertTrue(handler.matches(input[1]));
         assertTrue(handler.matches(input[2]));
         assertTrue(handler.matches(input[3]));
+        assertTrue(handler.matches(input[4]));
         
         assertFalse(handler.matches(inputWrong[0]));
         assertFalse(handler.matches(inputWrong[1]));
@@ -90,6 +92,12 @@ public class LibunittestCppTestHandlerFactoryTest
         assertEquals("test_name", m.group(1));
         assertEquals("477.100486", m.group(2));
         assertEquals("ok", m.group(3));
+        
+        m = handler.match(input[4]);
+        assertTrue(m.find());
+        assertEquals("test_name", m.group(1));
+        assertEquals("0", m.group(2));
+        assertEquals("SKIP", m.group(3));
     }
     
     
