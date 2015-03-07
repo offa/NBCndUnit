@@ -82,7 +82,7 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
         
         public GoogleTestSuiteStartedHandler()
         {
-            super("^.*?\\[[-]{10}\\].*? [0-9]+? tests from ([^ ]+?)$", true); //NOI18N
+            super("^.*?\\[[-]{10}\\].*? [0-9]+? tests?? from ([^ ]+?)$", true); //NOI18N
         }
         
         
@@ -131,7 +131,7 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
     {
         public GoogleTestSuiteFinishedHandler()
         {
-            super("^.*?\\[[-]{10}\\].*? [0-9]+? tests from ([^ ]+?) \\(([0-9]+?) ms total\\)$", true); //NOI18N
+            super("^.*?\\[[-]{10}\\].*? [0-9]+? tests?? from ([^ ]+?) \\(([0-9]+?) ms total\\)$", true); //NOI18N
         }
         
         
@@ -162,7 +162,7 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
         
         public GoogleTestSessionFinishedHandler()
         {
-            super("^.*?\\[[=]{10}\\].*? [0-9]+? tests from [0-9]+? test cases?? ran\\. \\(([0-9]+?) ms total\\)$", true); //NOI18N
+            super("^.*?\\[[=]{10}\\].*? [0-9]+? tests?? from [0-9]+? test cases?? ran\\. \\(([0-9]+?) ms total\\)$", true); //NOI18N
         }
 
         

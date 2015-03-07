@@ -166,7 +166,7 @@ public class GoogleTestTestHandlerFactoryTest
     }
     
     @Test
-    public void testSessionFinishedHandler()
+    public void testTestSessionFinishedHandler()
     {
         final GoogleTestSessionFinishedHandler handler = new GoogleTestSessionFinishedHandler();
         
@@ -192,5 +192,45 @@ public class GoogleTestTestHandlerFactoryTest
         m = handler.match(input[2]);
         assertTrue(m.find());
         assertEquals(25L, Long.parseLong(m.group(1)));
+    }
+    
+    @Test
+    public void testTestSuiteStartedHandlerWithSingleTestCase()
+    {
+        final GoogleTestSuiteStartedHandler handler = new GoogleTestSuiteStartedHandler();
+        final String input = "[----------] 1 test from TestSuite";
+        
+        assertTrue(handler.matches(input));
+        
+        Matcher m = handler.match(input);
+        assertTrue(m.find());
+        assertEquals("TestSuite", m.group(1));
+    }
+    
+    @Test
+    public void testTestSuiteFinishedHandlerWithSingleTestCase()
+    {
+        final GoogleTestSuiteFinishedHandler handler = new GoogleTestSuiteFinishedHandler();
+        final String input = "[----------] 1 test from TestSuite (123 ms total)";
+        
+        assertTrue(handler.matches(input));
+        
+        Matcher m = handler.match(input);
+        assertTrue(m.find());
+        assertEquals("TestSuite", m.group(1));
+        assertEquals(123L, Long.parseLong(m.group(2)));
+    }
+    
+    @Test
+    public void testTestSessionFinishedHandlerWithSingleTestCase()
+    {
+        final GoogleTestSessionFinishedHandler handler = new GoogleTestSessionFinishedHandler();
+        final String input = "[==========] 1 test from 1 test case ran. (3 ms total)";
+        
+        assertTrue(handler.matches(input));
+        
+        Matcher m = handler.match(input);
+        assertTrue(m.find());
+        assertEquals(3L, Long.parseLong(m.group(1)));
     }
 }
