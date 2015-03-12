@@ -35,7 +35,7 @@ import org.netbeans.modules.gsf.testrunner.api.Status;
  * The class {@code CppUTestTestHandlerFactory} implements a factory for
  * <i>CppUTest</i> test handler.
  * 
- * @author  offa
+ * @author offa
  */
 public class CppUTestTestHandlerFactory implements TestHandlerFactory
 {

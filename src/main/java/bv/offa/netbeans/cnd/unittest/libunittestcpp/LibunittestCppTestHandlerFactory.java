@@ -35,7 +35,7 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
  * The class {@code LibunittestCppTestHandlerFactory} implements a factory for
  * <i>libunittestc++</i> test handler.
  * 
- * @author  offa
+ * @author offa
  */
 public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
 {

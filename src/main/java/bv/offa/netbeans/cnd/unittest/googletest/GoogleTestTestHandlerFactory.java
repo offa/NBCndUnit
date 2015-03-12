@@ -34,7 +34,7 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
  * The class {@code GoogleTestTestHandlerFactory} implements a factory for
  * <i>Google Test</i> test handler.
  * 
- * @author  offa
+ * @author offa
  */
 public class GoogleTestTestHandlerFactory implements TestHandlerFactory
 {

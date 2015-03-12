@@ -30,6 +30,11 @@ NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing. I
 *For more informations about writing tests, please see the appropriate manuals.*
 
 
+## Creating new Tests
+
+New tests can be created either manually or using the new unit test wizard - located in the **Unit Tests** file category.
+
+
 ## Examples
 
 Example test suites are available in the `examples` directory.
@@ -46,9 +51,9 @@ The *Test Results* window shows the result of the tests.
 
 *CppUTest* and *libunittest C++* do not show test details per default, therefore the *verbose mode* must be set.
 
-This can be done through the commandline arguments of the tests main.
+Test mains created using the new file wizard already have this mode enabled. For existing tests the examples below can be used.
 
-*There are `AllTests.cpp` boilerplates in the example directory of each framework.*
+At this point it's also possible to add further options (eg. test filter).
 
 ### CppUTest
 

@@ -28,7 +28,7 @@ import org.openide.util.lookup.ServiceProvider;
  * The class {@code GoogleTestTestHandlerFactoryProvider} implements a service
  * that provides test handler for <i>Google Test</i> unit tests.
  * 
- * @author  offa
+ * @author offa
  */
 @ServiceProvider(service = TestHandlerFactoryProvider.class)
 public class GoogleTestTestHandlerFactoryProvider implements TestHandlerFactoryProvider

@@ -32,7 +32,7 @@ import org.openide.modules.Modules;
  * The class {@code Installer} implements an installer which will add this
  * module as friend to other modules.
  * 
- * @author  offa
+ * @author offa
  */
 public class Installer extends ModuleInstall
 {
