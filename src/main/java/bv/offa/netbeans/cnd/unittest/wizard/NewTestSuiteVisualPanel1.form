@@ -23,13 +23,13 @@
                   <Component id="lGenerate" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="cbGenerateSetup" min="-2" max="-2" attributes="0"/>
                   <Component id="cbGenerateTeardown" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="cbGenerateTestCases" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="tfTestCaseName" min="-2" pref="150" max="-2" attributes="0"/>
+                      <Component id="tfTestCaseName" max="32767" attributes="0"/>
                   </Group>
                   <Component id="tfTestSuiteName" alignment="0" min="-2" pref="245" max="-2" attributes="0"/>
               </Group>
