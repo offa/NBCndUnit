@@ -25,6 +25,10 @@ Test templates are under "Unit Tests" file category.</description>
                     <licenseName>GPLv3</licenseName>
                     <licenseFile>./LICENSE</licenseFile>
                     
+                    <keystore>${nb.module.signature.keystore}</keystore>
+                    <keystorealias>${nb.module.signature.alias}</keystorealias>
+                    <keystorepassword>${nb.module.signature.password}</keystorepassword>
+                    
                     <verifyRuntime>warn</verifyRuntime>
                 </configuration>
             </plugin>
