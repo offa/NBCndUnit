@@ -20,11 +20,6 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
-import bv.offa.netbeans.cnd.unittest.googletest.GoogleTestTestHandlerFactory.GoogleTestSuiteStartedHandler;
-import bv.offa.netbeans.cnd.unittest.googletest.GoogleTestTestHandlerFactory.GoogleTestSuiteFinishedHandler;
-import bv.offa.netbeans.cnd.unittest.googletest.GoogleTestTestHandlerFactory.GoogleTestTestStartedHandler;
-import bv.offa.netbeans.cnd.unittest.googletest.GoogleTestTestHandlerFactory.GoogleTestTestFinishedHandler;
-import bv.offa.netbeans.cnd.unittest.googletest.GoogleTestTestHandlerFactory.GoogleTestSessionFinishedHandler;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;

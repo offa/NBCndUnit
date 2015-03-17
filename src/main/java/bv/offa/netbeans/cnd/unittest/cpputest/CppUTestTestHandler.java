@@ -14,7 +14,7 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
  */
 class CppUTestTestHandler extends TestRecognizerHandler
 {
-    static final String CPPUTEST = "CppUTest"; //NOI18N
+    private static final String CPPUTEST = "CppUTest"; //NOI18N
     private final TestSessionInformation info;
 
 
