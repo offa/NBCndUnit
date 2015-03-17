@@ -20,8 +20,6 @@
 
 package bv.offa.netbeans.cnd.unittest.libunittestcpp;
 
-import bv.offa.netbeans.cnd.unittest.libunittestcpp.LibunittestCppTestHandlerFactory.LibunittestCppTestFinishedHandler;
-import bv.offa.netbeans.cnd.unittest.libunittestcpp.LibunittestCppTestHandlerFactory.LibunittestCppTestSessionFinishedHandler;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
