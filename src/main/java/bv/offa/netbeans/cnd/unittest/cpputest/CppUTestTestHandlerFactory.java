@@ -24,12 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactory;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
-import org.netbeans.modules.gsf.testrunner.api.TestSession;
-import org.netbeans.modules.gsf.testrunner.api.TestSuite;
-import org.netbeans.modules.gsf.testrunner.api.Testcase;
-import org.netbeans.modules.gsf.testrunner.api.Trouble;
-import org.netbeans.modules.gsf.testrunner.api.Manager;
-import org.netbeans.modules.gsf.testrunner.api.Status;
 
 /**
  * The class {@code CppUTestTestHandlerFactory} implements a factory for
@@ -39,9 +33,6 @@ import org.netbeans.modules.gsf.testrunner.api.Status;
  */
 public class CppUTestTestHandlerFactory implements TestHandlerFactory
 {
-    private static final String CPPUTEST = "CppUTest"; //NOI18N
-
-    
     /**
      * Creates handlers for the unit test output.
      * 
@@ -53,7 +44,7 @@ public class CppUTestTestHandlerFactory implements TestHandlerFactory
         TestSessionInformation info = new TestSessionInformation();
 
         List<TestRecognizerHandler> testHandler = new ArrayList<TestRecognizerHandler>();
-        testHandler.add(new CppUTestHandler(info));
+        testHandler.add(new CppUTestTestHandler(info));
         testHandler.add(new CppUTestSuiteFinishedHandler(info));
         testHandler.add(new CppUTestErrorHandler(info));
 
@@ -72,216 +63,4 @@ public class CppUTestTestHandlerFactory implements TestHandlerFactory
         return true;
     }
     
-    
-    
-    /**
-     * The class {@code CppUTestHandler} handles the test output.
-     */
-    static class CppUTestHandler extends TestRecognizerHandler
-    {
-        private final TestSessionInformation info;
-
-        
-        public CppUTestHandler(TestSessionInformation info)
-        {
-            super("^(IGNORE_)??TEST\\(([^, ]+?), ([^, ]+?)\\)( \\- ([0-9]+?) ms)?$", true); //NOI18N
-            this.info = info;
-        }
-
-        
-        
-        /**
-         * Updates the ui and test states.
-         * 
-         * @param mngr  Manager
-         * @param ts    Test session
-         */
-        @Override
-        public void updateUI(Manager mngr, TestSession ts)
-        {
-            final String suiteName = matcher.group(2);
-            TestSuite currentSuite = ts.getCurrentSuite();
-
-            if( currentSuite == null )
-            {
-                mngr.testStarted(ts);
-                currentSuite = new TestSuite(suiteName);
-                ts.addSuite(currentSuite);
-                mngr.displaySuiteRunning(ts, currentSuite);
-            }
-            else if( currentSuite.getName().equals(suiteName) == false )
-            {
-                mngr.displayReport(ts, ts.getReport(info.getTimeTotal()));
-                info.setTimeTotal(0L);
-
-                TestSuite suite = new TestSuite(suiteName);
-                ts.addSuite(suite);
-                mngr.displaySuiteRunning(ts, suite);
-            }
-            else
-            {
-                /* Empty */
-            }
-
-            Testcase testcase = new Testcase(matcher.group(3), CPPUTEST, ts);
-            testcase.setClassName(suiteName);
-
-            if( matcher.group(1) != null )
-            {
-                testcase.setStatus(Status.SKIPPED);
-            }
-            else if( matcher.group(4) == null )
-            {
-                testcase.setTrouble(new Trouble(false));
-            }
-            else
-            {
-                long testTime = Long.valueOf(matcher.group(5));
-                testcase.setTimeMillis(testTime);
-                info.addTime(testTime);
-            }
-
-            ts.addTestCase(testcase);
-        }
-    }
-
-    
-    
-    /**
-     * The class {@code CppUTestSuiteFinishedHandler} handles the test end.
-     */
-    static class CppUTestSuiteFinishedHandler extends TestRecognizerHandler
-    {
-        private final TestSessionInformation info;
-
-        
-        public CppUTestSuiteFinishedHandler(TestSessionInformation info)
-        {
-            super("(\u001B\\[[;\\d]*m)?(Errors|OK) \\([0-9]+?.+?\\)(\u001B\\[[;\\d]*m)?$", true); //NOI18N
-            this.info = info;
-        }
-
-        
-        
-        /**
-         * Updates the ui and test states.
-         * 
-         * @param mngr  Manager
-         * @param ts    Test session
-         */
-        @Override
-        public void updateUI(Manager mngr, TestSession ts)
-        {
-            mngr.displayReport(ts, ts.getReport(info.getTimeTotal()));
-            mngr.sessionFinished(ts);
-            info.setTimeTotal(0L);
-        }
-
-    }
-
-    
-    
-    /**
-     * The class {@code CppUTestErrorHandler} handles test errors and their
-     * information.
-     */
-    static class CppUTestErrorHandler extends TestRecognizerHandler
-    {
-        private final TestSessionInformation info;
-
-        
-        public CppUTestErrorHandler(TestSessionInformation info)
-        {
-            super("^(.+?)\\:([0-9]+?)\\: error\\: Failure in TEST\\(([^, ]+?), ([^, ]+?)\\)$", true); //NOI18N
-            this.info = info;
-        }
-
-        
-        
-        /**
-         * Updates the ui and test states.
-         * 
-         * @param mngr  Manager
-         * @param ts    Test session
-         */
-        @Override
-        public void updateUI(Manager mngr, TestSession ts)
-        {
-            Testcase tc = ts.getCurrentTestCase();
-
-            if( tc != null && tc.getClassName().equals(matcher.group(3))
-                    && tc.getName().equals(matcher.group(4)) )
-            {
-                final String location = matcher.group(1) + ":" + matcher.group(2);
-                tc.setLocation(location);
-
-                Trouble t = tc.getTrouble();
-
-                if( t == null )
-                {
-                    t = new Trouble(true);
-                }
-
-                t.setError(true);
-                t.setStackTrace(new String[] { location });
-                tc.setTrouble(t);
-            }
-        }
-
-    }
-
-    
-    
-    /**
-     * The class {@code TestSessionInformation} holds data for sharing between
-     * handler instances.
-     * 
-     * <p>
-     * <i>This class is not intended for usage outside the test handlers.</i>
-     * </p>
-     */
-    static class TestSessionInformation
-    {
-        private long timeTotal;
-
-        public TestSessionInformation()
-        {
-            this.timeTotal = 0L;
-        }
-
-        
-        
-        /**
-         * Returns the total time.
-         *
-         * @return Total time
-         */
-        public long getTimeTotal()
-        {
-            return timeTotal;
-        }
-
-        
-        /**
-         * Sets the total time.
-         *
-         * @param timeTotal New totoal time
-         */
-        void setTimeTotal(long timeTotal)
-        {
-            this.timeTotal = timeTotal;
-        }
-
-        
-        /**
-         * Adds the {@code time} to the total time.
-         *
-         * @param time Time
-         */
-        public void addTime(long time)
-        {
-            this.timeTotal += time;
-        }
-        
-    }
 }

@@ -20,10 +20,6 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
-import bv.offa.netbeans.cnd.unittest.cpputest.CppUTestTestHandlerFactory.CppUTestErrorHandler;
-import bv.offa.netbeans.cnd.unittest.cpputest.CppUTestTestHandlerFactory.CppUTestHandler;
-import bv.offa.netbeans.cnd.unittest.cpputest.CppUTestTestHandlerFactory.CppUTestSuiteFinishedHandler;
-import bv.offa.netbeans.cnd.unittest.cpputest.CppUTestTestHandlerFactory.TestSessionInformation;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -44,7 +40,7 @@ public class CppUTestTestHandlerFactoryTest
                 + "TEST(SuiteName, testCase6) - 0 ms\n";
 
         final String lines[] = input.split("\n");
-        CppUTestHandler handler = new CppUTestHandler(DONT_CARE_INFO);
+        CppUTestTestHandler handler = new CppUTestTestHandler(DONT_CARE_INFO);
 
         for( String line : lines )
         {
@@ -78,7 +74,7 @@ public class CppUTestTestHandlerFactoryTest
                 + "TEST(SuiteName2, testCase2) - 1234567890 ms\n";
 
         final String lines[] = input.split("\n");
-        CppUTestHandler handler = new CppUTestHandler(DONT_CARE_INFO);
+        CppUTestTestHandler handler = new CppUTestTestHandler(DONT_CARE_INFO);
 
         Matcher m = handler.match(lines[0]);
         assertTrue(m.find());
@@ -119,7 +115,7 @@ public class CppUTestTestHandlerFactoryTest
                 + "TEST(SuiteName, testName3) - 3 ms";
 
         final String lines[] = input.split("\n");
-        CppUTestHandler handler = new CppUTestHandler(DONT_CARE_INFO);
+        CppUTestTestHandler handler = new CppUTestTestHandler(DONT_CARE_INFO);
         CppUTestSuiteFinishedHandler finishedHandler = new CppUTestSuiteFinishedHandler(DONT_CARE_INFO);
 
         assertTrue(handler.matches(lines[0]));
@@ -150,7 +146,7 @@ public class CppUTestTestHandlerFactoryTest
                 + "TEST(SuiteName, testName3) - 3 ms";
 
         final String lines[] = input.split("\n");
-        CppUTestHandler handler = new CppUTestHandler(DONT_CARE_INFO);
+        CppUTestTestHandler handler = new CppUTestTestHandler(DONT_CARE_INFO);
 
         Matcher m = handler.match(lines[0]);
         assertTrue(m.find());
@@ -180,7 +176,7 @@ public class CppUTestTestHandlerFactoryTest
             "TEST(SuiteName, testCase2) - 8 ms"
         };
         
-        CppUTestHandler handler = new CppUTestHandler(DONT_CARE_INFO);
+        CppUTestTestHandler handler = new CppUTestTestHandler(DONT_CARE_INFO);
         
         Matcher m = handler.match(ignoreInput[0]);
         assertTrue(m.find());
@@ -262,7 +258,7 @@ public class CppUTestTestHandlerFactoryTest
                 + "TEST(SuiteName2, testCase2) - 25 ms\n";
 
         final String lines[] = input.split("\n");
-        CppUTestHandler handler = new CppUTestHandler(DONT_CARE_INFO);
+        CppUTestTestHandler handler = new CppUTestTestHandler(DONT_CARE_INFO);
         final long expected = 17005 + 8 + 25;
         long time = 0L;
 
