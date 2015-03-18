@@ -70,4 +70,23 @@ public class LibunittestCppTestFinishedHandlerTest
         assertEquals("0.000108249", m.group(3));
         assertEquals("FAIL", m.group(4));
     }
+    
+    @Test
+    public void testMatchesIgnoredTestCase()
+    {
+        assertTrue(handler.matches("TestSuite::testExample::test ... [0s] SKIP A message"));
+    }
+    
+    @Test
+    public void testParseDataIgnoredTestCase()
+    {
+        final String input = "TestSuite::testExample::test ... [0s] SKIP A message";
+        Matcher m = handler.match(input);
+        
+        assertTrue(m.find());
+        assertEquals("TestSuite", m.group(1));
+        assertEquals("testExample::test", m.group(2));
+        assertEquals("0", m.group(3));
+        assertEquals("SKIP", m.group(4));
+    }
 }
