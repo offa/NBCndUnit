@@ -28,6 +28,9 @@ package bv.offa.netbeans.cnd.unittest.wizard;
  */
 public class NewTestMainVisualPanel1 extends AbstractVisualPanel
 {
+    private static final long serialVersionUID = 1L;
+    
+    
     public NewTestMainVisualPanel1()
     {
         super("Step #1");

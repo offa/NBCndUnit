@@ -36,6 +36,8 @@ import javax.swing.event.DocumentListener;
  */
 public class NewTestSuiteVisualPanel1 extends AbstractVisualPanel
 {
+    private static final long serialVersionUID = 1L;
+    
     public NewTestSuiteVisualPanel1()
     {
         super("Step #1");
@@ -129,6 +131,7 @@ public class NewTestSuiteVisualPanel1 extends AbstractVisualPanel
     {
         tfTestCaseName.setText(names.get(0));
     }
+    
     
     /**
      * Sets the test generation.

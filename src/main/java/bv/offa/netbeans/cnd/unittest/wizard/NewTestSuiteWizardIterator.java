@@ -87,6 +87,7 @@ public final class NewTestSuiteWizardIterator extends AbstractWizardIterator
         boolean generateSetup = (Boolean) wizard.getProperty(NewTestSuiteWizardPanel1.PROP_TEST_GENERATE_SETUP);
         boolean generateTeardown = (Boolean) wizard.getProperty(NewTestSuiteWizardPanel1.PROP_TEST_GENERATE_TEARDOWN);
         boolean generateTestCases = (Boolean) wizard.getProperty(NewTestSuiteWizardPanel1.PROP_TEST_GENERATE_TESTCASES);
+        @SuppressWarnings("unchecked")
         List<String> testCases = (List<String>) wizard.getProperty(NewTestSuiteWizardPanel1.PROP_TEST_TESTCASE_NAMES);
         String testSuite = (String) wizard.getProperty(NewTestSuiteWizardPanel1.PROP_TEST_TESTSUITE_NAME);
         

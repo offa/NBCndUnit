@@ -32,6 +32,7 @@ import org.openide.util.ChangeSupport;
  */
 public abstract class AbstractVisualPanel extends JPanel
 {
+    private static final long serialVersionUID = 1L;
     private final ChangeSupport changeSupport;
     private final String compName;
 
