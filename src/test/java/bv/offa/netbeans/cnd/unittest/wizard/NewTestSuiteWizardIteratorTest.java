@@ -45,6 +45,7 @@ public class NewTestSuiteWizardIteratorTest
     
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testGetTemplateParameters()
     {
         wizardIterator.wizard = wizardMock;
