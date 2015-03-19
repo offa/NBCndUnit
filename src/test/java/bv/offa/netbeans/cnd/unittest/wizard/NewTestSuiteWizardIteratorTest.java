@@ -40,7 +40,8 @@ public class NewTestSuiteWizardIteratorTest
     @BeforeClass
     public static void setUpClass()
     {
-        wizardMock = createMock(true, false, true, Arrays.asList("testCase1", "testCase2", "testCase3"), "TestSuite");
+        wizardMock = createMock(true, false, true, 
+                Arrays.asList("testCase1", "testCase2", "testCase3"), "TestSuite");
     }
     
     
@@ -60,7 +61,8 @@ public class NewTestSuiteWizardIteratorTest
     
     
     private static  WizardDescriptor createMock(boolean genSetup, boolean genTeardown, 
-                                                boolean genTestCases, List<String> testCases, String testSuite)
+                                                boolean genTestCases, List<String> testCases, 
+                                                String testSuite)
     {
         WizardDescriptor wiz = mock(WizardDescriptor.class);
         when(wiz.getProperty(NewTestSuiteWizardPanel1.PROP_TEST_GENERATE_SETUP)).thenReturn(genSetup);
