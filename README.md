@@ -1,6 +1,6 @@
 # [NBCndUnit](https://github.com/offa/NBCndUnit)
 
-NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing. It integrates the [CppUTest](https://cpputest.github.io/), [Google Test](https://code.google.com/p/googletest/) and [libunittest C++](http://libunittest.sourceforge.net/) unit testing frameworks.
+NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing. It integrates the [CppUTest](https://cpputest.github.io/), [GoogleTest](https://code.google.com/p/googletest/) / [GoogleMock](https://code.google.com/p/googlemock/) and [libunittest C++](http://libunittest.sourceforge.net/) unit testing frameworks.
 
 **Stable releases** are available at the [NetBeans Plugin Portal](http://plugins.netbeans.org/plugin/57174/nbcndunit).
 
@@ -14,7 +14,7 @@ NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing. I
 ## Supported C/C++ unit testing frameworks
 
  - [CppUTest](https://cpputest.github.io/)
- - [Google Test](https://code.google.com/p/googletest/)
+ - [GoogleTest](https://code.google.com/p/googletest/) / [GoogleMock](https://code.google.com/p/googlemock/)
  - [libunittest C++](http://libunittest.sourceforge.net/)
 
 
@@ -66,7 +66,7 @@ int main(int argc, char** argv)
 {
     std::vector<const char*> args(argv, argv + argc); // Insert all arguments
     args.push_back("-v"); // Set verbose mode
-    args.push_back("-c"); // Set color output (OPTIONAL)
+    args.push_back("-c"); // Set color output (Optional)
     
     // Run all tests
     return CommandLineTestRunner::RunAllTests(args.size(), &args[0]);

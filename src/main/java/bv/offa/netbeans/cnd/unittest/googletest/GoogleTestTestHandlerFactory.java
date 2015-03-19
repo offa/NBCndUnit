@@ -27,7 +27,7 @@ import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 
 /**
  * The class {@code GoogleTestTestHandlerFactory} implements a factory for
- * <i>Google Test</i> test handler.
+ * <i>GoogleTest</i> test handler.
  * 
  * @author offa
  */
