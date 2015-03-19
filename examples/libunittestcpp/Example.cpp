@@ -3,39 +3,38 @@
 
 using namespace unittest::assertions;
 
-TEST(testThatWorks)
+struct ExampleSuiteFixture
 {
-    int i = 3;
-    
-    assert_equal(3, i, SPOT);
-}
 
-TEST(testThatWorks2)
-{
-    double d = 3.57;
-    
-    assert_approx_equal(3.56, d, 0.01, SPOT);
-}
-
-TEST(testThatTakesSomeTime)
-{
-    unsigned long value = 0UL;
-    
-    for( unsigned long i=0UL; i<10000000; i++ )
+    ExampleSuiteFixture()
     {
-        value += i;
+        // Setup ...
+        value = 3;
+    }
+
+    int value;
+};
+
+COLLECTION(ExampleSuite)
+{
+
+    TEST_FIXTURE(ExampleSuiteFixture, testSetup)
+    {
+        assert_equal(3, value, SPOT);
     }
     
-    assert_true(value != 0UL, SPOT);
-}
-
-/*
- * This test will fail!
- */
-TEST(testThatFails)
-{
-    int i = 99979;
+    TEST_FIXTURE(ExampleSuiteFixture, testDouble)
+    {
+        double d = 3.57;
+        assert_approx_equal(3.56, d, 0.01, SPOT);
+    }
     
-    assert_equal(99999, i, SPOT);
+    TEST_FIXTURE(ExampleSuiteFixture, testThatFails)
+    {
+        // This test will fail
+        int i = 3;
+        assert_equal(7, i, SPOT);
+    }
+
 }
 

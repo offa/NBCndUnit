@@ -1,44 +1,33 @@
 
 #include <CppUTest/TestHarness.h>
 
-TEST_GROUP(Example)
+TEST_GROUP(ExampleSuite)
 {
+
+    void setup()
+    {
+        // Setup ...
+        value = 3;
+    }
+    
+    int value;
 };
 
-
-TEST(Example, testThatWorks)
+TEST(ExampleSuite, testSetup)
 {
-    int i = 3;
-
-    CHECK_EQUAL(3, i);
+    CHECK_EQUAL(3, value);
 }
 
-TEST(Example, testThatWorks2)
+TEST(ExampleSuite, testDouble)
 {
     double d = 3.57;
-    
     DOUBLES_EQUAL(3.56, d, 0.01);
 }
 
-TEST(Example, testThatTakesSomeTime)
+TEST(ExampleSuite, testThatFails)
 {
-    unsigned long value = 0UL;
-    
-    for( unsigned long i=0UL; i<10000000; i++ )
-    {
-        value += i;
-    }
-    
-    CHECK_TRUE(value != 0UL);
-}
-
-/*
- * This test will fail!
- */
-TEST(Example, testThatFails)
-{
-    int i = 99979;
-    
-    CHECK_EQUAL(99999, i);
+    // This test will fail
+    int i = 3;
+    CHECK_EQUAL(7, i);
 }
 

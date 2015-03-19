@@ -1,39 +1,35 @@
 
 #include <gtest/gtest.h>
 
-TEST(Example, testThatWorks)
+class ExampleSuite : public testing::Test
 {
-    int i = 3;
+protected:
 
-    EXPECT_EQ(3, i);
-}
-
-TEST(Example, testThatWorks2)
-{
-    double d = 3.57;
-    
-    EXPECT_DOUBLE_EQ(3.57, d);
-}
-
-TEST(Example, testThatTakesSomeTime)
-{
-    unsigned long value = 0UL;
-    
-    for( unsigned long i=0UL; i<10000000; i++ )
+    void SetUp()
     {
-        value += i;
+        // Setup ...
+        value = 3;
     }
     
-    EXPECT_TRUE(value != 0UL);
+    int value;
+
+};
+
+TEST_F(ExampleSuite, testSetup)
+{
+    EXPECT_EQ(3, value);
 }
 
-/*
- * This test will fail!
- */
-TEST(Example, testThatFails)
+TEST_F(ExampleSuite, testDouble)
 {
-    int i = 99979;
-    
-    EXPECT_EQ(99999, i);
+    double d = 3.57;
+    EXPECT_NEAR(3.56, d, 0.01);
+}
+
+TEST_F(ExampleSuite, testThatFails)
+{
+    // This test will fail
+    int i = 3;
+    EXPECT_EQ(7, 3);
 }
 
