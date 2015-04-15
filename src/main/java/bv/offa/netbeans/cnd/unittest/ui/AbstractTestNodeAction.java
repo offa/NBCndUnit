@@ -23,19 +23,16 @@ package bv.offa.netbeans.cnd.unittest.ui;
 import javax.swing.Action;
 import org.netbeans.api.project.Project;
 import org.netbeans.modules.gsf.testrunner.api.TestNodeAction;
-import org.netbeans.modules.gsf.testrunner.api.Testcase;
 
 public abstract class AbstractTestNodeAction extends TestNodeAction
 {
     private static final long serialVersionUID = 1L;
     protected final String actionName;
-    protected final Testcase testcase;
     protected final Project project;
 
-    public AbstractTestNodeAction(String actionName, Testcase testcase, Project project)
+    public AbstractTestNodeAction(String actionName, Project project)
     {
         this.actionName = actionName;
-        this.testcase = testcase;
         this.project = project;
     }
 

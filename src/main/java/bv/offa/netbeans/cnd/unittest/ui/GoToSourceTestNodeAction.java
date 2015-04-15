@@ -28,10 +28,12 @@ import org.netbeans.modules.gsf.testrunner.api.Testcase;
 public class GoToSourceTestNodeAction extends AbstractTestNodeAction
 {
     private static final long serialVersionUID = 1L;
+    private final Testcase testCase;
     
-    public GoToSourceTestNodeAction(String actionName, Testcase testcase, Project project)
+    public GoToSourceTestNodeAction(String actionName, Testcase testCase, Project project)
     {
-        super(actionName, testcase, project);
+        super(actionName, project);
+        this.testCase = testCase;
     }
 
     
@@ -39,6 +41,6 @@ public class GoToSourceTestNodeAction extends AbstractTestNodeAction
     @Override
     protected void doActionPerformed(ActionEvent ae)
     {
-        TestSupportUtils.goToSourceOfTestCase(project, testcase);
+        TestSupportUtils.goToSourceOfTestCase(project, testCase);
     }
 }

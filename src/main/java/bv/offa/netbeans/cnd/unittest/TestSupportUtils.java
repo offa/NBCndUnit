@@ -31,6 +31,7 @@ import org.netbeans.modules.cnd.api.model.CsmModelAccessor;
 import org.netbeans.modules.cnd.api.model.CsmProject;
 import org.netbeans.modules.cnd.modelutil.CsmUtilities;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
+import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 import org.netbeans.modules.gsf.testrunner.api.Testcase;
 import org.openide.util.RequestProcessor;
 
@@ -74,15 +75,26 @@ public final class TestSupportUtils
         }
     }
     
+    public static void goToSourceOfTestSuite(Project project, TestSuite testSuite)
+    {
+        final String uniqueDecl = getUniqueDeclaratonName(testSuite);
+        goToDeclaration(project, uniqueDecl);
+    }
     
-    public static void goToSourceOfTestCase(final Project project, final Testcase testCase)
+    public static void goToSourceOfTestCase(Project project, Testcase testCase)
+    {
+        final String uniqueDecl = getUniqueDeclaratonName(testCase);
+        goToDeclaration(project, uniqueDecl);
+    }
+    
+    private static void goToDeclaration(final Project project, final String uniqueDeclaration)
     {
         threadPool.submit(new Callable<Boolean>()
         {
             @Override
             public Boolean call() throws Exception
             {
-                final String uniqueDeclaration = "C:" + getTargetDeclaratonName(testCase);
+                
                 CsmProject csmProject = CsmModelAccessor.getModel().getProject(project);
                 CsmDeclaration decl = csmProject.findDeclaration(uniqueDeclaration);
                 
@@ -92,26 +104,26 @@ public final class TestSupportUtils
                 }
                 else
                 {
-                    logger.log(Level.INFO, "No declaration found for '{0}' ({1})", 
-                            new Object[] { uniqueDeclaration, getLoggerParamInfo() });
+                    logger.log(Level.INFO, "No declaration found for '{0}'", 
+                            uniqueDeclaration);
                 }
                 
                 return Boolean.FALSE;
             }
-            
-            private String getLoggerParamInfo()
-            {
-                return "Testcase: " + testCase.getClassName() 
-                        + "::" + testCase.getName() 
-                        + ", Project: " 
-                        + project.getProjectDirectory().getName();
-            }
         });
     }
     
-    private static String getTargetDeclaratonName(Testcase testcase)
+    
+    
+    private static String getUniqueDeclaratonName(Testcase testCase)
     {
         // CppUTest only atm.
-        return "TEST_" + testcase.getClassName() + "_" + testcase.getName() + "_Test";
+        return "C:TEST_" + testCase.getClassName() + "_" + testCase.getName() + "_Test";
+    }
+    
+    private static String getUniqueDeclaratonName(TestSuite testSuite)
+    {
+        // CppUTest only atm.
+        return "S:TEST_GROUP_CppUTestGroup" + testSuite.getName();
     }
 }

@@ -23,16 +23,18 @@ package bv.offa.netbeans.cnd.unittest.ui;
 import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
 import java.awt.event.ActionEvent;
 import org.netbeans.api.project.Project;
-import org.netbeans.modules.gsf.testrunner.api.Testcase;
+import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 
 
 public class GoToSourceSuiteTestNodeAction extends AbstractTestNodeAction
 {
     private static final long serialVersionUID = 1L;
+    private final TestSuite testSuite;
 
-    public GoToSourceSuiteTestNodeAction(String actionName, Testcase testcase, Project project)
+    public GoToSourceSuiteTestNodeAction(String actionName, TestSuite testSuite, Project project)
     {
-        super(actionName, testcase, project);
+        super(actionName, project);
+        this.testSuite = testSuite;
     }
     
     
@@ -40,8 +42,7 @@ public class GoToSourceSuiteTestNodeAction extends AbstractTestNodeAction
     @Override
     protected void doActionPerformed(ActionEvent ae)
     {
-        // Jump to the first testcase of the testcaselist
-        TestSupportUtils.goToSourceOfTestCase(project, testcase);
+        TestSupportUtils.goToSourceOfTestSuite(project, testSuite);
     }
     
 }

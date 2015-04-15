@@ -29,7 +29,7 @@ public class GoToCallstackNodeAction extends AbstractTestNodeAction
     
     public GoToCallstackNodeAction(String actionName, String frameInfo)
     {
-        super(actionName, null, null);
+        super(actionName, null);
         this.frameInfo = frameInfo;
     }
 

@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Action;
 import org.netbeans.modules.gsf.testrunner.api.Locator;
-import org.netbeans.modules.gsf.testrunner.api.Testcase;
 import org.netbeans.modules.gsf.testrunner.api.TestsuiteNode;
 import org.openide.nodes.Node;
 import org.openide.util.NbBundle;
@@ -51,27 +50,10 @@ public class TestRunnerTestSuiteNode extends TestsuiteNode
         }));
     }
 
-    private Testcase getFirstTestCase()
-    {
-        if( report != null )
-        {
-            return report.getTests().isEmpty() == true ? null : report.getTests().iterator().next();
-        }
-        
-        return null;
-    }
-
     @Override
     public Action getPreferredAction()
     {
-        final Testcase testcase = getFirstTestCase();
-        
-        if( testcase != null )
-        {
-            return new GoToSourceSuiteTestNodeAction(actionName, testcase, testcase.getSession().getProject());
-        }
-
-        return null;
+        return new GoToSourceSuiteTestNodeAction(actionName, suite, report.getProject());
     }
 
     @Override
