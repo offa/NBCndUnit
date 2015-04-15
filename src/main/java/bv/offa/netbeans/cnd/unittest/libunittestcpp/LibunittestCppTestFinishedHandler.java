@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.libunittestcpp;
 
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.Status;
@@ -36,7 +37,6 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
  */
 class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
 {
-    private static final String LIBUNITTESTCPP = "LibunittestC++"; //NOI18N
     private static final String MSG_OK = "ok"; //NOI18N
     private static final String MSG_FAILED = "FAIL"; //NOI18N
     private static final String MSG_SKIP = "SKIP"; //NOI18N
@@ -85,7 +85,7 @@ class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
         }
 
         final String testName = normalise(matcher.group(2));
-        Testcase testCase = new Testcase(testName, LIBUNITTESTCPP, ts);
+        Testcase testCase = new Testcase(testName, TestFramework.LIBUNITTESTCPP.getName(), ts);
         testCase.setClassName(suiteName);
         testCase.setTimeMillis(LibunittestCppTestHandlerFactory.parseSecTimeToMillis(matcher.group(3)));
 

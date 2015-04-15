@@ -29,6 +29,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 import org.openide.WizardDescriptor;
+import org.openide.util.HelpCtx;
 
 public class NewTestSuiteWizardPanel1Test
 {
@@ -187,5 +188,11 @@ public class NewTestSuiteWizardPanel1Test
         panel.storeSettings(wizardMock);
         verify(wizardMock, atLeastOnce()).getValue();
         verifyNoMoreInteractions(wizardMock);
+    }
+    
+    @Test
+    public void testGetHelpReturnsDefaultHelp()
+    {
+        assertEquals(HelpCtx.DEFAULT_HELP, panel.getHelp());
     }
 }

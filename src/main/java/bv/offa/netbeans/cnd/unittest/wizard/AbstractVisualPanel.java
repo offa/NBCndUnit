@@ -34,26 +34,13 @@ public abstract class AbstractVisualPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
     private final ChangeSupport changeSupport;
-    private final String compName;
 
     public AbstractVisualPanel(String compName)
     {
         this.changeSupport = new ChangeSupport(this);
-        this.compName = compName;
+        setName(compName);
     }
     
-    
-    
-    /**
-     * Returns the components name.
-     * 
-     * @return      Name
-     */
-    @Override
-    public String getName()
-    {
-        return compName;
-    }
     
     
     /**

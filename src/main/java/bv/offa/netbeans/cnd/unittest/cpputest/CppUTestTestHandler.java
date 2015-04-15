@@ -20,9 +20,12 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
+import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.Status;
+import org.netbeans.modules.gsf.testrunner.api.TestRunnerNodeFactory;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 import org.netbeans.modules.gsf.testrunner.api.Testcase;
@@ -36,7 +39,6 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
  */
 class CppUTestTestHandler extends TestRecognizerHandler
 {
-    private static final String CPPUTEST = "CppUTest"; //NOI18N
     private final TestSessionInformation info;
 
 
@@ -57,6 +59,9 @@ class CppUTestTestHandler extends TestRecognizerHandler
     @Override
     public void updateUI(Manager mngr, TestSession ts)
     {
+        TestSupportUtils.enableNodeFactory(ts);
+        assert(ts.getNodeFactory() instanceof TestRunnerNodeFactory);
+        
         final String suiteName = matcher.group(2);
         TestSuite currentSuite = ts.getCurrentSuite();
 
@@ -81,7 +86,7 @@ class CppUTestTestHandler extends TestRecognizerHandler
             /* Empty */
         }
 
-        Testcase testcase = new Testcase(matcher.group(3), CPPUTEST, ts);
+        Testcase testcase = new Testcase(matcher.group(3), TestFramework.CPPUTEST.getName(), ts);
         testcase.setClassName(suiteName);
 
         if( matcher.group(1) != null )

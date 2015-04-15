@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
@@ -33,9 +34,6 @@ import org.netbeans.modules.gsf.testrunner.api.Testcase;
  */
 class GoogleTestTestStartedHandler extends TestRecognizerHandler
 {
-    private static final String GOOGLETEST = "GoogleTest"; //NOI18N
-    
-    
     public GoogleTestTestStartedHandler()
     {
         super("^.*?\\[ RUN      \\].*? (.+?)\\.(.+?)$", true); //NOI18N
@@ -52,7 +50,7 @@ class GoogleTestTestStartedHandler extends TestRecognizerHandler
     @Override
     public void updateUI(Manager mngr, TestSession ts)
     {
-        final Testcase testcase = new Testcase(matcher.group(2), GOOGLETEST, ts);
+        final Testcase testcase = new Testcase(matcher.group(2), TestFramework.GOOGLETEST.getName(), ts);
         testcase.setClassName(matcher.group(1));
         ts.addTestCase(testcase);
     }

@@ -45,6 +45,11 @@ public class Installer extends ModuleInstall
         this.targetModules = new HashSet<String>();
         this.targetModules.add("org.netbeans.modules.gsf.testrunner");
         this.targetModules.add("org.netbeans.modules.cnd.testrunner");
+        this.targetModules.add("org.netbeans.modules.cnd.modelutil");
+        this.targetModules.add("org.netbeans.modules.cnd.makeproject");
+        this.targetModules.add("org.netbeans.modules.cnd.api.model");
+        this.targetModules.add("org.netbeans.modules.cnd");
+        this.targetModules.add("org.netbeans.modules.cnd.utils");
     }
 
     
