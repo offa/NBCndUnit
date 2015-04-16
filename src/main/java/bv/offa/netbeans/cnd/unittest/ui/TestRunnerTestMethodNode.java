@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.ui;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Action;
@@ -27,7 +28,6 @@ import org.netbeans.api.project.Project;
 import org.netbeans.modules.gsf.testrunner.api.DiffViewAction;
 import org.netbeans.modules.gsf.testrunner.api.Locator;
 import org.netbeans.modules.gsf.testrunner.api.TestMethodNode;
-import org.netbeans.modules.gsf.testrunner.api.Testcase;
 import org.openide.nodes.Node;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.Lookups;
@@ -36,7 +36,7 @@ public class TestRunnerTestMethodNode extends TestMethodNode
 {
     private final String actionName = NbBundle.getMessage(TestRunnerTestMethodNode.class, "LBL_Action_GoToSource");
     
-    public TestRunnerTestMethodNode(Testcase testcase, Project project)
+    public TestRunnerTestMethodNode(CndTestCase testcase, Project project)
     {
         super(testcase, project, Lookups.singleton(new Locator()
         {
@@ -53,7 +53,7 @@ public class TestRunnerTestMethodNode extends TestMethodNode
     @Override
     public Action getPreferredAction()
     {
-        return new GoToSourceTestNodeAction(actionName, testcase, getProject());
+        return new GoToSourceTestNodeAction(actionName, (CndTestCase) testcase, getProject());
     }
 
     @Override

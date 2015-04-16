@@ -20,6 +20,9 @@
 
 package bv.offa.netbeans.cnd.unittest;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
+import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -60,5 +63,29 @@ public class TestSupportUtilsTest
         final TestSession session = new TestSession("TestSession", projectMock, SessionType.TEST, nodeFactory);
         TestSupportUtils.enableNodeFactory(session);
         assertSame(session.getNodeFactory(), nodeFactory);
+    }
+    
+    @Test
+    public void testGetUniqueDeclaratonNameTestCaseCppUTest()
+    {
+        final TestSession ts = mock(TestSession.class);
+        final String testCaseName = "testCase";
+        final String testSuiteName = "testSuite";
+        CndTestCase testCase = new CndTestCase(testCaseName, TestFramework.CPPUTEST, ts);
+        testCase.setClassName(testSuiteName);
+        
+        final String expected = "C:TEST_" + testSuiteName + "_" + testCaseName + "_Test";
+        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testCase));
+    }
+    
+    
+    @Test
+    public void testGetUniqueDeclaratonNameTestSuiteeCppUTest()
+    {
+        final String testSuiteName = "testSuite";
+        CndTestSuite testSuite = new CndTestSuite(testSuiteName, TestFramework.CPPUTEST);
+        
+        final String expected = "S:TEST_GROUP_CppUTestGroup" + testSuiteName;
+        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testSuite));
     }
 }

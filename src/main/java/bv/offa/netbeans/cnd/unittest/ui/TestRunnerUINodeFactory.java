@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.ui;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import org.netbeans.api.project.Project;
 import org.netbeans.modules.gsf.testrunner.api.TestRunnerNodeFactory;
 import org.netbeans.modules.gsf.testrunner.api.Testcase;
@@ -31,7 +32,7 @@ public class TestRunnerUINodeFactory extends TestRunnerNodeFactory
     @Override
     public Node createTestMethodNode(Testcase testcase, Project project)
     {
-        return new TestRunnerTestMethodNode(testcase, project);
+        return new TestRunnerTestMethodNode((CndTestCase) testcase, project);
     }
 
     @Override

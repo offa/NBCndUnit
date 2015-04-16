@@ -18,31 +18,24 @@
  * along with NBCndUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package bv.offa.netbeans.cnd.unittest.ui;
+package bv.offa.netbeans.cnd.unittest.api;
 
-import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
-import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
-import java.awt.event.ActionEvent;
-import org.netbeans.api.project.Project;
+import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 
-
-public class GoToSourceSuiteTestNodeAction extends AbstractTestNodeAction
+public class CndTestSuite extends TestSuite
 {
-    private static final long serialVersionUID = 1L;
-    private final CndTestSuite testSuite;
-
-    public GoToSourceSuiteTestNodeAction(String actionName, CndTestSuite testSuite, Project project)
+    private final TestFramework framework;
+    
+    public CndTestSuite(String name, TestFramework framework)
     {
-        super(actionName, project);
-        this.testSuite = testSuite;
+        super(name);
+        this.framework = framework;
     }
-    
-    
 
-    @Override
-    protected void doActionPerformed(ActionEvent ae)
+    
+    public TestFramework getFramework()
     {
-        TestSupportUtils.goToSourceOfTestSuite(project, testSuite);
+        return framework;
     }
     
 }

@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.ui;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Action;
@@ -53,7 +54,7 @@ public class TestRunnerTestSuiteNode extends TestsuiteNode
     @Override
     public Action getPreferredAction()
     {
-        return new GoToSourceSuiteTestNodeAction(actionName, suite, report.getProject());
+        return new GoToSourceSuiteTestNodeAction(actionName, (CndTestSuite) suite, report.getProject());
     }
 
     @Override

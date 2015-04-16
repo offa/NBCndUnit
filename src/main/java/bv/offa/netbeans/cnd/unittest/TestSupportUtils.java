@@ -20,6 +20,8 @@
 
 package bv.offa.netbeans.cnd.unittest;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
+import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import java.lang.reflect.Field;
 import java.util.concurrent.Callable;
@@ -31,8 +33,6 @@ import org.netbeans.modules.cnd.api.model.CsmModelAccessor;
 import org.netbeans.modules.cnd.api.model.CsmProject;
 import org.netbeans.modules.cnd.modelutil.CsmUtilities;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
-import org.netbeans.modules.gsf.testrunner.api.TestSuite;
-import org.netbeans.modules.gsf.testrunner.api.Testcase;
 import org.openide.util.RequestProcessor;
 
 public final class TestSupportUtils
@@ -75,13 +75,13 @@ public final class TestSupportUtils
         }
     }
     
-    public static void goToSourceOfTestSuite(Project project, TestSuite testSuite)
+    public static void goToSourceOfTestSuite(Project project, CndTestSuite testSuite)
     {
         final String uniqueDecl = getUniqueDeclaratonName(testSuite);
         goToDeclaration(project, uniqueDecl);
     }
     
-    public static void goToSourceOfTestCase(Project project, Testcase testCase)
+    public static void goToSourceOfTestCase(Project project, CndTestCase testCase)
     {
         final String uniqueDecl = getUniqueDeclaratonName(testCase);
         goToDeclaration(project, uniqueDecl);
@@ -115,15 +115,29 @@ public final class TestSupportUtils
     
     
     
-    private static String getUniqueDeclaratonName(Testcase testCase)
+    static String getUniqueDeclaratonName(CndTestCase testCase)
     {
         // CppUTest only atm.
-        return "C:TEST_" + testCase.getClassName() + "_" + testCase.getName() + "_Test";
+        switch(testCase.getFramework())
+        {
+            case CPPUTEST:
+                return "C:TEST_" + testCase.getClassName() + "_" + testCase.getName() + "_Test";
+            default:
+                throw new IllegalArgumentException("Unsupported framework: " 
+                        + testCase.getFramework().getName());
+        }
     }
     
-    private static String getUniqueDeclaratonName(TestSuite testSuite)
+    static String getUniqueDeclaratonName(CndTestSuite testSuite)
     {
         // CppUTest only atm.
-        return "S:TEST_GROUP_CppUTestGroup" + testSuite.getName();
+        switch(testSuite.getFramework())
+        {
+            case CPPUTEST:
+                return "S:TEST_GROUP_CppUTestGroup" + testSuite.getName();
+            default:
+                throw new IllegalArgumentException("Unsupported framework: " 
+                        + testSuite.getFramework().getName());
+        }
     }
 }

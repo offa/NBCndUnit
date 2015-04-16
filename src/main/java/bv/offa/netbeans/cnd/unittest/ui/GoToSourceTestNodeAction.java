@@ -21,16 +21,16 @@
 package bv.offa.netbeans.cnd.unittest.ui;
 
 import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import java.awt.event.ActionEvent;
 import org.netbeans.api.project.Project;
-import org.netbeans.modules.gsf.testrunner.api.Testcase;
 
 public class GoToSourceTestNodeAction extends AbstractTestNodeAction
 {
     private static final long serialVersionUID = 1L;
-    private final Testcase testCase;
+    private final CndTestCase testCase;
     
-    public GoToSourceTestNodeAction(String actionName, Testcase testCase, Project project)
+    public GoToSourceTestNodeAction(String actionName, CndTestCase testCase, Project project)
     {
         super(actionName, project);
         this.testCase = testCase;
