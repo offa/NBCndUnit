@@ -32,6 +32,7 @@ import org.netbeans.modules.cnd.api.model.CsmDeclaration;
 import org.netbeans.modules.cnd.api.model.CsmModelAccessor;
 import org.netbeans.modules.cnd.api.model.CsmProject;
 import org.netbeans.modules.cnd.modelutil.CsmUtilities;
+import org.netbeans.modules.gsf.testrunner.api.Status;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.openide.util.RequestProcessor;
 
@@ -155,8 +156,7 @@ public final class TestSupportUtils
                 }
                 else
                 {
-                    logger.log(Level.INFO, "No declaration found for '{0}'", 
-                            uniqueDeclaration);
+                    logger.log(Level.INFO, "No declaration found for {0}", uniqueDeclaration);
                 }
                 
                 return Boolean.FALSE;
@@ -178,7 +178,8 @@ public final class TestSupportUtils
         switch(testCase.getFramework())
         {
             case CPPUTEST:
-                return "C:TEST_" + testCase.getClassName() + "_" + testCase.getName() + "_Test";
+                final String enabled = ( testCase.getStatus() == Status.SKIPPED ? "IGNORE" : "TEST_" );
+                return "C:" +  enabled + testCase.getClassName() + "_" + testCase.getName() + "_Test";
             case GOOGLETEST:
                 throw new UnsupportedOperationException("Not implemented yet");
             case LIBUNITTESTCPP:

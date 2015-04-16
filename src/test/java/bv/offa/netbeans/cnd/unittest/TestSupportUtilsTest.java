@@ -30,6 +30,7 @@ import org.junit.BeforeClass;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.netbeans.api.project.Project;
+import org.netbeans.modules.gsf.testrunner.api.Status;
 import org.netbeans.modules.gsf.testrunner.api.TestRunnerNodeFactory;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.TestSession.SessionType;
@@ -78,6 +79,19 @@ public class TestSupportUtilsTest
         assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testCase));
     }
     
+    @Test
+    public void testGetUniqueDeclaratonNameTestCaseCppUTestIgnored()
+    {
+        final TestSession ts = mock(TestSession.class);
+        final String testCaseName = "testCase";
+        final String testSuiteName = "testSuite";
+        CndTestCase testCase = new CndTestCase(testCaseName, TestFramework.CPPUTEST, ts);
+        testCase.setClassName(testSuiteName);
+        testCase.setStatus(Status.SKIPPED);
+
+        final String expected = "C:IGNORE" + testSuiteName + "_" + testCaseName + "_Test";
+        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testCase));
+    }
     
     @Test
     public void testGetUniqueDeclaratonNameTestSuiteeCppUTest()
