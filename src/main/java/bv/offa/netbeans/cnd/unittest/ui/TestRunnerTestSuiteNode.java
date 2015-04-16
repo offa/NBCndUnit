@@ -90,12 +90,7 @@ public class TestRunnerTestSuiteNode extends TestsuiteNode
         }
         
         List<Action> actions = new ArrayList<Action>(1);
-        Action preferred = getPreferredAction();
-        
-        if( preferred != null ) // TODO: Remove this check since it can't be null here
-        {
-            actions.add(preferred);
-        }
+        actions.add(getPreferredAction());
         
         return actions.toArray(new Action[actions.size()]);
     }
