@@ -20,21 +20,37 @@
 
 package bv.offa.netbeans.cnd.unittest.ui;
 
+import java.awt.event.ActionEvent;
 import javax.swing.Action;
+import org.junit.Test;
+import static org.junit.Assert.*;
 import org.netbeans.api.project.Project;
-import org.netbeans.modules.gsf.testrunner.api.TestNodeAction;
 
-public abstract class AbstractTestNodeAction extends TestNodeAction
+public class AbstractTestNodeActionTest
 {
-    private static final long serialVersionUID = 1L;
-    protected final String actionName;
-    protected final Project project;
 
-    public AbstractTestNodeAction(String actionName, Project project)
+    @Test
+    public void testGetValueReturnsActionName()
     {
-        this.actionName = actionName;
-        this.project = project;
-        super.putValue(Action.NAME, actionName);
+        AbstractTestNodeAction nodeAction = new AbstractTestNodeActionMock("actionName", null);
+        assertEquals(nodeAction.getValue(Action.NAME), "actionName");
     }
     
+    
+    private static class AbstractTestNodeActionMock extends AbstractTestNodeAction
+    {
+        private static final long serialVersionUID = 1L;
+
+        public AbstractTestNodeActionMock(String actionName, Project project)
+        {
+            super(actionName, project);
+        }
+
+        @Override
+        protected void doActionPerformed(ActionEvent ae)
+        {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+        
+    }
 }
