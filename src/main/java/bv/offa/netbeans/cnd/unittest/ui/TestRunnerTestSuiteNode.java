@@ -30,6 +30,12 @@ import org.openide.nodes.Node;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.Lookups;
 
+/**
+ * The class {@code TestRunnerTestSuiteNode} implements a frame node for
+ * a testsuite.
+ * 
+ * @author offa
+ */
 public class TestRunnerTestSuiteNode extends TestsuiteNode
 {
     private final String actionName = NbBundle.getMessage(TestRunnerTestMethodNode.class, "LBL_Action_GoToSource"); 
@@ -50,13 +56,31 @@ public class TestRunnerTestSuiteNode extends TestsuiteNode
             }
         }));
     }
-
+    
+    
+    
+    /**
+     * Returns the preferred action.
+     * 
+     * @return      Action
+     */
     @Override
     public Action getPreferredAction()
     {
         return new GoToSourceSuiteTestNodeAction(actionName, (CndTestSuite) suite, report.getProject());
     }
-
+    
+    
+    /**
+     * Returns actions that are associated with this node. These are used to
+     * construct the context menu for the node.
+     * 
+     * @param context   Whether to find actions for context meaning or for the
+     *                  node itself
+     * @return          Returns an empty array if {@code context} is
+     *                  {@code true}, otherwise the actions for this node
+     *                  are returned
+     */
     @Override
     public Action[] getActions(boolean context)
     {
@@ -68,7 +92,7 @@ public class TestRunnerTestSuiteNode extends TestsuiteNode
         List<Action> actions = new ArrayList<Action>(1);
         Action preferred = getPreferredAction();
         
-        if( preferred != null )
+        if( preferred != null ) // TODO: Remove this check since it can't be null here
         {
             actions.add(preferred);
         }

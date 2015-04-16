@@ -20,10 +20,18 @@
 
 package bv.offa.netbeans.cnd.unittest.api;
 
+/**
+ * The enum {@code TestFramework} represents test frameworks.
+ * 
+ * @author offa
+ */
 public enum TestFramework
 {
+    /** CppUTest. */
     CPPUTEST("CppUTest"),
+    /** GoogleTest / GoogleMock. */
     GOOGLETEST("GoogleTest"),
+    /** LibunittestC++. */
     LIBUNITTESTCPP("LibunittestCpp");
     
     
@@ -36,6 +44,11 @@ public enum TestFramework
     }
     
     
+    /**
+     * Returns the name of the framework.
+     * 
+     * @return  Name
+     */
     public String getName()
     {
         return name;

@@ -22,6 +22,12 @@ package bv.offa.netbeans.cnd.unittest.api;
 
 import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 
+/**
+ * The class {@code CndTestSuite} extends {@link TestSuite TestSuite} with
+ * additional information.
+ * 
+ * @author offa
+ */
 public class CndTestSuite extends TestSuite
 {
     private final TestFramework framework;
@@ -33,6 +39,11 @@ public class CndTestSuite extends TestSuite
     }
 
     
+    /**
+     * Returns the framework.
+     * 
+     * @return  Framework
+     */
     public TestFramework getFramework()
     {
         return framework;

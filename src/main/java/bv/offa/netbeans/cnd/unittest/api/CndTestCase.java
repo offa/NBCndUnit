@@ -23,6 +23,12 @@ package bv.offa.netbeans.cnd.unittest.api;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.Testcase;
 
+/**
+ * The class {@code CndTestCase} extends {@link Testcase Testcase} with
+ * additional information.
+ * 
+ * @author offa
+ */
 public class CndTestCase extends Testcase
 {
     private final TestFramework framework;
@@ -35,6 +41,11 @@ public class CndTestCase extends Testcase
     }
 
     
+    /**
+     * Returns the framework.
+     * 
+     * @return  Framework
+     */
     public TestFramework getFramework()
     {
         return framework;

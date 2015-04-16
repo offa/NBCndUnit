@@ -35,6 +35,11 @@ import org.netbeans.modules.cnd.modelutil.CsmUtilities;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.openide.util.RequestProcessor;
 
+/**
+ * The class {@code TestSupportUtils} provides methods to work with tests.
+ * 
+ * @author offa
+ */
 public final class TestSupportUtils
 {
     private static final RequestProcessor threadPool = new RequestProcessor("NBCndUnit Utility Processor", 1);
@@ -46,6 +51,18 @@ public final class TestSupportUtils
     }
 
     
+    
+    /**
+     * Enables a {@link TestRunnerUINodeFactory TestRunnerUINodeFactory} in the
+     * {@link TestSession TestSession}. This is done by replacing the previous
+     * set one.
+     * 
+     * <p>If there's already a instance of {@code TestRunnerUINodeFactory},
+     * this method does nothing.</p>
+     * 
+     * @param ts    TestSession
+     * @exception   RuntimeException - loggs and rethrows previous exceptions
+     */
     public static void enableNodeFactory(TestSession ts)
     {
         if( ts.getNodeFactory() instanceof TestRunnerUINodeFactory == false )
@@ -59,34 +76,68 @@ public final class TestSupportUtils
             catch( NoSuchFieldException ex )
             {
                 logger.log(Level.WARNING, "Unable to set Node Factory", ex);
+                throw new RuntimeException(ex);
             }
             catch( SecurityException ex )
             {
                 logger.log(Level.WARNING, "Unable to set Node Factory", ex);
+                throw new RuntimeException(ex);
             }
             catch( IllegalArgumentException ex )
             {
                 logger.log(Level.WARNING, "Unable to set Node Factory", ex);
+                throw new RuntimeException(ex);
             }
             catch( IllegalAccessException ex )
             {
                 logger.log(Level.WARNING, "Unable to set Node Factory", ex);
+                throw new RuntimeException(ex);
             }
         }
     }
     
+    
+    /**
+     * Executes a Go-To-Source to the given TestSuite. If the jump target isn't 
+     * available, this method does nothing.
+     * 
+     * <p>The execution is done in a task; the method doesn't block.</p>
+     * 
+     * @param project       Project
+     * @param testSuite     TestSuite
+     */
     public static void goToSourceOfTestSuite(Project project, CndTestSuite testSuite)
     {
         final String uniqueDecl = getUniqueDeclaratonName(testSuite);
         goToDeclaration(project, uniqueDecl);
     }
     
+    
+    /**
+     * Executes a Go-To-Source to the given TestCase. If the jump target isn't 
+     * available, this method does nothing.
+     * 
+     * <p>The execution is done in a task; the method doesn't block.</p>
+     * 
+     * @param project   Project
+     * @param testCase  TestCase
+     */
     public static void goToSourceOfTestCase(Project project, CndTestCase testCase)
     {
         final String uniqueDecl = getUniqueDeclaratonName(testCase);
         goToDeclaration(project, uniqueDecl);
     }
     
+    
+    /**
+     * Executes a Go-To-Source to the given (unique) declaration. If the jump
+     * target isn't available, this method does nothing.
+     * 
+     * <p>The execution is done in a task; the method doesn't block.</p>
+     * 
+     * @param project               Project
+     * @param uniqueDeclaration     Unique declaration
+     */
     private static void goToDeclaration(final Project project, final String uniqueDeclaration)
     {
         threadPool.submit(new Callable<Boolean>()
@@ -114,27 +165,49 @@ public final class TestSupportUtils
     }
     
     
-    
+    /**
+     * Returns the unique declaration name for the TestCase.
+     * 
+     * @param testCase  TestCase
+     * @return          Unique declaration name
+     * @exception       IllegalArgumentException - if it's a TestCase of a
+     *                  unsupported test framework.
+     */
     static String getUniqueDeclaratonName(CndTestCase testCase)
     {
-        // CppUTest only atm.
         switch(testCase.getFramework())
         {
             case CPPUTEST:
                 return "C:TEST_" + testCase.getClassName() + "_" + testCase.getName() + "_Test";
+            case GOOGLETEST:
+                throw new UnsupportedOperationException("Not implemented yet");
+            case LIBUNITTESTCPP:
+                throw new UnsupportedOperationException("Not implemented yet");
             default:
                 throw new IllegalArgumentException("Unsupported framework: " 
                         + testCase.getFramework().getName());
         }
     }
     
+    
+    /**
+     * Returns the unique declaration name for the TestSuite.
+     * 
+     * @param testSuite TestSuite
+     * @return          Unique declaration name
+     * @exception       IllegalArgumentException - if it's a TestCase of a
+     *                  unsupported test framework.
+     */
     static String getUniqueDeclaratonName(CndTestSuite testSuite)
     {
-        // CppUTest only atm.
         switch(testSuite.getFramework())
         {
             case CPPUTEST:
                 return "S:TEST_GROUP_CppUTestGroup" + testSuite.getName();
+            case GOOGLETEST:
+                throw new UnsupportedOperationException("Not implemented yet");
+            case LIBUNITTESTCPP:
+                throw new UnsupportedOperationException("Not implemented yet");
             default:
                 throw new IllegalArgumentException("Unsupported framework: " 
                         + testSuite.getFramework().getName());

@@ -25,19 +25,29 @@ import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import java.awt.event.ActionEvent;
 import org.netbeans.api.project.Project;
 
-public class GoToSourceTestNodeAction extends AbstractTestNodeAction
+/**
+ * The class {@code GoToSourceTestMethodNodeAction} implements an
+ * {@link AbstractTestNodeAction action} for testmethod nodes.
+ * 
+ * @author offa
+ */
+public class GoToSourceTestMethodNodeAction extends AbstractTestNodeAction
 {
     private static final long serialVersionUID = 1L;
     private final CndTestCase testCase;
     
-    public GoToSourceTestNodeAction(String actionName, CndTestCase testCase, Project project)
+    public GoToSourceTestMethodNodeAction(String actionName, CndTestCase testCase, Project project)
     {
         super(actionName, project);
         this.testCase = testCase;
     }
 
     
-    
+    /**
+     * Performs the action.
+     * 
+     * @param ae    Action event
+     */
     @Override
     protected void doActionPerformed(ActionEvent ae)
     {

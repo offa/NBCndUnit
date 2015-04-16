@@ -22,6 +22,12 @@ package bv.offa.netbeans.cnd.unittest.ui;
 
 import java.awt.event.ActionEvent;
 
+/**
+ * The class {@code GoToCallstackNodeAction} implements an
+ * {@link AbstractTestNodeAction action} for classtack nodes.
+ * 
+ * @author offa
+ */
 public class GoToCallstackNodeAction extends AbstractTestNodeAction
 {
     private static final long serialVersionUID = 1L;
@@ -34,7 +40,11 @@ public class GoToCallstackNodeAction extends AbstractTestNodeAction
     }
 
     
-    
+    /**
+     * Performs the action.
+     * 
+     * @param ae    Action event
+     */
     @Override
     protected void doActionPerformed(ActionEvent ae)
     {

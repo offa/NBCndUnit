@@ -25,7 +25,12 @@ import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import java.awt.event.ActionEvent;
 import org.netbeans.api.project.Project;
 
-
+/**
+ * The class {@code GoToSourceSuiteTestNodeAction} implements an
+ * {@link AbstractTestNodeAction action} for testsuite nodes.
+ * 
+ * @author offa
+ */
 public class GoToSourceSuiteTestNodeAction extends AbstractTestNodeAction
 {
     private static final long serialVersionUID = 1L;
@@ -38,7 +43,11 @@ public class GoToSourceSuiteTestNodeAction extends AbstractTestNodeAction
     }
     
     
-
+    /**
+     * Performs the action.
+     * 
+     * @param ae    Action event
+     */
     @Override
     protected void doActionPerformed(ActionEvent ae)
     {

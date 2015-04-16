@@ -32,6 +32,12 @@ import org.openide.nodes.Node;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.Lookups;
 
+/**
+ * The class {@code TestRunnerTestMethodNode} implements a frame node for
+ * a testmethod.
+ * 
+ * @author offa
+ */
 public class TestRunnerTestMethodNode extends TestMethodNode
 {
     private final String actionName = NbBundle.getMessage(TestRunnerTestMethodNode.class, "LBL_Action_GoToSource");
@@ -50,12 +56,28 @@ public class TestRunnerTestMethodNode extends TestMethodNode
 
 
     
+    /**
+     * Returns the preferred action.
+     * 
+     * @return      Action
+     */
     @Override
     public Action getPreferredAction()
     {
-        return new GoToSourceTestNodeAction(actionName, (CndTestCase) testcase, getProject());
+        return new GoToSourceTestMethodNodeAction(actionName, (CndTestCase) testcase, getProject());
     }
-
+    
+    
+    /**
+     * Returns actions that are associated with this node. These are used to
+     * construct the context menu for the node.
+     * 
+     * @param context   Whether to find actions for context meaning or for the
+     *                  node itself
+     * @return          Returns an empty array if {@code context} is
+     *                  {@code true}, otherwise the actions for this node
+     *                  are returned
+     */
     @Override
     public Action[] getActions(boolean context)
     {

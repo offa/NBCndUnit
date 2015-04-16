@@ -24,6 +24,11 @@ import javax.swing.Action;
 import org.netbeans.api.project.Project;
 import org.netbeans.modules.gsf.testrunner.api.TestNodeAction;
 
+/**
+ * The class {@code AbstractTestNodeAction} is the base for test node actions.
+ * 
+ * @author offa
+ */
 public abstract class AbstractTestNodeAction extends TestNodeAction
 {
     private static final long serialVersionUID = 1L;

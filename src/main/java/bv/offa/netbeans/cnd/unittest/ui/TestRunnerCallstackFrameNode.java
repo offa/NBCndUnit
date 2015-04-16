@@ -26,6 +26,12 @@ import javax.swing.Action;
 import org.netbeans.modules.gsf.testrunner.api.CallstackFrameNode;
 import org.openide.util.NbBundle;
 
+/**
+ * The class {@code TestRunnerCallstackFrameNode} implements a frame node for
+ * a callstack.
+ * 
+ * @author offa
+ */
 public class TestRunnerCallstackFrameNode extends CallstackFrameNode
 {
     private final String actionName = NbBundle.getMessage(TestRunnerTestMethodNode.class, "LBL_Action_GoToSource"); 
@@ -36,6 +42,32 @@ public class TestRunnerCallstackFrameNode extends CallstackFrameNode
     }
 
     
+    
+    /**
+     * Returns the preferred action.
+     * 
+     * @return      Action
+     */
+    @Override
+    public Action getPreferredAction()
+    {
+        Action action = new GoToCallstackNodeAction(actionName, frameInfo);
+        action.setEnabled(false);
+        
+        return action;
+    }
+    
+    
+    /**
+     * Returns actions that are associated with this node. These are used to
+     * construct the context menu for the node.
+     * 
+     * @param context   Whether to find actions for context meaning or for the
+     *                  node itself
+     * @return          Returns an empty array if {@code context} is
+     *                  {@code true}, otherwise the actions for this node
+     *                  are returned
+     */
     @Override
     public Action[] getActions(boolean context)
     {
@@ -50,13 +82,4 @@ public class TestRunnerCallstackFrameNode extends CallstackFrameNode
         return actions.toArray(new Action[actions.size()]);
     }
 
-    @Override
-    public Action getPreferredAction()
-    {
-        Action action = new GoToCallstackNodeAction(actionName, frameInfo);
-        action.setEnabled(false);
-        
-        return action;
-    }
-    
 }
