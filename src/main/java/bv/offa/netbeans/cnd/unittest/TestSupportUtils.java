@@ -66,7 +66,8 @@ public final class TestSupportUtils
         {
             throw new IllegalStateException("Wrong node factory set (required: " 
                     + TestRunnerUINodeFactory.class.getName() 
-                    + ", current: " + ts.getNodeFactory().getClass().getName());
+                    + ", current: " + ts.getNodeFactory().getClass().getName() 
+                    + ")");
         }
     }
     
@@ -80,7 +81,7 @@ public final class TestSupportUtils
      * this method does nothing.</p>
      * 
      * @param ts    TestSession
-     * @exception   RuntimeException - loggs and rethrows previous exceptions
+     * @exception   RuntimeException - logs and rethrows previous exceptions
      */
     public static void enableNodeFactory(TestSession ts)
     {
@@ -164,7 +165,6 @@ public final class TestSupportUtils
             @Override
             public Boolean call() throws Exception
             {
-                
                 CsmProject csmProject = CsmModelAccessor.getModel().getProject(project);
                 CsmDeclaration decl = csmProject.findDeclaration(uniqueDeclaration);
                 
