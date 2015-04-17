@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.libunittestcpp;
 
+import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
@@ -49,6 +50,8 @@ class LibunittestCppTestSessionFinishedHandler extends TestRecognizerHandler
     @Override
     public void updateUI(Manager mngr, TestSession ts)
     {
+        TestSupportUtils.assertNodeFactory(ts);
+        
         final long time = LibunittestCppTestHandlerFactory.parseSecTimeToMillis(matcher.group(1));
         mngr.displayReport(ts, ts.getReport(time));
         mngr.sessionFinished(ts);

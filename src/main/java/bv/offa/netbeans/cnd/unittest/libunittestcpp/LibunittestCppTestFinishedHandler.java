@@ -20,6 +20,9 @@
 
 package bv.offa.netbeans.cnd.unittest.libunittestcpp;
 
+import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
+import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.api.Manager;
@@ -37,6 +40,7 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
  */
 class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
 {
+    private static final TestFramework testFramework = TestFramework.LIBUNITTESTCPP;
     private static final String MSG_OK = "ok"; //NOI18N
     private static final String MSG_FAILED = "FAIL"; //NOI18N
     private static final String MSG_SKIP = "SKIP"; //NOI18N
@@ -61,13 +65,16 @@ class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
     @Override
     public void updateUI(Manager mngr, TestSession ts)
     {
+        TestSupportUtils.enableNodeFactory(ts);
+        TestSupportUtils.assertNodeFactory(ts);
+        
         final String suiteName = normalise(matcher.group(1));
         TestSuite currentSuite = ts.getCurrentSuite();
 
         if( currentSuite == null )
         {
             mngr.testStarted(ts);
-            currentSuite = new TestSuite(suiteName);
+            currentSuite = new CndTestSuite(suiteName, testFramework);
             ts.addSuite(currentSuite);
             mngr.displaySuiteRunning(ts, currentSuite);
         }
@@ -75,7 +82,7 @@ class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
         {
             mngr.displayReport(ts, ts.getReport(0L));
 
-            TestSuite suite = new TestSuite(suiteName);
+            TestSuite suite = new CndTestSuite(suiteName, testFramework);
             ts.addSuite(suite);
             mngr.displaySuiteRunning(ts, suite);
         }
@@ -85,7 +92,7 @@ class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
         }
 
         final String testName = normalise(matcher.group(2));
-        Testcase testCase = new Testcase(testName, TestFramework.LIBUNITTESTCPP.getName(), ts);
+        Testcase testCase = new CndTestCase(testName, testFramework, ts);
         testCase.setClassName(suiteName);
         testCase.setTimeMillis(LibunittestCppTestHandlerFactory.parseSecTimeToMillis(matcher.group(3)));
 

@@ -27,6 +27,7 @@ import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import static org.mockito.Mockito.mock;
@@ -144,6 +145,42 @@ public class TestSupportUtilsTest
         CndTestSuite testSuite = new CndTestSuite(testSuiteName, TestFramework.GOOGLETEST);
         
         final String expected = "C:" + testSuiteName;
+        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testSuite));
+    }
+    
+    @Test
+    public void testGetUniqueDeclaratonNameTestCaseLibunittestCpp()
+    {
+        final TestSession ts = mock(TestSession.class);
+        final String testCaseName = "testCase";
+        final String testSuiteName = "TestSuite";
+        CndTestCase testCase = new CndTestCase(testCaseName, TestFramework.LIBUNITTESTCPP, ts);
+        testCase.setClassName(testSuiteName);
+        
+        final String expected = "S:" + testSuiteName + "::" + testCaseName;
+        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testCase));
+    }
+    
+    @Test
+    public void testGetUniqueDeclaratonNameTestCaseLibunittestCppWithToken()
+    {
+        final TestSession ts = mock(TestSession.class);
+        final String testCaseName = "testCase";
+        final String testSuiteName = "TestSuite";
+        CndTestCase testCase = new CndTestCase(testCaseName + "::test", TestFramework.LIBUNITTESTCPP, ts);
+        testCase.setClassName(testSuiteName);
+        
+        final String expected = "S:" + testSuiteName + "::" + testCaseName;
+        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testCase));
+    }
+    
+    @Test
+    public void testGetUniqueDeclaratonNameTestSuiteLibunittestCpp()
+    {
+        final String testSuiteName = "TestSuite";
+        CndTestSuite testSuite = new CndTestSuite(testSuiteName, TestFramework.LIBUNITTESTCPP);
+        
+        final String expected = "S:" + testSuiteName + "::__testcollection_child__";
         assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testSuite));
     }
 }

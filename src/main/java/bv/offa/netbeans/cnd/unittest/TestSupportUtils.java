@@ -201,7 +201,15 @@ public final class TestSupportUtils
             case GOOGLETEST:
                 return "C:" + testCase.getClassName() + "_" + testCase.getName() + "_Test";
             case LIBUNITTESTCPP:
-                throw new UnsupportedOperationException("Not implemented yet");
+                String testName = testCase.getName();
+                int sepPos = testName.indexOf("::");
+                
+                if( sepPos != -1 )
+                {
+                    testName = testName.substring(0, sepPos);
+                }
+                
+                return "S:" + testCase.getClassName() + "::" + testName;
             default:
                 throw new IllegalArgumentException("Unsupported framework: " 
                         + testCase.getFramework().getName());
@@ -226,7 +234,7 @@ public final class TestSupportUtils
             case GOOGLETEST:
                 return "C:" + testSuite.getName();
             case LIBUNITTESTCPP:
-                throw new UnsupportedOperationException("Not implemented yet");
+                return "S:" + testSuite.getName() + "::__testcollection_child__";
             default:
                 throw new IllegalArgumentException("Unsupported framework: " 
                         + testSuite.getFramework().getName());
