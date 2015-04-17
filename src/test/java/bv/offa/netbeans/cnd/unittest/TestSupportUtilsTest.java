@@ -27,6 +27,8 @@ import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.netbeans.api.project.Project;
@@ -39,6 +41,8 @@ import org.openide.util.Lookup;
 
 public class TestSupportUtilsTest
 {
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
     private static Project projectMock;
     
     @BeforeClass
@@ -64,6 +68,23 @@ public class TestSupportUtilsTest
         final TestSession session = new TestSession("TestSession", projectMock, SessionType.TEST, nodeFactory);
         TestSupportUtils.enableNodeFactory(session);
         assertSame(session.getNodeFactory(), nodeFactory);
+    }
+    
+    
+    @Test
+    public void testAssertNodeFactoryThrowsForWrongInstance()
+    {
+        final TestSession session = new TestSession("TestSession", projectMock, SessionType.TEST);
+        exception.expect(IllegalStateException.class);
+        TestSupportUtils.assertNodeFactory(session);
+    }
+
+    @Test
+    public void testAssertNodeFactoryAcceptsCorrectInstance()
+    {
+        final TestRunnerNodeFactory nodeFactory = new TestRunnerUINodeFactory();
+        final TestSession session = new TestSession("TestSession", projectMock, SessionType.TEST, nodeFactory);
+        TestSupportUtils.assertNodeFactory(session);
     }
     
     @Test

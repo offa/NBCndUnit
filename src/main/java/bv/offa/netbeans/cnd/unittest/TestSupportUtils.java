@@ -53,7 +53,7 @@ public final class TestSupportUtils
 
     
     /**
-     * Tests wether the correct node factory instance is set; if not, an
+     * Tests whether the correct node factory instance is set; if not, an
      * exception is thrown.
      * 
      * @param ts    TestSession
@@ -62,7 +62,6 @@ public final class TestSupportUtils
      */
     public static void assertNodeFactory(TestSession ts)
     {
-        // TODO: Test
         if( ts.getNodeFactory() instanceof TestRunnerUINodeFactory == false )
         {
             throw new IllegalStateException("Wrong node factory set (required: " 
