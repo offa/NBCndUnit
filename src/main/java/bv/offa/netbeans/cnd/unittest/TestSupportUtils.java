@@ -52,6 +52,25 @@ public final class TestSupportUtils
     }
 
     
+    /**
+     * Tests wether the correct node factory instance is set; if not, an
+     * exception is thrown.
+     * 
+     * @param ts    TestSession
+     * @exception   IllegalStateException - if there's a different node factory
+     *              set
+     */
+    public static void assertNodeFactory(TestSession ts)
+    {
+        // TODO: Test
+        if( ts.getNodeFactory() instanceof TestRunnerUINodeFactory == false )
+        {
+            throw new IllegalStateException("Wrong node factory set (required: " 
+                    + TestRunnerUINodeFactory.class.getName() 
+                    + ", current: " + ts.getNodeFactory().getClass().getName());
+        }
+    }
+    
     
     /**
      * Enables a {@link TestRunnerUINodeFactory TestRunnerUINodeFactory} in the
@@ -181,7 +200,7 @@ public final class TestSupportUtils
                 final String enabled = ( testCase.getStatus() == Status.SKIPPED ? "IGNORE" : "TEST_" );
                 return "C:" +  enabled + testCase.getClassName() + "_" + testCase.getName() + "_Test";
             case GOOGLETEST:
-                throw new UnsupportedOperationException("Not implemented yet");
+                return "C:" + testCase.getClassName() + "_" + testCase.getName() + "_Test";
             case LIBUNITTESTCPP:
                 throw new UnsupportedOperationException("Not implemented yet");
             default:
@@ -206,7 +225,7 @@ public final class TestSupportUtils
             case CPPUTEST:
                 return "S:TEST_GROUP_CppUTestGroup" + testSuite.getName();
             case GOOGLETEST:
-                throw new UnsupportedOperationException("Not implemented yet");
+                return "C:" + testSuite.getName();
             case LIBUNITTESTCPP:
                 throw new UnsupportedOperationException("Not implemented yet");
             default:

@@ -20,9 +20,9 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
+import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.api.Manager;
-import org.netbeans.modules.gsf.testrunner.api.TestRunnerNodeFactory;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.Testcase;
 import org.netbeans.modules.gsf.testrunner.api.Trouble;
@@ -55,7 +55,7 @@ class CppUTestErrorHandler extends TestRecognizerHandler
     @Override
     public void updateUI(Manager mngr, TestSession ts)
     {
-        assert(ts.getNodeFactory() instanceof TestRunnerNodeFactory);
+        TestSupportUtils.assertNodeFactory(ts);
         
         Testcase tc = ts.getCurrentTestCase();
 

@@ -27,7 +27,6 @@ import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.Status;
-import org.netbeans.modules.gsf.testrunner.api.TestRunnerNodeFactory;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 import org.netbeans.modules.gsf.testrunner.api.Testcase;
@@ -63,7 +62,7 @@ class CppUTestTestHandler extends TestRecognizerHandler
     public void updateUI(Manager mngr, TestSession ts)
     {
         TestSupportUtils.enableNodeFactory(ts);
-        assert(ts.getNodeFactory() instanceof TestRunnerNodeFactory);
+        TestSupportUtils.assertNodeFactory(ts);
         
         final String suiteName = matcher.group(2);
         TestSuite currentSuite = ts.getCurrentSuite();

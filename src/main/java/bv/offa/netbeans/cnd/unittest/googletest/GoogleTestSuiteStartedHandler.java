@@ -20,6 +20,9 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
+import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
+import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
@@ -34,7 +37,8 @@ import org.netbeans.modules.gsf.testrunner.api.TestSuite;
  */
 class GoogleTestSuiteStartedHandler extends TestRecognizerHandler
 {
-
+    private static final TestFramework testFramework = TestFramework.GOOGLETEST;
+    
     public GoogleTestSuiteStartedHandler()
     {
         super("^.*?\\[[-]{10}\\].*? [0-9]+? tests?? from ([^ ]+?)$", true); //NOI18N
@@ -51,13 +55,16 @@ class GoogleTestSuiteStartedHandler extends TestRecognizerHandler
     @Override
     public void updateUI(Manager mngr, TestSession ts)
     {
+        TestSupportUtils.enableNodeFactory(ts);
+        TestSupportUtils.assertNodeFactory(ts);
+        
         final String suiteName = matcher.group(1);
         TestSuite currentSuite = ts.getCurrentSuite();
 
         if( currentSuite == null )
         {
             mngr.testStarted(ts);
-            currentSuite = new TestSuite(suiteName);
+            currentSuite = new CndTestSuite(suiteName, testFramework);
             ts.addSuite(currentSuite);
             mngr.displaySuiteRunning(ts, currentSuite);
         }
@@ -65,7 +72,7 @@ class GoogleTestSuiteStartedHandler extends TestRecognizerHandler
         {
             mngr.displayReport(ts, ts.getReport(0));
 
-            TestSuite suite = new TestSuite(suiteName);
+            TestSuite suite = new CndTestSuite(suiteName, testFramework);
             ts.addSuite(suite);
             mngr.displaySuiteRunning(ts, suite);
         }

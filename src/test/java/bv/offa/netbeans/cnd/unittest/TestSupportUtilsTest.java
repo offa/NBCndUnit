@@ -84,7 +84,7 @@ public class TestSupportUtilsTest
     {
         final TestSession ts = mock(TestSession.class);
         final String testCaseName = "testCase";
-        final String testSuiteName = "testSuite";
+        final String testSuiteName = "TestSuite";
         CndTestCase testCase = new CndTestCase(testCaseName, TestFramework.CPPUTEST, ts);
         testCase.setClassName(testSuiteName);
         testCase.setStatus(Status.SKIPPED);
@@ -96,10 +96,33 @@ public class TestSupportUtilsTest
     @Test
     public void testGetUniqueDeclaratonNameTestSuiteCppUTest()
     {
-        final String testSuiteName = "testSuite";
+        final String testSuiteName = "TestSuite";
         CndTestSuite testSuite = new CndTestSuite(testSuiteName, TestFramework.CPPUTEST);
         
         final String expected = "S:TEST_GROUP_CppUTestGroup" + testSuiteName;
+        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testSuite));
+    }
+    
+    @Test
+    public void testGetUniqueDeclaratonNameTestCaseGoogleTest()
+    {
+        final TestSession ts = mock(TestSession.class);
+        final String testCaseName = "testCase";
+        final String testSuiteName = "TestSuite";
+        CndTestCase testCase = new CndTestCase(testCaseName, TestFramework.GOOGLETEST, ts);
+        testCase.setClassName(testSuiteName);
+        
+        final String expected = "C:" + testSuiteName + "_" + testCaseName + "_Test";
+        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testCase));
+    }
+    
+    @Test
+    public void testGetUniqueDeclaratonNameTestSuiteGoogleTest()
+    {
+        final String testSuiteName = "TestSuite";
+        CndTestSuite testSuite = new CndTestSuite(testSuiteName, TestFramework.GOOGLETEST);
+        
+        final String expected = "C:" + testSuiteName;
         assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testSuite));
     }
 }
