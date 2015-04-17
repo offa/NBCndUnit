@@ -94,7 +94,7 @@ public class TestSupportUtilsTest
     }
     
     @Test
-    public void testGetUniqueDeclaratonNameTestSuiteeCppUTest()
+    public void testGetUniqueDeclaratonNameTestSuiteCppUTest()
     {
         final String testSuiteName = "testSuite";
         CndTestSuite testSuite = new CndTestSuite(testSuiteName, TestFramework.CPPUTEST);
