@@ -27,7 +27,6 @@ import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import static org.mockito.Mockito.mock;
@@ -42,13 +41,18 @@ import org.openide.util.Lookup;
 
 public class TestSupportUtilsTest
 {
+    private static final String testCaseName = "testCase";
+    private static final String testSuiteName = "TestSuite";
     @Rule
     public ExpectedException exception = ExpectedException.none();
+    private static TestSession testSessionMock;
     private static Project projectMock;
     
     @BeforeClass
     public static void setUpClass()
     {
+        testSessionMock = mock(TestSession.class);
+        
         projectMock = mock(Project.class);
         when(projectMock.getProjectDirectory()).thenReturn(FileUtil.createMemoryFileSystem().getRoot());
         when(projectMock.getLookup()).thenReturn(Lookup.EMPTY);
@@ -91,10 +95,7 @@ public class TestSupportUtilsTest
     @Test
     public void testGetUniqueDeclaratonNameTestCaseCppUTest()
     {
-        final TestSession ts = mock(TestSession.class);
-        final String testCaseName = "testCase";
-        final String testSuiteName = "testSuite";
-        CndTestCase testCase = new CndTestCase(testCaseName, TestFramework.CPPUTEST, ts);
+        CndTestCase testCase = new CndTestCase(testCaseName, TestFramework.CPPUTEST, testSessionMock);
         testCase.setClassName(testSuiteName);
         
         final String expected = "C:TEST_" + testSuiteName + "_" + testCaseName + "_Test";
@@ -104,13 +105,10 @@ public class TestSupportUtilsTest
     @Test
     public void testGetUniqueDeclaratonNameTestCaseCppUTestIgnored()
     {
-        final TestSession ts = mock(TestSession.class);
-        final String testCaseName = "testCase";
-        final String testSuiteName = "TestSuite";
-        CndTestCase testCase = new CndTestCase(testCaseName, TestFramework.CPPUTEST, ts);
+        CndTestCase testCase = new CndTestCase(testCaseName, TestFramework.CPPUTEST, testSessionMock);
         testCase.setClassName(testSuiteName);
         testCase.setStatus(Status.SKIPPED);
-
+        
         final String expected = "C:IGNORE" + testSuiteName + "_" + testCaseName + "_Test";
         assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testCase));
     }
@@ -118,7 +116,6 @@ public class TestSupportUtilsTest
     @Test
     public void testGetUniqueDeclaratonNameTestSuiteCppUTest()
     {
-        final String testSuiteName = "TestSuite";
         CndTestSuite testSuite = new CndTestSuite(testSuiteName, TestFramework.CPPUTEST);
         
         final String expected = "S:TEST_GROUP_CppUTestGroup" + testSuiteName;
@@ -128,10 +125,7 @@ public class TestSupportUtilsTest
     @Test
     public void testGetUniqueDeclaratonNameTestCaseGoogleTest()
     {
-        final TestSession ts = mock(TestSession.class);
-        final String testCaseName = "testCase";
-        final String testSuiteName = "TestSuite";
-        CndTestCase testCase = new CndTestCase(testCaseName, TestFramework.GOOGLETEST, ts);
+        CndTestCase testCase = new CndTestCase(testCaseName, TestFramework.GOOGLETEST, testSessionMock);
         testCase.setClassName(testSuiteName);
         
         final String expected = "C:" + testSuiteName + "_" + testCaseName + "_Test";
@@ -141,7 +135,6 @@ public class TestSupportUtilsTest
     @Test
     public void testGetUniqueDeclaratonNameTestSuiteGoogleTest()
     {
-        final String testSuiteName = "TestSuite";
         CndTestSuite testSuite = new CndTestSuite(testSuiteName, TestFramework.GOOGLETEST);
         
         final String expected = "C:" + testSuiteName;
@@ -151,10 +144,7 @@ public class TestSupportUtilsTest
     @Test
     public void testGetUniqueDeclaratonNameTestCaseLibunittestCpp()
     {
-        final TestSession ts = mock(TestSession.class);
-        final String testCaseName = "testCase";
-        final String testSuiteName = "TestSuite";
-        CndTestCase testCase = new CndTestCase(testCaseName, TestFramework.LIBUNITTESTCPP, ts);
+        CndTestCase testCase = new CndTestCase(testCaseName, TestFramework.LIBUNITTESTCPP, testSessionMock);
         testCase.setClassName(testSuiteName);
         
         final String expected = "S:" + testSuiteName + "::" + testCaseName;
@@ -164,10 +154,7 @@ public class TestSupportUtilsTest
     @Test
     public void testGetUniqueDeclaratonNameTestCaseLibunittestCppWithToken()
     {
-        final TestSession ts = mock(TestSession.class);
-        final String testCaseName = "testCase";
-        final String testSuiteName = "TestSuite";
-        CndTestCase testCase = new CndTestCase(testCaseName + "::test", TestFramework.LIBUNITTESTCPP, ts);
+        CndTestCase testCase = new CndTestCase(testCaseName + "::test", TestFramework.LIBUNITTESTCPP, testSessionMock);
         testCase.setClassName(testSuiteName);
         
         final String expected = "S:" + testSuiteName + "::" + testCaseName;
@@ -177,7 +164,6 @@ public class TestSupportUtilsTest
     @Test
     public void testGetUniqueDeclaratonNameTestSuiteLibunittestCpp()
     {
-        final String testSuiteName = "TestSuite";
         CndTestSuite testSuite = new CndTestSuite(testSuiteName, TestFramework.LIBUNITTESTCPP);
         
         final String expected = "S:" + testSuiteName + "::__testcollection_child__";
