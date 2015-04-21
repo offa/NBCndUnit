@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Action;
 import org.netbeans.modules.gsf.testrunner.api.CallstackFrameNode;
+import org.netbeans.modules.gsf.testrunner.api.TestMethodNode;
+import org.openide.nodes.Node;
 import org.openide.util.NbBundle;
 
 /**
@@ -51,8 +53,13 @@ public class TestRunnerCallstackFrameNode extends CallstackFrameNode
     @Override
     public Action getPreferredAction()
     {
-        Action action = new GoToCallstackNodeAction(actionName, frameInfo);
-        action.setEnabled(false);
+        Action action = findActionOfParentNode(this);
+        
+        if( action == null )
+        {
+            action = new GoToCallstackNodeAction(actionName, frameInfo);
+            action.setEnabled(false);
+        }
         
         return action;
     }
@@ -80,6 +87,32 @@ public class TestRunnerCallstackFrameNode extends CallstackFrameNode
         actions.add(getPreferredAction());
         
         return actions.toArray(new Action[actions.size()]);
+    }
+    
+    
+    /**
+     * Returns the preferred action of the parent {@code TestMethodNode}. If
+     * there's no such parent, {@code null} is returned instead.
+     * 
+     * @param node  Node
+     * @return      Action of the parent {@code TestMethodNode} or {@code null}
+     *              if there's no parent of this type
+     */
+    static Action findActionOfParentNode(Node node)
+    {
+        Node n = node;
+        
+        while( n != null )
+        {
+            if( n instanceof TestMethodNode )
+            {
+                return n.getPreferredAction();
+            }
+            
+            n = n.getParentNode();
+        }
+        
+        return null;
     }
 
 }

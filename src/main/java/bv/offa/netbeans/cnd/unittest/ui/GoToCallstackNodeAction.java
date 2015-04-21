@@ -48,7 +48,7 @@ public class GoToCallstackNodeAction extends AbstractTestNodeAction
     @Override
     protected void doActionPerformed(ActionEvent ae)
     {
-        // TODO: Implement
+        /* Not implemented. */
     }
     
 }
