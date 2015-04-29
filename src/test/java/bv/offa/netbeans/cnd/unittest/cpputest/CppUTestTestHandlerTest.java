@@ -141,4 +141,11 @@ public class CppUTestTestHandlerTest
         
         assertEquals(expected, time);
     }
+    
+    @Test
+    public void testMatchesTestCaseWithOutputNoTime()
+    {
+        final String input = "TEST(SuiteName, testCase)";
+        assertTrue(handler.matches(input));
+    }
 }

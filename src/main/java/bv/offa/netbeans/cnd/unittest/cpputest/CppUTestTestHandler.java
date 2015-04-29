@@ -30,8 +30,6 @@ import org.netbeans.modules.gsf.testrunner.api.Status;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 import org.netbeans.modules.gsf.testrunner.api.Testcase;
-import org.netbeans.modules.gsf.testrunner.api.Trouble;
-
 
 /**
  * The class {@code CppUTestHandler} handles the test output.
@@ -97,7 +95,7 @@ class CppUTestTestHandler extends TestRecognizerHandler
         }
         else if( matcher.group(4) == null )
         {
-            testcase.setTrouble(new Trouble(false));
+            // Test time is separated, eg. failed or test with additional output
         }
         else
         {

@@ -47,6 +47,7 @@ public class CppUTestTestHandlerFactory implements TestHandlerFactory
         testHandler.add(new CppUTestTestHandler(info));
         testHandler.add(new CppUTestSuiteFinishedHandler(info));
         testHandler.add(new CppUTestErrorHandler(info));
+        testHandler.add(new CppUTestTimeHandler(info));
 
         return testHandler;
     }
