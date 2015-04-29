@@ -91,7 +91,7 @@ public class TestSupportUtilsTest
         final TestSession session = new TestSession("TestSession", projectMock, SessionType.TEST, nodeFactory);
         TestSupportUtils.assertNodeFactory(session);
     }
-    
+
     @Test
     public void testGetUniqueDeclaratonNameTestCaseCppUTest()
     {
