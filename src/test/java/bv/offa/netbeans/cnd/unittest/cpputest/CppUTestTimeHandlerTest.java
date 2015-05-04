@@ -20,10 +20,16 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import static org.mockito.Mockito.*;
+import org.netbeans.modules.gsf.testrunner.api.TestSession;
+import org.netbeans.modules.gsf.testrunner.api.Testcase;
 
 public class CppUTestTimeHandlerTest
 {
@@ -53,6 +59,26 @@ public class CppUTestTimeHandlerTest
         m = handler.match(" - 123 ms");
         assertTrue(m.matches());
         assertEquals("123", m.group(1));
+    }
+    
+    @Test
+    public void testUpdateUIUpdatesTime()
+    {
+        TestSessionInformation info = new TestSessionInformation();
+        CppUTestTimeHandler timeHandler = new CppUTestTimeHandler(info);
+        final String input = " - 123 ms";
+        Matcher m = timeHandler.match(input);
+        assertTrue(m.find());
+        
+        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
+        TestSession session = mock(TestSession.class);
+        Testcase testCase = new CndTestCase("testCase", TestFramework.CPPUTEST, session);
+        when(session.getCurrentTestCase()).thenReturn(testCase);
+        when(session.getNodeFactory()).thenReturn(factory);
+        timeHandler.updateUI(null, session);
+        
+        assertEquals(123L, info.getTimeTotal());
+        assertEquals(123L, testCase.getTimeMillis());
     }
     
 }

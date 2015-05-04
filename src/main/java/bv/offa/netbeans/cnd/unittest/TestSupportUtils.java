@@ -66,7 +66,9 @@ public final class TestSupportUtils
         {
             throw new IllegalStateException("Wrong node factory set (required: " 
                     + TestRunnerUINodeFactory.class.getName() 
-                    + ", current: " + ts.getNodeFactory().getClass().getName() 
+                    + ", current: " + ( ts.getNodeFactory() == null 
+                                        ? null 
+                                        : ts.getNodeFactory().getClass().getName() )
                     + ")");
         }
     }
