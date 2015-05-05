@@ -20,10 +20,17 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import static org.mockito.Mockito.*;
+import org.netbeans.modules.gsf.testrunner.api.TestSession;
+import org.netbeans.modules.gsf.testrunner.api.Testcase;
+import org.netbeans.modules.gsf.testrunner.api.Trouble;
 
 public class CppUTestErrorHandlerTest
 {
@@ -57,4 +64,106 @@ public class CppUTestErrorHandlerTest
         assertEquals("SuiteName", m.group(3));
         assertEquals("testName", m.group(4));
     }
+    
+    @Test
+    public void testUpdateUIDoesNothingIfNoTestCase()
+    {
+        final String input = "test/SuiteName.cpp:37: error: Failure in TEST(SuiteName, testName)";
+        Matcher m = handler.match(input);
+        assertTrue(m.find());
+        
+        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
+        TestSession session = mock(TestSession.class);
+        Testcase testCase = null;
+        when(session.getCurrentTestCase()).thenReturn(testCase);
+        when(session.getNodeFactory()).thenReturn(factory);
+        
+        handler.updateUI(null, session);
+    }
+    
+    @Test
+    public void testUpdateUIIgnoresNotMatchingTestCase()
+    {
+        final String input = "test/SuiteName.cpp:37: error: Failure in TEST(SuiteName, testName)";
+        Matcher m = handler.match(input);
+        assertTrue(m.find());
+
+        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
+        TestSession session = mock(TestSession.class);
+        Testcase testCase = new CndTestCase("testCase", TestFramework.CPPUTEST, session);
+        testCase.setClassName("SuiteName");
+        when(session.getCurrentTestCase()).thenReturn(testCase);
+        when(session.getNodeFactory()).thenReturn(factory);
+
+        handler.updateUI(null, session);
+
+        assertNull(testCase.getTrouble());
+        assertNull(testCase.getLocation());
+    }
+    
+    @Test
+    public void testUpdateUIIgnoresNotMatchingTestSuite()
+    {
+        final String input = "test/SuiteName.cpp:37: error: Failure in TEST(SuiteName, testName)";
+        Matcher m = handler.match(input);
+        assertTrue(m.find());
+
+        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
+        TestSession session = mock(TestSession.class);
+        Testcase testCase = new CndTestCase("testName", TestFramework.CPPUTEST, session);
+        testCase.setClassName("WrongSuiteName");
+        when(session.getCurrentTestCase()).thenReturn(testCase);
+        when(session.getNodeFactory()).thenReturn(factory);
+
+        handler.updateUI(null, session);
+
+        assertNull(testCase.getTrouble());
+        assertNull(testCase.getLocation());
+    }
+    
+    @Test
+    public void testUpdateUISetsTrouble()
+    {
+        final String input = "test/SuiteName.cpp:37: error: Failure in TEST(SuiteName, testName)";
+        Matcher m = handler.match(input);
+        assertTrue(m.find());
+
+        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
+        TestSession session = mock(TestSession.class);
+        Testcase testCase = new CndTestCase("testName", TestFramework.CPPUTEST, session);
+        testCase.setClassName("SuiteName");
+        when(session.getCurrentTestCase()).thenReturn(testCase);
+        when(session.getNodeFactory()).thenReturn(factory);
+
+        handler.updateUI(null, session);
+        Trouble t = testCase.getTrouble();
+        
+        assertNotNull(t);
+        assertTrue(t.isError());
+        assertEquals("test/SuiteName.cpp:37", t.getStackTrace()[0]);
+    }
+    
+    @Test
+    public void testUpdateUIUpdatesTrouble()
+    {
+        final String input = "test/SuiteName.cpp:37: error: Failure in TEST(SuiteName, testName)";
+        Matcher m = handler.match(input);
+        assertTrue(m.find());
+
+        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
+        TestSession session = mock(TestSession.class);
+        Testcase testCase = new CndTestCase("testName", TestFramework.CPPUTEST, session);
+        testCase.setClassName("SuiteName");
+        testCase.setTrouble(new Trouble(false));
+        when(session.getCurrentTestCase()).thenReturn(testCase);
+        when(session.getNodeFactory()).thenReturn(factory);
+
+        handler.updateUI(null, session);
+        Trouble t = testCase.getTrouble();
+        
+        assertNotNull(t);
+        assertTrue(t.isError());
+        assertEquals("test/SuiteName.cpp:37", t.getStackTrace()[0]);
+    }
+    
 }
