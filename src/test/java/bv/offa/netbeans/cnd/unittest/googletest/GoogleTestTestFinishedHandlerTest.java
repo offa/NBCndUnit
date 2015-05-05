@@ -20,13 +20,24 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
+import static org.mockito.Mockito.*;
+import org.netbeans.modules.gsf.testrunner.api.TestSession;
+import org.netbeans.modules.gsf.testrunner.api.Testcase;
+import org.netbeans.modules.gsf.testrunner.api.Trouble;
 
 public class GoogleTestTestFinishedHandlerTest
 {
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
     private GoogleTestTestFinishedHandler handler;
     
     
@@ -46,6 +57,12 @@ public class GoogleTestTestFinishedHandlerTest
     public void testMatchesFailedTestCase()
     {
         assertTrue(handler.matches("[  FAILED  ] TestSuite.testCase2 (45 ms)"));
+    }
+    
+    @Test
+    public void testRejectsUnknownTestCaseResult()
+    {
+        assertFalse(handler.matches("[      UKN ] TestSuite.testCase1 (0 ms)"));
     }
     
     @Test
@@ -72,5 +89,120 @@ public class GoogleTestTestFinishedHandlerTest
         assertEquals("TestSuite", m.group(2));
         assertEquals("testCase2", m.group(3));
         assertEquals("45", m.group(4));
+    }
+    
+    @Test
+    public void testUpdateUIThrowsIfNoTest()
+    {
+        final String input = "[       OK ] TestSuite.testCase (0 ms)";
+        Matcher m = handler.match(input);
+        assertTrue(m.find());
+
+        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
+        TestSession session = mock(TestSession.class);
+        when(session.getNodeFactory()).thenReturn(factory);
+
+        exception.expect(IllegalStateException.class);
+        handler.updateUI(null, session);
+    }
+    
+    @Test
+    public void testUpdateUIThrownsIfNotMatchingTestCase()
+    {
+        final String input = "[       OK ] TestSuite.testCase (0 ms)";
+        Matcher m = handler.match(input);
+        assertTrue(m.find());
+
+        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
+        TestSession session = mock(TestSession.class);
+        Testcase testCase = new CndTestCase("testCaseWrong", TestFramework.CPPUTEST, session);
+        testCase.setClassName("SuiteName");
+        when(session.getCurrentTestCase()).thenReturn(testCase);
+        when(session.getNodeFactory()).thenReturn(factory);
+
+        exception.expect(IllegalStateException.class);
+        handler.updateUI(null, session);
+    }
+    
+    @Test
+    public void testUpdateUIIgnoresNotMatchingTestSuite()
+    {
+        final String input = "[       OK ] TestSuite.testCase (0 ms)";
+        Matcher m = handler.match(input);
+        assertTrue(m.find());
+
+        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
+        TestSession session = mock(TestSession.class);
+        Testcase testCase = new CndTestCase("testName", TestFramework.CPPUTEST, session);
+        testCase.setClassName("TestSuiteWrong");
+        when(session.getCurrentTestCase()).thenReturn(testCase);
+        when(session.getNodeFactory()).thenReturn(factory);
+
+        exception.expect(IllegalStateException.class);
+        handler.updateUI(null, session);
+    }
+    
+    @Test
+    public void testUpdateUIDoesNothingIfSuccessful()
+    {
+        final String input = "[       OK ] TestSuite.testCase (0 ms)";
+        Matcher m = handler.match(input);
+        assertTrue(m.find());
+
+        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
+        TestSession session = mock(TestSession.class);
+        Testcase testCase = new CndTestCase("testCase", TestFramework.CPPUTEST, session);
+        testCase.setClassName("TestSuite");
+        when(session.getCurrentTestCase()).thenReturn(testCase);
+        when(session.getNodeFactory()).thenReturn(factory);
+
+        handler.updateUI(null, session);
+        
+        assertNull(testCase.getTrouble());
+    }
+    
+    @Test
+    public void testUpdateUISetsTroubleIfFailed()
+    {
+        final String input = "[  FAILED  ] TestSuite.testCase (45 ms)";
+        Matcher m = handler.match(input);
+        assertTrue(m.find());
+
+        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
+        TestSession session = mock(TestSession.class);
+        Testcase testCase = new CndTestCase("testCase", TestFramework.CPPUTEST, session);
+        testCase.setClassName("TestSuite");
+        when(session.getCurrentTestCase()).thenReturn(testCase);
+        when(session.getNodeFactory()).thenReturn(factory);
+
+        handler.updateUI(null, session);
+        Trouble t = testCase.getTrouble();
+        
+        assertNotNull(t);
+        assertTrue(t.isError());
+        assertEquals("TestSuite:testCase", t.getStackTrace()[0]);
+    }
+    
+    @Test
+    public void testUpdateUIUpdatesTroubleIfFailed()
+    {
+        final String input = "[  FAILED  ] TestSuite.testCase (45 ms)";
+        Matcher m = handler.match(input);
+        assertTrue(m.find());
+
+        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
+        TestSession session = mock(TestSession.class);
+        Testcase testCase = new CndTestCase("testCase", TestFramework.CPPUTEST, session);
+        testCase.setClassName("TestSuite");
+        testCase.setTrouble(new Trouble(false));
+        when(session.getCurrentTestCase()).thenReturn(testCase);
+        when(session.getNodeFactory()).thenReturn(factory);
+
+        handler.updateUI(null, session);
+        Trouble t = testCase.getTrouble();
+        
+        assertNotNull(t);
+        assertTrue(t.isError());
+        assertEquals("TestSuite:testCase", t.getStackTrace()[0]);
     }
 }

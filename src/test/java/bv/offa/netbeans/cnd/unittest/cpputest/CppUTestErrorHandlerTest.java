@@ -90,7 +90,7 @@ public class CppUTestErrorHandlerTest
 
         TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
         TestSession session = mock(TestSession.class);
-        Testcase testCase = new CndTestCase("testCase", TestFramework.CPPUTEST, session);
+        Testcase testCase = new CndTestCase("testCaseWrong", TestFramework.CPPUTEST, session);
         testCase.setClassName("SuiteName");
         when(session.getCurrentTestCase()).thenReturn(testCase);
         when(session.getNodeFactory()).thenReturn(factory);
@@ -118,7 +118,6 @@ public class CppUTestErrorHandlerTest
         handler.updateUI(null, session);
 
         assertNull(testCase.getTrouble());
-        assertNull(testCase.getLocation());
     }
     
     @Test
