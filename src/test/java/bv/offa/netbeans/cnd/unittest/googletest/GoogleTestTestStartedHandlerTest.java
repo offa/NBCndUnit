@@ -20,10 +20,16 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.mockito.ArgumentMatcher;
+import static org.mockito.Mockito.*;
+import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 public class GoogleTestTestStartedHandlerTest
 {
@@ -51,5 +57,48 @@ public class GoogleTestTestStartedHandlerTest
         assertTrue(m.find());
         assertEquals("TestSuite", m.group(1));
         assertEquals("testCase", m.group(2));
+    }
+    
+    @Test
+    public void testUpdateUIAddsTestCase()
+    {
+        final String input = "[ RUN      ] TestSuite.testCase";
+        Matcher m = handler.match(input);
+        assertTrue(m.find());
+
+        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
+        TestSession session = mock(TestSession.class);
+        when(session.getNodeFactory()).thenReturn(factory);
+
+        handler.updateUI(null, session);
+        
+        verify(session).addTestCase(argThat(
+                new TestCaseArgumentMatcher("testCase", TestFramework.GOOGLETEST, session)));
+    }
+    
+    
+    private static class TestCaseArgumentMatcher extends ArgumentMatcher<CndTestCase>
+    {
+        private final String name;
+        private final TestFramework framework;
+        private final TestSession session;
+
+        public TestCaseArgumentMatcher(String name, TestFramework framework, TestSession session)
+        {
+            this.name = name;
+            this.framework = framework;
+            this.session = session;
+        }
+        
+        
+        @Override
+        public boolean matches(Object argument)
+        {
+            final CndTestCase tc = (CndTestCase) argument;
+            
+            return tc.getName().equals(name) 
+                    && tc.getFramework() == framework 
+                    && tc.getSession().equals(session);
+        }
     }
 }
