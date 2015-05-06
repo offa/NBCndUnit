@@ -60,6 +60,7 @@ public class NewTestSuiteWizardPanel1Test
     public void testValidPerDefault()
     {
         when(compMock.getTestSuiteName()).thenReturn("abc");
+        
         assertTrue(panel.isValid());
     }
     

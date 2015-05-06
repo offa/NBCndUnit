@@ -44,7 +44,6 @@ public class NewTestSuiteWizardIteratorTest
                 Arrays.asList("testCase1", "testCase2", "testCase3"), "TestSuite");
     }
     
-    
     @Test
     @SuppressWarnings("unchecked")
     public void testGetTemplateParameters()

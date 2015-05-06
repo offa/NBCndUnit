@@ -26,14 +26,14 @@ import org.junit.Before;
 
 public class CppUTestSuiteFinishedHandlerTest
 {
-    private static final TestSessionInformation DONT_CARE_INFO = new TestSessionInformation();
+    private static final TestSessionInformation dontCareInfo = new TestSessionInformation();
     private CppUTestSuiteFinishedHandler handler;
     
     
     @Before
     public void setUp()
     {
-        handler = new CppUTestSuiteFinishedHandler(DONT_CARE_INFO);
+        handler = new CppUTestSuiteFinishedHandler(dontCareInfo);
     }
     
     @Test

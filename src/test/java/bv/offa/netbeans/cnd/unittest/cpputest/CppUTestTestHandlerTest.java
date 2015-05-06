@@ -40,21 +40,21 @@ public class CppUTestTestHandlerTest
     @Test
     public void testMatchesTestCase()
     {
-        final String input = "TEST(SuiteName, testName) - 8 ms";
+        final String input = "TEST(TestSuite, testCase) - 8 ms";
         assertTrue(handler.matches(input));
     }
     
     @Test
     public void testMatchesTestCaseIgnored()
     {
-        final String input = "IGNORE_TEST(SuiteName, testName) - 7 ms";
+        final String input = "IGNORE_TEST(TestSuite, testCase) - 7 ms";
         assertTrue(handler.matches(input));
     }
     
     @Test
     public void testMatchesTestCaseAndDetectsNotIgnored()
     {
-        final String input = "TEST(SuiteName, testName) - 8 ms";
+        final String input = "TEST(TestSuite, testCase) - 8 ms";
         Matcher m = handler.match(input);
         
         assertTrue(m.find());
@@ -64,7 +64,7 @@ public class CppUTestTestHandlerTest
     @Test
     public void testMatchesTestCaseAndDetectsIgnored()
     {
-        final String input = "IGNORE_TEST(SuiteName, testName) - 7 ms";
+        final String input = "IGNORE_TEST(TestSuite, testCase) - 7 ms";
         Matcher m = handler.match(input);
         
         assertTrue(m.find());
@@ -74,13 +74,13 @@ public class CppUTestTestHandlerTest
     @Test
     public void testParsesDataTestCase()
     {
-        final String input = "TEST(SuiteName, testName) - 84 ms";
+        final String input = "TEST(TestSuite, testCase) - 84 ms";
         Matcher m = handler.match(input);
         
         assertTrue(m.find());
-        assertEquals("TEST(SuiteName, testName) - 84 ms", m.group());
-        assertEquals("SuiteName", m.group(2));
-        assertEquals("testName", m.group(3));
+        assertEquals("TEST(TestSuite, testCase) - 84 ms", m.group());
+        assertEquals("TestSuite", m.group(2));
+        assertEquals("testCase", m.group(3));
         assertEquals("84", m.group(5));
     }
     
@@ -88,18 +88,18 @@ public class CppUTestTestHandlerTest
     @Test
     public void testMatchesDataTestCaseWhichFailed()
     {
-        final String input = "TEST(SuiteName, testThatFailed)";
+        final String input = "TEST(TestSuite, testThatFailed)";
         assertTrue(handler.matches(input));
     }
     
     @Test
     public void testParsesDataTestCaseWhichFailed()
     {
-        final String input = "TEST(SuiteName, testThatFailed)";
+        final String input = "TEST(TestSuite, testThatFailed)";
         Matcher m = handler.match(input);
         
         assertTrue(m.find());
-        assertEquals("SuiteName", m.group(2));
+        assertEquals("TestSuite", m.group(2));
         assertEquals("testThatFailed", m.group(3));
         assertNull(m.group(4));
     }
@@ -107,15 +107,15 @@ public class CppUTestTestHandlerTest
     @Test
     public void testRejectsMalformedTestCase()
     {
-        assertFalse(handler.matches("TEST(SuiteName, testCase) - 1"));
-        assertFalse(handler.matches("TEST(SuiteName, testCase) - a"));
-        assertFalse(handler.matches("TEST(SuiteName, testCase) - abc ms"));
-        assertFalse(handler.matches("TEST(SuiteName, testCase) - ms"));
-        assertFalse(handler.matches("TEST(SuiteName, testCase) -  ms"));
-        assertFalse(handler.matches("TEST(SuiteName, testCase) - 11 ms "));
-        assertFalse(handler.matches("TEST(SuiteName, )"));
-        assertFalse(handler.matches("TEST(SuiteName, testCase, wrong) - 5 ms"));
-        assertFalse(handler.matches("TEST(SuiteName, testCase) - 5 ms - 7 ms"));
+        assertFalse(handler.matches("TEST(TestSuite, testCase) - 1"));
+        assertFalse(handler.matches("TEST(TestSuite, testCase) - a"));
+        assertFalse(handler.matches("TEST(TestSuite, testCase) - abc ms"));
+        assertFalse(handler.matches("TEST(TestSuite, testCase) - ms"));
+        assertFalse(handler.matches("TEST(TestSuite, testCase) -  ms"));
+        assertFalse(handler.matches("TEST(TestSuite, testCase) - 11 ms "));
+        assertFalse(handler.matches("TEST(TestSuite, )"));
+        assertFalse(handler.matches("TEST(TestSuite, testCase, wrong) - 5 ms"));
+        assertFalse(handler.matches("TEST(TestSuite, testCase) - 5 ms - 7 ms"));
     }
     
     @Test
@@ -123,10 +123,10 @@ public class CppUTestTestHandlerTest
     {
         final String input[] = new String[]
         {
-            "TEST(SuiteName1, testCase1) - 17005 ms",
-            "TEST(SuiteName2, testCase1) - 8 ms",
-            "TEST(SuiteName2, testCase2) - 25 ms",
-            "TEST(SuiteName3, testCase1) - 0 ms",
+            "TEST(TestSuite1, testCase1) - 17005 ms",
+            "TEST(TestSuite2, testCase1) - 8 ms",
+            "TEST(TestSuite2, testCase2) - 25 ms",
+            "TEST(TestSuite3, testCase1) - 0 ms",
         };
         
         final long expected = 17005L + 8L + 25L;
@@ -145,7 +145,7 @@ public class CppUTestTestHandlerTest
     @Test
     public void testMatchesTestCaseWithOutputNoTime()
     {
-        final String input = "TEST(SuiteName, testCase)";
+        final String input = "TEST(TestSuite, testCase)";
         assertTrue(handler.matches(input));
     }
 }

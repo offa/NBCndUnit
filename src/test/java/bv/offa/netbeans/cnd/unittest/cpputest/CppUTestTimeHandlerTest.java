@@ -33,14 +33,15 @@ import org.netbeans.modules.gsf.testrunner.api.Testcase;
 
 public class CppUTestTimeHandlerTest
 {
-    private static final TestSessionInformation DONT_CARE_INFO = new TestSessionInformation();
+    private static final TestSessionInformation dontCareInfo = new TestSessionInformation();
+    private static final TestRunnerUINodeFactory nodeFactory = new TestRunnerUINodeFactory();
     private CppUTestTimeHandler handler;
     
     
     @Before
     public void setUp()
     {
-        handler = new CppUTestTimeHandler(DONT_CARE_INFO);
+        handler = new CppUTestTimeHandler(dontCareInfo);
     }
     
     @Test
@@ -70,15 +71,22 @@ public class CppUTestTimeHandlerTest
         Matcher m = timeHandler.match(input);
         assertTrue(m.find());
         
-        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
-        TestSession session = mock(TestSession.class);
+        TestSession session = createTestSessionMock(nodeFactory);
         Testcase testCase = new CndTestCase("testCase", TestFramework.CPPUTEST, session);
         when(session.getCurrentTestCase()).thenReturn(testCase);
-        when(session.getNodeFactory()).thenReturn(factory);
+        
         timeHandler.updateUI(null, session);
         
         assertEquals(123L, info.getTimeTotal());
         assertEquals(123L, testCase.getTimeMillis());
+    }
+    
+    private static TestSession createTestSessionMock(TestRunnerUINodeFactory factory)
+    {
+        TestSession session = mock(TestSession.class);
+        when(session.getNodeFactory()).thenReturn(factory);
+        
+        return session;
     }
     
 }

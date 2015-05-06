@@ -67,4 +67,5 @@ public class GoogleTestSuiteStartedHandlerTest
         assertTrue(m.find());
         assertEquals("TestSuite", m.group(1));
     }
+    
 }

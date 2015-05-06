@@ -37,7 +37,9 @@ public class NewTestMainWizardIteratorTest
     @BeforeClass
     public static void setUpClass()
     {
-        wizardMock = createMock(true, false);
+        wizardMock = mock(WizardDescriptor.class);
+        when(wizardMock.getProperty(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_VERBOSE)).thenReturn(true);
+        when(wizardMock.getProperty(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_COLOR)).thenReturn(false);
     }
     
     @Before
@@ -53,14 +55,5 @@ public class NewTestMainWizardIteratorTest
         
         assertEquals(Boolean.TRUE, params.get("enableVerbose"));
         assertEquals(Boolean.FALSE, params.get("enableColor"));
-    }
-    
-    private static WizardDescriptor createMock(boolean verbose, boolean color)
-    {
-        WizardDescriptor wiz = mock(WizardDescriptor.class);
-        when(wiz.getProperty(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_VERBOSE)).thenReturn(verbose);
-        when(wiz.getProperty(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_COLOR)).thenReturn(color);
-        
-        return wiz;
     }
 }

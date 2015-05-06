@@ -43,6 +43,7 @@ public class TestSupportUtilsTest
 {
     private static final String testCaseName = "testCase";
     private static final String testSuiteName = "TestSuite";
+    private static final String testSessionName = "TestSession";
     @Rule
     public ExpectedException exception = ExpectedException.none();
     private static TestSession testSessionMock;
@@ -61,7 +62,7 @@ public class TestSupportUtilsTest
     @Test
     public void testEnableNodeFactoryReplacesDefaultOne()
     {
-        final TestSession session = new TestSession("TestSession", projectMock, SessionType.TEST);
+        final TestSession session = new TestSession(testSessionName, projectMock, SessionType.TEST);
         TestSupportUtils.enableNodeFactory(session);
         assertTrue(session.getNodeFactory() instanceof TestRunnerUINodeFactory);
     }
@@ -70,7 +71,7 @@ public class TestSupportUtilsTest
     public void testEnableNodeFactoryKeepsCorrectOne()
     {
         final TestRunnerNodeFactory nodeFactory = new TestRunnerUINodeFactory();
-        final TestSession session = new TestSession("TestSession", projectMock, SessionType.TEST, nodeFactory);
+        final TestSession session = new TestSession(testSessionName, projectMock, SessionType.TEST, nodeFactory);
         TestSupportUtils.enableNodeFactory(session);
         assertSame(session.getNodeFactory(), nodeFactory);
     }
@@ -79,7 +80,7 @@ public class TestSupportUtilsTest
     @Test
     public void testAssertNodeFactoryThrowsForWrongInstance()
     {
-        final TestSession session = new TestSession("TestSession", projectMock, SessionType.TEST);
+        final TestSession session = new TestSession(testSessionName, projectMock, SessionType.TEST);
         exception.expect(IllegalStateException.class);
         TestSupportUtils.assertNodeFactory(session);
     }
@@ -88,7 +89,7 @@ public class TestSupportUtilsTest
     public void testAssertNodeFactoryAcceptsCorrectInstance()
     {
         final TestRunnerNodeFactory nodeFactory = new TestRunnerUINodeFactory();
-        final TestSession session = new TestSession("TestSession", projectMock, SessionType.TEST, nodeFactory);
+        final TestSession session = new TestSession(testSessionName, projectMock, SessionType.TEST, nodeFactory);
         TestSupportUtils.assertNodeFactory(session);
     }
 

@@ -33,6 +33,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 public class GoogleTestTestStartedHandlerTest
 {
+    private static final TestRunnerUINodeFactory nodeFactory = new TestRunnerUINodeFactory();
     private GoogleTestTestStartedHandler handler;
     
 
@@ -66,14 +67,19 @@ public class GoogleTestTestStartedHandlerTest
         Matcher m = handler.match(input);
         assertTrue(m.find());
 
-        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
-        TestSession session = mock(TestSession.class);
-        when(session.getNodeFactory()).thenReturn(factory);
-
+        TestSession session = createTestSessionMock(nodeFactory);
         handler.updateUI(null, session);
         
         verify(session).addTestCase(argThat(
                 new TestCaseArgumentMatcher("testCase", TestFramework.GOOGLETEST, session)));
+    }
+    
+    private static TestSession createTestSessionMock(TestRunnerUINodeFactory factory)
+    {
+        TestSession session = mock(TestSession.class);
+        when(session.getNodeFactory()).thenReturn(factory);
+        
+        return session;
     }
     
     

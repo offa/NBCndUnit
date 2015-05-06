@@ -59,7 +59,6 @@ public class NewTestMainWizardPanel1Test
         verify(wizardMock, never()).putProperty(anyString(), anyObject());
     }
 
-
     @Test
     public void testStoreSettingsWithNoCancelOptionAndValid()
     {
@@ -73,7 +72,6 @@ public class NewTestMainWizardPanel1Test
         verify(wizardMock).putProperty(eq(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_COLOR), anyObject());
     }
 
-
     @Test
     public void testStoreSettingsWithNoCancelOptionAndInvalid()
     {
@@ -86,7 +84,6 @@ public class NewTestMainWizardPanel1Test
         verify(wizardMock, never()).putProperty(anyString(), anyObject());
     }
 
-
     @Test
     public void testStoreSettingsWithCancelOption()
     {
@@ -95,7 +92,6 @@ public class NewTestMainWizardPanel1Test
         verify(wizardMock, atLeastOnce()).getValue();
         verifyNoMoreInteractions(wizardMock);
     }
-    
     
     @Test
     public void testGetHelpReturnsDefaultHelp()

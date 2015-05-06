@@ -36,6 +36,7 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
 
 public class GoogleTestTestFinishedHandlerTest
 {
+    private static final TestRunnerUINodeFactory nodeFactory = new TestRunnerUINodeFactory();
     @Rule
     public ExpectedException exception = ExpectedException.none();
     private GoogleTestTestFinishedHandler handler;
@@ -50,44 +51,44 @@ public class GoogleTestTestFinishedHandlerTest
     @Test
     public void testMatchesSuccessfulTestCase()
     {
-        assertTrue(handler.matches("[       OK ] TestSuite.testCase1 (0 ms)"));
+        assertTrue(handler.matches("[       OK ] TestSuite.testCase (0 ms)"));
     }
     
     @Test
     public void testMatchesFailedTestCase()
     {
-        assertTrue(handler.matches("[  FAILED  ] TestSuite.testCase2 (45 ms)"));
+        assertTrue(handler.matches("[  FAILED  ] TestSuite.testCase (45 ms)"));
     }
     
     @Test
     public void testRejectsUnknownTestCaseResult()
     {
-        assertFalse(handler.matches("[      UKN ] TestSuite.testCase1 (0 ms)"));
+        assertFalse(handler.matches("[      UKN ] TestSuite.testCase (0 ms)"));
     }
     
     @Test
     public void testParseDataSuccessfulTestCase()
     {
-        final String input = "[       OK ] TestSuite.testCase1 (0 ms)";
+        final String input = "[       OK ] TestSuite.testCase (0 ms)";
         Matcher m = handler.match(input);
         
         assertTrue(m.find());
         assertEquals("     OK", m.group(1));
         assertEquals("TestSuite", m.group(2));
-        assertEquals("testCase1", m.group(3));
+        assertEquals("testCase", m.group(3));
         assertEquals("0", m.group(4));
     }
     
     @Test
     public void testParseDataFailedTestCase()
     {
-        final String input = "[  FAILED  ] TestSuite.testCase2 (45 ms)";
+        final String input = "[  FAILED  ] TestSuite.testCase (45 ms)";
         Matcher m = handler.match(input);
         
         assertTrue(m.find());
         assertEquals("FAILED ", m.group(1));
         assertEquals("TestSuite", m.group(2));
-        assertEquals("testCase2", m.group(3));
+        assertEquals("testCase", m.group(3));
         assertEquals("45", m.group(4));
     }
     
@@ -98,9 +99,7 @@ public class GoogleTestTestFinishedHandlerTest
         Matcher m = handler.match(input);
         assertTrue(m.find());
 
-        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
-        TestSession session = mock(TestSession.class);
-        when(session.getNodeFactory()).thenReturn(factory);
+        TestSession session = createTestSessionMock(nodeFactory);
 
         exception.expect(IllegalStateException.class);
         handler.updateUI(null, session);
@@ -113,12 +112,9 @@ public class GoogleTestTestFinishedHandlerTest
         Matcher m = handler.match(input);
         assertTrue(m.find());
 
-        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
-        TestSession session = mock(TestSession.class);
-        Testcase testCase = new CndTestCase("testCaseWrong", TestFramework.CPPUTEST, session);
-        testCase.setClassName("SuiteName");
+        TestSession session = createTestSessionMock(nodeFactory);
+        Testcase testCase = createTestCase("TestSuite", "testCaseWrong", session);
         when(session.getCurrentTestCase()).thenReturn(testCase);
-        when(session.getNodeFactory()).thenReturn(factory);
 
         exception.expect(IllegalStateException.class);
         handler.updateUI(null, session);
@@ -131,12 +127,9 @@ public class GoogleTestTestFinishedHandlerTest
         Matcher m = handler.match(input);
         assertTrue(m.find());
 
-        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
-        TestSession session = mock(TestSession.class);
-        Testcase testCase = new CndTestCase("testName", TestFramework.CPPUTEST, session);
-        testCase.setClassName("TestSuiteWrong");
+        TestSession session = createTestSessionMock(nodeFactory);
+        Testcase testCase = createTestCase("TestSuiteWrong", "testCase", session);
         when(session.getCurrentTestCase()).thenReturn(testCase);
-        when(session.getNodeFactory()).thenReturn(factory);
 
         exception.expect(IllegalStateException.class);
         handler.updateUI(null, session);
@@ -149,12 +142,9 @@ public class GoogleTestTestFinishedHandlerTest
         Matcher m = handler.match(input);
         assertTrue(m.find());
 
-        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
-        TestSession session = mock(TestSession.class);
-        Testcase testCase = new CndTestCase("testCase", TestFramework.CPPUTEST, session);
-        testCase.setClassName("TestSuite");
+        TestSession session = createTestSessionMock(nodeFactory);
+        Testcase testCase = createTestCase("TestSuite", "testCase", session);
         when(session.getCurrentTestCase()).thenReturn(testCase);
-        when(session.getNodeFactory()).thenReturn(factory);
 
         handler.updateUI(null, session);
         
@@ -168,12 +158,9 @@ public class GoogleTestTestFinishedHandlerTest
         Matcher m = handler.match(input);
         assertTrue(m.find());
 
-        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
-        TestSession session = mock(TestSession.class);
-        Testcase testCase = new CndTestCase("testCase", TestFramework.CPPUTEST, session);
-        testCase.setClassName("TestSuite");
+        TestSession session = createTestSessionMock(nodeFactory);
+        Testcase testCase = createTestCase("TestSuite", "testCase", session);
         when(session.getCurrentTestCase()).thenReturn(testCase);
-        when(session.getNodeFactory()).thenReturn(factory);
 
         handler.updateUI(null, session);
         Trouble t = testCase.getTrouble();
@@ -190,13 +177,10 @@ public class GoogleTestTestFinishedHandlerTest
         Matcher m = handler.match(input);
         assertTrue(m.find());
 
-        TestRunnerUINodeFactory factory = new TestRunnerUINodeFactory();
-        TestSession session = mock(TestSession.class);
-        Testcase testCase = new CndTestCase("testCase", TestFramework.CPPUTEST, session);
-        testCase.setClassName("TestSuite");
+        TestSession session = createTestSessionMock(nodeFactory);
+        Testcase testCase = createTestCase("TestSuite", "testCase", session);
         testCase.setTrouble(new Trouble(false));
         when(session.getCurrentTestCase()).thenReturn(testCase);
-        when(session.getNodeFactory()).thenReturn(factory);
 
         handler.updateUI(null, session);
         Trouble t = testCase.getTrouble();
@@ -204,5 +188,21 @@ public class GoogleTestTestFinishedHandlerTest
         assertNotNull(t);
         assertTrue(t.isError());
         assertEquals("TestSuite:testCase", t.getStackTrace()[0]);
+    }
+    
+    private static TestSession createTestSessionMock(TestRunnerUINodeFactory factory)
+    {
+        TestSession session = mock(TestSession.class);
+        when(session.getNodeFactory()).thenReturn(factory);
+        
+        return session;
+    }
+    
+    private static CndTestCase createTestCase(String suiteName, String caseName, TestSession session)
+    {
+        CndTestCase testCase = new CndTestCase(caseName, TestFramework.CPPUTEST, session);
+        testCase.setClassName(suiteName);
+        
+        return testCase;
     }
 }
