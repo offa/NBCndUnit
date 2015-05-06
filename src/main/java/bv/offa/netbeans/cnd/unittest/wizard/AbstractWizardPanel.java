@@ -55,8 +55,8 @@ public abstract class AbstractWizardPanel implements WizardDescriptor.Panel<Wiza
     {
         this.changeSupport.addChangeListener(l);
     }
-
     
+
     /**
      * Removes the {@link ChangeListener ChangeListener}.
      * 
@@ -65,7 +65,7 @@ public abstract class AbstractWizardPanel implements WizardDescriptor.Panel<Wiza
     @Override
     public void removeChangeListener(ChangeListener l)
     {
-        this.changeSupport.addChangeListener(l);
+        this.changeSupport.removeChangeListener(l);
     }
 
 
@@ -104,5 +104,17 @@ public abstract class AbstractWizardPanel implements WizardDescriptor.Panel<Wiza
     protected String getMessageFromBundle(String key)
     {
         return NbBundle.getMessage(AbstractWizardPanel.class , key);
+    }
+    
+    
+    /**
+     * Returns whether there are {@code ChangeSupport}-listener.
+     * 
+     * @return  Returns {@code true} if there is at least one listener or
+     *          {@code none} if there is none
+     */
+    protected boolean hasChangeSupportListeners()
+    {
+        return changeSupport.hasListeners();
     }
 }
