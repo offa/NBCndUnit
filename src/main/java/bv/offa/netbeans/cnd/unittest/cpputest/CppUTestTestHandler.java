@@ -20,7 +20,6 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
-import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
@@ -59,9 +58,6 @@ class CppUTestTestHandler extends TestRecognizerHandler
     @Override
     public void updateUI(Manager mngr, TestSession ts)
     {
-        TestSupportUtils.enableNodeFactory(mngr);
-        TestSupportUtils.assertNodeFactory(mngr);
-        
         final String suiteName = matcher.group(2);
         TestSuite currentSuite = ts.getCurrentSuite();
 

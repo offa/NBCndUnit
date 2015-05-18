@@ -20,7 +20,6 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
-import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
@@ -49,8 +48,6 @@ class GoogleTestSuiteFinishedHandler extends TestRecognizerHandler
     @Override
     public void updateUI(Manager mngr, TestSession ts)
     {
-        TestSupportUtils.assertNodeFactory(mngr);
-        
         /*
          * Disabled since this causes an assert failure if a trouble is set.
          */
