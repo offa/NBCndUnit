@@ -61,6 +61,8 @@ public final class TestSupportUtils
      * @param mngr  Manager (can be {@code null})
      * @exception   IllegalStateException - if there's a different node factory
      *              set
+     * 
+     * @deprecated  Unnecessary by new API available
      */
     public static void assertNodeFactory(Manager mngr)
     {
@@ -90,6 +92,9 @@ public final class TestSupportUtils
      * 
      * @param mngr  Manager
      * @exception   RuntimeException - logs and rethrows previous exceptions
+     * 
+     * @deprecated  Will be replaced by an direct call from the
+     *              testhandler factory.
      */
     public static void enableNodeFactory(Manager mngr)
     {
