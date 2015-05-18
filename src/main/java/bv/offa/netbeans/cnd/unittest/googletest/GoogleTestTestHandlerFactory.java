@@ -20,11 +20,12 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
-import bv.offa.netbeans.cnd.unittest.api.AbstractTestHandlerFactory;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import java.util.ArrayList;
 import java.util.List;
+import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactory;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
+import org.netbeans.modules.gsf.testrunner.api.Manager;
 
 /**
  * The class {@code GoogleTestTestHandlerFactory} implements a factory for
@@ -32,15 +33,8 @@ import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
  * 
  * @author offa
  */
-public class GoogleTestTestHandlerFactory extends AbstractTestHandlerFactory
+public class GoogleTestTestHandlerFactory implements TestHandlerFactory
 {
-
-    public GoogleTestTestHandlerFactory()
-    {
-        super(TestFramework.GOOGLETEST.getName());
-    }
-    
-    
     
     /**
      * Creates handlers for the unit test output.
@@ -50,6 +44,8 @@ public class GoogleTestTestHandlerFactory extends AbstractTestHandlerFactory
     @Override
     public List<TestRecognizerHandler> createHandlers()
     {
+        Manager.getInstance().setTestingFramework(TestFramework.GOOGLETEST.getName());
+        
         List<TestRecognizerHandler> testHandler = new ArrayList<TestRecognizerHandler>();
         testHandler.add(new GoogleTestSuiteStartedHandler());
         testHandler.add(new GoogleTestSuiteFinishedHandler());
@@ -58,6 +54,18 @@ public class GoogleTestTestHandlerFactory extends AbstractTestHandlerFactory
         testHandler.add(new GoogleTestSessionFinishedHandler());
         
         return testHandler;
+    }
+    
+    
+    /**
+     * Returns whether a summary is printed.
+     * 
+     * @return  Always {@code true}
+     */
+    @Override
+    public boolean printSummary()
+    {
+        return true;
     }
     
 }

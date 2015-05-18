@@ -20,11 +20,12 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
-import bv.offa.netbeans.cnd.unittest.api.AbstractTestHandlerFactory;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import java.util.ArrayList;
 import java.util.List;
+import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactory;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
+import org.netbeans.modules.gsf.testrunner.api.Manager;
 
 /**
  * The class {@code CppUTestTestHandlerFactory} implements a factory for
@@ -32,16 +33,9 @@ import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
  * 
  * @author offa
  */
-public class CppUTestTestHandlerFactory extends AbstractTestHandlerFactory
+public class CppUTestTestHandlerFactory implements TestHandlerFactory
 {
 
-    public CppUTestTestHandlerFactory()
-    {
-        super(TestFramework.CPPUTEST.getName());
-    }
-    
-    
-    
     /**
      * Creates handlers for the unit test output.
      * 
@@ -50,6 +44,8 @@ public class CppUTestTestHandlerFactory extends AbstractTestHandlerFactory
     @Override
     public List<TestRecognizerHandler> createHandlers()
     {
+        Manager.getInstance().setTestingFramework(TestFramework.CPPUTEST.getName());
+        
         TestSessionInformation info = new TestSessionInformation();
 
         List<TestRecognizerHandler> testHandler = new ArrayList<TestRecognizerHandler>();
@@ -59,6 +55,18 @@ public class CppUTestTestHandlerFactory extends AbstractTestHandlerFactory
         testHandler.add(new CppUTestTimeHandler(info));
 
         return testHandler;
+    }
+    
+    
+    /**
+     * Returns whether a summary is printed.
+     * 
+     * @return  Always {@code true}
+     */
+    @Override
+    public boolean printSummary()
+    {
+        return true;
     }
     
 }
