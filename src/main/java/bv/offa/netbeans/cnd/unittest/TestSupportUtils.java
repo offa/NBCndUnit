@@ -23,7 +23,6 @@ package bv.offa.netbeans.cnd.unittest;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
-import java.lang.reflect.Field;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +32,7 @@ import org.netbeans.modules.cnd.api.model.CsmModelAccessor;
 import org.netbeans.modules.cnd.api.model.CsmProject;
 import org.netbeans.modules.cnd.modelutil.CsmUtilities;
 import org.netbeans.modules.gsf.testrunner.api.Status;
-import org.netbeans.modules.gsf.testrunner.api.TestSession;
+import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.openide.util.RequestProcessor;
 
 /**
@@ -56,19 +55,27 @@ public final class TestSupportUtils
      * Tests whether the correct node factory instance is set; if not, an
      * exception is thrown.
      * 
-     * @param ts    TestSession
+     * <p>It's safe to call this method with a {@code mngr} that's {@code null};
+     * in that case it does nothing.</p>
+     * 
+     * @param mngr  Manager (can be {@code null})
      * @exception   IllegalStateException - if there's a different node factory
      *              set
      */
-    public static void assertNodeFactory(TestSession ts)
+    public static void assertNodeFactory(Manager mngr)
     {
-        if( ts.getNodeFactory() instanceof TestRunnerUINodeFactory == false )
+        if( mngr == null )
+        {
+            return;
+        }
+        
+        if( mngr.getNodeFactory() instanceof TestRunnerUINodeFactory == false )
         {
             throw new IllegalStateException("Wrong node factory set (required: " 
                     + TestRunnerUINodeFactory.class.getName() 
-                    + ", current: " + ( ts.getNodeFactory() == null 
+                    + ", current: " + ( mngr.getNodeFactory() == null 
                                         ? null 
-                                        : ts.getNodeFactory().getClass().getName() )
+                                        : mngr.getNodeFactory().getClass().getName() )
                     + ")");
         }
     }
@@ -76,45 +83,19 @@ public final class TestSupportUtils
     
     /**
      * Enables a {@link TestRunnerUINodeFactory TestRunnerUINodeFactory} in the
-     * {@link TestSession TestSession}. This is done by replacing the previous
-     * set one.
+     * {@link Manager Manager}. This is done by replacing the previous one.
      * 
      * <p>If there's already a instance of {@code TestRunnerUINodeFactory},
      * this method does nothing.</p>
      * 
-     * @param ts    TestSession
+     * @param mngr  Manager
      * @exception   RuntimeException - logs and rethrows previous exceptions
      */
-    public static void enableNodeFactory(TestSession ts)
+    public static void enableNodeFactory(Manager mngr)
     {
-        if( ts.getNodeFactory() instanceof TestRunnerUINodeFactory == false )
+        if( mngr.getNodeFactory() instanceof TestRunnerUINodeFactory == false )
         {
-            try
-            {
-                Field nodeFactory = ts.getClass().getDeclaredField("nodeFactory");
-                nodeFactory.setAccessible(true);
-                nodeFactory.set(ts, new TestRunnerUINodeFactory());
-            }
-            catch( NoSuchFieldException ex )
-            {
-                logger.log(Level.WARNING, "Unable to set Node Factory", ex);
-                throw new RuntimeException(ex);
-            }
-            catch( SecurityException ex )
-            {
-                logger.log(Level.WARNING, "Unable to set Node Factory", ex);
-                throw new RuntimeException(ex);
-            }
-            catch( IllegalArgumentException ex )
-            {
-                logger.log(Level.WARNING, "Unable to set Node Factory", ex);
-                throw new RuntimeException(ex);
-            }
-            catch( IllegalAccessException ex )
-            {
-                logger.log(Level.WARNING, "Unable to set Node Factory", ex);
-                throw new RuntimeException(ex);
-            }
+            mngr.setNodeFactory(new TestRunnerUINodeFactory());
         }
     }
     

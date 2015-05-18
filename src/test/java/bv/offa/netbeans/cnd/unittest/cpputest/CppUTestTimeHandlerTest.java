@@ -22,7 +22,6 @@ package bv.offa.netbeans.cnd.unittest.cpputest;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
-import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -34,7 +33,6 @@ import org.netbeans.modules.gsf.testrunner.api.Testcase;
 public class CppUTestTimeHandlerTest
 {
     private static final TestSessionInformation dontCareInfo = new TestSessionInformation();
-    private static final TestRunnerUINodeFactory nodeFactory = new TestRunnerUINodeFactory();
     private CppUTestTimeHandler handler;
     
     
@@ -71,7 +69,7 @@ public class CppUTestTimeHandlerTest
         Matcher m = timeHandler.match(input);
         assertTrue(m.find());
         
-        TestSession session = createTestSessionMock(nodeFactory);
+        TestSession session = mock(TestSession.class);
         Testcase testCase = new CndTestCase("testCase", TestFramework.CPPUTEST, session);
         when(session.getCurrentTestCase()).thenReturn(testCase);
         
@@ -79,14 +77,6 @@ public class CppUTestTimeHandlerTest
         
         assertEquals(123L, info.getTimeTotal());
         assertEquals(123L, testCase.getTimeMillis());
-    }
-    
-    private static TestSession createTestSessionMock(TestRunnerUINodeFactory factory)
-    {
-        TestSession session = mock(TestSession.class);
-        when(session.getNodeFactory()).thenReturn(factory);
-        
-        return session;
     }
     
 }

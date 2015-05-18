@@ -22,7 +22,6 @@ package bv.offa.netbeans.cnd.unittest.googletest;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
-import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -33,7 +32,6 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 public class GoogleTestTestStartedHandlerTest
 {
-    private static final TestRunnerUINodeFactory nodeFactory = new TestRunnerUINodeFactory();
     private GoogleTestTestStartedHandler handler;
     
 
@@ -67,19 +65,11 @@ public class GoogleTestTestStartedHandlerTest
         Matcher m = handler.match(input);
         assertTrue(m.find());
 
-        TestSession session = createTestSessionMock(nodeFactory);
+        TestSession session = mock(TestSession.class);
         handler.updateUI(null, session);
         
         verify(session).addTestCase(argThat(
                 new TestCaseArgumentMatcher("testCase", TestFramework.GOOGLETEST, session)));
-    }
-    
-    private static TestSession createTestSessionMock(TestRunnerUINodeFactory factory)
-    {
-        TestSession session = mock(TestSession.class);
-        when(session.getNodeFactory()).thenReturn(factory);
-        
-        return session;
     }
     
     

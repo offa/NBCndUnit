@@ -24,7 +24,7 @@ import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
-import org.netbeans.modules.gsf.testrunner.api.Manager;
+import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.Testcase;
 
@@ -54,7 +54,7 @@ class GoogleTestTestStartedHandler extends TestRecognizerHandler
     @Override
     public void updateUI(Manager mngr, TestSession ts)
     {
-        TestSupportUtils.assertNodeFactory(ts);
+        TestSupportUtils.assertNodeFactory(mngr);
         
         final Testcase testcase = new CndTestCase(matcher.group(2), testFramework, ts);
         testcase.setClassName(matcher.group(1));

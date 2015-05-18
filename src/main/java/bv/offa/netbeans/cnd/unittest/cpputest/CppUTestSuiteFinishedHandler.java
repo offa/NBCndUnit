@@ -22,7 +22,7 @@ package bv.offa.netbeans.cnd.unittest.cpputest;
 
 import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
-import org.netbeans.modules.gsf.testrunner.api.Manager;
+import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 /**
@@ -52,7 +52,7 @@ class CppUTestSuiteFinishedHandler extends TestRecognizerHandler
     @Override
     public void updateUI(Manager mngr, TestSession ts)
     {
-        TestSupportUtils.assertNodeFactory(ts);
+        TestSupportUtils.assertNodeFactory(mngr);
         
         mngr.displayReport(ts, ts.getReport(info.getTimeTotal()));
         mngr.sessionFinished(ts);

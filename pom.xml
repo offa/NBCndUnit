@@ -14,7 +14,7 @@ Test templates are under "Unit Tests" file category.</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <nb.version>RELEASE80</nb.version>
+        <nb.version>dev-SNAPSHOT</nb.version>
     </properties>
 
     <build>
@@ -89,6 +89,12 @@ Test templates are under "Unit Tests" file category.</description>
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+        
+        <repository>
+            <id>netbeans-development</id>
+            <name>Repository hosting NetBeans development modules</name>
+            <url>http://bits.netbeans.org/nexus/content/repositories/snapshots/</url>
+        </repository>
     </repositories>
     <dependencies>
         <dependency>
@@ -104,6 +110,11 @@ Test templates are under "Unit Tests" file category.</description>
         <dependency>
             <groupId>org.netbeans.modules</groupId>
             <artifactId>org-netbeans-modules-gsf-testrunner</artifactId>
+            <version>${nb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.modules</groupId>
+            <artifactId>org-netbeans-modules-gsf-testrunner-ui</artifactId>
             <version>${nb.version}</version>
         </dependency>
         <dependency>
@@ -184,6 +195,11 @@ Test templates are under "Unit Tests" file category.</description>
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-text</artifactId>
+            <version>${nb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-util-ui</artifactId>
             <version>${nb.version}</version>
         </dependency>
         

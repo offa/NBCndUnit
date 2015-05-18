@@ -22,7 +22,6 @@ package bv.offa.netbeans.cnd.unittest.googletest;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
-import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -36,7 +35,6 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
 
 public class GoogleTestTestFinishedHandlerTest
 {
-    private static final TestRunnerUINodeFactory nodeFactory = new TestRunnerUINodeFactory();
     @Rule
     public ExpectedException exception = ExpectedException.none();
     private GoogleTestTestFinishedHandler handler;
@@ -99,7 +97,7 @@ public class GoogleTestTestFinishedHandlerTest
         Matcher m = handler.match(input);
         assertTrue(m.find());
 
-        TestSession session = createTestSessionMock(nodeFactory);
+        TestSession session = mock(TestSession.class);
 
         exception.expect(IllegalStateException.class);
         handler.updateUI(null, session);
@@ -112,7 +110,7 @@ public class GoogleTestTestFinishedHandlerTest
         Matcher m = handler.match(input);
         assertTrue(m.find());
 
-        TestSession session = createTestSessionMock(nodeFactory);
+        TestSession session = mock(TestSession.class);
         Testcase testCase = createTestCase("TestSuite", "testCaseWrong", session);
         when(session.getCurrentTestCase()).thenReturn(testCase);
 
@@ -127,7 +125,7 @@ public class GoogleTestTestFinishedHandlerTest
         Matcher m = handler.match(input);
         assertTrue(m.find());
 
-        TestSession session = createTestSessionMock(nodeFactory);
+        TestSession session = mock(TestSession.class);
         Testcase testCase = createTestCase("TestSuiteWrong", "testCase", session);
         when(session.getCurrentTestCase()).thenReturn(testCase);
 
@@ -142,7 +140,7 @@ public class GoogleTestTestFinishedHandlerTest
         Matcher m = handler.match(input);
         assertTrue(m.find());
 
-        TestSession session = createTestSessionMock(nodeFactory);
+        TestSession session = mock(TestSession.class);
         Testcase testCase = createTestCase("TestSuite", "testCase", session);
         when(session.getCurrentTestCase()).thenReturn(testCase);
 
@@ -158,7 +156,7 @@ public class GoogleTestTestFinishedHandlerTest
         Matcher m = handler.match(input);
         assertTrue(m.find());
 
-        TestSession session = createTestSessionMock(nodeFactory);
+        TestSession session = mock(TestSession.class);
         Testcase testCase = createTestCase("TestSuite", "testCase", session);
         when(session.getCurrentTestCase()).thenReturn(testCase);
 
@@ -177,7 +175,7 @@ public class GoogleTestTestFinishedHandlerTest
         Matcher m = handler.match(input);
         assertTrue(m.find());
 
-        TestSession session = createTestSessionMock(nodeFactory);
+        TestSession session = mock(TestSession.class);
         Testcase testCase = createTestCase("TestSuite", "testCase", session);
         testCase.setTrouble(new Trouble(false));
         when(session.getCurrentTestCase()).thenReturn(testCase);
@@ -188,14 +186,6 @@ public class GoogleTestTestFinishedHandlerTest
         assertNotNull(t);
         assertTrue(t.isError());
         assertEquals("TestSuite:testCase", t.getStackTrace()[0]);
-    }
-    
-    private static TestSession createTestSessionMock(TestRunnerUINodeFactory factory)
-    {
-        TestSession session = mock(TestSession.class);
-        when(session.getNodeFactory()).thenReturn(factory);
-        
-        return session;
     }
     
     private static CndTestCase createTestCase(String suiteName, String caseName, TestSession session)

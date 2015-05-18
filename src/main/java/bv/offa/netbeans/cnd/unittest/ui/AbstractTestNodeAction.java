@@ -22,7 +22,7 @@ package bv.offa.netbeans.cnd.unittest.ui;
 
 import javax.swing.Action;
 import org.netbeans.api.project.Project;
-import org.netbeans.modules.gsf.testrunner.api.TestNodeAction;
+import org.netbeans.modules.gsf.testrunner.ui.api.TestNodeAction;
 
 /**
  * The class {@code AbstractTestNodeAction} is the base for test node actions.
