@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,7 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
     @Override
     public List<TestRecognizerHandler> createHandlers()
     {
+        Manager.getInstance().setTestingFramework(TestFramework.GOOGLETEST.getName());
         Manager.getInstance().setNodeFactory(new TestRunnerUINodeFactory());
         
         List<TestRecognizerHandler> testHandler = new ArrayList<TestRecognizerHandler>();
