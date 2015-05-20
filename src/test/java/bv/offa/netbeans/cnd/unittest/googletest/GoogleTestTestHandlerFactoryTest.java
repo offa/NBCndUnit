@@ -20,12 +20,10 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
-import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactory;
-import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 
 public class GoogleTestTestHandlerFactoryTest
 {
