@@ -20,10 +20,12 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactory;
+import org.netbeans.modules.gsf.testrunner.api.Manager;
 
 public class CppUTestTestHandlerFactoryTest
 {
@@ -46,6 +48,15 @@ public class CppUTestTestHandlerFactoryTest
     public void testCreateHandlersContainsHandlers()
     {
         assertEquals(4, factory.createHandlers().size());
+    }
+    
+    @Test
+    public void testCreateHandlersSetsFrameworkName()
+    {
+        factory.createHandlers();
+        
+        assertEquals(TestFramework.CPPUTEST.getName(), 
+                Manager.getInstance().getTestingFramework());
     }
     
 }

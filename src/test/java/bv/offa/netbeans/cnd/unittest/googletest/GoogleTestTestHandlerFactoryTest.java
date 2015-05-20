@@ -20,10 +20,12 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactory;
+import org.netbeans.modules.gsf.testrunner.api.Manager;
 
 public class GoogleTestTestHandlerFactoryTest
 {
@@ -46,6 +48,15 @@ public class GoogleTestTestHandlerFactoryTest
     public void testCreateHandlersContainsHandlers()
     {
         assertEquals(5, factory.createHandlers().size());
+    }
+    
+    @Test
+    public void testCreateHandlersSetsFrameworkName()
+    {
+        factory.createHandlers();
+        
+        assertEquals(TestFramework.GOOGLETEST.getName(), 
+                Manager.getInstance().getTestingFramework());
     }
     
 }
