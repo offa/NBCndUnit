@@ -93,7 +93,7 @@ public final class TestSupportUtils
      * @param mngr  Manager
      * @exception   RuntimeException - logs and rethrows previous exceptions
      * 
-     * @deprecated  Will be replaced by an direct call from the
+     * @deprecated  Will be replaced by a direct call from the
      *              testhandler factory.
      */
     public static void enableNodeFactory(Manager mngr)
