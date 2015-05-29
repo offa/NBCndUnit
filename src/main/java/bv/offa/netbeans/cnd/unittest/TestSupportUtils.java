@@ -64,6 +64,7 @@ public final class TestSupportUtils
      * 
      * @deprecated  Unnecessary by new API available
      */
+    @Deprecated
     public static void assertNodeFactory(Manager mngr)
     {
         if( mngr == null )
@@ -96,6 +97,7 @@ public final class TestSupportUtils
      * @deprecated  Will be replaced by a direct call from the
      *              testhandler factory.
      */
+    @Deprecated
     public static void enableNodeFactory(Manager mngr)
     {
         if( mngr.getNodeFactory() instanceof TestRunnerUINodeFactory == false )
