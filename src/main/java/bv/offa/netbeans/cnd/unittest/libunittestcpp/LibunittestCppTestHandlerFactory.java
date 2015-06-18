@@ -67,35 +67,4 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
         return true;
     }
     
-    
-    /**
-     * Parses the input string - containing a seconds time - to milliseconds.
-     * The value is rounded.
-     * 
-     * @param str   Input string (sec)
-     * @return      Time in ms or {@code 0L} if an invalid or negative time is
-     *              passed
-     */
-    static long parseSecTimeToMillis(String str)
-    {
-        long result = 0L;
-        
-        try
-        {
-            final double value = Double.parseDouble(str) * 1000.0;
-            
-            if( Math.signum(value) > 0 )
-            {
-                result = Math.round(value);
-            }
-            
-        }
-        catch( NumberFormatException ex )
-        {
-            result = 0L;
-        }
-        
-        return result;
-    }
-    
 }
