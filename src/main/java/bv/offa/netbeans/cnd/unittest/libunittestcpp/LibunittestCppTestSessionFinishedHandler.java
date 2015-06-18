@@ -36,7 +36,7 @@ class LibunittestCppTestSessionFinishedHandler extends TestRecognizerHandler
 
     public LibunittestCppTestSessionFinishedHandler()
     {
-        super("^Ran [0-9]+? tests in ([0-9].+?)s$", true); //NOI18N
+        super("^Ran [0-9]+? tests in ([0-9].+?)s$", true);
     }
 
 

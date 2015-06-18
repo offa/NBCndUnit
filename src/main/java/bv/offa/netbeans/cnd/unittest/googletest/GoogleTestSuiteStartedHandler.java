@@ -41,7 +41,7 @@ class GoogleTestSuiteStartedHandler extends TestRecognizerHandler
     
     public GoogleTestSuiteStartedHandler()
     {
-        super("^.*?\\[[-]{10}\\].*? [0-9]+? tests?? from ([^ ]+?)$", true); //NOI18N
+        super("^.*?\\[[-]{10}\\].*? [0-9]+? tests?? from ([^ ]+?)$", true);
     }
 
 
