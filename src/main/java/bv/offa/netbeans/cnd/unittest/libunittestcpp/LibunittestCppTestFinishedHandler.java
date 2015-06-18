@@ -94,7 +94,7 @@ class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
         final String testName = normalise(matcher.group(2));
         Testcase testCase = new CndTestCase(testName, testFramework, ts);
         testCase.setClassName(suiteName);
-        testCase.setTimeMillis(LibunittestCppTestHandlerFactory.parseSecTimeToMillis(matcher.group(3)));
+        testCase.setTimeMillis(TestSupportUtils.parseTimeSecToMillis(matcher.group(3)));
 
         final String result = matcher.group(4);
 

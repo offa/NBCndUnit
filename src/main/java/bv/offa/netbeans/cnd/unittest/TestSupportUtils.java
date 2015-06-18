@@ -25,6 +25,7 @@ import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import java.lang.reflect.Field;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.netbeans.api.project.Project;
@@ -50,6 +51,38 @@ public final class TestSupportUtils
     {
         /* Empty */
     }
+    
+    
+    
+    /**
+     * Parses the input string - containing a seconds time - to milliseconds.
+     * The value is rounded.
+     * 
+     * @param str   Input string (sec)
+     * @return      Time in ms or {@code 0L} if an invalid or negative time is
+     *               passed
+     */
+    public static long parseTimeSecToMillis(String str)
+    {
+        long result = 0L;
+        
+        try
+        {
+            final double value = Double.parseDouble(str) * 1000.0;
+            
+            if( Math.signum(value) > 0 )
+            {
+                result = Math.round(value);
+            }
+        }
+        catch( NumberFormatException ex )
+        {
+            result = 0L;
+        }
+        
+        return result;
+    }
+    
 
     
     /**

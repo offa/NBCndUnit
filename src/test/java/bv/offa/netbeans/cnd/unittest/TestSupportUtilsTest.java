@@ -59,6 +59,45 @@ public class TestSupportUtilsTest
         when(projectMock.getLookup()).thenReturn(Lookup.EMPTY);
     }
     
+    
+    
+    @Test
+    public void testParseTimeToMillis()
+    {
+        assertEquals(12345000L, parseMs("12345.0"));
+        assertEquals(67890000L, parseMs("67890"));
+        assertEquals(3000L, parseMs("3"));
+        assertEquals(100L, parseMs("0.100471"));
+        assertEquals(477100L, parseMs("477.100486"));
+        assertEquals(101L, parseMs("0.1005"));
+        assertEquals(12000L, parseMs("12.00"));
+        assertEquals(10L, parseMs("0.01"));
+        assertEquals(0L, parseMs("0.0"));
+        assertEquals(0L, parseMs("2.646e-05"));
+        assertEquals(4L, parseMs("427.4272e-05"));
+        assertEquals(74L, parseMs("7.4272e-02"));
+        assertEquals(320000L, parseMs("3.2e02"));
+        assertEquals(0L, parseMs("0.000144571"));
+        assertEquals(1L, parseMs("0.00144571"));
+        assertEquals(234L, parseMs("0.234108"));
+    }
+    
+    @Test
+    public void testParseTimeToMillisWithInvalidInput()
+    {
+        assertEquals(0L, parseMs("-7.4272e-02"));
+        assertEquals(0L, parseMs("-0.100471"));
+        assertEquals(0L, parseMs("-477.100486"));
+        assertEquals(0L, parseMs("7.4272b-02"));
+        assertEquals(0L, parseMs("7.4272e"));
+        assertEquals(0L, parseMs(""));
+    }
+    
+    private long parseMs(String timeSec)
+    {
+        return TestSupportUtils.parseTimeSecToMillis(timeSec);
+    }
+    
     @Test
     public void testEnableNodeFactoryReplacesDefaultOne()
     {

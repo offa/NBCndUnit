@@ -52,7 +52,7 @@ class LibunittestCppTestSessionFinishedHandler extends TestRecognizerHandler
     {
         TestSupportUtils.assertNodeFactory(ts);
         
-        final long time = LibunittestCppTestHandlerFactory.parseSecTimeToMillis(matcher.group(1));
+        final long time = TestSupportUtils.parseTimeSecToMillis(matcher.group(1));
         mngr.displayReport(ts, ts.getReport(time));
         mngr.sessionFinished(ts);
     }
