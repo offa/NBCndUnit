@@ -40,7 +40,7 @@ public class LibunittestCppTestFinishedHandlerTest
     public void testMatchesSuccessfulTest()
     {
         assertTrue(handler.matches("test_name::testA ... [1.551e-05s] ok"));
-        assertTrue(handler.matches("test_name::testB ... [0.000108249s] FAIL"));
+        assertTrue(handler.matches("test_name::testB ... [0.000108249s] ok"));
         assertTrue(handler.matches("test_name::testC ... [477.100486s] ok"));
         assertTrue(handler.matches("test_suite::test_name::test_case ... [9.217e-06s] ok"));
     }
