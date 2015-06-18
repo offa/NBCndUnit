@@ -39,7 +39,7 @@ class CppUTestErrorHandler extends TestRecognizerHandler
 
     public CppUTestErrorHandler(TestSessionInformation info)
     {
-        super("^(.+?)\\:([0-9]+?)\\: error\\: Failure in TEST\\(([^, ]+?), ([^, ]+?)\\)$", true); //NOI18N
+        super("^(.+?)\\:([0-9]+?)\\: error\\: Failure in TEST\\(([^, ]+?), ([^, ]+?)\\)$", true);
         this.info = info;
     }
 

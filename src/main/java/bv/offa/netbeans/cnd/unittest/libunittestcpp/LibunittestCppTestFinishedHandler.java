@@ -40,14 +40,14 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
 class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
 {
     private static final TestFramework testFramework = TestFramework.LIBUNITTESTCPP;
-    private static final String MSG_OK = "ok"; //NOI18N
-    private static final String MSG_FAILED = "FAIL"; //NOI18N
-    private static final String MSG_SKIP = "SKIP"; //NOI18N
+    private static final String MSG_OK = "ok";
+    private static final String MSG_FAILED = "FAIL";
+    private static final String MSG_SKIP = "SKIP";
 
 
     public LibunittestCppTestFinishedHandler()
     {
-        super("^(.+?)::(.+?) \\.{3} \\[([0-9].*?)s\\] (ok|FAIL|SKIP).*?$", true); //NOI18N
+        super("^(.+?)::(.+?) \\.{3} \\[([0-9].*?)s\\] (ok|FAIL|SKIP).*?$", true);
     }
 
 
@@ -109,7 +109,7 @@ class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
         }
         else
         {
-            throw new IllegalStateException("Unknown result: <" + result + ">"); //NOI18N
+            throw new IllegalStateException("Unknown result: <" + result + ">");
         }
 
         ts.addTestCase(testCase);

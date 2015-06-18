@@ -36,7 +36,7 @@ class CppUTestSuiteFinishedHandler extends TestRecognizerHandler
 
     public CppUTestSuiteFinishedHandler(TestSessionInformation info)
     {
-        super("(\u001B\\[[;\\d]*m)?(Errors|OK) \\([0-9]+?.+?\\)(\u001B\\[[;\\d]*m)?$", true); //NOI18N
+        super("(\u001B\\[[;\\d]*m)?(Errors|OK) \\([0-9]+?.+?\\)(\u001B\\[[;\\d]*m)?$", true);
         this.info = info;
     }
 

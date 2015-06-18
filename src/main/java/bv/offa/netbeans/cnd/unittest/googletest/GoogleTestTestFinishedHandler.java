@@ -35,13 +35,13 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
  */
 class GoogleTestTestFinishedHandler extends TestRecognizerHandler
 {
-    private static final String MSG_OK = "     OK"; //NOI18N
-    private static final String MSG_FAILED = "FAILED "; //NOI18N
+    private static final String MSG_OK = "     OK";
+    private static final String MSG_FAILED = "FAILED ";
 
 
     public GoogleTestTestFinishedHandler()
     {
-        super("^.*?\\[  (     OK|FAILED ) \\].*? (.+?)\\.(.+?) \\(([0-9]+?) ms\\)$", true); //NOI18N
+        super("^.*?\\[  (     OK|FAILED ) \\].*? (.+?)\\.(.+?) \\(([0-9]+?) ms\\)$", true);
     }
 
 
@@ -90,7 +90,7 @@ class GoogleTestTestFinishedHandler extends TestRecognizerHandler
             }
             else
             {
-                throw new IllegalStateException("Unknown result: <" + result + ">"); //NOI18N
+                throw new IllegalStateException("Unknown result: <" + result + ">");
             }
         }
         else

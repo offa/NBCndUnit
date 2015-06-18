@@ -43,7 +43,7 @@ class CppUTestTestHandler extends TestRecognizerHandler
 
     public CppUTestTestHandler(TestSessionInformation info)
     {
-        super("^(IGNORE_)??TEST\\(([^, ]+?), ([^, ]+?)\\)( \\- ([0-9]+?) ms)?$", true); //NOI18N
+        super("^(IGNORE_)??TEST\\(([^, ]+?), ([^, ]+?)\\)( \\- ([0-9]+?) ms)?$", true);
         this.info = info;
     }
 
