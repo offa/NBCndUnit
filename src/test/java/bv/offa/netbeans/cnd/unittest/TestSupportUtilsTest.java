@@ -96,12 +96,6 @@ public class TestSupportUtilsTest
     }
     
     @Test
-    public void testAssertNodeFactoryNullSafe()
-    {
-        TestSupportUtils.assertNodeFactory(null);
-    }
-
-    @Test
     public void testGetUniqueDeclaratonNameTestCaseCppUTest()
     {
         CndTestCase testCase = new CndTestCase(testCaseName, TestFramework.CPPUTEST, testSessionMock);
