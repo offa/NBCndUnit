@@ -80,64 +80,7 @@ public final class TestSupportUtils
         
         return result;
     }
-    
 
-    
-    /**
-     * Tests whether the correct node factory instance is set; if not, an
-     * exception is thrown.
-     * 
-     * <p>It's safe to call this method with a {@code mngr} that's {@code null};
-     * in that case it does nothing.</p>
-     * 
-     * @param mngr  Manager (can be {@code null})
-     * @exception   IllegalStateException - if there's a different node factory
-     *              set
-     * 
-     * @deprecated  Unnecessary by new API available
-     */
-    @Deprecated
-    public static void assertNodeFactory(Manager mngr)
-    {
-        if( mngr == null )
-        {
-            return;
-        }
-        
-        if( mngr.getNodeFactory() instanceof TestRunnerUINodeFactory == false )
-        {
-            throw new IllegalStateException("Wrong node factory set (required: " 
-                    + TestRunnerUINodeFactory.class.getName() 
-                    + ", current: " + ( mngr.getNodeFactory() == null 
-                                        ? null 
-                                        : mngr.getNodeFactory().getClass().getName() )
-                    + ")");
-        }
-    }
-    
-    
-    /**
-     * Enables a {@link TestRunnerUINodeFactory TestRunnerUINodeFactory} in the
-     * {@link Manager Manager}. This is done by replacing the previous one.
-     * 
-     * <p>If there's already a instance of {@code TestRunnerUINodeFactory},
-     * this method does nothing.</p>
-     * 
-     * @param mngr  Manager
-     * @exception   RuntimeException - logs and rethrows previous exceptions
-     * 
-     * @deprecated  Will be replaced by a direct call from the
-     *              testhandler factory.
-     */
-    @Deprecated
-    public static void enableNodeFactory(Manager mngr)
-    {
-        if( mngr.getNodeFactory() instanceof TestRunnerUINodeFactory == false )
-        {
-            mngr.setNodeFactory(new TestRunnerUINodeFactory());
-        }
-    }
-    
     
     /**
      * Executes a Go-To-Source to the given TestSuite. If the jump target isn't 
