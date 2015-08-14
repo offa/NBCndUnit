@@ -14,7 +14,7 @@ Test templates are under "Unit Tests" file category.</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <nb.version>dev-SNAPSHOT</nb.version>
+        <nb.version>RELEASE81-BETA</nb.version>
     </properties>
 
     <build>
