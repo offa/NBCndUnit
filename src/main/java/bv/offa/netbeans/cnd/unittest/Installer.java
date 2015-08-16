@@ -22,6 +22,8 @@ package bv.offa.netbeans.cnd.unittest;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import org.openide.modules.ModuleInfo;
@@ -43,13 +45,15 @@ public class Installer extends ModuleInstall
     public Installer()
     {
         this.targetModules = new HashSet<String>();
-        this.targetModules.add("org.netbeans.modules.gsf.testrunner");
-        this.targetModules.add("org.netbeans.modules.cnd.testrunner");
-        this.targetModules.add("org.netbeans.modules.cnd.modelutil");
-        this.targetModules.add("org.netbeans.modules.cnd.makeproject");
-        this.targetModules.add("org.netbeans.modules.cnd.api.model");
-        this.targetModules.add("org.netbeans.modules.cnd");
-        this.targetModules.add("org.netbeans.modules.cnd.utils");
+        this.targetModules.addAll(Arrays.asList(
+                "org.netbeans.modules.cnd.testrunner",
+                "org.netbeans.modules.gsf.testrunner",
+                "org.netbeans.modules.gsf.testrunner.ui",
+                "org.netbeans.modules.cnd.modelutil",
+                "org.netbeans.modules.cnd.makeproject",
+                "org.netbeans.modules.cnd.api.model",
+                "org.netbeans.modules.cnd",
+                "org.netbeans.modules.cnd.utils"));
     }
 
     
@@ -69,6 +73,17 @@ public class Installer extends ModuleInstall
         {
             addFriends();
         }
+    }
+    
+    
+    /**
+     * Returns the friend modules which are set by this installer.
+     * 
+     * @return  Friend modules
+     */
+    protected Collection<String> getTargetModules()
+    {
+        return targetModules;
     }
     
     

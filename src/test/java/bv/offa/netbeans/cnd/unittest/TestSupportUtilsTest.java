@@ -23,7 +23,6 @@ package bv.offa.netbeans.cnd.unittest;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
-import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
@@ -33,9 +32,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.netbeans.api.project.Project;
 import org.netbeans.modules.gsf.testrunner.api.Status;
-import org.netbeans.modules.gsf.testrunner.api.TestRunnerNodeFactory;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
-import org.netbeans.modules.gsf.testrunner.api.TestSession.SessionType;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Lookup;
 
@@ -98,40 +95,6 @@ public class TestSupportUtilsTest
         return TestSupportUtils.parseTimeSecToMillis(timeSec);
     }
     
-    @Test
-    public void testEnableNodeFactoryReplacesDefaultOne()
-    {
-        final TestSession session = new TestSession(testSessionName, projectMock, SessionType.TEST);
-        TestSupportUtils.enableNodeFactory(session);
-        assertTrue(session.getNodeFactory() instanceof TestRunnerUINodeFactory);
-    }
-    
-    @Test
-    public void testEnableNodeFactoryKeepsCorrectOne()
-    {
-        final TestRunnerNodeFactory nodeFactory = new TestRunnerUINodeFactory();
-        final TestSession session = new TestSession(testSessionName, projectMock, SessionType.TEST, nodeFactory);
-        TestSupportUtils.enableNodeFactory(session);
-        assertSame(session.getNodeFactory(), nodeFactory);
-    }
-    
-    
-    @Test
-    public void testAssertNodeFactoryThrowsForWrongInstance()
-    {
-        final TestSession session = new TestSession(testSessionName, projectMock, SessionType.TEST);
-        exception.expect(IllegalStateException.class);
-        TestSupportUtils.assertNodeFactory(session);
-    }
-
-    @Test
-    public void testAssertNodeFactoryAcceptsCorrectInstance()
-    {
-        final TestRunnerNodeFactory nodeFactory = new TestRunnerUINodeFactory();
-        final TestSession session = new TestSession(testSessionName, projectMock, SessionType.TEST, nodeFactory);
-        TestSupportUtils.assertNodeFactory(session);
-    }
-
     @Test
     public void testGetUniqueDeclaratonNameTestCaseCppUTest()
     {

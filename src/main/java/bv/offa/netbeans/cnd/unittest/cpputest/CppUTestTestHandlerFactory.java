@@ -21,11 +21,12 @@
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import java.util.ArrayList;
 import java.util.List;
 import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactory;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
-import org.netbeans.modules.gsf.testrunner.api.Manager;
+import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 
 /**
  * The class {@code CppUTestTestHandlerFactory} implements a factory for
@@ -44,6 +45,7 @@ public class CppUTestTestHandlerFactory implements TestHandlerFactory
     @Override
     public List<TestRecognizerHandler> createHandlers()
     {
+        Manager.getInstance().setNodeFactory(new TestRunnerUINodeFactory());
         Manager.getInstance().setTestingFramework(TestFramework.CPPUTEST.getName());
         
         TestSessionInformation info = new TestSessionInformation();

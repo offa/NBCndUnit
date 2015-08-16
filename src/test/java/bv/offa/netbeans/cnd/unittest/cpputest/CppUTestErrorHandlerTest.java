@@ -22,7 +22,6 @@ package bv.offa.netbeans.cnd.unittest.cpputest;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
-import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -34,7 +33,6 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
 
 public class CppUTestErrorHandlerTest
 {
-    private static final TestRunnerUINodeFactory nodeFactory = new TestRunnerUINodeFactory();
     private static final TestSessionInformation dontCareInfo = new TestSessionInformation();
     private CppUTestErrorHandler handler;
     
@@ -73,7 +71,7 @@ public class CppUTestErrorHandlerTest
         Matcher m = handler.match(input);
         assertTrue(m.find());
         
-        TestSession session = createTestSessionMock(nodeFactory);
+        TestSession session = mock(TestSession.class);
         Testcase testCase = null;
         when(session.getCurrentTestCase()).thenReturn(testCase);
         
@@ -87,7 +85,7 @@ public class CppUTestErrorHandlerTest
         Matcher m = handler.match(input);
         assertTrue(m.find());
 
-        TestSession session = createTestSessionMock(nodeFactory);
+        TestSession session = mock(TestSession.class);
         Testcase testCase = createTestCase("TestSuite", "wrongTestCase", session);
         when(session.getCurrentTestCase()).thenReturn(testCase);
 
@@ -104,7 +102,7 @@ public class CppUTestErrorHandlerTest
         Matcher m = handler.match(input);
         assertTrue(m.find());
 
-        TestSession session = createTestSessionMock(nodeFactory);
+        TestSession session = mock(TestSession.class);
         Testcase testCase = createTestCase("WrongTestSuite", "testCase", session);
         when(session.getCurrentTestCase()).thenReturn(testCase);
 
@@ -120,7 +118,7 @@ public class CppUTestErrorHandlerTest
         Matcher m = handler.match(input);
         assertTrue(m.find());
 
-        TestSession session = createTestSessionMock(nodeFactory);
+        TestSession session = mock(TestSession.class);
         Testcase testCase = createTestCase("TestSuite", "testCase", session);
         when(session.getCurrentTestCase()).thenReturn(testCase);
 
@@ -139,7 +137,7 @@ public class CppUTestErrorHandlerTest
         Matcher m = handler.match(input);
         assertTrue(m.find());
 
-        TestSession session = createTestSessionMock(nodeFactory);
+        TestSession session = mock(TestSession.class);
         Testcase testCase = createTestCase("TestSuite", "testCase", session);
         testCase.setTrouble(new Trouble(false));
         when(session.getCurrentTestCase()).thenReturn(testCase);
@@ -150,14 +148,6 @@ public class CppUTestErrorHandlerTest
         assertNotNull(t);
         assertTrue(t.isError());
         assertEquals("test/TestSuite.cpp:37", t.getStackTrace()[0]);
-    }
-    
-    private static TestSession createTestSessionMock(TestRunnerUINodeFactory factory)
-    {
-        TestSession session = mock(TestSession.class);
-        when(session.getNodeFactory()).thenReturn(factory);
-        
-        return session;
     }
     
     

@@ -23,7 +23,6 @@ package bv.offa.netbeans.cnd.unittest;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
-import java.lang.reflect.Field;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +32,7 @@ import org.netbeans.modules.cnd.api.model.CsmModelAccessor;
 import org.netbeans.modules.cnd.api.model.CsmProject;
 import org.netbeans.modules.cnd.modelutil.CsmUtilities;
 import org.netbeans.modules.gsf.testrunner.api.Status;
-import org.netbeans.modules.gsf.testrunner.api.TestSession;
+import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.openide.util.RequestProcessor;
 
 /**
@@ -81,75 +80,7 @@ public final class TestSupportUtils
         
         return result;
     }
-    
 
-    
-    /**
-     * Tests whether the correct node factory instance is set; if not, an
-     * exception is thrown.
-     * 
-     * @param ts    TestSession
-     * @exception   IllegalStateException - if there's a different node factory
-     *              set
-     */
-    public static void assertNodeFactory(TestSession ts)
-    {
-        if( ts.getNodeFactory() instanceof TestRunnerUINodeFactory == false )
-        {
-            throw new IllegalStateException("Wrong node factory set (required: " 
-                    + TestRunnerUINodeFactory.class.getName() 
-                    + ", current: " + ( ts.getNodeFactory() == null 
-                                        ? null 
-                                        : ts.getNodeFactory().getClass().getName() )
-                    + ")");
-        }
-    }
-    
-    
-    /**
-     * Enables a {@link TestRunnerUINodeFactory TestRunnerUINodeFactory} in the
-     * {@link TestSession TestSession}. This is done by replacing the previous
-     * set one.
-     * 
-     * <p>If there's already a instance of {@code TestRunnerUINodeFactory},
-     * this method does nothing.</p>
-     * 
-     * @param ts    TestSession
-     * @exception   RuntimeException - logs and rethrows previous exceptions
-     */
-    public static void enableNodeFactory(TestSession ts)
-    {
-        if( ts.getNodeFactory() instanceof TestRunnerUINodeFactory == false )
-        {
-            try
-            {
-                Field nodeFactory = ts.getClass().getDeclaredField("nodeFactory");
-                nodeFactory.setAccessible(true);
-                nodeFactory.set(ts, new TestRunnerUINodeFactory());
-            }
-            catch( NoSuchFieldException ex )
-            {
-                logger.log(Level.WARNING, "Unable to set Node Factory", ex);
-                throw new RuntimeException(ex);
-            }
-            catch( SecurityException ex )
-            {
-                logger.log(Level.WARNING, "Unable to set Node Factory", ex);
-                throw new RuntimeException(ex);
-            }
-            catch( IllegalArgumentException ex )
-            {
-                logger.log(Level.WARNING, "Unable to set Node Factory", ex);
-                throw new RuntimeException(ex);
-            }
-            catch( IllegalAccessException ex )
-            {
-                logger.log(Level.WARNING, "Unable to set Node Factory", ex);
-                throw new RuntimeException(ex);
-            }
-        }
-    }
-    
     
     /**
      * Executes a Go-To-Source to the given TestSuite. If the jump target isn't 

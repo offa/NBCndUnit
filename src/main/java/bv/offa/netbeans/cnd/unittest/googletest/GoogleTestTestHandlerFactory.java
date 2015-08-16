@@ -21,11 +21,12 @@
 package bv.offa.netbeans.cnd.unittest.googletest;
 
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import java.util.ArrayList;
 import java.util.List;
 import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactory;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
-import org.netbeans.modules.gsf.testrunner.api.Manager;
+import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 
 /**
  * The class {@code GoogleTestTestHandlerFactory} implements a factory for
@@ -45,6 +46,7 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
     public List<TestRecognizerHandler> createHandlers()
     {
         Manager.getInstance().setTestingFramework(TestFramework.GOOGLETEST.getName());
+        Manager.getInstance().setNodeFactory(new TestRunnerUINodeFactory());
         
         List<TestRecognizerHandler> testHandler = new ArrayList<TestRecognizerHandler>();
         testHandler.add(new GoogleTestSuiteStartedHandler());

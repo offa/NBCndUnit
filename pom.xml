@@ -14,7 +14,7 @@ Test templates are under "Unit Tests" file category.</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <nb.version>RELEASE80</nb.version>
+        <nb.version>RELEASE81-BETA</nb.version>
     </properties>
 
     <build>
@@ -107,6 +107,11 @@ Test templates are under "Unit Tests" file category.</description>
             <version>${nb.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.netbeans.modules</groupId>
+            <artifactId>org-netbeans-modules-gsf-testrunner-ui</artifactId>
+            <version>${nb.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-modules</artifactId>
             <version>${nb.version}</version>
@@ -186,6 +191,11 @@ Test templates are under "Unit Tests" file category.</description>
             <artifactId>org-openide-text</artifactId>
             <version>${nb.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-util-ui</artifactId>
+            <version>${nb.version}</version>
+        </dependency>
         
         <!-- Test Dependencies -->
         <dependency>
@@ -197,7 +207,7 @@ Test templates are under "Unit Tests" file category.</description>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>2.0.7-beta</version>
+            <version>2.0.31-beta</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
