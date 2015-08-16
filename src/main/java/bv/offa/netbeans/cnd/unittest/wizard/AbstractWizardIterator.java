@@ -230,7 +230,8 @@ public abstract class AbstractWizardIterator implements WizardDescriptor.Instant
             Project p = Templates.getProject(wizard);
             SourceGroup[] groups = ProjectUtils.getSources(p).getSourceGroups(Sources.TYPE_GENERIC);
             
-            WizardDescriptor.Panel<WizardDescriptor> advNewFilePanel = Templates.buildSimpleTargetChooser(p, groups).bottomPanel(bottomPanel).create();
+            WizardDescriptor.Panel<WizardDescriptor> advNewFilePanel = 
+                    Templates.buildSimpleTargetChooser(p, groups).bottomPanel(bottomPanel).create();
             panels.add(advNewFilePanel);
         }
         

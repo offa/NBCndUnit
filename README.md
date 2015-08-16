@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/offa/NBCndUnit.svg?branch=master)](https://travis-ci.org/offa/NBCndUnit)
 [![GitHub release](https://img.shields.io/github/release/offa/NBCndUnit.svg)](https://github.com/offa/NBCndUnit/releases)
 [![License](https://img.shields.io/badge/license-GPLv3-yellow.svg)](LICENSE)
-[![NetBeans](https://img.shields.io/badge/netbeans-8.0-lightgrey.svg)](https://netbeans.org/)
+[![NetBeans](https://img.shields.io/badge/netbeans-8.1(Beta)-lightgrey.svg)](http://plugins.netbeans.org/plugin/57174/nbcndunit)
 
 NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing. It integrates the [CppUTest](https://cpputest.github.io/), [GoogleTest](https://code.google.com/p/googletest/) / [GoogleMock](https://code.google.com/p/googlemock/) and [libunittest C++](http://libunittest.sourceforge.net/) unit testing frameworks.
 
@@ -12,7 +12,7 @@ NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing. I
 
 ## Requirements
 
- - [**NetBeans 8**](https://netbeans.org)
+ - [**NetBeans 8.1**](https://netbeans.org)
  - **Testing framework(s)**
 
 

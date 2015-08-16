@@ -73,7 +73,7 @@ public class GoogleTestTestStartedHandlerTest
     }
     
     
-    private static class TestCaseArgumentMatcher extends ArgumentMatcher<CndTestCase>
+    private static class TestCaseArgumentMatcher implements ArgumentMatcher<CndTestCase>
     {
         private final String name;
         private final TestFramework framework;

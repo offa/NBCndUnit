@@ -40,7 +40,6 @@ public class TestSupportUtilsTest
 {
     private static final String testCaseName = "testCase";
     private static final String testSuiteName = "TestSuite";
-    private static final String testSessionName = "TestSession";
     @Rule
     public ExpectedException exception = ExpectedException.none();
     private static TestSession testSessionMock;
@@ -50,7 +49,6 @@ public class TestSupportUtilsTest
     public static void setUpClass()
     {
         testSessionMock = mock(TestSession.class);
-        
         projectMock = mock(Project.class);
         when(projectMock.getProjectDirectory()).thenReturn(FileUtil.createMemoryFileSystem().getRoot());
         when(projectMock.getLookup()).thenReturn(Lookup.EMPTY);
