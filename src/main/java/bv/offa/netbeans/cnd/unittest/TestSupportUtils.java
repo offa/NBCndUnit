@@ -22,7 +22,6 @@ package bv.offa.netbeans.cnd.unittest;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
-import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,7 +31,6 @@ import org.netbeans.modules.cnd.api.model.CsmModelAccessor;
 import org.netbeans.modules.cnd.api.model.CsmProject;
 import org.netbeans.modules.cnd.modelutil.CsmUtilities;
 import org.netbeans.modules.gsf.testrunner.api.Status;
-import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.openide.util.RequestProcessor;
 
 /**
