@@ -23,6 +23,7 @@ package bv.offa.netbeans.cnd.unittest.cpputest;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import java.util.regex.Matcher;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.Status;
@@ -43,7 +44,8 @@ class CppUTestTestHandler extends TestRecognizerHandler
 
     public CppUTestTestHandler(TestSessionInformation info)
     {
-        super("^(IGNORE_)??TEST\\(([^, ]+?), ([^, ]+?)\\)( \\- ([0-9]+?) ms)?$", true);
+        super("^(IGNORE_)??TEST\\(([^, ]+?), ([^, ]+?)\\)"
+                + "( \\- ([0-9]+?) ms)?$", true, true);
         this.info = info;
     }
 
@@ -58,7 +60,8 @@ class CppUTestTestHandler extends TestRecognizerHandler
     @Override
     public void updateUI(Manager mngr, TestSession ts)
     {
-        final String suiteName = matcher.group(2);
+        final Matcher m = getMatcher();
+        final String suiteName = m.group(2);
         TestSuite currentSuite = ts.getCurrentSuite();
 
         if( currentSuite == null )
@@ -82,20 +85,20 @@ class CppUTestTestHandler extends TestRecognizerHandler
             /* Empty */
         }
 
-        Testcase testcase = new CndTestCase(matcher.group(3), testFramework, ts);
+        Testcase testcase = new CndTestCase(m.group(3), testFramework, ts);
         testcase.setClassName(suiteName);
 
-        if( matcher.group(1) != null )
+        if( m.group(1) != null )
         {
             testcase.setStatus(Status.SKIPPED);
         }
-        else if( matcher.group(4) == null )
+        else if( m.group(4) == null )
         {
             // Test time is separated, eg. failed or test with additional output
         }
         else
         {
-            long testTime = Long.valueOf(matcher.group(5));
+            long testTime = Long.valueOf(m.group(5));
             testcase.setTimeMillis(testTime);
             info.addTime(testTime);
         }

@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
+import java.util.regex.Matcher;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
@@ -39,7 +40,8 @@ class CppUTestErrorHandler extends TestRecognizerHandler
 
     public CppUTestErrorHandler(TestSessionInformation info)
     {
-        super("^(.+?)\\:([0-9]+?)\\: error\\: Failure in TEST\\(([^, ]+?), ([^, ]+?)\\)$", true);
+        super("^(.+?)\\:([0-9]+?)\\: error\\: Failure in "
+                + "TEST\\(([^, ]+?), ([^, ]+?)\\)$", true, true);
         this.info = info;
     }
 
@@ -55,11 +57,12 @@ class CppUTestErrorHandler extends TestRecognizerHandler
     public void updateUI(Manager mngr, TestSession ts)
     {
         Testcase tc = ts.getCurrentTestCase();
+        final Matcher m = getMatcher();
 
-        if( tc != null && tc.getClassName().equals(matcher.group(3))
-                && tc.getName().equals(matcher.group(4)) )
+        if( tc != null && tc.getClassName().equals(m.group(3))
+                && tc.getName().equals(m.group(4)) )
         {
-            final String location = matcher.group(1) + ":" + matcher.group(2);
+            final String location = m.group(1) + ":" + m.group(2);
             tc.setLocation(location);
 
             Trouble t = tc.getTrouble();

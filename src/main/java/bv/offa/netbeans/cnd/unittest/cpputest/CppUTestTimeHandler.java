@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
+import java.util.regex.Matcher;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
@@ -37,7 +38,7 @@ class CppUTestTimeHandler extends TestRecognizerHandler
     
     public CppUTestTimeHandler(TestSessionInformation info)
     {
-        super("^ \\- ([0-9]+?) ms$", true);
+        super("^ \\- ([0-9]+?) ms$", true, true);
         this.info = info;
     }
 
@@ -56,7 +57,8 @@ class CppUTestTimeHandler extends TestRecognizerHandler
         
         if( testCase != null )
         {
-            long testTime = Long.valueOf(matcher.group(1));
+            final Matcher m = getMatcher();
+            long testTime = Long.valueOf(m.group(1));
             testCase.setTimeMillis(testTime);
             info.addTime(testTime);
         }
