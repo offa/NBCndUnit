@@ -86,7 +86,7 @@ public class TestRunnerTestMethodNode extends TestMethodNode
             return new Action[0];
         }
         
-        List<Action> actions = new ArrayList<Action>(2);
+        List<Action> actions = new ArrayList<>(2);
         actions.add(getPreferredAction());
         actions.add(new DiffViewAction(testcase));
         

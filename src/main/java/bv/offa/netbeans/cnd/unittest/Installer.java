@@ -44,7 +44,7 @@ public class Installer extends ModuleInstall
     
     public Installer()
     {
-        this.targetModules = new HashSet<String>();
+        this.targetModules = new HashSet<>();
         this.targetModules.addAll(Arrays.asList(
                 "org.netbeans.modules.cnd.testrunner",
                 "org.netbeans.modules.gsf.testrunner",
@@ -131,15 +131,7 @@ public class Installer extends ModuleInstall
                 updateFriendsValue(friendNamesField, dataValue, codeNameBase);
             }
         }
-        catch( ReflectiveOperationException ex )
-        {
-            throw new IllegalStateException(ex);
-        }
-        catch( SecurityException ex )
-        {
-            throw new IllegalStateException(ex);
-        }
-        catch( IllegalArgumentException ex )
+        catch( ReflectiveOperationException | SecurityException | IllegalArgumentException ex )
         {
             throw new IllegalStateException(ex);
         }
@@ -164,7 +156,7 @@ public class Installer extends ModuleInstall
         Set<String> value = (Set<String>) friendField.get(obj);
         assert(value != null);
         
-        Set<String> newValue = new HashSet<String>(value);
+        Set<String> newValue = new HashSet<>(value);
         newValue.add(friendToAdd);
         friendField.set(obj, newValue);
     }

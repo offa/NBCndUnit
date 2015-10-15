@@ -48,7 +48,7 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
         Manager.getInstance().setTestingFramework(TestFramework.GOOGLETEST.getName());
         Manager.getInstance().setNodeFactory(new TestRunnerUINodeFactory());
         
-        List<TestRecognizerHandler> testHandler = new ArrayList<TestRecognizerHandler>();
+        List<TestRecognizerHandler> testHandler = new ArrayList<>();
         testHandler.add(new GoogleTestSuiteStartedHandler());
         testHandler.add(new GoogleTestSuiteFinishedHandler());
         testHandler.add(new GoogleTestTestStartedHandler());

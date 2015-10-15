@@ -77,7 +77,7 @@ public class NewTestSuiteVisualPanel1 extends AbstractVisualPanel
      */
     public List<String> getTestCaseNames()
     {
-        List<String> testCases = new ArrayList<String>();
+        List<String> testCases = new ArrayList<>();
         final String testCaseName = tfTestCaseName.getText();
         
         if( testCaseName.isEmpty() == false )
