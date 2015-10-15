@@ -91,7 +91,7 @@ public final class NewTestSuiteWizardIterator extends AbstractWizardIterator
         List<String> testCases = (List<String>) wizard.getProperty(NewTestSuiteWizardPanel1.PROP_TEST_TESTCASE_NAMES);
         String testSuite = (String) wizard.getProperty(NewTestSuiteWizardPanel1.PROP_TEST_TESTSUITE_NAME);
         
-        Map<String, Object> args = new HashMap<String, Object>();
+        Map<String, Object> args = new HashMap<>();
         args.put("suiteName", testSuite);
         args.put("generateSetup", generateSetup);
         args.put("generateTeardown", generateTeardown);

@@ -50,7 +50,7 @@ public class CppUTestTestHandlerFactory implements TestHandlerFactory
         
         TestSessionInformation info = new TestSessionInformation();
 
-        List<TestRecognizerHandler> testHandler = new ArrayList<TestRecognizerHandler>();
+        List<TestRecognizerHandler> testHandler = new ArrayList<>();
         testHandler.add(new CppUTestTestHandler(info));
         testHandler.add(new CppUTestSuiteFinishedHandler(info));
         testHandler.add(new CppUTestErrorHandler(info));

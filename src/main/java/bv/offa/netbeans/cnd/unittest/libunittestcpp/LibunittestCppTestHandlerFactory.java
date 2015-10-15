@@ -48,7 +48,7 @@ public class LibunittestCppTestHandlerFactory implements TestHandlerFactory
         Manager.getInstance().setTestingFramework(TestFramework.LIBUNITTESTCPP.getName());
         Manager.getInstance().setNodeFactory(new TestRunnerUINodeFactory());
         
-        List<TestRecognizerHandler> testHandler = new ArrayList<TestRecognizerHandler>();
+        List<TestRecognizerHandler> testHandler = new ArrayList<>();
         testHandler.add(new LibunittestCppTestFinishedHandler());
         testHandler.add(new LibunittestCppTestSessionFinishedHandler());
         

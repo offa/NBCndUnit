@@ -89,7 +89,7 @@ public class TestRunnerTestSuiteNode extends TestsuiteNode
             return new Action[0];
         }
         
-        List<Action> actions = new ArrayList<Action>(1);
+        List<Action> actions = new ArrayList<>(1);
         actions.add(getPreferredAction());
         
         return actions.toArray(new Action[actions.size()]);
