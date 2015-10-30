@@ -10,7 +10,7 @@
     <packaging>nbm</packaging>
     
     <name>NBCndUnit</name>
-    <description>C/C++ unit tests for NetBeans - supporting CppUTest, GoogleTest / GoogleMock and libunittest C++.
+    <description>C/C++ unit tests for NetBeans - supporting CppUTest, GoogleTest (gtest) / GoogleMock (gmock) and libunittest C++.
 Test templates are under "Unit Tests" file category.</description>
 
     <properties>
