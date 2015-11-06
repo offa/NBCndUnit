@@ -15,7 +15,7 @@ Test templates are under "Unit Tests" file category.</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <nb.version>dev-SNAPSHOT</nb.version>
+        <nb.version>RELEASE81</nb.version>
     </properties>
 
     <build>
@@ -105,12 +105,6 @@ Test templates are under "Unit Tests" file category.</description>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </repository>
-        
-        <repository>
-            <id>netbeans-development</id>
-            <name>Repository hosting NetBeans development modules</name>
-            <url>http://bits.netbeans.org/nexus/content/repositories/snapshots/</url>
         </repository>
     </repositories>
     <dependencies>
