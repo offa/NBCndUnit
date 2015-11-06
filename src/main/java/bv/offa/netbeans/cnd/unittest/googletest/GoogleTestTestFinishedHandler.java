@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
+import java.util.regex.Matcher;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
@@ -41,7 +42,8 @@ class GoogleTestTestFinishedHandler extends TestRecognizerHandler
 
     public GoogleTestTestFinishedHandler()
     {
-        super("^.*?\\[  (     OK|FAILED ) \\].*? (.+?)\\.(.+?) \\(([0-9]+?) ms\\)$", true);
+        super("^.*?\\[  (     OK|FAILED ) \\].*? (.+?)\\.(.+?)"
+                + " \\(([0-9]+?) ms\\)$", true, true);
     }
 
 
@@ -58,18 +60,19 @@ class GoogleTestTestFinishedHandler extends TestRecognizerHandler
     @Override
     public void updateUI(Manager mngr, TestSession ts)
     {
+        final Matcher m = getMatcher();
         final Testcase testCase = ts.getCurrentTestCase();
 
-        if( testCase != null && testCase.getClassName().equals(matcher.group(2)) 
-                && testCase.getName().equals(matcher.group(3)) )
+        if( testCase != null && testCase.getClassName().equals(m.group(2)) 
+                && testCase.getName().equals(m.group(3)) )
         {
-            long time = Long.valueOf(matcher.group(4));
+            long time = Long.valueOf(m.group(4));
             testCase.setTimeMillis(time);
 
-            final String location = matcher.group(2) + ":" + matcher.group(3);
+            final String location = m.group(2) + ":" + m.group(3);
             testCase.setLocation(location);
 
-            final String result = matcher.group(1);
+            final String result = m.group(1);
 
             if( result.equals(MSG_OK) == true )
             {
@@ -96,7 +99,7 @@ class GoogleTestTestFinishedHandler extends TestRecognizerHandler
         else
         {
             throw new IllegalStateException("No test found for: " 
-                    + matcher.group(2) + ":" + matcher.group(3));
+                    + m.group(2) + ":" + m.group(3));
         }
     }
 

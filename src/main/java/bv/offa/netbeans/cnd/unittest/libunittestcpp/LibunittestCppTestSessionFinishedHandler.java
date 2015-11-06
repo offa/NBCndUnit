@@ -21,6 +21,7 @@
 package bv.offa.netbeans.cnd.unittest.libunittestcpp;
 
 import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
+import java.util.regex.Matcher;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
@@ -36,7 +37,7 @@ class LibunittestCppTestSessionFinishedHandler extends TestRecognizerHandler
 
     public LibunittestCppTestSessionFinishedHandler()
     {
-        super("^Ran [0-9]+? tests in ([0-9].+?)s$", true);
+        super("^Ran [0-9]+? tests in ([0-9].+?)s$", true, true);
     }
 
 
@@ -50,7 +51,8 @@ class LibunittestCppTestSessionFinishedHandler extends TestRecognizerHandler
     @Override
     public void updateUI(Manager mngr, TestSession ts)
     {
-        final long time = TestSupportUtils.parseTimeSecToMillis(matcher.group(1));
+        final Matcher m = getMatcher();
+        final long time = TestSupportUtils.parseTimeSecToMillis(m.group(1));
         mngr.displayReport(ts, ts.getReport(time));
         mngr.sessionFinished(ts);
     }

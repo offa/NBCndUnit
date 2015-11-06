@@ -22,6 +22,7 @@ package bv.offa.netbeans.cnd.unittest.googletest;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import java.util.regex.Matcher;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
@@ -40,7 +41,7 @@ class GoogleTestSuiteStartedHandler extends TestRecognizerHandler
     
     public GoogleTestSuiteStartedHandler()
     {
-        super("^.*?\\[[-]{10}\\].*? [0-9]+? tests?? from ([^ ]+?)$", true);
+        super("^.*?\\[[-]{10}\\].*? [0-9]+? tests?? from ([^ ]+?)$", true, true);
     }
 
 
@@ -54,7 +55,8 @@ class GoogleTestSuiteStartedHandler extends TestRecognizerHandler
     @Override
     public void updateUI(Manager mngr, TestSession ts)
     {
-        final String suiteName = matcher.group(1);
+        final Matcher m = getMatcher();
+        final String suiteName = m.group(1);
         TestSuite currentSuite = ts.getCurrentSuite();
 
         if( currentSuite == null )

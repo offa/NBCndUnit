@@ -24,6 +24,7 @@ import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import java.util.regex.Matcher;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.Status;
@@ -48,7 +49,7 @@ class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
 
     public LibunittestCppTestFinishedHandler()
     {
-        super("^(.+?)::(.+?) \\.{3} \\[([0-9].*?)s\\] (ok|FAIL|SKIP).*?$", true);
+        super("^(.+?)::(.+?) \\.{3} \\[([0-9].*?)s\\] (ok|FAIL|SKIP).*?$", true, true);
     }
 
 
@@ -65,7 +66,8 @@ class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
     @Override
     public void updateUI(Manager mngr, TestSession ts)
     {
-        final String suiteName = normalise(matcher.group(1));
+        final Matcher m = getMatcher();
+        final String suiteName = normalise(m.group(1));
         TestSuite currentSuite = ts.getCurrentSuite();
 
         if( currentSuite == null )
@@ -88,12 +90,12 @@ class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
             /* Empty */
         }
 
-        final String testName = normalise(matcher.group(2));
+        final String testName = normalise(m.group(2));
         Testcase testCase = new CndTestCase(testName, testFramework, ts);
         testCase.setClassName(suiteName);
-        testCase.setTimeMillis(TestSupportUtils.parseTimeSecToMillis(matcher.group(3)));
+        testCase.setTimeMillis(TestSupportUtils.parseTimeSecToMillis(m.group(3)));
 
-        final String result = matcher.group(4);
+        final String result = m.group(4);
 
         if( result.equals(MSG_OK) == true )
         {

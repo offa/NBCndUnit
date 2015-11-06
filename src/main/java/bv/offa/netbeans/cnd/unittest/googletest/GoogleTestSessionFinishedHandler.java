@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
+import java.util.regex.Matcher;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
@@ -35,7 +36,8 @@ class GoogleTestSessionFinishedHandler extends TestRecognizerHandler
 
     public GoogleTestSessionFinishedHandler()
     {
-        super("^.*?\\[[=]{10}\\].*? [0-9]+? tests?? from [0-9]+? test cases?? ran\\. \\(([0-9]+?) ms total\\)$", true);
+        super("^.*?\\[[=]{10}\\].*? [0-9]+? tests?? from [0-9]+? "
+                + "test cases?? ran\\. \\(([0-9]+?) ms total\\)$", true, true);
     }
 
 
@@ -49,7 +51,8 @@ class GoogleTestSessionFinishedHandler extends TestRecognizerHandler
     @Override
     public void updateUI(Manager mngr, TestSession ts)
     {
-        final long time = Long.parseLong(matcher.group(1));
+        final Matcher m = getMatcher();
+        final long time = Long.parseLong(m.group(1));
         mngr.displayReport(ts, ts.getReport(time));
         mngr.sessionFinished(ts);
     }

@@ -22,6 +22,7 @@ package bv.offa.netbeans.cnd.unittest.googletest;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import java.util.regex.Matcher;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
@@ -39,7 +40,7 @@ class GoogleTestTestStartedHandler extends TestRecognizerHandler
     
     public GoogleTestTestStartedHandler()
     {
-        super("^.*?\\[ RUN      \\].*? (.+?)\\.(.+?)$", true);
+        super("^.*?\\[ RUN      \\].*? (.+?)\\.(.+?)$", true, true);
     }
 
 
@@ -53,8 +54,9 @@ class GoogleTestTestStartedHandler extends TestRecognizerHandler
     @Override
     public void updateUI(Manager mngr, TestSession ts)
     {
-        final Testcase testcase = new CndTestCase(matcher.group(2), testFramework, ts);
-        testcase.setClassName(matcher.group(1));
+        final Matcher m = getMatcher();
+        final Testcase testcase = new CndTestCase(m.group(2), testFramework, ts);
+        testcase.setClassName(m.group(1));
         ts.addTestCase(testcase);
     }
 

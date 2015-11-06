@@ -34,7 +34,8 @@ class GoogleTestSuiteFinishedHandler extends TestRecognizerHandler
 {
     public GoogleTestSuiteFinishedHandler()
     {
-        super("^.*?\\[[-]{10}\\].*? [0-9]+? tests?? from ([^ ]+?) \\(([0-9]+?) ms total\\)$", true);
+        super("^.*?\\[[-]{10}\\].*? [0-9]+? tests?? from "
+                + "([^ ]+?) \\(([0-9]+?) ms total\\)$", true, true);
     }
 
 
