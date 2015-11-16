@@ -38,10 +38,12 @@ import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 class GoogleTestSuiteStartedHandler extends TestRecognizerHandler
 {
     private static final TestFramework testFramework = TestFramework.GOOGLETEST;
+    private static boolean firstSuite;
     
     public GoogleTestSuiteStartedHandler()
     {
         super("^.*?\\[[-]{10}\\].*? [0-9]+? tests?? from ([^ ]+?)$", true, true);
+        suiteFinished();
     }
 
 
@@ -59,26 +61,33 @@ class GoogleTestSuiteStartedHandler extends TestRecognizerHandler
         final String suiteName = m.group(1);
         TestSuite currentSuite = ts.getCurrentSuite();
 
-        if( currentSuite == null )
+        if( firstSuite == true )
         {
             mngr.testStarted(ts);
+            firstSuite = false;
+        }
+        else
+        {
+            mngr.displayReport(ts, ts.getReport(0));
+        }
+        
+        if( currentSuite == null || currentSuite.getName().equals(suiteName) == false )
+        {
             currentSuite = new CndTestSuite(suiteName, testFramework);
             ts.addSuite(currentSuite);
             mngr.displaySuiteRunning(ts, currentSuite);
         }
-        else if( currentSuite.getName().equals(suiteName) == false )
-        {
-            mngr.displayReport(ts, ts.getReport(0));
-
-            TestSuite suite = new CndTestSuite(suiteName, testFramework);
-            ts.addSuite(suite);
-            mngr.displaySuiteRunning(ts, suite);
-        }
-        else
-        {
-            /* Empty */
-        }
     }
+
+
+    /**
+     * Indicates the current suite has finished.
+     */
+    static void suiteFinished()
+    {
+        GoogleTestSuiteStartedHandler.firstSuite = true;
+    }
+    
 }
     
     
