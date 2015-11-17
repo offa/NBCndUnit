@@ -45,11 +45,13 @@ class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
     private static final String MSG_OK = "ok";
     private static final String MSG_FAILED = "FAIL";
     private static final String MSG_SKIP = "SKIP";
+    private static boolean firstSuite;
 
 
     public LibunittestCppTestFinishedHandler()
     {
         super("^(.+?)::(.+?) \\.{3} \\[([0-9].*?)s\\] (ok|FAIL|SKIP).*?$", true, true);
+        suiteFinished();
     }
 
 
@@ -69,25 +71,22 @@ class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
         final Matcher m = getMatcher();
         final String suiteName = normalise(m.group(1));
         TestSuite currentSuite = ts.getCurrentSuite();
-
-        if( currentSuite == null )
+        
+        if( currentSuite == null || currentSuite.getName().equals(suiteName) == false )
         {
-            mngr.testStarted(ts);
+            if( firstSuite == true )
+            {
+                mngr.testStarted(ts);
+                firstSuite = false;
+            }
+            else
+            {
+                mngr.displayReport(ts, ts.getReport(0));
+            }
+            
             currentSuite = new CndTestSuite(suiteName, testFramework);
             ts.addSuite(currentSuite);
             mngr.displaySuiteRunning(ts, currentSuite);
-        }
-        else if( currentSuite.getName().equals(suiteName) == false )
-        {
-            mngr.displayReport(ts, ts.getReport(0L));
-
-            TestSuite suite = new CndTestSuite(suiteName, testFramework);
-            ts.addSuite(suite);
-            mngr.displaySuiteRunning(ts, suite);
-        }
-        else
-        {
-            /* Empty */
         }
 
         final String testName = normalise(m.group(2));
@@ -119,6 +118,15 @@ class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
     }
 
 
+    /**
+     * Indicates the current suite has finished.
+     */
+    static void suiteFinished()
+    {
+        LibunittestCppTestFinishedHandler.firstSuite = true;
+    }
+    
+    
     /**
      * Normalises the input. This will replace all prohibited characters.
      * 
