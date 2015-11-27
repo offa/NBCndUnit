@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU General Public License
  * along with NBCndUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
@@ -33,27 +32,27 @@ import org.netbeans.modules.gsf.testrunner.api.Testcase;
 
 /**
  * The class {@code CppUTestHandler} handles the test output.
- * 
+ *
  * @author offa
  */
 class CppUTestTestHandler extends TestRecognizerHandler
 {
-    private static final TestFramework testFramework = TestFramework.CPPUTEST;
-    private final TestSessionInformation info;
 
+    private static final TestFramework testFramework = TestFramework.CPPUTEST;
+    private static boolean firstSuite;
+    private final TestSessionInformation info;
 
     public CppUTestTestHandler(TestSessionInformation info)
     {
         super("^(IGNORE_)??TEST\\(([^, ]+?), ([^, ]+?)\\)"
                 + "( \\- ([0-9]+?) ms)?$", true, true);
         this.info = info;
+        suiteFinished();
     }
-
-
 
     /**
      * Updates the ui and test states.
-     * 
+     *
      * @param mngr  Manager
      * @param ts    Test session
      */
@@ -64,25 +63,22 @@ class CppUTestTestHandler extends TestRecognizerHandler
         final String suiteName = m.group(2);
         TestSuite currentSuite = ts.getCurrentSuite();
 
-        if( currentSuite == null )
+        if( currentSuite == null || currentSuite.getName().equals(suiteName) == false )
         {
-            mngr.testStarted(ts);
+            if( firstSuite == true )
+            {
+                mngr.testStarted(ts);
+                firstSuite = false;
+            }
+            else
+            {
+                mngr.displayReport(ts, ts.getReport(info.getTimeTotal()));
+                info.setTimeTotal(0L);
+            }
+            
             currentSuite = new CndTestSuite(suiteName, testFramework);
             ts.addSuite(currentSuite);
             mngr.displaySuiteRunning(ts, currentSuite);
-        }
-        else if( currentSuite.getName().equals(suiteName) == false )
-        {
-            mngr.displayReport(ts, ts.getReport(info.getTimeTotal()));
-            info.setTimeTotal(0L);
-
-            TestSuite suite = new CndTestSuite(suiteName, testFramework);
-            ts.addSuite(suite);
-            mngr.displaySuiteRunning(ts, suite);
-        }
-        else
-        {
-            /* Empty */
         }
 
         Testcase testcase = new CndTestCase(m.group(3), testFramework, ts);
@@ -104,5 +100,14 @@ class CppUTestTestHandler extends TestRecognizerHandler
         }
 
         ts.addTestCase(testcase);
+    }
+    
+    
+    /**
+     * Indicates the current suite has finished.
+     */
+    static void suiteFinished()
+    {
+        CppUTestTestHandler.firstSuite = true;
     }
 }

@@ -55,6 +55,8 @@ class CppUTestSuiteFinishedHandler extends TestRecognizerHandler
         mngr.displayReport(ts, ts.getReport(info.getTimeTotal()));
         mngr.sessionFinished(ts);
         info.setTimeTotal(0L);
+        
+        CppUTestTestHandler.suiteFinished();
     }
 
 }

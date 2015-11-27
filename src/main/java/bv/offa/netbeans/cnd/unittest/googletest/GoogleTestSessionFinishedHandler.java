@@ -55,6 +55,8 @@ class GoogleTestSessionFinishedHandler extends TestRecognizerHandler
         final long time = Long.parseLong(m.group(1));
         mngr.displayReport(ts, ts.getReport(time));
         mngr.sessionFinished(ts);
+        
+        GoogleTestSuiteStartedHandler.suiteFinished();
     }
 }
 

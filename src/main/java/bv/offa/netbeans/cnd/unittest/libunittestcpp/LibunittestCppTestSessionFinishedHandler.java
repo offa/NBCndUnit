@@ -55,6 +55,8 @@ class LibunittestCppTestSessionFinishedHandler extends TestRecognizerHandler
         final long time = TestSupportUtils.parseTimeSecToMillis(m.group(1));
         mngr.displayReport(ts, ts.getReport(time));
         mngr.sessionFinished(ts);
+        
+        LibunittestCppTestFinishedHandler.suiteFinished();
     }
 
 }
