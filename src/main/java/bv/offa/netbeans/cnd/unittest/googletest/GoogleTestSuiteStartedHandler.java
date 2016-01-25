@@ -37,7 +37,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSuite;
  */
 class GoogleTestSuiteStartedHandler extends TestRecognizerHandler
 {
-    private static final TestFramework testFramework = TestFramework.GOOGLETEST;
+    private static final TestFramework TESTFRAMEWORK = TestFramework.GOOGLETEST;
     private static boolean firstSuite;
     
     public GoogleTestSuiteStartedHandler()
@@ -73,7 +73,7 @@ class GoogleTestSuiteStartedHandler extends TestRecognizerHandler
         
         if( currentSuite == null || currentSuite.getName().equals(suiteName) == false )
         {
-            currentSuite = new CndTestSuite(suiteName, testFramework);
+            currentSuite = new CndTestSuite(suiteName, TESTFRAMEWORK);
             ts.addSuite(currentSuite);
             mngr.displaySuiteRunning(ts, currentSuite);
         }

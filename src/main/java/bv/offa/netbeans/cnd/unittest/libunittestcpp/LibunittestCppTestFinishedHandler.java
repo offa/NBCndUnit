@@ -41,7 +41,7 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
  */
 class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
 {
-    private static final TestFramework testFramework = TestFramework.LIBUNITTESTCPP;
+    private static final TestFramework TESTFRAMEWORK = TestFramework.LIBUNITTESTCPP;
     private static final String MSG_OK = "ok";
     private static final String MSG_FAILED = "FAIL";
     private static final String MSG_SKIP = "SKIP";
@@ -84,13 +84,13 @@ class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
                 mngr.displayReport(ts, ts.getReport(0));
             }
             
-            currentSuite = new CndTestSuite(suiteName, testFramework);
+            currentSuite = new CndTestSuite(suiteName, TESTFRAMEWORK);
             ts.addSuite(currentSuite);
             mngr.displaySuiteRunning(ts, currentSuite);
         }
 
         final String testName = normalise(m.group(2));
-        Testcase testCase = new CndTestCase(testName, testFramework, ts);
+        Testcase testCase = new CndTestCase(testName, TESTFRAMEWORK, ts);
         testCase.setClassName(suiteName);
         testCase.setTimeMillis(TestSupportUtils.parseTimeSecToMillis(m.group(3)));
 

@@ -38,7 +38,7 @@ import org.netbeans.modules.gsf.testrunner.api.Testcase;
 class CppUTestTestHandler extends TestRecognizerHandler
 {
 
-    private static final TestFramework testFramework = TestFramework.CPPUTEST;
+    private static final TestFramework TESTFRAMEWORK = TestFramework.CPPUTEST;
     private static boolean firstSuite;
     private final TestSessionInformation info;
 
@@ -76,12 +76,12 @@ class CppUTestTestHandler extends TestRecognizerHandler
                 info.setTimeTotal(0L);
             }
             
-            currentSuite = new CndTestSuite(suiteName, testFramework);
+            currentSuite = new CndTestSuite(suiteName, TESTFRAMEWORK);
             ts.addSuite(currentSuite);
             mngr.displaySuiteRunning(ts, currentSuite);
         }
 
-        Testcase testcase = new CndTestCase(m.group(3), testFramework, ts);
+        Testcase testcase = new CndTestCase(m.group(3), TESTFRAMEWORK, ts);
         testcase.setClassName(suiteName);
 
         if( m.group(1) != null )

@@ -32,14 +32,14 @@ import org.netbeans.modules.gsf.testrunner.api.Testcase;
 
 public class CppUTestTimeHandlerTest
 {
-    private static final TestSessionInformation dontCareInfo = new TestSessionInformation();
+    private static final TestSessionInformation DONT_CARE_INFO = new TestSessionInformation();
     private CppUTestTimeHandler handler;
     
     
     @Before
     public void setUp()
     {
-        handler = new CppUTestTimeHandler(dontCareInfo);
+        handler = new CppUTestTimeHandler(DONT_CARE_INFO);
     }
     
     @Test
