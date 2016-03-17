@@ -8,6 +8,6 @@ int main(int argc, char** argv)
     args.push_back("-v"); // Verbose output (mandatory!)
     args.push_back("-c"); // Colored output (optional)
 
-    return CommandLineTestRunner::RunAllTests(args.size(), &args[0]);
+    return RUN_ALL_TESTS(args.size(), &args[0]);
 }
 
