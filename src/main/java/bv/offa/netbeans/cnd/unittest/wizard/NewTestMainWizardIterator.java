@@ -75,7 +75,7 @@ public final class NewTestMainWizardIterator extends AbstractWizardIterator
         boolean enableVerbose = (Boolean) wizard.getProperty(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_VERBOSE);
         boolean enableColor = (Boolean) wizard.getProperty(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_COLOR);
         
-        Map<String, Object> args = new HashMap<String, Object>();
+        Map<String, Object> args = new HashMap<>();
         args.put("enableVerbose", enableVerbose);
         args.put("enableColor", enableColor);
         
