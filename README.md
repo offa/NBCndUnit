@@ -74,7 +74,7 @@ int main(int argc, char** argv)
     args.push_back("-c"); // Set color output (Optional)
     
     // Run all tests
-    return CommandLineTestRunner::RunAllTests(args.size(), &args[0]);
+    return RUN_ALL_TESTS(args.size(), &args[0]);
 }
 ```
 
