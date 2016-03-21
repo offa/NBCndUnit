@@ -91,6 +91,20 @@ public class GoogleTestTestFinishedHandlerTest
     }
     
     @Test
+    public void testParseDataFailTestCaseParameterized()
+    {
+        final String input = "[  FAILED  ] withParameterImpl/TestSuite"
+                            + ".testCase/3, where GetParam() = 0 (0 ms)";
+        Matcher m = handler.match(input);
+        
+        assertTrue(m.find());
+        assertEquals("FAILED ", m.group(1));
+        assertEquals("TestSuite", m.group(2));
+        assertEquals("testCase", m.group(3));
+        assertEquals("0", m.group(4));
+    }
+    
+    @Test
     public void testParseDataFailedTestCase()
     {
         final String input = "[  FAILED  ] TestSuite.testCase (45 ms)";
