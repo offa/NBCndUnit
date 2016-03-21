@@ -78,6 +78,19 @@ public class GoogleTestTestFinishedHandlerTest
     }
     
     @Test
+    public void testParseDataSuccessfulTestCaseParameterized()
+    {
+        final String input = "[       OK ] withParameterImpl/TestSuite.testCase/0 (0 ms)";
+        Matcher m = handler.match(input);
+        
+        assertTrue(m.find());
+        assertEquals("     OK", m.group(1));
+        assertEquals("TestSuite", m.group(2));
+        assertEquals("testCase", m.group(3));
+        assertEquals("0", m.group(4));
+    }
+    
+    @Test
     public void testParseDataFailedTestCase()
     {
         final String input = "[  FAILED  ] TestSuite.testCase (45 ms)";
@@ -106,7 +119,7 @@ public class GoogleTestTestFinishedHandlerTest
     @Test
     public void testUpdateUIThrownsIfNotMatchingTestCase()
     {
-        final String input = "[       OK ] TestSuite.testCase (0 ms)";
+        final String input = "[       OK ] withParameterImpl/TestSuite.withParameter/0 (0 ms)";
         Matcher m = handler.match(input);
         assertTrue(m.find());
 

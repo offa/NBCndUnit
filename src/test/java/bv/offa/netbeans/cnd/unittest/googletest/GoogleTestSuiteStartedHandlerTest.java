@@ -52,8 +52,19 @@ public class GoogleTestSuiteStartedHandlerTest
         assertEquals("TestSuite", m.group(1));
     }
     
+        
     @Test
-    public void testMatchesSingleTestSuite()
+    public void testParseDataTestSuiteParameterized()
+    {
+        final String input = "[----------] 5 tests from withParameterImpl/TestSuite";
+        Matcher m = handler.match(input);
+        
+        assertTrue(m.find());
+        assertEquals("TestSuite", m.group(1));
+    }
+    
+    @Test
+    public void testMatchesSingleTestSuiteParameterized()
     {
         assertTrue(handler.matches("[----------] 1 test from TestSuite"));
     }

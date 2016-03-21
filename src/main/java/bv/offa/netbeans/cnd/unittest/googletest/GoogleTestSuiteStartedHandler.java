@@ -42,7 +42,7 @@ class GoogleTestSuiteStartedHandler extends TestRecognizerHandler
     
     public GoogleTestSuiteStartedHandler()
     {
-        super("^.*?\\[[-]{10}\\].*? [0-9]+? tests?? from ([^ ]+?)$", true, true);
+        super("^.*?\\[[-]{10}\\].*? [0-9]+? tests?? from (?:.+/)??([^ /]+?)$", true, true);
         suiteFinished();
     }
 

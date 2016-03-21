@@ -59,6 +59,17 @@ public class GoogleTestTestStartedHandlerTest
     }
     
     @Test
+    public void testParseDataTestCaseParameterized()
+    {
+        final String input = "[ RUN      ] withParameterImpl/TestSuite.testCase/0";
+        Matcher m = handler.match(input);
+
+        assertTrue(m.find());
+        assertEquals("TestSuite", m.group(1));
+        assertEquals("testCase", m.group(2));
+    }
+    
+    @Test
     public void testUpdateUIAddsTestCase()
     {
         final String input = "[ RUN      ] TestSuite.testCase";
