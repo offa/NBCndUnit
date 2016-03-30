@@ -40,7 +40,7 @@ class GoogleTestTestStartedHandler extends TestRecognizerHandler
     
     public GoogleTestTestStartedHandler()
     {
-        super("^.*?\\[ RUN      \\].*? (?:.+/)??([^/]+?)\\.(.+?)(?:/.+)??$", true, true);
+        super("^.*?\\[ RUN      \\].*? (.+?)\\.(.+?)(?:/.+)??$", true, true);
     }
 
 

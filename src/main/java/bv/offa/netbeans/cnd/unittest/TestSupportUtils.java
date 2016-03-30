@@ -162,7 +162,14 @@ public final class TestSupportUtils
                 final String enabled = ( testCase.getStatus() == Status.SKIPPED ? "IGNORE" : "TEST_" );
                 return "C:" +  enabled + testCase.getClassName() + "_" + testCase.getName() + "_Test";
             case GOOGLETEST:
-                return "C:" + testCase.getClassName() + "_" + testCase.getName() + "_Test";
+                String suiteName = testCase.getClassName();
+                
+                if( suiteName.contains("/") )
+                {
+                    suiteName = suiteName.replaceFirst(".*?/", "");
+                }
+                
+                return "C:" + suiteName + "_" + testCase.getName() + "_Test";
             case LIBUNITTESTCPP:
                 String testName = testCase.getName();
                 int sepPos = testName.indexOf("::");
@@ -195,7 +202,14 @@ public final class TestSupportUtils
             case CPPUTEST:
                 return "S:TEST_GROUP_CppUTestGroup" + testSuite.getName();
             case GOOGLETEST:
-                return "C:" + testSuite.getName();
+                String suiteName = testSuite.getName();
+                
+                if( suiteName.contains("/") )
+                {
+                    suiteName = suiteName.replaceFirst(".*?/", "");
+                }
+                
+                return "C:" + suiteName;
             case LIBUNITTESTCPP:
                 return "S:" + testSuite.getName() + "::__testcollection_child__";
             default:

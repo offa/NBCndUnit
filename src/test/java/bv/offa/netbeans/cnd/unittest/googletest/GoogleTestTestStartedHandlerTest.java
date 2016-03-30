@@ -65,7 +65,7 @@ public class GoogleTestTestStartedHandlerTest
         Matcher m = handler.match(input);
 
         assertTrue(m.find());
-        assertEquals("TestSuite", m.group(1));
+        assertEquals("withParameterImpl/TestSuite", m.group(1));
         assertEquals("testCase", m.group(2));
     }
     

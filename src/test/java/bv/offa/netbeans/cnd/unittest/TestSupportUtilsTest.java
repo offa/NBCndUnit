@@ -134,9 +134,28 @@ public class TestSupportUtilsTest
     }
     
     @Test
+    public void testGetUniqueDeclaratonNameTestCaseGoogleTestWithParameter()
+    {
+        CndTestCase testCase = new CndTestCase(CASE_NAME, TestFramework.GOOGLETEST, testSessionMock);
+        testCase.setClassName("withParam/" + SUITE_NAME);
+        
+        final String expected = "C:" + SUITE_NAME + "_" + CASE_NAME + "_Test";
+        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testCase));
+    }
+    
+    @Test
     public void testGetUniqueDeclaratonNameTestSuiteGoogleTest()
     {
         CndTestSuite testSuite = new CndTestSuite(SUITE_NAME, TestFramework.GOOGLETEST);
+        
+        final String expected = "C:" + SUITE_NAME;
+        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testSuite));
+    }
+    
+    @Test
+    public void testGetUniqueDeclaratonNameTestSuiteGoogleTestWithParameter()
+    {
+        CndTestSuite testSuite = new CndTestSuite("withParam/" + SUITE_NAME, TestFramework.GOOGLETEST);
         
         final String expected = "C:" + SUITE_NAME;
         assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testSuite));

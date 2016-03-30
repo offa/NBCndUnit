@@ -85,7 +85,7 @@ public class GoogleTestTestFinishedHandlerTest
         
         assertTrue(m.find());
         assertEquals("     OK", m.group(1));
-        assertEquals("TestSuite", m.group(2));
+        assertEquals("withParameterImpl/TestSuite", m.group(2));
         assertEquals("testCase", m.group(3));
         assertEquals("0", m.group(4));
     }
@@ -99,7 +99,7 @@ public class GoogleTestTestFinishedHandlerTest
         
         assertTrue(m.find());
         assertEquals("FAILED ", m.group(1));
-        assertEquals("TestSuite", m.group(2));
+        assertEquals("withParameterImpl/TestSuite", m.group(2));
         assertEquals("testCase", m.group(3));
         assertEquals("0", m.group(4));
     }
