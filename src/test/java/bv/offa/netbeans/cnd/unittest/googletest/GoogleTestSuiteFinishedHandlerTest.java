@@ -37,34 +37,30 @@ public class GoogleTestSuiteFinishedHandlerTest
     }
     
     @Test
-    public void testMatchesSuccessfulTestSuite()
+    public void matchesSuccessfulTestSuite()
     {
         assertTrue(handler.matches("[----------] 3 tests from TestSuite (259 ms total)"));
     }
     
     @Test
-    public void testParseDataSuccessfulTestSuite()
+    public void parseDataSuccessfulTestSuite()
     {
-        final String input = "[----------] 3 tests from TestSuite (259 ms total)";
-        Matcher m = handler.match(input);
-        
+        Matcher m = handler.match("[----------] 3 tests from TestSuite (259 ms total)");
         assertTrue(m.find());
         assertEquals("TestSuite", m.group(1));
         assertEquals("259", m.group(2));
     }
     
     @Test
-    public void testMatchesSingleTestSuite()
+    public void matchesSingleTestSuite()
     {
         assertTrue(handler.matches("[----------] 1 test from TestSuite (123 ms total)"));
     }
     
     @Test
-    public void testParseDataSingleTestSuite()
+    public void parseDataSingleTestSuite()
     {
-        final String input = "[----------] 1 test from TestSuite (123 ms total)";
-        Matcher m = handler.match(input);
-        
+        Matcher m = handler.match("[----------] 1 test from TestSuite (123 ms total)");
         assertTrue(m.find());
         assertEquals("TestSuite", m.group(1));
         assertEquals("123", m.group(2));

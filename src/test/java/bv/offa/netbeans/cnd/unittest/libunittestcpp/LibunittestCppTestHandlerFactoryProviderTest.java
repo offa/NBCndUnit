@@ -27,7 +27,7 @@ import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactoryProvider;
 public class LibunittestCppTestHandlerFactoryProviderTest
 {
     @Test
-    public void testGetFactoryReturnsCorrectInstance()
+    public void getFactoryReturnsInstance()
     {
         TestHandlerFactoryProvider provider = new LibunittestCppTestHandlerFactoryProvider();
         assertEquals(LibunittestCppTestHandlerFactory.class, provider.getFactory().getClass());

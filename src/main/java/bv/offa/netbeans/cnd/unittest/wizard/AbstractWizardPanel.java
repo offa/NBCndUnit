@@ -117,4 +117,23 @@ public abstract class AbstractWizardPanel implements WizardDescriptor.Panel<Wiza
     {
         return changeSupport.hasListeners();
     }
+    
+    
+    /**
+     * Tests if <code>wiz</code> is a next option with valid data.
+     * 
+     * @param wizValue  Wizard value
+     * @return          Returns <tt>true</tt> if valid next or <tt>false</tt>
+     *                  otherwise
+     */
+    protected boolean isNextOption(Object wizValue)
+    {
+        if( WizardDescriptor.PREVIOUS_OPTION.equals(wizValue) == true )
+        {
+            return false;
+        }
+        
+        return ( WizardDescriptor.CANCEL_OPTION.equals(wizValue) == false ) 
+                && ( isValid() == true );
+    }
 }

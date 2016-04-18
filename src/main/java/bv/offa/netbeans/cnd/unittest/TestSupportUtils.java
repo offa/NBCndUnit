@@ -40,8 +40,8 @@ import org.openide.util.RequestProcessor;
  */
 public final class TestSupportUtils
 {
-    private static final RequestProcessor threadPool = new RequestProcessor("NBCndUnit Utility Processor", 1);
-    private static final Logger logger = Logger.getLogger(TestSupportUtils.class.getName());
+    private static final RequestProcessor POOL = new RequestProcessor("NBCndUnit Utility Processor", 1);
+    private static final Logger LOGGER = Logger.getLogger(TestSupportUtils.class.getName());
     
     private TestSupportUtils()
     {
@@ -123,7 +123,7 @@ public final class TestSupportUtils
      */
     private static void goToDeclaration(final Project project, final String uniqueDeclaration)
     {
-        threadPool.submit(new Callable<Boolean>()
+        POOL.submit(new Callable<Boolean>()
         {
             @Override
             public Boolean call() throws Exception
@@ -137,7 +137,7 @@ public final class TestSupportUtils
                 }
                 else
                 {
-                    logger.log(Level.INFO, "No declaration found for {0}", uniqueDeclaration);
+                    LOGGER.log(Level.INFO, "No declaration found for {0}", uniqueDeclaration);
                 }
                 
                 return Boolean.FALSE;
@@ -160,26 +160,14 @@ public final class TestSupportUtils
         {
             case CPPUTEST:
                 final String enabled = ( testCase.getStatus() == Status.SKIPPED ? "IGNORE" : "TEST_" );
-                return "C:" +  enabled + testCase.getClassName() + "_" + testCase.getName() + "_Test";
+                return "C:" +  enabled + testCase.getClassName() 
+                        + "_" + testCase.getName() + "_Test";
             case GOOGLETEST:
-                String suiteName = testCase.getClassName();
-                
-                if( suiteName.contains("/") )
-                {
-                    suiteName = suiteName.replaceFirst(".*?/", "");
-                }
-                
-                return "C:" + suiteName + "_" + testCase.getName() + "_Test";
+                return "C:" + removeGTestParameter(testCase.getClassName()) 
+                        + "_" + testCase.getName() + "_Test";
             case LIBUNITTESTCPP:
-                String testName = testCase.getName();
-                int sepPos = testName.indexOf("::");
-                
-                if( sepPos != -1 )
-                {
-                    testName = testName.substring(0, sepPos);
-                }
-                
-                return "S:" + testCase.getClassName() + "::" + testName;
+                return "S:" + testCase.getClassName() + "::" 
+                        + removeLibUnittestScope(testCase.getName());
             default:
                 throw new IllegalArgumentException("Unsupported framework: " 
                         + testCase.getFramework().getName());
@@ -202,19 +190,48 @@ public final class TestSupportUtils
             case CPPUTEST:
                 return "S:TEST_GROUP_CppUTestGroup" + testSuite.getName();
             case GOOGLETEST:
-                String suiteName = testSuite.getName();
-                
-                if( suiteName.contains("/") )
-                {
-                    suiteName = suiteName.replaceFirst(".*?/", "");
-                }
-                
-                return "C:" + suiteName;
+                return "C:" + removeGTestParameter(testSuite.getName());
             case LIBUNITTESTCPP:
                 return "S:" + testSuite.getName() + "::__testcollection_child__";
             default:
                 throw new IllegalArgumentException("Unsupported framework: " 
                         + testSuite.getFramework().getName());
         }
+    }
+    
+    
+    /**
+     * Removes parameter strings from gtest suite name.
+     * 
+     * @param suiteName     Suite name
+     * @return              Cleared suite name
+     */
+    private static String removeGTestParameter(String suiteName)
+    {
+        if( suiteName.contains("/") == true )
+        {
+            return suiteName.replaceFirst(".*?/", "");
+        }
+        
+        return suiteName;
+    }
+    
+    
+    /**
+     * Removes scope strings from libunittestcpp test case name.
+     * 
+     * @param testCase      Test case name
+     * @return              Cleared test case name
+     */
+    private static String removeLibUnittestScope(String testCase)
+    {
+        final int sepPos = testCase.indexOf("::");
+
+        if( sepPos != -1 )
+        {
+            return testCase.substring(0, sepPos);
+        }
+        
+        return testCase;
     }
 }

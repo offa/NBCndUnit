@@ -35,14 +35,10 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
  */
 class CppUTestErrorHandler extends TestRecognizerHandler
 {
-    private final TestSessionInformation info;
-
-
     public CppUTestErrorHandler(TestSessionInformation info)
     {
         super("^(.+?)\\:([0-9]+?)\\: error\\: Failure in "
                 + "TEST\\(([^, ]+?), ([^, ]+?)\\)$", true, true);
-        this.info = info;
     }
 
 
@@ -56,16 +52,16 @@ class CppUTestErrorHandler extends TestRecognizerHandler
     @Override
     public void updateUI(Manager mngr, TestSession ts)
     {
-        Testcase tc = ts.getCurrentTestCase();
+        Testcase testCase = ts.getCurrentTestCase();
         final Matcher m = getMatcher();
 
-        if( tc != null && tc.getClassName().equals(m.group(3))
-                && tc.getName().equals(m.group(4)) )
+        if( testCase != null && testCase.getClassName().equals(m.group(3))
+                && testCase.getName().equals(m.group(4)) )
         {
             final String location = m.group(1) + ":" + m.group(2);
-            tc.setLocation(location);
+            testCase.setLocation(location);
 
-            Trouble t = tc.getTrouble();
+            Trouble t = testCase.getTrouble();
 
             if( t == null )
             {
@@ -74,7 +70,7 @@ class CppUTestErrorHandler extends TestRecognizerHandler
 
             t.setError(true);
             t.setStackTrace(new String[] { location });
-            tc.setTrouble(t);
+            testCase.setTrouble(t);
         }
     }
 

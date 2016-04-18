@@ -26,7 +26,7 @@ import static org.junit.Assert.*;
 public class WizardUtilsTest
 {
     @Test
-    public void testToIdentifierTrims()
+    public void toIdentifierTrims()
     {
         assertEquals("", WizardUtils.toIdentifier(""));
         assertEquals("", WizardUtils.toIdentifier(" "));
@@ -35,7 +35,7 @@ public class WizardUtilsTest
     }
     
     @Test
-    public void testToIdentifierRelacesInvalidChars()
+    public void toIdentifierReplacesInvalidChars()
     {
         assertEquals("aB_c3", WizardUtils.toIdentifier("aB c3"));
         assertEquals("aB__c3_", WizardUtils.toIdentifier("aB &c3!"));
@@ -43,7 +43,7 @@ public class WizardUtilsTest
     }
     
     @Test
-    public void testToIdentifierReplacesInvalidFirstChar()
+    public void toIdentifierReplacesInvalidFirstChar()
     {
         assertEquals("_abc", WizardUtils.toIdentifier("3abc"));
         assertEquals("_abc", WizardUtils.toIdentifier(" 3abc"));
@@ -51,26 +51,26 @@ public class WizardUtilsTest
     }
     
     @Test
-    public void testIsValidIdentifierRejectsInnerBlanks()
+    public void isValidIdentifierRejectsInnerBlanks()
     {
         assertFalse(WizardUtils.isValidIdentifier("a b"));
     }
     
     @Test
-    public void testIsValidIdentifierRejectsLeadingTrailingBlanks()
+    public void isValidIdentifierRejectsLeadingTrailingBlanks()
     {
         assertFalse(WizardUtils.isValidIdentifier(" b"));
         assertFalse(WizardUtils.isValidIdentifier("b "));
     }
     
     @Test
-    public void testIsValidRejectsEmpty()
+    public void isValidRejectsEmpty()
     {
         assertFalse(WizardUtils.isValidIdentifier(""));
     }
     
     @Test
-    public void testIsValidRejectsInvalidChars()
+    public void isValidRejectsInvalidChars()
     {
         assertFalse(WizardUtils.isValidIdentifier("3a"));
         assertFalse(WizardUtils.isValidIdentifier("X$a"));
@@ -86,7 +86,7 @@ public class WizardUtilsTest
     }
     
     @Test
-    public void testIsValidAcceptsValidNames()
+    public void isValidAcceptsValidNames()
     {
         assertTrue(WizardUtils.isValidIdentifier("aB"));
         assertTrue(WizardUtils.isValidIdentifier("_aB"));
@@ -96,7 +96,7 @@ public class WizardUtilsTest
     }
     
     @Test
-    public void testIsValidAcceptsOneAndTwoChars()
+    public void isValidAcceptsOneAndTwoChars()
     {
         assertTrue(WizardUtils.isValidIdentifier("a"));
         assertTrue(WizardUtils.isValidIdentifier("ab"));

@@ -91,30 +91,13 @@ public class NewTestSuiteWizardPanel1 extends AbstractWizardPanel
 
         if( genTestCases == true )
         {
-            if( testCases.isEmpty() == true )
+            if( checkTestCases(testCases) == false )
             {
-                setErrorMessage(getMessageFromBundle("MSG_Err_Empty_TestCase_Name"));
-                return false;
-            }
-            else if( WizardUtils.isValidIdentifier(testCases.get(0)) == false )
-            {
-                setErrorMessage(getMessageFromBundle("MSG_Err_Invalid_TestCase_Name"));
                 return false;
             }
         }
         
-        if( suiteName.isEmpty() == true )
-        {
-            setErrorMessage(getMessageFromBundle("MSG_Err_Empty_TestSuite_Name"));
-            return false;
-        }
-        else if ( WizardUtils.isValidIdentifier(suiteName) == false )
-        {
-            setErrorMessage(getMessageFromBundle("MSG_Err_Invalid_TestSuite_Name"));
-            return false;
-        }
-
-        return true;
+        return checkSuiteName(suiteName);
     }
 
     
@@ -138,14 +121,7 @@ public class NewTestSuiteWizardPanel1 extends AbstractWizardPanel
     @Override
     public void storeSettings(WizardDescriptor wiz)
     {
-        final Object wizValue = wiz.getValue();
-        
-        if( WizardDescriptor.PREVIOUS_OPTION.equals(wizValue) == true )
-        {
-            return;
-        }
-        
-        if( WizardDescriptor.CANCEL_OPTION.equals(wizValue) == false && isValid() == true )
+        if( isNextOption(wiz.getValue()) == true )
         {
             wiz.putProperty(PROP_TEST_GENERATE_SETUP, getGenerateSetupFromVisualPanel());
             wiz.putProperty(PROP_TEST_GENERATE_TEARDOWN, getGenerateTeardownFromVisualPanel());
@@ -235,4 +211,59 @@ public class NewTestSuiteWizardPanel1 extends AbstractWizardPanel
     {
         return getComponent().getGenerateTestCases();
     }
+
+
+    /**
+     * Checks if {@code testCases} are valid test cases. If not,
+     * an error is set.
+     * 
+     * @param testCases     Test cases
+     * @return              Returns <tt>true</tt> if valid or <tt>false</tt>
+     *                      otherwise
+     */
+    private boolean checkTestCases(List<String> testCases)
+    {
+        if( testCases.isEmpty() == true )
+        {
+            setErrorMessage(getMessageFromBundle("MSG_Err_Empty_TestCase_Name"));
+            return false;
+        }
+        else if( WizardUtils.isValidIdentifier(testCases.get(0)) == false )
+        {
+            setErrorMessage(getMessageFromBundle("MSG_Err_Invalid_TestCase_Name"));
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    
+    
+    /**
+     * Checks if {@suiteName} is a valid test suite name. If not,
+     * an error is set.
+     * 
+     * @param testCases     Test suiten name
+     * @return              Returns <tt>true</tt> if valid or <tt>false</tt>
+     *                      otherwise
+     */
+    private boolean checkSuiteName(String suiteName)
+    {
+        if( suiteName.isEmpty() == true )
+        {
+            setErrorMessage(getMessageFromBundle("MSG_Err_Empty_TestSuite_Name"));
+            return false;
+        }
+        else if( WizardUtils.isValidIdentifier(suiteName) == false )
+        {
+            setErrorMessage(getMessageFromBundle("MSG_Err_Invalid_TestSuite_Name"));
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    
 }

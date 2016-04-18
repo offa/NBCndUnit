@@ -31,12 +31,10 @@ import java.awt.event.ActionEvent;
 public class GoToCallstackNodeAction extends AbstractTestNodeAction
 {
     private static final long serialVersionUID = 1L;
-    private final String frameInfo;
     
     public GoToCallstackNodeAction(String actionName, String frameInfo)
     {
         super(actionName, null);
-        this.frameInfo = frameInfo;
     }
 
     

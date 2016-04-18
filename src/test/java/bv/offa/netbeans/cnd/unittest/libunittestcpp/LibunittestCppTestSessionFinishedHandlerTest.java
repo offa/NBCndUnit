@@ -37,24 +37,22 @@ public class LibunittestCppTestSessionFinishedHandlerTest
     }
     
     @Test
-    public void testMatchesSuccessfulTest()
+    public void matchesSuccessfulTest()
     {
         assertTrue(handler.matches("Ran 60 tests in 0.100471s"));
         assertTrue(handler.matches("Ran 5 tests in 127.000288703s"));
     }
     
     @Test
-    public void testParseDataSuccessfulTest()
+    public void parseDataSuccessfulTest()
     {
-        final String input = "Ran 5 tests in 127.000288703s";
-        Matcher m = handler.match(input);
-        
+        Matcher m = handler.match("Ran 5 tests in 127.000288703s");
         assertTrue(m.find());
         assertEquals("127.000288703", m.group(1));
     }
     
     @Test
-    public void testRejectsMalformedTests()
+    public void rejectsMalformedTests()
     {
         assertFalse(handler.matches("Ran 2 tests in"));
         assertFalse(handler.matches("Ran 2 tests in "));

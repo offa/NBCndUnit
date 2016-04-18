@@ -27,7 +27,7 @@ import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactoryProvider;
 public class GoogleTestTestHandlerFactoryProviderTest
 {
     @Test
-    public void testGetFactoryReturnsCorrectInstance()
+    public void getFactoryReturnsInstance()
     {
         TestHandlerFactoryProvider provider = new GoogleTestTestHandlerFactoryProvider();
         assertEquals(GoogleTestTestHandlerFactory.class, provider.getFactory().getClass());

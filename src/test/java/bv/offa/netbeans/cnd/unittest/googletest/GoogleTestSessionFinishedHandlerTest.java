@@ -37,34 +37,29 @@ public class GoogleTestSessionFinishedHandlerTest
     }
     
     @Test
-    public void testMatchesTestSessionResult()
+    public void matchesTestSessionResult()
     {
         assertTrue(handler.matches("[==========] 1200 tests from 307 test cases ran. (1234 ms total)"));
     }
     
     @Test
-    public void testParseDataTestSession()
+    public void parseDataTestSession()
     {
-        final String input = "[==========] 1200 tests from 307 test cases ran. (1234 ms total)";
-        Matcher m = handler.match(input);
-        
+        Matcher m = handler.match("[==========] 1200 tests from 307 test cases ran. (1234 ms total)");
         assertTrue(m.find());
         assertEquals("1234", m.group(1));
     }
     
     @Test
-    public void testMatchesSingleTests()
+    public void matchesSingleTests()
     {
-        final String input = "[==========] 1 test from 1 test case ran. (3 ms total)";
-        assertTrue(handler.matches(input));
+        assertTrue(handler.matches("[==========] 1 test from 1 test case ran. (3 ms total)"));
     }
     
     @Test
-    public void testParseDataSingleTests()
+    public void parseDataSingleTests()
     {
-        final String input = "[==========] 1 test from 1 test case ran. (3 ms total)";
-        Matcher m = handler.match(input);
-        
+        Matcher m = handler.match("[==========] 1 test from 1 test case ran. (3 ms total)");
         assertTrue(m.find());
         assertEquals("3", m.group(1));
     }

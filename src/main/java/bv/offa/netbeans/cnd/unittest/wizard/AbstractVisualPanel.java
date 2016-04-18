@@ -38,7 +38,7 @@ public abstract class AbstractVisualPanel extends JPanel
     public AbstractVisualPanel(String compName)
     {
         this.changeSupport = new ChangeSupport(this);
-        setName(compName);
+        setup(compName);
     }
     
     
@@ -71,5 +71,16 @@ public abstract class AbstractVisualPanel extends JPanel
     protected void updateChangeListener()
     {
         changeSupport.fireChange();
+    }
+    
+    
+    /**
+     * Setups the component.
+     * 
+     * @param compName  Name of the component
+     */
+    private void setup(String compName)
+    {
+        setName(compName);
     }
 }

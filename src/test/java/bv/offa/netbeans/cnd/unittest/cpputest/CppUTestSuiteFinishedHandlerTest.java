@@ -26,25 +26,26 @@ import org.junit.Before;
 
 public class CppUTestSuiteFinishedHandlerTest
 {
-    private static final TestSessionInformation dontCareInfo = new TestSessionInformation();
+    private TestSessionInformation info;
     private CppUTestSuiteFinishedHandler handler;
     
     
     @Before
     public void setUp()
     {
-        handler = new CppUTestSuiteFinishedHandler(dontCareInfo);
+        info = new TestSessionInformation();
+        handler = new CppUTestSuiteFinishedHandler(info);
     }
     
     @Test
-    public void testMatchesSuccessfulTest()
+    public void matchesSuccessfulTest()
     {
-        final String inputOk = "OK (8 tests, 8 ran, 7 checks, 0 ignored, 0 filtered out, 123 ms)";
-        assertTrue(handler.matches(inputOk));
+        assertTrue(handler.matches("OK (8 tests, 8 ran, 7 checks, 0 ignored, "
+                                    + "0 filtered out, 123 ms)"));
     }
     
     @Test
-    public void testRejectsMalformedResult()
+    public void rejectsMalformedResult()
     {
         assertFalse(handler.matches("OK"));
         assertFalse(handler.matches("OK ("));
@@ -52,35 +53,35 @@ public class CppUTestSuiteFinishedHandlerTest
     }
     
     @Test
-    public void testMatchesErrorWithoutEscapeColor()
+    public void matchesErrorWithoutEscapeColor()
     {
-        final String errorMsg = "Errors (1 failures, 9 tests, 9 ran, 7 checks, 0 ignored, 0 filtered out, 123 ms)";
-        assertTrue(handler.matches(errorMsg));
+        assertTrue(handler.matches("Errors (1 failures, 9 tests, 9 ran, 7 checks, "
+                                    + "0 ignored, 0 filtered out, 123 ms)"));
     }
     
     @Test
-    public void testMatchesErrorWithEscapeColor()
+    public void matchesErrorWithEscapeColor()
     {
-        final String errorMsg = "\u001B[31;1m" 
-                + "Errors (1 failures, 9 tests, 9 ran, 7 checks, 0 ignored, 0 filtered out, 123 ms)"  
-                + "\u001B[m";
-        assertTrue(handler.matches(errorMsg));
+        assertTrue(handler.matches("\u001B[31;1m" 
+                + "Errors (1 failures, 9 tests, 9 ran, 7 checks, 0 ignored, "
+                + "0 filtered out, 123 ms)"  
+                + "\u001B[m"));
     }
     
     @Test
-    public void testMatchesSuccessfulWithoutEscapeColor()
+    public void matchesSuccessfulWithoutEscapeColor()
     {
-        final String okMsg = "OK (9 tests, 9 ran, 7 checks, 0 ignored, 0 filtered out, 124 ms)";
-        assertTrue(handler.matches(okMsg));
+        assertTrue(handler.matches("OK (9 tests, 9 ran, 7 checks, 0 ignored, "
+                                    + "0 filtered out, 124 ms)"));
     }
     
     @Test
-    public void testMatchesSuccessfulWithEscapeColor()
+    public void matchesSuccessfulWithEscapeColor()
     {
-        final String okMsg = "\u001B[32;1m"
-                + "OK (9 tests, 9 ran, 7 checks, 0 ignored, 0 filtered out, 124 ms)"
-                + "\u001B[m";
-        assertTrue(handler.matches(okMsg));
+        assertTrue(handler.matches("\u001B[32;1m"
+                                    + "OK (9 tests, 9 ran, 7 checks, 0 ignored, "
+                                    + "0 filtered out, 124 ms)"
+                                    + "\u001B[m"));
     }
     
 }

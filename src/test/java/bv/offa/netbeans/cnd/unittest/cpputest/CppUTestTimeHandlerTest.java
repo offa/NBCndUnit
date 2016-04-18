@@ -34,23 +34,29 @@ public class CppUTestTimeHandlerTest
 {
     private static final TestSessionInformation DONT_CARE_INFO = new TestSessionInformation();
     private CppUTestTimeHandler handler;
+    private TestSession session;
+    private TestSessionInformation info;
+    private CppUTestTimeHandler timeHandler;
     
     
     @Before
     public void setUp()
     {
         handler = new CppUTestTimeHandler(DONT_CARE_INFO);
+        session = mock(TestSession.class);
+        info = new TestSessionInformation();
+        timeHandler = new CppUTestTimeHandler(info);
     }
     
     @Test
-    public void testMatchesTime()
+    public void matchesTime()
     {
         assertTrue(handler.matches(" - 0 ms"));
         assertTrue(handler.matches(" - 123 ms"));
     }
     
     @Test
-    public void testParsesDataTime()
+    public void parsesDataTime()
     {
         Matcher m = handler.match(" - 0 ms");
         assertTrue(m.matches());
@@ -61,20 +67,13 @@ public class CppUTestTimeHandlerTest
     }
     
     @Test
-    public void testUpdateUIUpdatesTime()
+    public void updateUIUpdatesTime()
     {
-        TestSessionInformation info = new TestSessionInformation();
-        CppUTestTimeHandler timeHandler = new CppUTestTimeHandler(info);
-        final String input = " - 123 ms";
-        Matcher m = timeHandler.match(input);
+        Matcher m = timeHandler.match(" - 123 ms");
         assertTrue(m.find());
-        
-        TestSession session = mock(TestSession.class);
         Testcase testCase = new CndTestCase("testCase", TestFramework.CPPUTEST, session);
         when(session.getCurrentTestCase()).thenReturn(testCase);
-        
         timeHandler.updateUI(null, session);
-        
         assertEquals(123L, info.getTimeTotal());
         assertEquals(123L, testCase.getTimeMillis());
     }

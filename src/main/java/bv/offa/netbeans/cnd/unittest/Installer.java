@@ -44,16 +44,15 @@ public class Installer extends ModuleInstall
     
     public Installer()
     {
-        this.targetModules = new HashSet<>();
-        this.targetModules.addAll(Arrays.asList(
-                "org.netbeans.modules.cnd.testrunner",
-                "org.netbeans.modules.gsf.testrunner",
-                "org.netbeans.modules.gsf.testrunner.ui",
-                "org.netbeans.modules.cnd.modelutil",
-                "org.netbeans.modules.cnd.makeproject",
-                "org.netbeans.modules.cnd.api.model",
-                "org.netbeans.modules.cnd",
-                "org.netbeans.modules.cnd.utils"));
+        this.targetModules = new HashSet<>(Arrays.asList(
+                                    "org.netbeans.modules.cnd.testrunner",
+                                    "org.netbeans.modules.gsf.testrunner",
+                                    "org.netbeans.modules.gsf.testrunner.ui",
+                                    "org.netbeans.modules.cnd.modelutil",
+                                    "org.netbeans.modules.cnd.makeproject",
+                                    "org.netbeans.modules.cnd.api.model",
+                                    "org.netbeans.modules.cnd",
+                                    "org.netbeans.modules.cnd.utils"));
     }
 
     
@@ -98,43 +97,53 @@ public class Installer extends ModuleInstall
         try
         {
             final ModuleInfo moduleInfoOfThis = Modules.getDefault().ownerOf(this.getClass());
-            assert(moduleInfoOfThis != null);
-            final String codeNameBase = moduleInfoOfThis.getCodeNameBase();
-            
             final Method getManagerMethod = moduleInfoOfThis.getClass().getMethod("getManager");
             final Object manager = getManagerMethod.invoke(moduleInfoOfThis);
-            
             final Method getMethod = manager.getClass().getMethod("get", String.class);
             
             for( String target : targetModules )
             {
-                Object dependency = getMethod.invoke(manager, target);
-                assert(dependency != null);
-                
-                final ModuleInfo moduleInfo = (ModuleInfo) dependency;
-                
-                final Class<?> moduleClass = Class.forName("org.netbeans.Module", 
-                                                            true, 
-                                                            moduleInfo.getClass()
-                                                                    .getClassLoader());
-                final Method dataMethod = moduleClass.getDeclaredMethod("data");
-                dataMethod.setAccessible(true);
-                
-                final Object dataValue = dataMethod.invoke(moduleInfo);
-                
-                final Class<?> moduleDataClass = Class.forName("org.netbeans.ModuleData", 
-                                                                true, 
-                                                                dataValue.getClass()
-                                                                        .getClassLoader());
-                final Field friendNamesField = moduleDataClass.getDeclaredField("friendNames");
-                
-                updateFriendsValue(friendNamesField, dataValue, codeNameBase);
+                addModuleToFriends(target, manager, getMethod, moduleInfoOfThis.getCodeNameBase());
             }
         }
         catch( ReflectiveOperationException | SecurityException | IllegalArgumentException ex )
         {
             throw new IllegalStateException(ex);
         }
+    }
+    
+    
+    /**
+     * Changes the friends of {@code targetModule}.
+     * 
+     * @param targetModule      Module
+     * @param manager           Manager object
+     * @param getMethod         Get Method
+     * @param codeNameBase      Codename base
+     * @throws ReflectiveOperationException     On reflection operation failure
+     * @throws IllegalArgumentException         On illegal argument
+     */
+    private void addModuleToFriends(String targetModule, Object manager, 
+                                    Method getMethod, String codeNameBase)
+                                        throws ReflectiveOperationException, 
+                                                IllegalArgumentException
+    {
+        final ModuleInfo moduleInfo = (ModuleInfo) getMethod.invoke(manager, targetModule);
+        final Class<?> moduleClass = Class.forName("org.netbeans.Module", 
+                                                    true, 
+                                                    moduleInfo.getClass()
+                                                            .getClassLoader());
+        final Method dataMethod = moduleClass.getDeclaredMethod("data");
+        dataMethod.setAccessible(true);
+
+        final Object dataValue = dataMethod.invoke(moduleInfo);
+        final Class<?> moduleDataClass = Class.forName("org.netbeans.ModuleData", 
+                                                        true, 
+                                                        dataValue.getClass()
+                                                                .getClassLoader());
+        final Field friendNamesField = moduleDataClass.getDeclaredField("friendNames");
+
+        updateFriendsValue(friendNamesField, dataValue, codeNameBase);
     }
     
     

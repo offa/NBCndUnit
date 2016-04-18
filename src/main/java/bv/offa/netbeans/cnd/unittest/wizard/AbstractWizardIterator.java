@@ -165,7 +165,7 @@ public abstract class AbstractWizardIterator implements WizardDescriptor.Instant
     @Override
     public void nextPanel()
     {
-        if( !hasNext() )
+        if( hasNext() == false )
         {
             throw new NoSuchElementException();
         }
@@ -179,7 +179,7 @@ public abstract class AbstractWizardIterator implements WizardDescriptor.Instant
     @Override
     public void previousPanel()
     {
-        if( !hasPrevious() )
+        if( hasPrevious() == false )
         {
             throw new NoSuchElementException();
         }
@@ -225,7 +225,7 @@ public abstract class AbstractWizardIterator implements WizardDescriptor.Instant
     {
         if( panels == null )
         {
-            panels = new ArrayList<WizardDescriptor.Panel<WizardDescriptor>>();
+            panels = new ArrayList<>();
 
             Project p = Templates.getProject(wizard);
             SourceGroup[] groups = ProjectUtils.getSources(p).getSourceGroups(Sources.TYPE_GENERIC);
@@ -256,7 +256,8 @@ public abstract class AbstractWizardIterator implements WizardDescriptor.Instant
         String[] beforeSteps = (String[]) wizard.getProperty("WizardPanel_contentData");
         assert beforeSteps != null : "This wizard may only be used embedded in the template wizard";
         String[] res = new String[(beforeSteps.length - 1) + panels.size()];
-        for( int i = 0; i < res.length; i++ )
+        
+        for( int i=0; i<res.length; i++ )
         {
             if( i < (beforeSteps.length - 1) )
             {

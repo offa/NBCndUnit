@@ -39,19 +39,19 @@ public class LibunittestCppTestHandlerFactoryTest
     }
     
     @Test
-    public void testPrintSummary()
+    public void printSummary()
     {
         assertTrue(factory.printSummary());
     }
     
     @Test
-    public void testCreateHandlersContainsHandlers()
+    public void createHandlersContainsHandlers()
     {
         assertEquals(2, factory.createHandlers().size());
     }
     
     @Test
-    public void testFactorySetsNodeFactory()
+    public void factorySetsNodeFactory()
     {
         factory.createHandlers();
         assertTrue(Manager.getInstance().getNodeFactory() instanceof TestRunnerUINodeFactory);

@@ -104,14 +104,7 @@ public class NewTestMainWizardPanel1 extends AbstractWizardPanel
     @Override
     public void storeSettings(WizardDescriptor wiz)
     {
-        final Object wizValue = wiz.getValue();
-        
-        if( WizardDescriptor.PREVIOUS_OPTION.equals(wizValue) == true )
-        {
-            return;
-        }
-        
-        if( WizardDescriptor.CANCEL_OPTION.equals(wizValue) == false && isValid() == true )
+        if( isNextOption(wiz.getValue()) == true )
         {
             wiz.putProperty(PROP_MAIN_ENABLE_VERBOSE, getEnableVerboseOutputFromVisualPanel());
             wiz.putProperty(PROP_MAIN_ENABLE_COLOR, getEnableColorOutputFromVisualPanel());

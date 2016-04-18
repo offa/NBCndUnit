@@ -28,13 +28,13 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.netbeans.api.project.Project;
 import org.netbeans.modules.gsf.testrunner.api.Status;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Lookup;
+import static org.mockito.Mockito.mock;
 
 public class TestSupportUtilsTest
 {
@@ -50,14 +50,14 @@ public class TestSupportUtilsTest
     {
         testSessionMock = mock(TestSession.class);
         projectMock = mock(Project.class);
-        when(projectMock.getProjectDirectory()).thenReturn(FileUtil.createMemoryFileSystem().getRoot());
+        when(projectMock.getProjectDirectory())
+                .thenReturn(FileUtil.createMemoryFileSystem().getRoot());
         when(projectMock.getLookup()).thenReturn(Lookup.EMPTY);
     }
     
     
-    
     @Test
-    public void testParseTimeToMillis()
+    public void parseTimeToMillis()
     {
         assertEquals(12345000L, parseMs("12345.0"));
         assertEquals(67890000L, parseMs("67890"));
@@ -78,7 +78,7 @@ public class TestSupportUtilsTest
     }
     
     @Test
-    public void testParseTimeToMillisWithInvalidInput()
+    public void parseTimeToMillisWithInvalidInput()
     {
         assertEquals(0L, parseMs("-7.4272e-02"));
         assertEquals(0L, parseMs("-0.100471"));
@@ -88,13 +88,8 @@ public class TestSupportUtilsTest
         assertEquals(0L, parseMs(""));
     }
     
-    private long parseMs(String timeSec)
-    {
-        return TestSupportUtils.parseTimeSecToMillis(timeSec);
-    }
-    
     @Test
-    public void testGetUniqueDeclaratonNameTestCaseCppUTest()
+    public void getUniqueDeclaratonNameTestCaseCppUTest()
     {
         CndTestCase testCase = new CndTestCase(CASE_NAME, TestFramework.CPPUTEST, testSessionMock);
         testCase.setClassName(SUITE_NAME);
@@ -104,7 +99,7 @@ public class TestSupportUtilsTest
     }
     
     @Test
-    public void testGetUniqueDeclaratonNameTestCaseCppUTestIgnored()
+    public void getUniqueDeclaratonNameTestCaseCppUTestIgnored()
     {
         CndTestCase testCase = new CndTestCase(CASE_NAME, TestFramework.CPPUTEST, testSessionMock);
         testCase.setClassName(SUITE_NAME);
@@ -115,7 +110,7 @@ public class TestSupportUtilsTest
     }
     
     @Test
-    public void testGetUniqueDeclaratonNameTestSuiteCppUTest()
+    public void getUniqueDeclaratonNameTestSuiteCppUTest()
     {
         CndTestSuite testSuite = new CndTestSuite(SUITE_NAME, TestFramework.CPPUTEST);
         
@@ -124,7 +119,7 @@ public class TestSupportUtilsTest
     }
     
     @Test
-    public void testGetUniqueDeclaratonNameTestCaseGoogleTest()
+    public void getUniqueDeclaratonNameTestCaseGoogleTest()
     {
         CndTestCase testCase = new CndTestCase(CASE_NAME, TestFramework.GOOGLETEST, testSessionMock);
         testCase.setClassName(SUITE_NAME);
@@ -134,7 +129,7 @@ public class TestSupportUtilsTest
     }
     
     @Test
-    public void testGetUniqueDeclaratonNameTestCaseGoogleTestWithParameter()
+    public void getUniqueDeclaratonNameTestCaseGoogleTestWithParameter()
     {
         CndTestCase testCase = new CndTestCase(CASE_NAME, TestFramework.GOOGLETEST, testSessionMock);
         testCase.setClassName("withParam/" + SUITE_NAME);
@@ -144,7 +139,7 @@ public class TestSupportUtilsTest
     }
     
     @Test
-    public void testGetUniqueDeclaratonNameTestSuiteGoogleTest()
+    public void getUniqueDeclaratonNameTestSuiteGoogleTest()
     {
         CndTestSuite testSuite = new CndTestSuite(SUITE_NAME, TestFramework.GOOGLETEST);
         
@@ -153,7 +148,7 @@ public class TestSupportUtilsTest
     }
     
     @Test
-    public void testGetUniqueDeclaratonNameTestSuiteGoogleTestWithParameter()
+    public void getUniqueDeclaratonNameTestSuiteGoogleTestWithParameter()
     {
         CndTestSuite testSuite = new CndTestSuite("withParam/" + SUITE_NAME, TestFramework.GOOGLETEST);
         
@@ -162,7 +157,7 @@ public class TestSupportUtilsTest
     }
     
     @Test
-    public void testGetUniqueDeclaratonNameTestCaseLibunittestCpp()
+    public void getUniqueDeclaratonNameTestCaseLibunittestCpp()
     {
         CndTestCase testCase = new CndTestCase(CASE_NAME, TestFramework.LIBUNITTESTCPP, testSessionMock);
         testCase.setClassName(SUITE_NAME);
@@ -172,7 +167,7 @@ public class TestSupportUtilsTest
     }
     
     @Test
-    public void testGetUniqueDeclaratonNameTestCaseLibunittestCppWithToken()
+    public void getUniqueDeclaratonNameTestCaseLibunittestCppWithToken()
     {
         CndTestCase testCase = new CndTestCase(CASE_NAME + "::test", TestFramework.LIBUNITTESTCPP, testSessionMock);
         testCase.setClassName(SUITE_NAME);
@@ -182,11 +177,16 @@ public class TestSupportUtilsTest
     }
     
     @Test
-    public void testGetUniqueDeclaratonNameTestSuiteLibunittestCpp()
+    public void getUniqueDeclaratonNameTestSuiteLibunittestCpp()
     {
         CndTestSuite testSuite = new CndTestSuite(SUITE_NAME, TestFramework.LIBUNITTESTCPP);
         
         final String expected = "S:" + SUITE_NAME + "::__testcollection_child__";
         assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testSuite));
+    }
+    
+    private long parseMs(String timeSec)
+    {
+        return TestSupportUtils.parseTimeSecToMillis(timeSec);
     }
 }

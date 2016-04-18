@@ -33,29 +33,31 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
 
 public class CppUTestErrorHandlerTest
 {
-    private static final TestSessionInformation dontCareInfo = new TestSessionInformation();
+    private TestSession session;
+    private TestSessionInformation info;
     private CppUTestErrorHandler handler;
     
     
     @Before
     public void setUp()
     {
-        handler = new CppUTestErrorHandler(dontCareInfo);
+        session = mock(TestSession.class);
+        info = new TestSessionInformation();
+        handler = new CppUTestErrorHandler(info);
     }
     
     @Test
-    public void testMatchesErrorLocationLine()
+    public void matchesErrorLocationLine()
     {
-        final String line = "test/TestSuite.cpp:37: error: Failure in TEST(TestSuite, testCase)";
-        assertTrue(handler.matches(line));
+        assertTrue(handler.matches("test/TestSuite.cpp:37: error: Failure "
+                                    + "in TEST(TestSuite, testCase)"));
     }
     
     @Test
-    public void testParsesDataErrorLocationLine()
+    public void parsesDataErrorLocationLine()
     {
-        final String line = "test/TestSuite.cpp:37: error: Failure in TEST(TestSuite, testCase)";
-        Matcher m = handler.match(line);
-        
+        Matcher m = handler.match("test/TestSuite.cpp:37: error: Failure "
+                                    + "in TEST(TestSuite, testCase)");
         assertTrue(m.find());
         assertEquals(4, m.groupCount());
         assertEquals("test/TestSuite.cpp", m.group(1));
@@ -65,86 +67,63 @@ public class CppUTestErrorHandlerTest
     }
     
     @Test
-    public void testUpdateUIDoesNothingIfNoTestCase()
+    public void updateUIDoesNothingIfNoTestCase()
     {
-        final String input = "test/TestSuite.cpp:37: error: Failure in TEST(TestSuite, testCase)";
-        Matcher m = handler.match(input);
+        Matcher m = handler.match("test/TestSuite.cpp:37: error: Failure "
+                                    + "in TEST(TestSuite, testCase)");
         assertTrue(m.find());
-        
-        TestSession session = mock(TestSession.class);
         Testcase testCase = null;
         when(session.getCurrentTestCase()).thenReturn(testCase);
-        
         handler.updateUI(null, session);
     }
     
     @Test
-    public void testUpdateUIIgnoresNotMatchingTestCase()
+    public void updateUIIgnoresNotMatchingTestCase()
     {
-        final String input = "test/TestSuite.cpp:37: error: Failure in TEST(TestSuite, testCase)";
-        Matcher m = handler.match(input);
+        Matcher m = handler.match("test/TestSuite.cpp:37: error: Failure "
+                                    + "in TEST(TestSuite, testCase)");
         assertTrue(m.find());
-
-        TestSession session = mock(TestSession.class);
         Testcase testCase = createTestCase("TestSuite", "wrongTestCase", session);
-        when(session.getCurrentTestCase()).thenReturn(testCase);
-
         handler.updateUI(null, session);
-
         assertNull(testCase.getTrouble());
         assertNull(testCase.getLocation());
     }
     
     @Test
-    public void testUpdateUIIgnoresNotMatchingTestSuite()
+    public void updateUIIgnoresNotMatchingTestSuite()
     {
-        final String input = "test/TestSuite.cpp:37: error: Failure in TEST(TestSuite, testName)";
-        Matcher m = handler.match(input);
+        Matcher m = handler.match("test/TestSuite.cpp:37: error: Failure in "
+                                    + "TEST(TestSuite, testName)");
         assertTrue(m.find());
-
-        TestSession session = mock(TestSession.class);
         Testcase testCase = createTestCase("WrongTestSuite", "testCase", session);
-        when(session.getCurrentTestCase()).thenReturn(testCase);
-
         handler.updateUI(null, session);
-
         assertNull(testCase.getTrouble());
     }
     
     @Test
-    public void testUpdateUISetsTrouble()
+    public void updateUISetsTrouble()
     {
-        final String input = "test/TestSuite.cpp:37: error: Failure in TEST(TestSuite, testCase)";
-        Matcher m = handler.match(input);
+        Matcher m = handler.match("test/TestSuite.cpp:37: error: Failure "
+                                    + "in TEST(TestSuite, testCase)");
         assertTrue(m.find());
-
-        TestSession session = mock(TestSession.class);
         Testcase testCase = createTestCase("TestSuite", "testCase", session);
-        when(session.getCurrentTestCase()).thenReturn(testCase);
-
         handler.updateUI(null, session);
         Trouble t = testCase.getTrouble();
-        
         assertNotNull(t);
         assertTrue(t.isError());
         assertEquals("test/TestSuite.cpp:37", t.getStackTrace()[0]);
     }
     
     @Test
-    public void testUpdateUIUpdatesTrouble()
+    public void updateUIUpdatesTrouble()
     {
-        final String input = "test/TestSuite.cpp:37: error: Failure in TEST(TestSuite, testCase)";
-        Matcher m = handler.match(input);
+        Matcher m = handler.match("test/TestSuite.cpp:37: error: Failure "
+                                    + "in TEST(TestSuite, testCase)");
         assertTrue(m.find());
-
-        TestSession session = mock(TestSession.class);
         Testcase testCase = createTestCase("TestSuite", "testCase", session);
         testCase.setTrouble(new Trouble(false));
-        when(session.getCurrentTestCase()).thenReturn(testCase);
-
         handler.updateUI(null, session);
         Trouble t = testCase.getTrouble();
-        
         assertNotNull(t);
         assertTrue(t.isError());
         assertEquals("test/TestSuite.cpp:37", t.getStackTrace()[0]);
@@ -155,6 +134,7 @@ public class CppUTestErrorHandlerTest
     {
         CndTestCase testCase = new CndTestCase(caseName, TestFramework.CPPUTEST, session);
         testCase.setClassName(suiteName);
+        when(session.getCurrentTestCase()).thenReturn(testCase);
         
         return testCase;
     }

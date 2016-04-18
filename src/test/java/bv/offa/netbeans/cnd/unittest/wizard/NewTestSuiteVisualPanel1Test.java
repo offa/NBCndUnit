@@ -51,38 +51,34 @@ public class NewTestSuiteVisualPanel1Test
     
     
     @Test
-    public void testGetTestCaseNamesIsEmptyIfNothingSet()
+    public void getTestCaseNamesIsEmptyIfNothingSet()
     {
         panel.setTestCaseNames(Arrays.asList(""));
-        
         assertTrue(panel.getTestCaseNames().isEmpty());
     }
     
     @Test
-    public void testGetTestCaseNamesContainsValue()
+    public void getTestCaseNamesContainsValue()
     {
         panel.setTestCaseNames(Arrays.asList("abc"));
         final List<String> names = panel.getTestCaseNames();
-        
         assertEquals(1, names.size());
         assertEquals("abc", names.get(0));
     }
     
     @Test
-    public void testChangeListenerUpdatedOnSuiteNameChange()
+    public void changeListenerUpdatedOnSuiteNameChange()
     {
         panel.addChangeListener(listenerMock);
         panel.setTestSuiteName("abc");
-        
         verify(listenerMock, atLeastOnce()).stateChanged(any(ChangeEvent.class));
     }
     
     @Test
-    public void testChangeListenerUpdatedOnTestCaseNamesChange()
+    public void changeListenerUpdatedOnTestCaseNamesChange()
     {
         panel.addChangeListener(listenerMock);
         panel.setTestCaseNames(Arrays.asList("abc"));
-        
         verify(listenerMock, atLeastOnce()).stateChanged(any(ChangeEvent.class));
     }
 }

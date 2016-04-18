@@ -23,13 +23,13 @@ package bv.offa.netbeans.cnd.unittest.wizard;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import static org.hamcrest.CoreMatchers.hasItems;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openide.WizardDescriptor;
 import static org.mockito.Mockito.*;
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class NewTestSuiteWizardIteratorTest
 {
@@ -46,7 +46,7 @@ public class NewTestSuiteWizardIteratorTest
     
     @Test
     @SuppressWarnings("unchecked")
-    public void testGetTemplateParameters()
+    public void getTemplateParameters()
     {
         wizardIterator.wizard = wizardMock;
         final Map<String, Object> params = wizardIterator.getTemplateParameters();
@@ -54,7 +54,8 @@ public class NewTestSuiteWizardIteratorTest
         assertEquals(Boolean.TRUE, params.get("generateSetup"));
         assertEquals(Boolean.FALSE, params.get("generateTeardown"));
         assertEquals(Boolean.TRUE, params.get("generateTestCases"));
-        assertThat((List<String>) params.get("testCases"), hasItems("testCase1", "testCase2", "testCase3"));
+        assertThat((List<String>) params.get("testCases"), 
+                    hasItems("testCase1", "testCase2", "testCase3"));
         assertEquals("TestSuite", params.get("suiteName"));
     }
     

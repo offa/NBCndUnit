@@ -30,7 +30,7 @@ public class AbstractTestNodeActionTest
 {
 
     @Test
-    public void testGetValueReturnsActionName()
+    public void getValueReturnsActionName()
     {
         AbstractTestNodeAction nodeAction = new AbstractTestNodeActionMock("actionName", null);
         assertEquals(nodeAction.getValue(Action.NAME), "actionName");

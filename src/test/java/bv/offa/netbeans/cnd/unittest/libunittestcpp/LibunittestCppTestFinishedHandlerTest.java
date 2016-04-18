@@ -37,7 +37,7 @@ public class LibunittestCppTestFinishedHandlerTest
     }
     
     @Test
-    public void testMatchesSuccessfulTest()
+    public void matchesSuccessfulTest()
     {
         assertTrue(handler.matches("test_name::testA ... [1.551e-05s] ok"));
         assertTrue(handler.matches("test_name::testB ... [0.000108249s] ok"));
@@ -46,11 +46,9 @@ public class LibunittestCppTestFinishedHandlerTest
     }
     
     @Test
-    public void testParseDataSuccessfulTest()
+    public void parseDataSuccessfulTest()
     {
-        final String input = "test_name::testA ... [1.551e-05s] ok";
-        Matcher m = handler.match(input);
-        
+        Matcher m = handler.match("test_name::testA ... [1.551e-05s] ok");
         assertTrue(m.find());
         assertEquals("test_name", m.group(1));
         assertEquals("testA", m.group(2));
@@ -59,11 +57,9 @@ public class LibunittestCppTestFinishedHandlerTest
     }
     
     @Test
-    public void testParseDataFailedTest()
+    public void parseDataFailedTest()
     {
-        final String input = "test_name::testB ... [0.000108249s] FAIL";
-        Matcher m = handler.match(input);
-        
+        Matcher m = handler.match("test_name::testB ... [0.000108249s] FAIL");
         assertTrue(m.find());
         assertEquals("test_name", m.group(1));
         assertEquals("testB", m.group(2));
@@ -72,17 +68,15 @@ public class LibunittestCppTestFinishedHandlerTest
     }
     
     @Test
-    public void testMatchesIgnoredTestCase()
+    public void matchesIgnoredTestCase()
     {
         assertTrue(handler.matches("TestSuite::testExample::test ... [0s] SKIP A message"));
     }
     
     @Test
-    public void testParseDataIgnoredTestCase()
+    public void parseDataIgnoredTestCase()
     {
-        final String input = "TestSuite::testExample::test ... [0s] SKIP A message";
-        Matcher m = handler.match(input);
-        
+        Matcher m = handler.match("TestSuite::testExample::test ... [0s] SKIP A message");
         assertTrue(m.find());
         assertEquals("TestSuite", m.group(1));
         assertEquals("testExample::test", m.group(2));

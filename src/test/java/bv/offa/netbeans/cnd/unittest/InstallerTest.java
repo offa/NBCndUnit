@@ -27,7 +27,7 @@ public class InstallerTest
 {
 
     @Test
-    public void testInstallerHasAllFriends()
+    public void installerHasAllFriends()
     {
         final String requiredFriends[] = new String[]
         {

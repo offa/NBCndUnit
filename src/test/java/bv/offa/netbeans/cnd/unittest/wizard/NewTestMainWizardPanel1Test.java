@@ -46,13 +46,13 @@ public class NewTestMainWizardPanel1Test
     }
     
     @Test
-    public void testValidPerDefault()
+    public void validPerDefault()
     {
         assertTrue(panel.isValid());
     }
     
     @Test
-    public void testStoreSettingsWithPreviousOption()
+    public void storeSettingsWithPreviousOption()
     {
         when(wizardMock.getValue()).thenReturn(WizardDescriptor.PREVIOUS_OPTION);
         panel.storeSettings(wizardMock);
@@ -60,32 +60,30 @@ public class NewTestMainWizardPanel1Test
     }
 
     @Test
-    public void testStoreSettingsWithNoCancelOptionAndValid()
+    public void storeSettingsWithNoCancelOptionAndValid()
     {
         NewTestMainWizardPanel1 spyPanel = spy(panel);
         spyPanel.setComponent(null);
         when(spyPanel.isValid()).thenReturn(true);
         when(wizardMock.getValue()).thenReturn(WizardDescriptor.FINISH_OPTION);
-        
         spyPanel.storeSettings(wizardMock);
         verify(wizardMock).putProperty(eq(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_VERBOSE), anyObject());
         verify(wizardMock).putProperty(eq(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_COLOR), anyObject());
     }
 
     @Test
-    public void testStoreSettingsWithNoCancelOptionAndInvalid()
+    public void storeSettingsWithNoCancelOptionAndInvalid()
     {
         NewTestMainWizardPanel1 spyPanel = spy(panel);
         spyPanel.setComponent(null);
         when(spyPanel.isValid()).thenReturn(false);
         when(wizardMock.getValue()).thenReturn(WizardDescriptor.FINISH_OPTION);
-        
         spyPanel.storeSettings(wizardMock);
         verify(wizardMock, never()).putProperty(anyString(), anyObject());
     }
 
     @Test
-    public void testStoreSettingsWithCancelOption()
+    public void storeSettingsWithCancelOption()
     {
         when(wizardMock.getValue()).thenReturn(WizardDescriptor.CANCEL_OPTION);
         panel.storeSettings(wizardMock);
@@ -94,7 +92,7 @@ public class NewTestMainWizardPanel1Test
     }
     
     @Test
-    public void testGetHelpReturnsDefaultHelp()
+    public void getHelpReturnsDefaultHelp()
     {
         assertEquals(HelpCtx.DEFAULT_HELP, panel.getHelp());
     }

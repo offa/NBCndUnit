@@ -21,12 +21,12 @@
 package bv.offa.netbeans.cnd.unittest.wizard;
 
 import java.util.Map;
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 import org.openide.WizardDescriptor;
+import static org.junit.Assert.assertEquals;
 
 public class NewTestMainWizardIteratorTest
 {
@@ -49,10 +49,9 @@ public class NewTestMainWizardIteratorTest
     }
     
     @Test
-    public void testGetTemplateParameters()
+    public void getTemplateParameters()
     {
         final Map<String, Object> params = wizardIterator.getTemplateParameters();
-        
         assertEquals(Boolean.TRUE, params.get("enableVerbose"));
         assertEquals(Boolean.FALSE, params.get("enableColor"));
     }

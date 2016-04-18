@@ -37,44 +37,38 @@ public class GoogleTestSuiteStartedHandlerTest
     }
     
     @Test
-    public void testMatchesTestSuite()
+    public void matchesTestSuite()
     {
         assertTrue(handler.matches("[----------] 5 tests from TestSuite"));
     }
     
     @Test
-    public void testParseDataTestSuite()
+    public void parseDataTestSuite()
     {
-        final String input = "[----------] 5 tests from TestSuite";
-        Matcher m = handler.match(input);
-        
+        Matcher m = handler.match("[----------] 5 tests from TestSuite");
         assertTrue(m.find());
         assertEquals("TestSuite", m.group(1));
     }
     
         
     @Test
-    public void testParseDataTestSuiteParameterized()
+    public void parseDataTestSuiteParameterized()
     {
-        final String input = "[----------] 5 tests from withParameterImpl/TestSuite";
-        Matcher m = handler.match(input);
-        
+        Matcher m = handler.match("[----------] 5 tests from withParameterImpl/TestSuite");
         assertTrue(m.find());
         assertEquals("withParameterImpl/TestSuite", m.group(1));
     }
     
     @Test
-    public void testMatchesSingleTestSuiteParameterized()
+    public void matchesSingleTestSuiteParameterized()
     {
         assertTrue(handler.matches("[----------] 1 test from TestSuite"));
     }
     
     @Test
-    public void testParseDataSingleTestSuite()
+    public void parseDataSingleTestSuite()
     {
-        final String input = "[----------] 1 test from TestSuite";
-        Matcher m = handler.match(input);
-        
+        Matcher m = handler.match("[----------] 1 test from TestSuite");
         assertTrue(m.find());
         assertEquals("TestSuite", m.group(1));
     }
