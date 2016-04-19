@@ -20,8 +20,8 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
-import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
-import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
+import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 /**
@@ -30,7 +30,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
  * 
  * @author offa
  */
-class GoogleTestSuiteFinishedHandler extends TestRecognizerHandler
+class GoogleTestSuiteFinishedHandler extends CndTestHandler
 {
     public GoogleTestSuiteFinishedHandler()
     {
@@ -38,19 +38,16 @@ class GoogleTestSuiteFinishedHandler extends TestRecognizerHandler
                 + "([^ ]+?) \\(([0-9]+?) ms total\\)$", true, true);
     }
 
-
-
+    
     /**
-     * Updates the ui and test states.
+     * Updates the UI.
      * 
-     * @param mngr  Manager
-     * @param ts    Test session
+     * @param manager       Manager Adapter
+     * @param session       Test session
      */
     @Override
-    public void updateUI(Manager mngr, TestSession ts)
+    public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        /*
-         * Disabled since this causes an assert failure if a trouble is set.
-         */
+        // Disabled since this causes an assert failure if a trouble is set.
     }
 }

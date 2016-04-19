@@ -20,21 +20,45 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import static org.mockito.Mockito.*;
+import org.netbeans.api.project.Project;
+import org.netbeans.modules.gsf.testrunner.api.Report;
+import org.netbeans.modules.gsf.testrunner.api.TestSession;
+import org.openide.filesystems.FileUtil;
+import org.openide.util.Lookup;
 
 public class CppUTestSuiteFinishedHandlerTest
 {
+    private static Project project;
+    private static Report report;
     private TestSessionInformation info;
     private CppUTestSuiteFinishedHandler handler;
+    private TestSession session;
+    private ManagerAdapter manager;
     
+    
+    @BeforeClass
+    public static void setUpClass()
+    {
+        project = mock(Project.class);
+        when(project.getProjectDirectory())
+                .thenReturn(FileUtil.createMemoryFileSystem().getRoot());
+        when(project.getLookup()).thenReturn(Lookup.EMPTY);
+        report = new Report("suite", project);
+    }
     
     @Before
     public void setUp()
     {
         info = new TestSessionInformation();
         handler = new CppUTestSuiteFinishedHandler(info);
+        session = mock(TestSession.class);
+        manager = mock(ManagerAdapter.class);
     }
     
     @Test
@@ -82,6 +106,24 @@ public class CppUTestSuiteFinishedHandlerTest
                                     + "OK (9 tests, 9 ran, 7 checks, 0 ignored, "
                                     + "0 filtered out, 124 ms)"
                                     + "\u001B[m"));
+    }
+    
+    @Test
+    public void updateUIDisplaysReport()
+    {
+        info.setTimeTotal(15l);
+        when(session.getReport(info.getTimeTotal())).thenReturn(report);
+        handler.updateUI(manager, session);
+        verify(manager).displayReport(session, report);
+    }
+    
+    @Test
+    public void udpateUIFinishesSession()
+    {
+        info.setTimeTotal(15l);
+        handler.updateUI(manager, session);
+        verify(manager).sessionFinished(session);
+        assertEquals(0L, info.getTimeTotal());
     }
     
 }

@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2016  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -17,88 +17,68 @@
  * You should have received a copy of the GNU General Public License
  * along with NBCndUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package bv.offa.netbeans.cnd.unittest.googletest;
 
-import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.frameworkIs;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.matchesTestCase;
 import java.util.regex.Matcher;
+import static org.hamcrest.CoreMatchers.allOf;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
-import org.mockito.ArgumentMatcher;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 public class GoogleTestTestStartedHandlerTest
 {
+    private static final TestFramework FRAMEWORK = TestFramework.GOOGLETEST;
     private GoogleTestTestStartedHandler handler;
-    
+    private TestSession session;
+    private ManagerAdapter manager;
 
     @Before
     public void setUp()
     {
         handler = new GoogleTestTestStartedHandler();
+        session = mock(TestSession.class);
+        manager = mock(ManagerAdapter.class);
     }
-    
+
+    @Deprecated
     @Test
-    public void matchesTestCase()
+    public void matchesTestCaseStr()
     {
         assertTrue(handler.matches("[ RUN      ] TestSuite.testCase"));
     }
-    
+
     @Test
     public void parseDataTestCase()
     {
-        Matcher m = handler.match("[ RUN      ] TestSuite.testCase");
-        assertTrue(m.find());
+        Matcher m = checkedMatch(handler, "[ RUN      ] TestSuite.testCase");
         assertEquals("TestSuite", m.group(1));
         assertEquals("testCase", m.group(2));
     }
-    
+
     @Test
     public void parseDataTestCaseParameterized()
     {
-        Matcher m = handler.match("[ RUN      ] withParameterImpl/TestSuite.testCase/0");
-        assertTrue(m.find());
+        Matcher m = checkedMatch(handler, "[ RUN      ] withParameterImpl/TestSuite.testCase/0");
         assertEquals("withParameterImpl/TestSuite", m.group(1));
         assertEquals("testCase", m.group(2));
     }
-    
+
     @Test
     public void updateUIAddsTestCase()
     {
-        Matcher m = handler.match("[ RUN      ] TestSuite.testCase");
-        assertTrue(m.find());
-        TestSession session = mock(TestSession.class);
-        handler.updateUI(null, session);
-        verify(session).addTestCase(argThat(
-                new TestCaseArgumentMatcher("testCase", TestFramework.GOOGLETEST, session)));
+        checkedMatch(handler, "[ RUN      ] TestSuite.testCase");
+        handler.updateUI(manager, session);
+        verify(session).addTestCase(argThat(allOf(matchesTestCase("testCase", "TestSuite"), 
+                                                    frameworkIs(FRAMEWORK))));
     }
-    
-    
-    private static class TestCaseArgumentMatcher implements ArgumentMatcher<CndTestCase>
-    {
-        private final String name;
-        private final TestFramework framework;
-        private final TestSession session;
 
-        public TestCaseArgumentMatcher(String name, TestFramework framework, TestSession session)
-        {
-            this.name = name;
-            this.framework = framework;
-            this.session = session;
-        }
-        
-        
-        @Override
-        public boolean matches(Object argument)
-        {
-            final CndTestCase tc = (CndTestCase) argument;
-            
-            return tc.getName().equals(name) 
-                    && tc.getFramework() == framework 
-                    && tc.getSession().equals(session);
-        }
-    }
 }

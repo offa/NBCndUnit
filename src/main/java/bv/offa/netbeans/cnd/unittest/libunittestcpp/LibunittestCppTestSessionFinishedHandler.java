@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2016  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -17,22 +17,21 @@
  * You should have received a copy of the GNU General Public License
  * along with NBCndUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package bv.offa.netbeans.cnd.unittest.libunittestcpp;
 
 import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
+import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import java.util.regex.Matcher;
-import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
-import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 /**
- * The class {@code LibunittestCppTestSessionFinishedHandler} handles the 
- * test session end.
- * 
+ * The class {@code LibunittestCppTestSessionFinishedHandler} handles the test
+ * session end.
+ *
  * @author offa
  */
-class LibunittestCppTestSessionFinishedHandler extends TestRecognizerHandler
+class LibunittestCppTestSessionFinishedHandler extends CndTestHandler
 {
 
     public LibunittestCppTestSessionFinishedHandler()
@@ -41,21 +40,21 @@ class LibunittestCppTestSessionFinishedHandler extends TestRecognizerHandler
     }
 
 
-
+    
     /**
-     * Updates the ui and test states.
+     * Updates the UI.
      * 
-     * @param mngr  Manager
-     * @param ts    Test session
+     * @param manager       Manager Adapter
+     * @param session       Test session
      */
     @Override
-    public void updateUI(Manager mngr, TestSession ts)
+    public void updateUI(ManagerAdapter manager, TestSession session)
     {
         final Matcher m = getMatcher();
         final long time = TestSupportUtils.parseTimeSecToMillis(m.group(1));
-        mngr.displayReport(ts, ts.getReport(time));
-        mngr.sessionFinished(ts);
-        
+        manager.displayReport(session, session.getReport(time));
+        manager.sessionFinished(session);
+
         LibunittestCppTestFinishedHandler.suiteFinished();
     }
 

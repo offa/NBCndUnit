@@ -22,11 +22,11 @@ package bv.offa.netbeans.cnd.unittest.libunittestcpp;
 
 import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
+import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import java.util.regex.Matcher;
-import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
-import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.Status;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.TestSuite;
@@ -39,7 +39,7 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
  * 
  * @author offa
  */
-class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
+class LibunittestCppTestFinishedHandler extends CndTestHandler
 {
     private static final TestFramework TESTFRAMEWORK = TestFramework.LIBUNITTESTCPP;
     private static final String MSG_OK = "ok";
@@ -54,68 +54,65 @@ class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
         suiteFinished();
     }
 
-
-
+    
+    
     /**
-     * Updates the ui and test states.
+     * Updates the UI.
      * 
-     * @param mngr  Manager
-     * @param ts    Test session
-     * @exception IllegalStateException If the handler gets into an
-     *                                  illegal state or parses unknown
-     *                                  output values
+     * @param manager       Manager Adapter
+     * @param session       Test session
      */
     @Override
-    public void updateUI(Manager mngr, TestSession ts)
+    public void updateUI(ManagerAdapter manager, TestSession session)
     {
         final Matcher m = getMatcher();
         final String suiteName = normalise(m.group(1));
-        TestSuite currentSuite = ts.getCurrentSuite();
-        
+        TestSuite currentSuite = session.getCurrentSuite();
+
         if( currentSuite == null || currentSuite.getName().equals(suiteName) == false )
         {
             if( firstSuite == true )
             {
-                mngr.testStarted(ts);
+                manager.testStarted(session);
                 firstSuite = false;
             }
             else
             {
-                mngr.displayReport(ts, ts.getReport(0));
+                manager.displayReport(session, session.getReport(0));
             }
-            
-            currentSuite = new CndTestSuite(suiteName, TESTFRAMEWORK);
-            ts.addSuite(currentSuite);
-            mngr.displaySuiteRunning(ts, currentSuite);
-        }
 
+            currentSuite = new CndTestSuite(suiteName, TESTFRAMEWORK);
+            session.addSuite(currentSuite);
+            manager.displaySuiteRunning(session, currentSuite);
+        }
+        
         final String testName = normalise(m.group(2));
-        Testcase testCase = new CndTestCase(testName, TESTFRAMEWORK, ts);
+        Testcase testCase = new CndTestCase(testName, TESTFRAMEWORK, session);
         testCase.setClassName(suiteName);
         testCase.setTimeMillis(TestSupportUtils.parseTimeSecToMillis(m.group(3)));
-
+        
         final String result = m.group(4);
-
-        if( result.equals(MSG_OK) == true )
+        
+        if( result.equals(MSG_FAILED) == true )
         {
-            // Testcase ok
-        }
-        else if( result.equals(MSG_FAILED) == true )
-        {
-            Trouble trouble = new Trouble(true);
+            Trouble trouble = testCase.getTrouble();
+            
+            if( trouble == null )
+            {
+                trouble = new Trouble(true);
+            }
+            
             testCase.setTrouble(trouble);
         }
         else if( result.equals(MSG_SKIP) == true )
         {
             testCase.setStatus(Status.SKIPPED);
         }
-        else
-        {
-            throw new IllegalStateException("Unknown result: <" + result + ">");
-        }
-
-        ts.addTestCase(testCase);
+        
+        session.addTestCase(testCase);
     }
+    
+    
 
 
     /**
@@ -125,7 +122,7 @@ class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
     {
         LibunittestCppTestFinishedHandler.firstSuite = true;
     }
-    
+
     
     /**
      * Normalises the input. This will replace all prohibited characters.
@@ -137,5 +134,6 @@ class LibunittestCppTestFinishedHandler extends TestRecognizerHandler
     {
         return input.replace('<', '(').replace('>', ')');
     }
+
 }
     

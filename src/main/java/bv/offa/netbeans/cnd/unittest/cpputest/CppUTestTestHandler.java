@@ -17,14 +17,15 @@
  * You should have received a copy of the GNU General Public License
  * along with NBCndUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
+import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import java.util.regex.Matcher;
-import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
-import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.Status;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.TestSuite;
@@ -35,7 +36,7 @@ import org.netbeans.modules.gsf.testrunner.api.Testcase;
  *
  * @author offa
  */
-class CppUTestTestHandler extends TestRecognizerHandler
+class CppUTestTestHandler extends CndTestHandler
 {
 
     private static final TestFramework TESTFRAMEWORK = TestFramework.CPPUTEST;
@@ -50,58 +51,57 @@ class CppUTestTestHandler extends TestRecognizerHandler
         suiteFinished();
     }
 
+    
     /**
-     * Updates the ui and test states.
-     *
-     * @param mngr  Manager
-     * @param ts    Test session
+     * Updates the UI.
+     * 
+     * @param manager       Manager Adapter
+     * @param session       Test session
      */
     @Override
-    public void updateUI(Manager mngr, TestSession ts)
+    public void updateUI(ManagerAdapter manager, TestSession session)
     {
         final Matcher m = getMatcher();
         final String suiteName = m.group(2);
-        TestSuite currentSuite = ts.getCurrentSuite();
+        TestSuite currentSuite = session.getCurrentSuite();
 
         if( currentSuite == null || currentSuite.getName().equals(suiteName) == false )
         {
             if( firstSuite == true )
             {
-                mngr.testStarted(ts);
+                manager.testStarted(session);
                 firstSuite = false;
             }
             else
             {
-                mngr.displayReport(ts, ts.getReport(info.getTimeTotal()));
-                info.setTimeTotal(0L);
+                manager.displayReport(session, session.getReport(0));
             }
-            
+
             currentSuite = new CndTestSuite(suiteName, TESTFRAMEWORK);
-            ts.addSuite(currentSuite);
-            mngr.displaySuiteRunning(ts, currentSuite);
+            session.addSuite(currentSuite);
+            manager.displaySuiteRunning(session, currentSuite);
         }
-
-        Testcase testcase = new CndTestCase(m.group(3), TESTFRAMEWORK, ts);
+        
+        Testcase testcase = new CndTestCase(m.group(3), TESTFRAMEWORK, session);
         testcase.setClassName(suiteName);
-
+        
         if( m.group(1) != null )
         {
             testcase.setStatus(Status.SKIPPED);
         }
-        else if( m.group(4) == null )
-        {
-            // Test time is separated, eg. failed or test with additional output
-        }
-        else
+        else if( m.group(4) != null )
         {
             long testTime = Long.valueOf(m.group(5));
             testcase.setTimeMillis(testTime);
             info.addTime(testTime);
         }
-
-        ts.addTestCase(testcase);
+        else
+        {
+            // Test time is separated, eg. failed or test with additional output
+        }
+        
+        session.addTestCase(testcase);
     }
-    
     
     /**
      * Indicates the current suite has finished.
@@ -110,4 +110,5 @@ class CppUTestTestHandler extends TestRecognizerHandler
     {
         CppUTestTestHandler.firstSuite = true;
     }
+
 }

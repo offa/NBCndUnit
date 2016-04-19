@@ -20,9 +20,9 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import java.util.regex.Matcher;
-import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
-import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 /**
@@ -31,7 +31,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
  * 
  * @author offa
  */
-class GoogleTestSessionFinishedHandler extends TestRecognizerHandler
+class GoogleTestSessionFinishedHandler extends CndTestHandler
 {
 
     public GoogleTestSessionFinishedHandler()
@@ -40,21 +40,21 @@ class GoogleTestSessionFinishedHandler extends TestRecognizerHandler
                 + "test cases?? ran\\. \\(([0-9]+?) ms total\\)$", true, true);
     }
 
-
-
+    
+    
     /**
-     * Updates the ui and test states.
+     * Updates the UI.
      * 
-     * @param mngr  Manager
-     * @param ts    Test session
+     * @param manager       Manager Adapter
+     * @param session       Test session
      */
     @Override
-    public void updateUI(Manager mngr, TestSession ts)
+    public void updateUI(ManagerAdapter manager, TestSession session)
     {
         final Matcher m = getMatcher();
         final long time = Long.parseLong(m.group(1));
-        mngr.displayReport(ts, ts.getReport(time));
-        mngr.sessionFinished(ts);
+        manager.displayReport(session, session.getReport(time));
+        manager.sessionFinished(session);
         
         GoogleTestSuiteStartedHandler.suiteFinished();
     }

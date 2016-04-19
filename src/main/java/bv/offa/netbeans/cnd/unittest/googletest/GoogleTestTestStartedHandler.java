@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2016  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -17,47 +17,46 @@
  * You should have received a copy of the GNU General Public License
  * along with NBCndUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package bv.offa.netbeans.cnd.unittest.googletest;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
+import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import java.util.regex.Matcher;
-import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
-import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.Testcase;
 
 /**
- * The class {@code GoogleTestTestStartedHandler} handles the start of
- * a test case.
- * 
+ * The class {@code GoogleTestTestStartedHandler} handles the start of a test
+ * case.
+ *
  * @author offa
  */
-class GoogleTestTestStartedHandler extends TestRecognizerHandler
+class GoogleTestTestStartedHandler extends CndTestHandler
 {
+
     private static final TestFramework TESTFRAMEWORK = TestFramework.GOOGLETEST;
-    
+
     public GoogleTestTestStartedHandler()
     {
         super("^.*?\\[ RUN      \\].*? (.+?)\\.(.+?)(?:/.+)??$", true, true);
     }
 
-
-
+    
     /**
-     * Updates the ui and test states.
+     * Updates the UI.
      * 
-     * @param mngr  Manager
-     * @param ts    Test session
+     * @param manager       Manager Adapter
+     * @param session       Test session
      */
     @Override
-    public void updateUI(Manager mngr, TestSession ts)
+    public void updateUI(ManagerAdapter manager, TestSession session)
     {
         final Matcher m = getMatcher();
-        final Testcase testcase = new CndTestCase(m.group(2), TESTFRAMEWORK, ts);
+        final Testcase testcase = new CndTestCase(m.group(2), TESTFRAMEWORK, session);
         testcase.setClassName(m.group(1));
-        ts.addTestCase(testcase);
+        session.addTestCase(testcase);
     }
 
 }

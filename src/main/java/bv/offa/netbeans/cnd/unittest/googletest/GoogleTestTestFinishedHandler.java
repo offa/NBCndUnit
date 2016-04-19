@@ -20,9 +20,9 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import java.util.regex.Matcher;
-import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
-import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.Testcase;
 import org.netbeans.modules.gsf.testrunner.api.Trouble;
@@ -34,7 +34,7 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
  * 
  * @author offa
  */
-class GoogleTestTestFinishedHandler extends TestRecognizerHandler
+class GoogleTestTestFinishedHandler extends CndTestHandler
 {
     private static final String MSG_OK = "     OK";
     private static final String MSG_FAILED = "FAILED ";
@@ -46,32 +46,30 @@ class GoogleTestTestFinishedHandler extends TestRecognizerHandler
             + " \\(([0-9]+?) ms\\)$", true, true);
     }
 
-
-
+    
+    
     /**
-     * Updates the ui and test states.
+     * Updates the UI.
      * 
-     * @param mngr  Manager
-     * @param ts    Test session
-     * @exception IllegalStateException If the handler gets into an
-     *                                  illegal state or parses unknown
-     *                                  output values
+     * @param manager       Manager Adapter
+     * @param session       Test session
      */
     @Override
-    public void updateUI(Manager mngr, TestSession ts)
+    public void updateUI(ManagerAdapter manager, TestSession session)
     {
         final Matcher m = getMatcher();
-        final Testcase testCase = ts.getCurrentTestCase();
+        final Testcase testCase = session.getCurrentTestCase();
         
         if( testCase != null && testCase.getClassName().equals(m.group(2)) 
                 && testCase.getName().endsWith(m.group(3)) )
         {
             long time = Long.valueOf(m.group(4));
             testCase.setTimeMillis(time);
-
+            
             final String location = m.group(2) + ":" + m.group(3);
             testCase.setLocation(location);
-
+            
+            
             final String result = m.group(1);
 
             if( result.equals(MSG_OK) == true )
@@ -93,13 +91,13 @@ class GoogleTestTestFinishedHandler extends TestRecognizerHandler
             }
             else
             {
-                throw new IllegalStateException("Unknown result: <" + result + ">");
+                // This branch is prevented by regex
             }
         }
         else
         {
             throw new IllegalStateException("No test found for: " 
-                    + m.group(2) + ":" + m.group(3));
+                                            + m.group(2) + ":" + m.group(3));
         }
     }
 

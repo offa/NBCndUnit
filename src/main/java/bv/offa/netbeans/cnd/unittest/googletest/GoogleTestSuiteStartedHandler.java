@@ -20,11 +20,11 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import java.util.regex.Matcher;
-import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
-import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 
@@ -35,7 +35,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSuite;
  * 
  * @author offa
  */
-class GoogleTestSuiteStartedHandler extends TestRecognizerHandler
+class GoogleTestSuiteStartedHandler extends CndTestHandler
 {
     private static final TestFramework TESTFRAMEWORK = TestFramework.GOOGLETEST;
     private static boolean firstSuite;
@@ -46,39 +46,39 @@ class GoogleTestSuiteStartedHandler extends TestRecognizerHandler
         suiteFinished();
     }
 
-
-
+    
+    
     /**
-     * Updates the ui and test states.
+     * Updates the UI.
      * 
-     * @param mngr  Manager
-     * @param ts    Test session
+     * @param manager       Manager Adapter
+     * @param session       Test session
      */
     @Override
-    public void updateUI(Manager mngr, TestSession ts)
+    public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        final Matcher m = getMatcher();
-        final String suiteName = m.group(1);
-        TestSuite currentSuite = ts.getCurrentSuite();
-
         if( firstSuite == true )
         {
-            mngr.testStarted(ts);
+            manager.testStarted(session);
             firstSuite = false;
         }
         else
         {
-            mngr.displayReport(ts, ts.getReport(0));
+            manager.displayReport(session, session.getReport(0));
         }
+        
+        final Matcher m = getMatcher();
+        final String suiteName = m.group(1);
+        TestSuite currentSuite = session.getCurrentSuite();
         
         if( currentSuite == null || currentSuite.getName().equals(suiteName) == false )
         {
             currentSuite = new CndTestSuite(suiteName, TESTFRAMEWORK);
-            ts.addSuite(currentSuite);
-            mngr.displaySuiteRunning(ts, currentSuite);
+            session.addSuite(currentSuite);
+            manager.displaySuiteRunning(session, currentSuite);
         }
     }
-
+    
 
     /**
      * Indicates the current suite has finished.
