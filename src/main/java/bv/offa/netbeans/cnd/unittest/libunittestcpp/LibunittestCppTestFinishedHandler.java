@@ -27,11 +27,8 @@ import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import java.util.regex.Matcher;
-import org.netbeans.modules.gsf.testrunner.api.Status;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.TestSuite;
-import org.netbeans.modules.gsf.testrunner.api.Testcase;
-import org.netbeans.modules.gsf.testrunner.api.Trouble;
 
 /**
  * The class {@code LibunittestCppTestFinishedHandler} handles the test
@@ -67,9 +64,9 @@ class LibunittestCppTestFinishedHandler extends CndTestHandler
     {
         final Matcher m = getMatcher();
         final String suiteName = normalise(m.group(1));
-        TestSuite currentSuite = session.getCurrentSuite();
+        CndTestSuite currentSuite = (CndTestSuite) session.getCurrentSuite();
 
-        if( currentSuite == null || currentSuite.getName().equals(suiteName) == false )
+        if( isSameTestSuite(currentSuite, suiteName) == false )
         {
             if( firstSuite == true )
             {
@@ -87,7 +84,7 @@ class LibunittestCppTestFinishedHandler extends CndTestHandler
         }
         
         final String testName = normalise(m.group(2));
-        Testcase testCase = new CndTestCase(testName, TESTFRAMEWORK, session);
+        CndTestCase testCase = new CndTestCase(testName, TESTFRAMEWORK, session);
         testCase.setClassName(suiteName);
         testCase.setTimeMillis(TestSupportUtils.parseTimeSecToMillis(m.group(3)));
         
@@ -95,23 +92,19 @@ class LibunittestCppTestFinishedHandler extends CndTestHandler
         
         if( result.equals(MSG_FAILED) == true )
         {
-            Trouble trouble = testCase.getTrouble();
-            
-            if( trouble == null )
-            {
-                trouble = new Trouble(true);
-            }
-            
-            testCase.setTrouble(trouble);
+            testCase.setError();
         }
         else if( result.equals(MSG_SKIP) == true )
         {
-            testCase.setStatus(Status.SKIPPED);
+            testCase.setSkipped();
+        }
+        else
+        {
+            /* Empty */
         }
         
         session.addTestCase(testCase);
     }
-    
     
 
 
@@ -134,6 +127,6 @@ class LibunittestCppTestFinishedHandler extends CndTestHandler
     {
         return input.replace('<', '(').replace('>', ')');
     }
-
+    
 }
     

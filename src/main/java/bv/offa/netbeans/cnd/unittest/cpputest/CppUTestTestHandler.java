@@ -26,10 +26,7 @@ import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import java.util.regex.Matcher;
-import org.netbeans.modules.gsf.testrunner.api.Status;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
-import org.netbeans.modules.gsf.testrunner.api.TestSuite;
-import org.netbeans.modules.gsf.testrunner.api.Testcase;
 
 /**
  * The class {@code CppUTestHandler} handles the test output.
@@ -63,9 +60,9 @@ class CppUTestTestHandler extends CndTestHandler
     {
         final Matcher m = getMatcher();
         final String suiteName = m.group(2);
-        TestSuite currentSuite = session.getCurrentSuite();
+        CndTestSuite currentSuite = (CndTestSuite) session.getCurrentSuite();
 
-        if( currentSuite == null || currentSuite.getName().equals(suiteName) == false )
+        if( isSameTestSuite(currentSuite, suiteName) == false )
         {
             if( firstSuite == true )
             {
@@ -82,12 +79,12 @@ class CppUTestTestHandler extends CndTestHandler
             manager.displaySuiteRunning(session, currentSuite);
         }
         
-        Testcase testcase = new CndTestCase(m.group(3), TESTFRAMEWORK, session);
+        CndTestCase testcase = new CndTestCase(m.group(3), TESTFRAMEWORK, session);
         testcase.setClassName(suiteName);
         
         if( m.group(1) != null )
         {
-            testcase.setStatus(Status.SKIPPED);
+            testcase.setSkipped();
         }
         else if( m.group(4) != null )
         {
@@ -103,6 +100,7 @@ class CppUTestTestHandler extends CndTestHandler
         session.addTestCase(testcase);
     }
     
+    
     /**
      * Indicates the current suite has finished.
      */
@@ -110,5 +108,4 @@ class CppUTestTestHandler extends CndTestHandler
     {
         CppUTestTestHandler.firstSuite = true;
     }
-
 }

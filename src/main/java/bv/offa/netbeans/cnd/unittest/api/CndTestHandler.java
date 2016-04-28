@@ -59,5 +59,37 @@ public abstract class CndTestHandler extends TestRecognizerHandler
      * @param session       Test session
      */
     public abstract void updateUI(ManagerAdapter manager, TestSession session);
+        
     
+    /**
+     * Returns whether {@code testCase} and the Test Case described by the
+     * given name and suite are equal.
+     * 
+     * @param testCase      Test Case
+     * @param otherName     Name of the other Test Case
+     * @param otherSuite    Suite of the other Test Case
+     * @return              Returns {@code true} if both match or {@code false}
+     *                      otherwise
+     */
+    protected boolean isSameTestCase(CndTestCase testCase, String otherName, String otherSuite)
+    {
+        return ( testCase != null ) 
+                && ( testCase.getName().equals(otherName) == true ) 
+                && ( testCase.getClassName().equals(otherSuite) == true );
+    }
+    
+    
+    /**
+     * Returns whether {@code testSuite} and the Test Suite described by the
+     * given name are equal.
+     * 
+     * @param testSuite         Test Suite
+     * @param otherName         Name of the other Test Suite
+     * @return                  Returns {@code true} if both match or
+     *                          {@code false} otherwise
+     */
+    protected boolean isSameTestSuite(CndTestSuite testSuite, String otherName)
+    {
+        return ( testSuite != null ) && ( testSuite.getName().equals(otherName) == true );
+    }
 }

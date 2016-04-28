@@ -20,12 +20,11 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import java.util.regex.Matcher;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
-import org.netbeans.modules.gsf.testrunner.api.Testcase;
-import org.netbeans.modules.gsf.testrunner.api.Trouble;
 
 
 /**
@@ -58,10 +57,9 @@ class GoogleTestTestFinishedHandler extends CndTestHandler
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
         final Matcher m = getMatcher();
-        final Testcase testCase = session.getCurrentTestCase();
+        final CndTestCase testCase = (CndTestCase) session.getCurrentTestCase();
         
-        if( testCase != null && testCase.getClassName().equals(m.group(2)) 
-                && testCase.getName().endsWith(m.group(3)) )
+        if( isSameTestCase(testCase, m.group(3), m.group(2)) == true )
         {
             long time = Long.valueOf(m.group(4));
             testCase.setTimeMillis(time);
@@ -69,29 +67,11 @@ class GoogleTestTestFinishedHandler extends CndTestHandler
             final String location = m.group(2) + ":" + m.group(3);
             testCase.setLocation(location);
             
-            
             final String result = m.group(1);
 
-            if( result.equals(MSG_OK) == true )
+            if( result.equals(MSG_FAILED) == true )
             {
-                // Testcase ok
-            }
-            else if( result.equals(MSG_FAILED) == true )
-            {
-                Trouble trouble = testCase.getTrouble();
-
-                if( trouble == null )
-                {
-                    trouble = new Trouble(true);
-                }
-
-                trouble.setError(true);
-                trouble.setStackTrace(new String[] { location });
-                testCase.setTrouble(trouble);
-            }
-            else
-            {
-                // This branch is prevented by regex
+                testCase.setError(new String[] { location });
             }
         }
         else

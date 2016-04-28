@@ -26,7 +26,6 @@ import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import java.util.regex.Matcher;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
-import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 
     
 /**
@@ -69,9 +68,9 @@ class GoogleTestSuiteStartedHandler extends CndTestHandler
         
         final Matcher m = getMatcher();
         final String suiteName = m.group(1);
-        TestSuite currentSuite = session.getCurrentSuite();
+        CndTestSuite currentSuite = (CndTestSuite) session.getCurrentSuite();
         
-        if( currentSuite == null || currentSuite.getName().equals(suiteName) == false )
+        if( isSameTestSuite(currentSuite, suiteName) == false )
         {
             currentSuite = new CndTestSuite(suiteName, TESTFRAMEWORK);
             session.addSuite(currentSuite);
@@ -87,7 +86,6 @@ class GoogleTestSuiteStartedHandler extends CndTestHandler
     {
         GoogleTestSuiteStartedHandler.firstSuite = true;
     }
-    
 }
     
     

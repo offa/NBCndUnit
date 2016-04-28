@@ -20,12 +20,11 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import java.util.regex.Matcher;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
-import org.netbeans.modules.gsf.testrunner.api.Testcase;
-import org.netbeans.modules.gsf.testrunner.api.Trouble;
 
 /**
  * The class {@code CppUTestErrorHandler} handles test errors and their
@@ -52,25 +51,14 @@ class CppUTestErrorHandler extends CndTestHandler
     @Override
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        Testcase testCase = session.getCurrentTestCase();
+        CndTestCase testCase = (CndTestCase) session.getCurrentTestCase();
         final Matcher m = getMatcher();
 
-        if( testCase != null && testCase.getClassName().equals(m.group(3))
-                && testCase.getName().equals(m.group(4)) )
+        if( isSameTestCase(testCase, m.group(4), m.group(3)) == true )
         {
             final String location = m.group(1) + ":" + m.group(2);
             testCase.setLocation(location);
-
-            Trouble t = testCase.getTrouble();
-
-            if( t == null )
-            {
-                t = new Trouble(true);
-            }
-
-            t.setError(true);
-            t.setStackTrace(new String[] { location });
-            testCase.setTrouble(t);
+            testCase.setError(new String[] { location });
         }
     }
 
