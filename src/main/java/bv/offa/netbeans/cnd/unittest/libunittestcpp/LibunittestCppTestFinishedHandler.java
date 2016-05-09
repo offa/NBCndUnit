@@ -26,9 +26,7 @@ import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
-import java.util.regex.Matcher;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
-import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 
 /**
  * The class {@code LibunittestCppTestFinishedHandler} handles the test
@@ -38,8 +36,11 @@ import org.netbeans.modules.gsf.testrunner.api.TestSuite;
  */
 class LibunittestCppTestFinishedHandler extends CndTestHandler
 {
+    private static final int GROUP_SUITE = 1;
+    private static final int GROUP_CASE = 2;
+    private static final int GROUP_TIME = 3;
+    private static final int GROUP_RESULT = 4;
     private static final TestFramework TESTFRAMEWORK = TestFramework.LIBUNITTESTCPP;
-    private static final String MSG_OK = "ok";
     private static final String MSG_FAILED = "FAIL";
     private static final String MSG_SKIP = "SKIP";
     private static boolean firstSuite;
@@ -62,8 +63,7 @@ class LibunittestCppTestFinishedHandler extends CndTestHandler
     @Override
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        final Matcher m = getMatcher();
-        final String suiteName = normalise(m.group(1));
+        final String suiteName = normalise(getMatchGroup(GROUP_SUITE));
         CndTestSuite currentSuite = (CndTestSuite) session.getCurrentSuite();
 
         if( isSameTestSuite(currentSuite, suiteName) == false )
@@ -83,12 +83,13 @@ class LibunittestCppTestFinishedHandler extends CndTestHandler
             manager.displaySuiteRunning(session, currentSuite);
         }
         
-        final String testName = normalise(m.group(2));
+        final String testName = normalise(getMatchGroup(GROUP_CASE));
         CndTestCase testCase = new CndTestCase(testName, TESTFRAMEWORK, session);
         testCase.setClassName(suiteName);
-        testCase.setTimeMillis(TestSupportUtils.parseTimeSecToMillis(m.group(3)));
+        final String timeValue = getMatchGroup(GROUP_TIME);
+        testCase.setTimeMillis(TestSupportUtils.parseTimeSecToMillis(timeValue));
         
-        final String result = m.group(4);
+        final String result = getMatchGroup(GROUP_RESULT);
         
         if( result.equals(MSG_FAILED) == true )
         {

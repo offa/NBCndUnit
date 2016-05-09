@@ -22,7 +22,6 @@ package bv.offa.netbeans.cnd.unittest.cpputest;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
-import java.util.regex.Matcher;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.Testcase;
 
@@ -34,6 +33,7 @@ import org.netbeans.modules.gsf.testrunner.api.Testcase;
  */
 class CppUTestTimeHandler extends CndTestHandler
 {
+    private static final int GROUP_TIME = 1;
     private final TestSessionInformation info;
     
     public CppUTestTimeHandler(TestSessionInformation info)
@@ -57,8 +57,8 @@ class CppUTestTimeHandler extends CndTestHandler
         
         if( testCase != null )
         {
-            final Matcher m = getMatcher();
-            long testTime = Long.valueOf(m.group(1));
+            final String time = getMatchGroup(GROUP_TIME);
+            long testTime = Long.valueOf(time);
             testCase.setTimeMillis(testTime);
             info.addTime(testTime);
         }

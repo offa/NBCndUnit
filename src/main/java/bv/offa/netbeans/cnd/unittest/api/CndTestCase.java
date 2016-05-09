@@ -71,8 +71,8 @@ public class CndTestCase extends Testcase
     public void setError(String stackTrace[])
     {
         Trouble trouble = new Trouble(true);
+        trouble.setStackTrace(stackTrace);
         setTrouble(trouble);
-        getTrouble().setStackTrace(stackTrace);
     }
     
     

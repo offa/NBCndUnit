@@ -25,7 +25,6 @@ import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestCase;
-import bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.frameworkIs;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasError;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasNoError;
@@ -41,7 +40,6 @@ import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import static org.mockito.Mockito.*;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
-import org.netbeans.modules.gsf.testrunner.api.Testcase;
 import org.netbeans.modules.gsf.testrunner.api.Trouble;
 import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 

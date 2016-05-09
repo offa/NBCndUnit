@@ -92,4 +92,16 @@ public abstract class CndTestHandler extends TestRecognizerHandler
     {
         return ( testSuite != null ) && ( testSuite.getName().equals(otherName) == true );
     }
+    
+    
+    /**
+     * Returns the match result captured by the {@code group}.
+     * 
+     * @param group     Group
+     * @return          Matched String
+     */
+    protected String getMatchGroup(int group)
+    {
+        return getMatcher().group(group);
+    }
 }

@@ -23,7 +23,6 @@ package bv.offa.netbeans.cnd.unittest.googletest;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
-import java.util.regex.Matcher;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 
@@ -35,7 +34,10 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
  */
 class GoogleTestTestFinishedHandler extends CndTestHandler
 {
-    private static final String MSG_OK = "     OK";
+    private static final int GROUP_RESULT = 1;
+    private static final int GROUP_SUITE = 2;
+    private static final int GROUP_CASE = 3;
+    private static final int GROUP_TIME = 4;
     private static final String MSG_FAILED = "FAILED ";
 
 
@@ -56,18 +58,21 @@ class GoogleTestTestFinishedHandler extends CndTestHandler
     @Override
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        final Matcher m = getMatcher();
         final CndTestCase testCase = (CndTestCase) session.getCurrentTestCase();
         
-        if( isSameTestCase(testCase, m.group(3), m.group(2)) == true )
+        final String caseName = getMatchGroup(GROUP_CASE);
+        final String suiteName = getMatchGroup(GROUP_SUITE);
+        
+        if( isSameTestCase(testCase, caseName, suiteName) == true )
         {
-            long time = Long.valueOf(m.group(4));
+            final String timeValue = getMatchGroup(GROUP_TIME);
+            long time = Long.valueOf(timeValue);
             testCase.setTimeMillis(time);
             
-            final String location = m.group(2) + ":" + m.group(3);
+            final String location = suiteName + ":" + caseName;
             testCase.setLocation(location);
             
-            final String result = m.group(1);
+            final String result = getMatchGroup(GROUP_RESULT);
 
             if( result.equals(MSG_FAILED) == true )
             {
@@ -77,7 +82,7 @@ class GoogleTestTestFinishedHandler extends CndTestHandler
         else
         {
             throw new IllegalStateException("No test found for: " 
-                                            + m.group(2) + ":" + m.group(3));
+                                            + suiteName + ":" + caseName);
         }
     }
 

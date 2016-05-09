@@ -25,7 +25,6 @@ import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
-import java.util.regex.Matcher;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 /**
@@ -35,7 +34,11 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
  */
 class CppUTestTestHandler extends CndTestHandler
 {
-
+    private static final int GROUP_IGNORED = 1;
+    private static final int GROUP_SUITE = 2;
+    private static final int GROUP_CASE = 3;
+    private static final int GROUP_TIME = 4;
+    private static final int GROUP_TIME_VALUE = 5;
     private static final TestFramework TESTFRAMEWORK = TestFramework.CPPUTEST;
     private static boolean firstSuite;
     private final TestSessionInformation info;
@@ -58,8 +61,7 @@ class CppUTestTestHandler extends CndTestHandler
     @Override
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        final Matcher m = getMatcher();
-        final String suiteName = m.group(2);
+        final String suiteName = getMatchGroup(GROUP_SUITE);
         CndTestSuite currentSuite = (CndTestSuite) session.getCurrentSuite();
 
         if( isSameTestSuite(currentSuite, suiteName) == false )
@@ -79,16 +81,21 @@ class CppUTestTestHandler extends CndTestHandler
             manager.displaySuiteRunning(session, currentSuite);
         }
         
-        CndTestCase testcase = new CndTestCase(m.group(3), TESTFRAMEWORK, session);
+        final String caseName = getMatchGroup(GROUP_CASE);
+        CndTestCase testcase = new CndTestCase(caseName, TESTFRAMEWORK, session);
         testcase.setClassName(suiteName);
         
-        if( m.group(1) != null )
+        final String ignored = getMatchGroup(GROUP_IGNORED);
+        final String time = getMatchGroup(GROUP_TIME);
+        
+        if( ignored != null )
         {
             testcase.setSkipped();
         }
-        else if( m.group(4) != null )
+        else if( time != null )
         {
-            long testTime = Long.valueOf(m.group(5));
+            final String timeValue = getMatchGroup(GROUP_TIME_VALUE);
+            long testTime = Long.valueOf(timeValue);
             testcase.setTimeMillis(testTime);
             info.addTime(testTime);
         }

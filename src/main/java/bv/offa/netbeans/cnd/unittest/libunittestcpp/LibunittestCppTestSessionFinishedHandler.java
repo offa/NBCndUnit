@@ -22,7 +22,6 @@ package bv.offa.netbeans.cnd.unittest.libunittestcpp;
 import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
-import java.util.regex.Matcher;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 /**
@@ -33,6 +32,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
  */
 class LibunittestCppTestSessionFinishedHandler extends CndTestHandler
 {
+    private static final int GROUP_TIME = 1;
 
     public LibunittestCppTestSessionFinishedHandler()
     {
@@ -50,8 +50,8 @@ class LibunittestCppTestSessionFinishedHandler extends CndTestHandler
     @Override
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        final Matcher m = getMatcher();
-        final long time = TestSupportUtils.parseTimeSecToMillis(m.group(1));
+        final String timeValue = getMatchGroup(GROUP_TIME);
+        final long time = TestSupportUtils.parseTimeSecToMillis(timeValue);
         manager.displayReport(session, session.getReport(time));
         manager.sessionFinished(session);
 

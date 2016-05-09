@@ -24,7 +24,6 @@ import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
-import java.util.regex.Matcher;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
     
@@ -36,6 +35,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
  */
 class GoogleTestSuiteStartedHandler extends CndTestHandler
 {
+    private static final int GROUP_SUITE = 1;
     private static final TestFramework TESTFRAMEWORK = TestFramework.GOOGLETEST;
     private static boolean firstSuite;
     
@@ -66,8 +66,7 @@ class GoogleTestSuiteStartedHandler extends CndTestHandler
             manager.displayReport(session, session.getReport(0));
         }
         
-        final Matcher m = getMatcher();
-        final String suiteName = m.group(1);
+        final String suiteName = getMatchGroup(GROUP_SUITE);
         CndTestSuite currentSuite = (CndTestSuite) session.getCurrentSuite();
         
         if( isSameTestSuite(currentSuite, suiteName) == false )

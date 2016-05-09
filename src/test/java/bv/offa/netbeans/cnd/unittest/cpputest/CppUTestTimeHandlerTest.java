@@ -34,6 +34,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 public class CppUTestTimeHandlerTest
 {
+    private static final TestFramework FRAMEWORK = TestFramework.CPPUTEST;
     private TestSessionInformation info;
     private CppUTestTimeHandler handler;
     private TestSession session;
@@ -71,7 +72,7 @@ public class CppUTestTimeHandlerTest
     public void updateUIUpdatesTime()
     {
         checkedMatch(handler, " - 123 ms");
-        CndTestCase testCase = new CndTestCase("testCase", TestFramework.CPPUTEST, session);
+        CndTestCase testCase = new CndTestCase("testCase", FRAMEWORK, session);
         when(session.getCurrentTestCase()).thenReturn(testCase);
         handler.updateUI(manager, session);
         assertEquals(123l, info.getTimeTotal());

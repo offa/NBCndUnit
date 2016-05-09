@@ -22,7 +22,6 @@ package bv.offa.netbeans.cnd.unittest.googletest;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
-import java.util.regex.Matcher;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 /**
@@ -33,7 +32,8 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
  */
 class GoogleTestSessionFinishedHandler extends CndTestHandler
 {
-
+    private static final int GROUP_TIME = 1;
+    
     public GoogleTestSessionFinishedHandler()
     {
         super("^.*?\\[[=]{10}\\].*? [0-9]+? tests?? from [0-9]+? "
@@ -51,8 +51,8 @@ class GoogleTestSessionFinishedHandler extends CndTestHandler
     @Override
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        final Matcher m = getMatcher();
-        final long time = Long.parseLong(m.group(1));
+        final String timeValue = getMatchGroup(GROUP_TIME);
+        final long time = Long.parseLong(timeValue);
         manager.displayReport(session, session.getReport(time));
         manager.sessionFinished(session);
         

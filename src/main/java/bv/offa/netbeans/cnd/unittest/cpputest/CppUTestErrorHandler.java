@@ -23,7 +23,6 @@ package bv.offa.netbeans.cnd.unittest.cpputest;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
-import java.util.regex.Matcher;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 /**
@@ -34,6 +33,11 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
  */
 class CppUTestErrorHandler extends CndTestHandler
 {
+    private static final int GROUP_FILE = 1;
+    private static final int GROUP_LINE = 2;
+    private static final int GROUP_SUITE = 3;
+    private static final int GROUP_CASE = 4;
+    
     public CppUTestErrorHandler(TestSessionInformation info)
     {
         super("^(.+?)\\:([0-9]+?)\\: error\\: Failure in "
@@ -52,11 +56,14 @@ class CppUTestErrorHandler extends CndTestHandler
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
         CndTestCase testCase = (CndTestCase) session.getCurrentTestCase();
-        final Matcher m = getMatcher();
-
-        if( isSameTestCase(testCase, m.group(4), m.group(3)) == true )
+        final String suiteName = getMatchGroup(GROUP_SUITE);
+        final String caseName = getMatchGroup(GROUP_CASE);
+        
+        if( isSameTestCase(testCase, caseName, suiteName) == true )
         {
-            final String location = m.group(1) + ":" + m.group(2);
+            final String file = getMatchGroup(GROUP_FILE);
+            final String lineNumber = getMatchGroup(GROUP_LINE);
+            final String location = file + ":" + lineNumber;
             testCase.setLocation(location);
             testCase.setError(new String[] { location });
         }

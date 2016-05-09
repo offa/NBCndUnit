@@ -23,7 +23,6 @@ import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
-import java.util.regex.Matcher;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.Testcase;
 
@@ -35,7 +34,8 @@ import org.netbeans.modules.gsf.testrunner.api.Testcase;
  */
 class GoogleTestTestStartedHandler extends CndTestHandler
 {
-
+    private static final int GROUP_SUITE = 1;
+    private static final int GROUP_CASE = 2;
     private static final TestFramework TESTFRAMEWORK = TestFramework.GOOGLETEST;
 
     public GoogleTestTestStartedHandler()
@@ -53,9 +53,10 @@ class GoogleTestTestStartedHandler extends CndTestHandler
     @Override
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        final Matcher m = getMatcher();
-        final Testcase testcase = new CndTestCase(m.group(2), TESTFRAMEWORK, session);
-        testcase.setClassName(m.group(1));
+        final String caseName = getMatchGroup(GROUP_CASE);
+        final String suiteName = getMatchGroup(GROUP_SUITE);
+        final Testcase testcase = new CndTestCase(caseName, TESTFRAMEWORK, session);
+        testcase.setClassName(suiteName);
         session.addTestCase(testcase);
     }
 
