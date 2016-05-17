@@ -40,7 +40,6 @@ class LibunittestCppTestFinishedHandler extends CndTestHandler
     private static final int GROUP_CASE = 2;
     private static final int GROUP_TIME = 3;
     private static final int GROUP_RESULT = 4;
-    private static final TestFramework TESTFRAMEWORK = TestFramework.LIBUNITTESTCPP;
     private static final String MSG_FAILED = "FAIL";
     private static final String MSG_SKIP = "SKIP";
     private static boolean firstSuite;
@@ -48,7 +47,7 @@ class LibunittestCppTestFinishedHandler extends CndTestHandler
 
     public LibunittestCppTestFinishedHandler()
     {
-        super("^(.+?)::(.+?) \\.{3} \\[([0-9].*?)s\\] (ok|FAIL|SKIP).*?$", true, true);
+        super(TestFramework.LIBUNITTESTCPP, "^(.+?)::(.+?) \\.{3} \\[([0-9].*?)s\\] (ok|FAIL|SKIP).*?$");
         suiteFinished();
     }
 
@@ -64,49 +63,18 @@ class LibunittestCppTestFinishedHandler extends CndTestHandler
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
         final String suiteName = normalise(getMatchGroup(GROUP_SUITE));
-        CndTestSuite currentSuite = (CndTestSuite) session.getCurrentSuite();
 
-        if( isSameTestSuite(currentSuite, suiteName) == false )
+        if( isSameTestSuite(currentSuite(session), suiteName) == false )
         {
-            if( firstSuite == true )
-            {
-                manager.testStarted(session);
-                firstSuite = false;
-            }
-            else
-            {
-                manager.displayReport(session, session.getReport(0));
-            }
-
-            currentSuite = new CndTestSuite(suiteName, TESTFRAMEWORK);
-            session.addSuite(currentSuite);
-            manager.displaySuiteRunning(session, currentSuite);
+            updateSessionState(manager, session);
+            startNewTestSuite(suiteName, session, manager);
         }
         
         final String testName = normalise(getMatchGroup(GROUP_CASE));
-        CndTestCase testCase = new CndTestCase(testName, TESTFRAMEWORK, session);
-        testCase.setClassName(suiteName);
-        final String timeValue = getMatchGroup(GROUP_TIME);
-        testCase.setTimeMillis(TestSupportUtils.parseTimeSecToMillis(timeValue));
-        
-        final String result = getMatchGroup(GROUP_RESULT);
-        
-        if( result.equals(MSG_FAILED) == true )
-        {
-            testCase.setError();
-        }
-        else if( result.equals(MSG_SKIP) == true )
-        {
-            testCase.setSkipped();
-        }
-        else
-        {
-            /* Empty */
-        }
-        
-        session.addTestCase(testCase);
+        CndTestCase testCase = startNewTestCase(testName, suiteName, session);
+        updateTime(testCase);
+        updateResult(testCase);
     }
-    
 
 
     /**
@@ -127,6 +95,63 @@ class LibunittestCppTestFinishedHandler extends CndTestHandler
     private String normalise(String input)
     {
         return input.replace('<', '(').replace('>', ')');
+    }
+    
+    
+    /**
+     * Updates the session state.
+     * 
+     * @param manager   Manager
+     * @param session   Session
+     */
+    private void updateSessionState(ManagerAdapter manager, TestSession session)
+    {
+        if( firstSuite == true )
+        {
+            manager.testStarted(session);
+            firstSuite = false;
+        }
+        else
+        {
+            manager.displayReport(session, session.getReport(0));
+        }
+    }
+    
+    
+    /**
+     * Updates the test result.
+     * 
+     * @param testCase      Test Case
+     * @param location      Test location
+     */
+    private void updateResult(CndTestCase testCase)
+    {
+        final String result = getMatchGroup(GROUP_RESULT);
+        
+        if( result.equals(MSG_FAILED) == true )
+        {
+            testCase.setError();
+        }
+        else if( result.equals(MSG_SKIP) == true )
+        {
+            testCase.setSkipped();
+        }
+        else
+        {
+            /* Empty */
+        }
+    }
+    
+    
+    /**
+     * Updates the test time.
+     * 
+     * @param testCase  Test Case
+     */
+    private void updateTime(CndTestCase testCase)
+    {
+        final String timeValue = getMatchGroup(GROUP_TIME);
+        testCase.setTimeMillis(TestSupportUtils.parseTimeSecToMillis(timeValue));
     }
     
 }

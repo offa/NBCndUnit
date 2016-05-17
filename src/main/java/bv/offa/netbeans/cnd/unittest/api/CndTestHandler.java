@@ -22,6 +22,7 @@ package bv.offa.netbeans.cnd.unittest.api;
 
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
+import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 
 /**
@@ -32,9 +33,12 @@ import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
  */
 public abstract class CndTestHandler extends TestRecognizerHandler
 {
-    public CndTestHandler(String regex, boolean wrapRegex, boolean performOutput)
+    protected final TestFramework framework;
+            
+    public CndTestHandler(TestFramework framework, String regex)
     {
         super(regex, true, true);
+        this.framework = framework;
     }
 
     
@@ -93,7 +97,6 @@ public abstract class CndTestHandler extends TestRecognizerHandler
         return ( testSuite != null ) && ( testSuite.getName().equals(otherName) == true );
     }
     
-    
     /**
      * Returns the match result captured by the {@code group}.
      * 
@@ -104,4 +107,65 @@ public abstract class CndTestHandler extends TestRecognizerHandler
     {
         return getMatcher().group(group);
     }
+    
+    
+    /**
+     * Returns the current Test Suite of the session.
+     * 
+     * @param session       Session
+     * @return              Test Suite
+     */
+    protected CndTestSuite currentSuite(TestSession session)
+    {
+        return (CndTestSuite) session.getCurrentSuite();
+    }
+    
+    
+    /**
+     * Returns the current Test Case of the session.
+     * 
+     * @param session       Session
+     * @return              Test Case
+     */
+    protected CndTestCase currentTestCase(TestSession session)
+    {
+        return (CndTestCase) session.getCurrentTestCase();
+    }
+    
+    
+    /**
+     * Starts a new Test Suite for the session.
+     * 
+     * @param suiteName     Test Suite
+     * @param session       Session
+     * @param manager       Manager
+     * @return              Test Suite
+     */
+    protected CndTestSuite startNewTestSuite(String suiteName, TestSession session, ManagerAdapter manager)
+    {
+        CndTestSuite testSuite = new CndTestSuite(suiteName, framework);
+        session.addSuite(testSuite);
+        manager.displaySuiteRunning(session, testSuite);
+        
+        return testSuite;
+    }
+    
+    
+    /**
+     * Starts a new Test Casefor the session.
+     * 
+     * @param caseName      Test Case
+     * @param suiteName     Test Suite
+     * @param session       Session
+     * @return              Test Case
+     */
+    protected CndTestCase startNewTestCase(String caseName, String suiteName, TestSession session)
+    {
+        CndTestCase testcase = new CndTestCase(caseName, framework, session);
+        testcase.setClassName(suiteName);
+        session.addTestCase(testcase);
+        
+        return testcase;
+    }
+    
 }

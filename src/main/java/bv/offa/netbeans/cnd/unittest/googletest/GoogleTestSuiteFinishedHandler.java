@@ -22,6 +22,7 @@ package bv.offa.netbeans.cnd.unittest.googletest;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 /**
@@ -34,8 +35,8 @@ class GoogleTestSuiteFinishedHandler extends CndTestHandler
 {
     public GoogleTestSuiteFinishedHandler()
     {
-        super("^.*?\\[[-]{10}\\].*? [0-9]+? tests?? from "
-                + "([^ ]+?) \\(([0-9]+?) ms total\\)$", true, true);
+        super(TestFramework.GOOGLETEST, "^.*?\\[[-]{10}\\].*? [0-9]+? tests?? from "
+                                        + "([^ ]+?) \\(([0-9]+?) ms total\\)$");
     }
 
     

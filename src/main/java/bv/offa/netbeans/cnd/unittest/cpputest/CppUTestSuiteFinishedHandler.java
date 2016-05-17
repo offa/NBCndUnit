@@ -22,6 +22,7 @@ package bv.offa.netbeans.cnd.unittest.cpputest;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 /**
@@ -36,8 +37,8 @@ class CppUTestSuiteFinishedHandler extends CndTestHandler
 
     public CppUTestSuiteFinishedHandler(TestSessionInformation info)
     {
-        super("(\u001B\\[[;\\d]*m)?(Errors|OK) \\([0-9]+?.+?\\)"
-                + "(\u001B\\[[;\\d]*m)?$", true, true);
+        super(TestFramework.CPPUTEST, "(\u001B\\[[;\\d]*m)?(Errors|OK) \\([0-9]+?.+?\\)"
+                                    + "(\u001B\\[[;\\d]*m)?$");
         this.info = info;
     }
 

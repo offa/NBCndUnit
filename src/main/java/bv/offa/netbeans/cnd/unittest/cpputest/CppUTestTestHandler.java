@@ -39,22 +39,21 @@ class CppUTestTestHandler extends CndTestHandler
     private static final int GROUP_CASE = 3;
     private static final int GROUP_TIME = 4;
     private static final int GROUP_TIME_VALUE = 5;
-    private static final TestFramework TESTFRAMEWORK = TestFramework.CPPUTEST;
     private static boolean firstSuite;
     private final TestSessionInformation info;
 
     public CppUTestTestHandler(TestSessionInformation info)
     {
-        super("^(IGNORE_)??TEST\\(([^, ]+?), ([^, ]+?)\\)"
-                + "( \\- ([0-9]+?) ms)?$", true, true);
+        super(TestFramework.CPPUTEST, "^(IGNORE_)??TEST\\(([^, ]+?), ([^, ]+?)\\)"
+                                    + "( \\- ([0-9]+?) ms)?$");
         this.info = info;
         suiteFinished();
     }
 
-    
+
     /**
      * Updates the UI.
-     * 
+     *
      * @param manager       Manager Adapter
      * @param session       Test session
      */
@@ -62,57 +61,78 @@ class CppUTestTestHandler extends CndTestHandler
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
         final String suiteName = getMatchGroup(GROUP_SUITE);
-        CndTestSuite currentSuite = (CndTestSuite) session.getCurrentSuite();
 
-        if( isSameTestSuite(currentSuite, suiteName) == false )
+        if( isSameTestSuite(currentSuite(session), suiteName) == false )
         {
-            if( firstSuite == true )
-            {
-                manager.testStarted(session);
-                firstSuite = false;
-            }
-            else
-            {
-                manager.displayReport(session, session.getReport(0));
-            }
-
-            currentSuite = new CndTestSuite(suiteName, TESTFRAMEWORK);
-            session.addSuite(currentSuite);
-            manager.displaySuiteRunning(session, currentSuite);
+            updateSessionState(manager, session);
+            startNewTestSuite(suiteName, session, manager);
         }
-        
+
         final String caseName = getMatchGroup(GROUP_CASE);
-        CndTestCase testcase = new CndTestCase(caseName, TESTFRAMEWORK, session);
-        testcase.setClassName(suiteName);
-        
-        final String ignored = getMatchGroup(GROUP_IGNORED);
-        final String time = getMatchGroup(GROUP_TIME);
-        
-        if( ignored != null )
-        {
-            testcase.setSkipped();
-        }
-        else if( time != null )
-        {
-            final String timeValue = getMatchGroup(GROUP_TIME_VALUE);
-            long testTime = Long.valueOf(timeValue);
-            testcase.setTimeMillis(testTime);
-            info.addTime(testTime);
-        }
-        else
-        {
-            // Test time is separated, eg. failed or test with additional output
-        }
-        
-        session.addTestCase(testcase);
+        CndTestCase testCase = startNewTestCase(caseName, suiteName, session);
+        updateStatus(testCase);
+        updateTime(testCase);
     }
-    
-    
+
+
     /**
      * Indicates the current suite has finished.
      */
     static void suiteFinished()
     {
         CppUTestTestHandler.firstSuite = true;
+    }
+
+
+    /**
+     * Updates the session state.
+     *
+     * @param manager   Manager
+     * @param session   Session
+     */
+    private void updateSessionState(ManagerAdapter manager, TestSession session)
+    {
+        if( firstSuite == true )
+        {
+            manager.testStarted(session);
+            firstSuite = false;
+        }
+        else
+        {
+            manager.displayReport(session, session.getReport(0));
+        }
+    }
+
+
+    /**
+     * Updates the test time.
+     *
+     * @param testCase  Test Case
+     */
+    private void updateTime(CndTestCase testCase)
+    {
+        if( getMatchGroup(GROUP_TIME) != null )
+        {
+            final String timeValue = getMatchGroup(GROUP_TIME_VALUE);
+            long testTime = Long.valueOf(timeValue);
+            testCase.setTimeMillis(testTime);
+            info.addTime(testTime);
+        }
+    }
+
+
+    /**
+     * Updates the test status.
+     *
+     * @param testCase  Test Case
+     */
+    private void updateStatus(CndTestCase testCase)
+    {
+        final String ignored = getMatchGroup(GROUP_IGNORED);
+
+        if( ignored != null )
+        {
+            testCase.setSkipped();
+        }
     }
 }

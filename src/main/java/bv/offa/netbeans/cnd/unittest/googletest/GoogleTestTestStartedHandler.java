@@ -36,11 +36,10 @@ class GoogleTestTestStartedHandler extends CndTestHandler
 {
     private static final int GROUP_SUITE = 1;
     private static final int GROUP_CASE = 2;
-    private static final TestFramework TESTFRAMEWORK = TestFramework.GOOGLETEST;
 
     public GoogleTestTestStartedHandler()
     {
-        super("^.*?\\[ RUN      \\].*? (.+?)\\.(.+?)(?:/.+)??$", true, true);
+        super(TestFramework.GOOGLETEST, "^.*?\\[ RUN      \\].*? (.+?)\\.(.+?)(?:/.+)??$");
     }
 
     
@@ -55,9 +54,7 @@ class GoogleTestTestStartedHandler extends CndTestHandler
     {
         final String caseName = getMatchGroup(GROUP_CASE);
         final String suiteName = getMatchGroup(GROUP_SUITE);
-        final Testcase testcase = new CndTestCase(caseName, TESTFRAMEWORK, session);
-        testcase.setClassName(suiteName);
-        session.addTestCase(testcase);
+        startNewTestCase(caseName, suiteName, session);
     }
 
 }

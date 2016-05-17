@@ -36,12 +36,11 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
 class GoogleTestSuiteStartedHandler extends CndTestHandler
 {
     private static final int GROUP_SUITE = 1;
-    private static final TestFramework TESTFRAMEWORK = TestFramework.GOOGLETEST;
     private static boolean firstSuite;
     
     public GoogleTestSuiteStartedHandler()
     {
-        super("^.*?\\[[-]{10}\\].*? [0-9]+? tests?? from (.+?)$", true, true);
+        super(TestFramework.GOOGLETEST, "^.*?\\[[-]{10}\\].*? [0-9]+? tests?? from (.+?)$");
         suiteFinished();
     }
 
@@ -56,6 +55,24 @@ class GoogleTestSuiteStartedHandler extends CndTestHandler
     @Override
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
+        final String suiteName = getMatchGroup(GROUP_SUITE);
+        
+        if( isSameTestSuite(currentSuite(session), suiteName) == false )
+        {
+            updateSessionState(manager, session);
+            startNewTestSuite(suiteName, session, manager);
+        }
+    }
+
+    
+    /**
+     * Updates the session state.
+     * 
+     * @param manager   Manager
+     * @param session   Session
+     */
+    private void updateSessionState(ManagerAdapter manager, TestSession session)
+    {
         if( firstSuite == true )
         {
             manager.testStarted(session);
@@ -64,16 +81,6 @@ class GoogleTestSuiteStartedHandler extends CndTestHandler
         else
         {
             manager.displayReport(session, session.getReport(0));
-        }
-        
-        final String suiteName = getMatchGroup(GROUP_SUITE);
-        CndTestSuite currentSuite = (CndTestSuite) session.getCurrentSuite();
-        
-        if( isSameTestSuite(currentSuite, suiteName) == false )
-        {
-            currentSuite = new CndTestSuite(suiteName, TESTFRAMEWORK);
-            session.addSuite(currentSuite);
-            manager.displaySuiteRunning(session, currentSuite);
         }
     }
     
@@ -85,6 +92,7 @@ class GoogleTestSuiteStartedHandler extends CndTestHandler
     {
         GoogleTestSuiteStartedHandler.firstSuite = true;
     }
+    
 }
     
     

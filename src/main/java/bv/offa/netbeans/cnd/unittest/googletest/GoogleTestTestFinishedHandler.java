@@ -23,6 +23,7 @@ package bv.offa.netbeans.cnd.unittest.googletest;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 
@@ -43,8 +44,8 @@ class GoogleTestTestFinishedHandler extends CndTestHandler
 
     public GoogleTestTestFinishedHandler()
     {
-        super("^.*?\\[  (     OK|FAILED ) \\].*? (.+?)\\.(.+?)(?:/.+)??"
-            + " \\(([0-9]+?) ms\\)$", true, true);
+        super(TestFramework.GOOGLETEST, "^.*?\\[  (     OK|FAILED ) \\].*? (.+?)\\.(.+?)(?:/.+)??"
+                                        + " \\(([0-9]+?) ms\\)$");
     }
 
     
@@ -58,26 +59,16 @@ class GoogleTestTestFinishedHandler extends CndTestHandler
     @Override
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        final CndTestCase testCase = (CndTestCase) session.getCurrentTestCase();
-        
+        final CndTestCase testCase = currentTestCase(session);
         final String caseName = getMatchGroup(GROUP_CASE);
         final String suiteName = getMatchGroup(GROUP_SUITE);
         
         if( isSameTestCase(testCase, caseName, suiteName) == true )
         {
-            final String timeValue = getMatchGroup(GROUP_TIME);
-            long time = Long.valueOf(timeValue);
-            testCase.setTimeMillis(time);
-            
             final String location = suiteName + ":" + caseName;
             testCase.setLocation(location);
-            
-            final String result = getMatchGroup(GROUP_RESULT);
-
-            if( result.equals(MSG_FAILED) == true )
-            {
-                testCase.setError(new String[] { location });
-            }
+            updateTime(testCase);
+            updateResult(testCase, location);
         }
         else
         {
@@ -86,4 +77,34 @@ class GoogleTestTestFinishedHandler extends CndTestHandler
         }
     }
 
+    
+    /**
+     * Updates the test time.
+     * 
+     * @param testCase  Test Case
+     */
+    private void updateTime(CndTestCase testCase)
+    {
+        final String timeValue = getMatchGroup(GROUP_TIME);
+        long time = Long.valueOf(timeValue);
+        testCase.setTimeMillis(time);
+    }
+
+    
+    /**
+     * Updates the test result.
+     * 
+     * @param testCase      Test Case
+     * @param location      Test location
+     */
+    private void updateResult(CndTestCase testCase, String location)
+    {
+        final String result = getMatchGroup(GROUP_RESULT);
+        
+        if( result.equals(MSG_FAILED) == true )
+        {
+            testCase.setError(new String[] { location });
+        }
+    }
+    
 }

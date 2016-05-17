@@ -23,6 +23,7 @@ package bv.offa.netbeans.cnd.unittest.cpputest;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 /**
@@ -40,8 +41,8 @@ class CppUTestErrorHandler extends CndTestHandler
     
     public CppUTestErrorHandler(TestSessionInformation info)
     {
-        super("^(.+?)\\:([0-9]+?)\\: error\\: Failure in "
-                + "TEST\\(([^, ]+?), ([^, ]+?)\\)$", true, true);
+        super(TestFramework.CPPUTEST, "^(.+?)\\:([0-9]+?)\\: error\\: Failure in "
+                                    + "TEST\\(([^, ]+?), ([^, ]+?)\\)$");
     }
 
 
@@ -55,7 +56,7 @@ class CppUTestErrorHandler extends CndTestHandler
     @Override
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        CndTestCase testCase = (CndTestCase) session.getCurrentTestCase();
+        CndTestCase testCase = currentTestCase(session);
         final String suiteName = getMatchGroup(GROUP_SUITE);
         final String caseName = getMatchGroup(GROUP_CASE);
         
