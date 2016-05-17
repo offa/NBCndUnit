@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
@@ -32,11 +33,14 @@ import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.sessionIs;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.suiteFrameworkIs;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.timeIs;
 import java.util.regex.Matcher;
+import junit.framework.TestCase;
 import static org.hamcrest.CoreMatchers.allOf;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.mockito.InOrder;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import org.netbeans.api.project.Project;
 import org.netbeans.modules.gsf.testrunner.api.Report;
@@ -44,6 +48,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Lookup;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -183,6 +188,16 @@ public class CppUTestTestHandlerTest
         checkedMatch(handler, "TEST(TestSuite, testCase) - 84 ms");
         handler.updateUI(manager, session);
         verify(manager).testStarted(session);
+    }
+    
+    @Test
+    public void updateUIStartsStartsTestBeforeSuite()
+    {
+        checkedMatch(handler, "TEST(TestSuite, testCase) - 84 ms");
+        handler.updateUI(manager, session);
+        InOrder inOrder = inOrder(manager);
+        inOrder.verify(manager).testStarted(any(TestSession.class));
+        inOrder.verify(manager).displaySuiteRunning(any(TestSession.class), any(CndTestSuite.class));
     }
     
     @Test

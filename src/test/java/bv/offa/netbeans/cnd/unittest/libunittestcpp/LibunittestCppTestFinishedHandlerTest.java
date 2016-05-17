@@ -49,8 +49,10 @@ import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.sessionIs;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.suiteFrameworkIs;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.timeIs;
 import static org.hamcrest.CoreMatchers.allOf;
+import org.mockito.InOrder;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.hamcrest.MockitoHamcrest.argThat;
@@ -135,6 +137,16 @@ public class LibunittestCppTestFinishedHandlerTest
         checkedMatch(handler, "TestSuite::testCase ... [1.551e-05s] ok");
         handler.updateUI(manager, session);
         verify(manager).testStarted(session);
+    }
+    
+    @Test
+    public void updateUIStartsStartsTestBeforeSuite()
+    {
+        checkedMatch(handler, "TestSuite::testCase ... [1.551e-05s] ok");
+        handler.updateUI(manager, session);
+        InOrder inOrder = inOrder(manager);
+        inOrder.verify(manager).testStarted(any(TestSession.class));
+        inOrder.verify(manager).displaySuiteRunning(any(TestSession.class), any(CndTestSuite.class));
     }
     
     @Test

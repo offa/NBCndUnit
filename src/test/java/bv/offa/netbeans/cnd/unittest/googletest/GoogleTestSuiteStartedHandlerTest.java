@@ -30,6 +30,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.mockito.InOrder;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.when;
@@ -39,8 +41,8 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Lookup;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.hamcrest.MockitoHamcrest.argThat;
@@ -113,6 +115,16 @@ public class GoogleTestSuiteStartedHandlerTest
         checkedMatch(handler, "[----------] 1 test from TestSuite");
         handler.updateUI(manager, session);
         verify(manager).testStarted(session);
+    }
+    
+    @Test
+    public void updateUIStartsStartsTestBeforeSuite()
+    {
+        checkedMatch(handler, "[----------] 1 test from TestSuite");
+        handler.updateUI(manager, session);
+        InOrder inOrder = inOrder(manager);
+        inOrder.verify(manager).testStarted(any(TestSession.class));
+        inOrder.verify(manager).displaySuiteRunning(any(TestSession.class), any(CndTestSuite.class));
     }
     
     @Test
