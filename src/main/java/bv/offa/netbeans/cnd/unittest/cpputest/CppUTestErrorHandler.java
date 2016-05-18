@@ -20,12 +20,11 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
-import java.util.regex.Matcher;
-import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
-import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
+import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
-import org.netbeans.modules.gsf.testrunner.api.Testcase;
-import org.netbeans.modules.gsf.testrunner.api.Trouble;
 
 /**
  * The class {@code CppUTestErrorHandler} handles test errors and their
@@ -33,44 +32,41 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
  * 
  * @author offa
  */
-class CppUTestErrorHandler extends TestRecognizerHandler
+class CppUTestErrorHandler extends CndTestHandler
 {
+    private static final int GROUP_FILE = 1;
+    private static final int GROUP_LINE = 2;
+    private static final int GROUP_SUITE = 3;
+    private static final int GROUP_CASE = 4;
+    
     public CppUTestErrorHandler(TestSessionInformation info)
     {
-        super("^(.+?)\\:([0-9]+?)\\: error\\: Failure in "
-                + "TEST\\(([^, ]+?), ([^, ]+?)\\)$", true, true);
+        super(TestFramework.CPPUTEST, "^(.+?)\\:([0-9]+?)\\: error\\: Failure in "
+                                    + "TEST\\(([^, ]+?), ([^, ]+?)\\)$");
     }
 
 
-
+    
     /**
-     * Updates the ui and test states.
+     * Updates the UI.
      * 
-     * @param mngr  Manager
-     * @param ts    Test session
+     * @param manager       Manager Adapter
+     * @param session       Test session
      */
     @Override
-    public void updateUI(Manager mngr, TestSession ts)
+    public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        Testcase testCase = ts.getCurrentTestCase();
-        final Matcher m = getMatcher();
-
-        if( testCase != null && testCase.getClassName().equals(m.group(3))
-                && testCase.getName().equals(m.group(4)) )
+        CndTestCase testCase = currentTestCase(session);
+        final String suiteName = getMatchGroup(GROUP_SUITE);
+        final String caseName = getMatchGroup(GROUP_CASE);
+        
+        if( isSameTestCase(testCase, caseName, suiteName) == true )
         {
-            final String location = m.group(1) + ":" + m.group(2);
+            final String file = getMatchGroup(GROUP_FILE);
+            final String lineNumber = getMatchGroup(GROUP_LINE);
+            final String location = file + ":" + lineNumber;
             testCase.setLocation(location);
-
-            Trouble t = testCase.getTrouble();
-
-            if( t == null )
-            {
-                t = new Trouble(true);
-            }
-
-            t.setError(true);
-            t.setStackTrace(new String[] { location });
-            testCase.setTrouble(t);
+            testCase.setError(new String[] { location });
         }
     }
 

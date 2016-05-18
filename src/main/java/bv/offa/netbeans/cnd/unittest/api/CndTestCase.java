@@ -20,8 +20,10 @@
 
 package bv.offa.netbeans.cnd.unittest.api;
 
+import org.netbeans.modules.gsf.testrunner.api.Status;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.Testcase;
+import org.netbeans.modules.gsf.testrunner.api.Trouble;
 
 /**
  * The class {@code CndTestCase} extends {@link Testcase Testcase} with
@@ -49,6 +51,37 @@ public class CndTestCase extends Testcase
     public TestFramework getFramework()
     {
         return framework;
+    }
+    
+    
+    /**
+     * Sets the Test as failed.
+     */
+    public void setError()
+    {
+        setError(new String[] { });
+    }
+    
+    
+    /**
+     * Sets the Test as failed.
+     * 
+     * @param stackTrace    Stacktrace of the failure
+     */
+    public void setError(String stackTrace[])
+    {
+        Trouble trouble = new Trouble(true);
+        trouble.setStackTrace(stackTrace);
+        setTrouble(trouble);
+    }
+    
+    
+    /**
+     * Sets the Test as skipped (ignored by the test runner).
+     */
+    public void setSkipped()
+    {
+        setStatus(Status.SKIPPED);
     }
     
 }

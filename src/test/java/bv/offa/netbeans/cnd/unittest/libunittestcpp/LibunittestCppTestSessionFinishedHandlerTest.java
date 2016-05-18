@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2016  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -17,44 +17,86 @@
  * You should have received a copy of the GNU General Public License
  * along with NBCndUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package bv.offa.netbeans.cnd.unittest.libunittestcpp;
 
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
+import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.netbeans.api.project.Project;
+import org.netbeans.modules.gsf.testrunner.api.Report;
+import org.netbeans.modules.gsf.testrunner.api.TestSession;
+import org.openide.filesystems.FileUtil;
+import org.openide.util.Lookup;
 
 public class LibunittestCppTestSessionFinishedHandlerTest
 {
+
+    private static Project project;
+    private static Report report;
     private LibunittestCppTestSessionFinishedHandler handler;
-    
+    private TestSession session;
+    private ManagerAdapter manager;
+
+    @BeforeClass
+    public static void setUpClass()
+    {
+        project = mock(Project.class);
+        when(project.getProjectDirectory())
+                .thenReturn(FileUtil.createMemoryFileSystem().getRoot());
+        when(project.getLookup()).thenReturn(Lookup.EMPTY);
+        report = new Report("suite", project);
+    }
     
     @Before
     public void setUp()
     {
         handler = new LibunittestCppTestSessionFinishedHandler();
+        session = mock(TestSession.class);
+        manager = mock(ManagerAdapter.class);
     }
-    
+
     @Test
     public void matchesSuccessfulTest()
     {
         assertTrue(handler.matches("Ran 60 tests in 0.100471s"));
         assertTrue(handler.matches("Ran 5 tests in 127.000288703s"));
     }
-    
+
     @Test
     public void parseDataSuccessfulTest()
     {
-        Matcher m = handler.match("Ran 5 tests in 127.000288703s");
-        assertTrue(m.find());
+        Matcher m = checkedMatch(handler, "Ran 5 tests in 127.000288703s");
         assertEquals("127.000288703", m.group(1));
     }
-    
+
     @Test
     public void rejectsMalformedTests()
     {
         assertFalse(handler.matches("Ran 2 tests in"));
         assertFalse(handler.matches("Ran 2 tests in "));
+    }
+
+    @Test
+    public void updateUIDisplaysReport()
+    {
+        checkedMatch(handler, "Ran 5 tests in 127.000288703s");
+        when(session.getReport(127000l)).thenReturn(report);
+        handler.updateUI(manager, session);
+        verify(manager).displayReport(session, report);
+    }
+
+    @Test
+    public void udpateUIFinishesSession()
+    {
+        checkedMatch(handler, "Ran 5 tests in 127.000288703s");
+        handler.updateUI(manager, session);
+        verify(manager).sessionFinished(session);
     }
 }

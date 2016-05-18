@@ -21,31 +21,39 @@
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
+import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestCase;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasError;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasNoError;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import static org.mockito.Mockito.*;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
-import org.netbeans.modules.gsf.testrunner.api.Testcase;
 import org.netbeans.modules.gsf.testrunner.api.Trouble;
 
 public class CppUTestErrorHandlerTest
 {
-    private TestSession session;
+    private static final TestFramework FRAMEWORK = TestFramework.CPPUTEST;
     private TestSessionInformation info;
     private CppUTestErrorHandler handler;
-    
+    private TestSession session;
+    private ManagerAdapter manager;
     
     @Before
     public void setUp()
     {
-        session = mock(TestSession.class);
         info = new TestSessionInformation();
         handler = new CppUTestErrorHandler(info);
+        session = mock(TestSession.class);
+        manager = mock(ManagerAdapter.class);
+        
     }
     
+    @Deprecated
     @Test
     public void matchesErrorLocationLine()
     {
@@ -56,9 +64,8 @@ public class CppUTestErrorHandlerTest
     @Test
     public void parsesDataErrorLocationLine()
     {
-        Matcher m = handler.match("test/TestSuite.cpp:37: error: Failure "
-                                    + "in TEST(TestSuite, testCase)");
-        assertTrue(m.find());
+        Matcher m = checkedMatch(handler, "test/TestSuite.cpp:37: error: "
+                                        + "Failure in TEST(TestSuite, testCase)");
         assertEquals(4, m.groupCount());
         assertEquals("test/TestSuite.cpp", m.group(1));
         assertEquals("37", m.group(2));
@@ -69,74 +76,52 @@ public class CppUTestErrorHandlerTest
     @Test
     public void updateUIDoesNothingIfNoTestCase()
     {
-        Matcher m = handler.match("test/TestSuite.cpp:37: error: Failure "
+        checkedMatch(handler, "test/TestSuite.cpp:37: error: Failure "
                                     + "in TEST(TestSuite, testCase)");
-        assertTrue(m.find());
-        Testcase testCase = null;
-        when(session.getCurrentTestCase()).thenReturn(testCase);
-        handler.updateUI(null, session);
+        when(session.getCurrentTestCase()).thenReturn(null);
+        handler.updateUI(manager, session);
     }
     
     @Test
     public void updateUIIgnoresNotMatchingTestCase()
     {
-        Matcher m = handler.match("test/TestSuite.cpp:37: error: Failure "
+        checkedMatch(handler, "test/TestSuite.cpp:37: error: Failure "
                                     + "in TEST(TestSuite, testCase)");
-        assertTrue(m.find());
-        Testcase testCase = createTestCase("TestSuite", "wrongTestCase", session);
-        handler.updateUI(null, session);
-        assertNull(testCase.getTrouble());
+        CndTestCase testCase = createCurrentTestCase("TestSuite", "wrongTestCase", FRAMEWORK, session);
+        handler.updateUI(manager, session);
+        assertThat(testCase, hasNoError());
         assertNull(testCase.getLocation());
     }
     
     @Test
     public void updateUIIgnoresNotMatchingTestSuite()
     {
-        Matcher m = handler.match("test/TestSuite.cpp:37: error: Failure in "
+        checkedMatch(handler, "test/TestSuite.cpp:37: error: Failure in "
                                     + "TEST(TestSuite, testName)");
-        assertTrue(m.find());
-        Testcase testCase = createTestCase("WrongTestSuite", "testCase", session);
-        handler.updateUI(null, session);
-        assertNull(testCase.getTrouble());
+        CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
+        handler.updateUI(manager, session);
+        assertThat(testCase, hasNoError());
     }
     
     @Test
     public void updateUISetsTrouble()
     {
-        Matcher m = handler.match("test/TestSuite.cpp:37: error: Failure "
+        checkedMatch(handler, "test/TestSuite.cpp:37: error: Failure "
                                     + "in TEST(TestSuite, testCase)");
-        assertTrue(m.find());
-        Testcase testCase = createTestCase("TestSuite", "testCase", session);
-        handler.updateUI(null, session);
-        Trouble t = testCase.getTrouble();
-        assertNotNull(t);
-        assertTrue(t.isError());
-        assertEquals("test/TestSuite.cpp:37", t.getStackTrace()[0]);
+        CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
+        handler.updateUI(manager, session);
+        assertThat(testCase, hasError());
     }
     
     @Test
     public void updateUIUpdatesTrouble()
     {
-        Matcher m = handler.match("test/TestSuite.cpp:37: error: Failure "
+        checkedMatch(handler, "test/TestSuite.cpp:37: error: Failure "
                                     + "in TEST(TestSuite, testCase)");
-        assertTrue(m.find());
-        Testcase testCase = createTestCase("TestSuite", "testCase", session);
+        CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
         testCase.setTrouble(new Trouble(false));
-        handler.updateUI(null, session);
-        Trouble t = testCase.getTrouble();
-        assertNotNull(t);
-        assertTrue(t.isError());
-        assertEquals("test/TestSuite.cpp:37", t.getStackTrace()[0]);
+        handler.updateUI(manager, session);
+        assertThat(testCase, hasError());
     }
-    
-    
-    private static CndTestCase createTestCase(String suiteName, String caseName, TestSession session)
-    {
-        CndTestCase testCase = new CndTestCase(caseName, TestFramework.CPPUTEST, session);
-        testCase.setClassName(suiteName);
-        when(session.getCurrentTestCase()).thenReturn(testCase);
-        
-        return testCase;
-    }
-    
+
 }

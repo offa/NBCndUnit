@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2016  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -17,50 +17,94 @@
  * You should have received a copy of the GNU General Public License
  * along with NBCndUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package bv.offa.netbeans.cnd.unittest.googletest;
 
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
+import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.netbeans.api.project.Project;
+import org.netbeans.modules.gsf.testrunner.api.Report;
+import org.netbeans.modules.gsf.testrunner.api.TestSession;
+import org.openide.filesystems.FileUtil;
+import org.openide.util.Lookup;
 
 public class GoogleTestSessionFinishedHandlerTest
 {
+    private static Project project;
+    private static Report report;
     private GoogleTestSessionFinishedHandler handler;
-    
-    
+    private TestSession session;
+    private ManagerAdapter manager;
+
+    @BeforeClass
+    public static void setUpClass()
+    {
+        project = mock(Project.class);
+        when(project.getProjectDirectory())
+                .thenReturn(FileUtil.createMemoryFileSystem().getRoot());
+        when(project.getLookup()).thenReturn(Lookup.EMPTY);
+        report = new Report("suite", project);
+    }
+
     @Before
     public void setUp()
     {
         handler = new GoogleTestSessionFinishedHandler();
+        session = mock(TestSession.class);
+        manager = mock(ManagerAdapter.class);
     }
-    
+
+    @Deprecated
     @Test
     public void matchesTestSessionResult()
     {
         assertTrue(handler.matches("[==========] 1200 tests from 307 test cases ran. (1234 ms total)"));
     }
-    
+
     @Test
     public void parseDataTestSession()
     {
-        Matcher m = handler.match("[==========] 1200 tests from 307 test cases ran. (1234 ms total)");
-        assertTrue(m.find());
+        Matcher m = checkedMatch(handler, "[==========] 1200 tests from 307 test cases ran. (1234 ms total)");
         assertEquals("1234", m.group(1));
     }
-    
+
+    @Deprecated
     @Test
     public void matchesSingleTests()
     {
         assertTrue(handler.matches("[==========] 1 test from 1 test case ran. (3 ms total)"));
     }
-    
+
     @Test
     public void parseDataSingleTests()
     {
-        Matcher m = handler.match("[==========] 1 test from 1 test case ran. (3 ms total)");
-        assertTrue(m.find());
+        Matcher m = checkedMatch(handler, "[==========] 1 test from 1 test case ran. (3 ms total)");
         assertEquals("3", m.group(1));
     }
+
+    @Test
+    public void updateUIDisplaysReport()
+    {
+        checkedMatch(handler, "[==========] 1 test from 1 test case ran. (3 ms total)");
+        when(session.getReport(3l)).thenReturn(report);
+        
+        handler.updateUI(manager, session);
+        verify(manager).displayReport(session, report);
+    }
+
+    @Test
+    public void udpateUIFinishesSession()
+    {
+        checkedMatch(handler, "[==========] 1 test from 1 test case ran. (3 ms total)");
+        handler.updateUI(manager, session);
+        verify(manager).sessionFinished(session);
+    }
+    
 }

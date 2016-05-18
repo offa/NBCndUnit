@@ -21,33 +21,36 @@
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.timeIs;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import static org.mockito.Mockito.*;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
-import org.netbeans.modules.gsf.testrunner.api.Testcase;
 
 public class CppUTestTimeHandlerTest
 {
-    private static final TestSessionInformation DONT_CARE_INFO = new TestSessionInformation();
+    private static final TestFramework FRAMEWORK = TestFramework.CPPUTEST;
+    private TestSessionInformation info;
     private CppUTestTimeHandler handler;
     private TestSession session;
-    private TestSessionInformation info;
-    private CppUTestTimeHandler timeHandler;
+    private ManagerAdapter manager;
     
     
     @Before
     public void setUp()
     {
-        handler = new CppUTestTimeHandler(DONT_CARE_INFO);
-        session = mock(TestSession.class);
         info = new TestSessionInformation();
-        timeHandler = new CppUTestTimeHandler(info);
+        handler = new CppUTestTimeHandler(info);
+        session = mock(TestSession.class);
+        manager = mock(ManagerAdapter.class);
     }
     
+    @Deprecated
     @Test
     public void matchesTime()
     {
@@ -58,8 +61,7 @@ public class CppUTestTimeHandlerTest
     @Test
     public void parsesDataTime()
     {
-        Matcher m = handler.match(" - 0 ms");
-        assertTrue(m.matches());
+        Matcher m = checkedMatch(handler, " - 0 ms");
         assertEquals("0", m.group(1));
         m = handler.match(" - 123 ms");
         assertTrue(m.matches());
@@ -69,13 +71,12 @@ public class CppUTestTimeHandlerTest
     @Test
     public void updateUIUpdatesTime()
     {
-        Matcher m = timeHandler.match(" - 123 ms");
-        assertTrue(m.find());
-        Testcase testCase = new CndTestCase("testCase", TestFramework.CPPUTEST, session);
+        checkedMatch(handler, " - 123 ms");
+        CndTestCase testCase = new CndTestCase("testCase", FRAMEWORK, session);
         when(session.getCurrentTestCase()).thenReturn(testCase);
-        timeHandler.updateUI(null, session);
-        assertEquals(123L, info.getTimeTotal());
-        assertEquals(123L, testCase.getTimeMillis());
+        handler.updateUI(manager, session);
+        assertEquals(123l, info.getTimeTotal());
+        assertThat(testCase, timeIs(123l));
     }
     
 }

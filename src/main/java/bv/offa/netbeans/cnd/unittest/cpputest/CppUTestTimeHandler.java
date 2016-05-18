@@ -20,9 +20,9 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
-import java.util.regex.Matcher;
-import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
-import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
+import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.Testcase;
 
@@ -32,33 +32,34 @@ import org.netbeans.modules.gsf.testrunner.api.Testcase;
  * 
  * @author offa
  */
-class CppUTestTimeHandler extends TestRecognizerHandler
+class CppUTestTimeHandler extends CndTestHandler
 {
+    private static final int GROUP_TIME = 1;
     private final TestSessionInformation info;
     
     public CppUTestTimeHandler(TestSessionInformation info)
     {
-        super("^ \\- ([0-9]+?) ms$", true, true);
+        super(TestFramework.CPPUTEST, "^ \\- ([0-9]+?) ms$");
         this.info = info;
     }
 
-    
+
     
     /**
-     * Updates the ui and test states.
+     * Updates the UI.
      * 
-     * @param mngr  Manager
-     * @param ts    Test session
+     * @param manager       Manager Adapter
+     * @param session       Test session
      */
     @Override
-    public void updateUI(Manager mngr, TestSession ts)
+    public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        Testcase testCase = ts.getCurrentTestCase();
+        Testcase testCase = session.getCurrentTestCase();
         
         if( testCase != null )
         {
-            final Matcher m = getMatcher();
-            long testTime = Long.valueOf(m.group(1));
+            final String time = getMatchGroup(GROUP_TIME);
+            long testTime = Long.valueOf(time);
             testCase.setTimeMillis(testTime);
             info.addTime(testTime);
         }

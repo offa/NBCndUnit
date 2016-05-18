@@ -20,22 +20,31 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
+import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import static org.mockito.Mockito.mock;
+import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 public class GoogleTestSuiteFinishedHandlerTest
 {
     private GoogleTestSuiteFinishedHandler handler;
+    private TestSession session;
+    private ManagerAdapter manager;
     
 
     @Before
     public void setUp()
     {
         handler = new GoogleTestSuiteFinishedHandler();
+        session = mock(TestSession.class);
+        manager = mock(ManagerAdapter.class);
     }
     
+    @Deprecated
     @Test
     public void matchesSuccessfulTestSuite()
     {
@@ -45,12 +54,12 @@ public class GoogleTestSuiteFinishedHandlerTest
     @Test
     public void parseDataSuccessfulTestSuite()
     {
-        Matcher m = handler.match("[----------] 3 tests from TestSuite (259 ms total)");
-        assertTrue(m.find());
+        Matcher m = checkedMatch(handler, "[----------] 3 tests from TestSuite (259 ms total)");
         assertEquals("TestSuite", m.group(1));
         assertEquals("259", m.group(2));
     }
     
+    @Deprecated
     @Test
     public void matchesSingleTestSuite()
     {
@@ -60,10 +69,15 @@ public class GoogleTestSuiteFinishedHandlerTest
     @Test
     public void parseDataSingleTestSuite()
     {
-        Matcher m = handler.match("[----------] 1 test from TestSuite (123 ms total)");
-        assertTrue(m.find());
+        Matcher m = checkedMatch(handler, "[----------] 1 test from TestSuite (123 ms total)");
         assertEquals("TestSuite", m.group(1));
         assertEquals("123", m.group(2));
+    }
+    
+    @Test
+    public void updateUIHasNoInteraction()
+    {
+        handler.updateUI(manager, session);
     }
     
 }

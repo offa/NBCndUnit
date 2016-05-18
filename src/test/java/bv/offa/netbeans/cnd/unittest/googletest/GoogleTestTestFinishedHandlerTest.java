@@ -21,8 +21,18 @@
 package bv.offa.netbeans.cnd.unittest.googletest;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
+import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestCase;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.frameworkIs;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasError;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasNoError;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.matchesTestCase;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.sessionIs;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.timeIs;
 import java.util.regex.Matcher;
+import static org.hamcrest.CoreMatchers.allOf;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -30,15 +40,17 @@ import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import static org.mockito.Mockito.*;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
-import org.netbeans.modules.gsf.testrunner.api.Testcase;
 import org.netbeans.modules.gsf.testrunner.api.Trouble;
+import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 
 public class GoogleTestTestFinishedHandlerTest
 {
+    private static final TestFramework FRAMEWORK = TestFramework.GOOGLETEST;
     @Rule
     public ExpectedException exception = ExpectedException.none();
     private GoogleTestTestFinishedHandler handler;
     private TestSession session;
+    private ManagerAdapter manager;
     
     
     @Before
@@ -46,14 +58,17 @@ public class GoogleTestTestFinishedHandlerTest
     {
         handler = new GoogleTestTestFinishedHandler();
         session = mock(TestSession.class);
+        manager = mock(ManagerAdapter.class);
     }
     
+    @Deprecated
     @Test
     public void matchesSuccessfulTestCase()
     {
         assertTrue(handler.matches("[       OK ] TestSuite.testCase (0 ms)"));
     }
     
+    @Deprecated
     @Test
     public void matchesFailedTestCase()
     {
@@ -69,8 +84,7 @@ public class GoogleTestTestFinishedHandlerTest
     @Test
     public void parseDataSuccessfulTestCase()
     {
-        Matcher m = handler.match("[       OK ] TestSuite.testCase (0 ms)");
-        assertTrue(m.find());
+        Matcher m = checkedMatch(handler, "[       OK ] TestSuite.testCase (0 ms)");
         assertEquals("     OK", m.group(1));
         assertEquals("TestSuite", m.group(2));
         assertEquals("testCase", m.group(3));
@@ -80,9 +94,8 @@ public class GoogleTestTestFinishedHandlerTest
     @Test
     public void parseDataSuccessfulTestCaseParameterized()
     {
-        Matcher m = handler.match("[       OK ] withParameterImpl/TestSuite"
-                                    + ".testCase/0 (0 ms)");
-        assertTrue(m.find());
+        Matcher m = checkedMatch(handler, "[       OK ] withParameterImpl/TestSuite"
+                                        + ".testCase/0 (0 ms)");
         assertEquals("     OK", m.group(1));
         assertEquals("withParameterImpl/TestSuite", m.group(2));
         assertEquals("testCase", m.group(3));
@@ -92,9 +105,8 @@ public class GoogleTestTestFinishedHandlerTest
     @Test
     public void parseDataFailTestCaseParameterized()
     {
-        Matcher m = handler.match("[  FAILED  ] withParameterImpl/TestSuite"
-                                    + ".testCase/3, where GetParam() = 0 (0 ms)");
-        assertTrue(m.find());
+        Matcher m = checkedMatch(handler, "[  FAILED  ] withParameterImpl/TestSuite"
+                                        + ".testCase/3, where GetParam() = 0 (0 ms)");
         assertEquals("FAILED ", m.group(1));
         assertEquals("withParameterImpl/TestSuite", m.group(2));
         assertEquals("testCase", m.group(3));
@@ -104,88 +116,123 @@ public class GoogleTestTestFinishedHandlerTest
     @Test
     public void parseDataFailedTestCase()
     {
-        Matcher m = handler.match("[  FAILED  ] TestSuite.testCase (45 ms)");
-        assertTrue(m.find());
+        Matcher m = checkedMatch(handler, "[  FAILED  ] TestSuite.testCase (45 ms)");
         assertEquals("FAILED ", m.group(1));
         assertEquals("TestSuite", m.group(2));
         assertEquals("testCase", m.group(3));
         assertEquals("45", m.group(4));
     }
     
+    @Deprecated
     @Test
     public void updateUIThrowsIfNoTest()
     {
-        Matcher m = handler.match("[       OK ] TestSuite.testCase (0 ms)");
-        assertTrue(m.find());
+        checkedMatch(handler, "[       OK ] TestSuite.testCase (0 ms)");
         exception.expect(IllegalStateException.class);
-        handler.updateUI(null, session);
+        handler.updateUI((Manager) null, session);
     }
     
+    @Deprecated
     @Test
     public void updateUIThrownsIfNotMatchingTestCase()
     {
-        Matcher m = handler.match("[       OK ] withParameterImpl/"
-                                    + "TestSuite.withParameter/0 (0 ms)");
-        assertTrue(m.find());
-        createTestCase("TestSuite", "testCaseWrong", session);
+        checkedMatch(handler, "[       OK ] withParameterImpl/"
+                            + "TestSuite.withParameter/0 (0 ms)");
+        createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
         exception.expect(IllegalStateException.class);
-        handler.updateUI(null, session);
+        handler.updateUI((Manager) null, session);
     }
     
+    @Deprecated
     @Test
     public void updateUIIgnoresNotMatchingTestSuite()
     {
-        Matcher m = handler.match("[       OK ] TestSuite.testCase (0 ms)");
-        assertTrue(m.find());
-        createTestCase("TestSuiteWrong", "testCase", session);
+        checkedMatch(handler, "[       OK ] TestSuite.testCase (0 ms)");
+        createCurrentTestCase("WrongTestSuite", "testCase", FRAMEWORK, session);
         exception.expect(IllegalStateException.class);
-        handler.updateUI(null, session);
+        handler.updateUI((Manager) null, session);
     }
     
+    @Deprecated
     @Test
     public void updateUIDoesNothingIfSuccessful()
     {
-        Matcher m = handler.match("[       OK ] TestSuite.testCase (0 ms)");
-        assertTrue(m.find());
-        Testcase testCase = createTestCase("TestSuite", "testCase", session);
-        handler.updateUI(null, session);
+        checkedMatch(handler, "[       OK ] TestSuite.testCase (0 ms)");
+        CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
+        handler.updateUI((Manager) null, session);
         assertNull(testCase.getTrouble());
     }
     
+    @Deprecated
     @Test
     public void updateUISetsTroubleIfFailed()
     {
-        Matcher m = handler.match("[  FAILED  ] TestSuite.testCase (45 ms)");
-        assertTrue(m.find());
-        Testcase testCase = createTestCase("TestSuite", "testCase", session);
-        handler.updateUI(null, session);
+        checkedMatch(handler, "[  FAILED  ] TestSuite.testCase (45 ms)");
+        CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
+        handler.updateUI((Manager) null, session);
         Trouble t = testCase.getTrouble();
         assertNotNull(t);
         assertTrue(t.isError());
         assertEquals("TestSuite:testCase", t.getStackTrace()[0]);
     }
     
+    @Deprecated
     @Test
     public void updateUIUpdatesTroubleIfFailed()
     {
-        Matcher m = handler.match("[  FAILED  ] TestSuite.testCase (45 ms)");
-        assertTrue(m.find());
-        Testcase testCase = createTestCase("TestSuite", "testCase", session);
+        checkedMatch(handler, "[  FAILED  ] TestSuite.testCase (45 ms)");
+        CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
         testCase.setTrouble(new Trouble(false));
-        handler.updateUI(null, session);
-        Trouble t = testCase.getTrouble();
-        assertNotNull(t);
-        assertTrue(t.isError());
-        assertEquals("TestSuite:testCase", t.getStackTrace()[0]);
+        handler.updateUI((Manager) null, session);
+        assertThat(testCase, hasError());
     }
     
-    
-    private static CndTestCase createTestCase(String suiteName, String caseName, TestSession session)
+    @Test
+    public void updateUIThrowsIfNoTestCase()
     {
-        CndTestCase testCase = new CndTestCase(caseName, TestFramework.CPPUTEST, session);
-        testCase.setClassName(suiteName);
-        when(session.getCurrentTestCase()).thenReturn(testCase);
-        
-        return testCase;
+        checkedMatch(handler, "[       OK ] TestSuite.testCase (0 ms)");
+        exception.expect(IllegalStateException.class);
+        handler.updateUI(manager, session);
+    }
+    
+    @Test
+    public void updateUIThrowsIfNoMatchingTestCaseIsFoundByWrongSuite()
+    {
+        createCurrentTestCase("WrongTestSuite", "testCase", FRAMEWORK, session);
+        checkedMatch(handler, "[       OK ] TestSuite.testCase (0 ms)");
+        exception.expect(IllegalStateException.class);
+        handler.updateUI(manager, session);
+    }
+    
+    @Test
+    public void updateUIThrowsIfNoMatchingTestCaseIsFoundByWrongCase()
+    {
+        createCurrentTestCase("TestSuite", "wrongTestCase", FRAMEWORK, session);
+        checkedMatch(handler, "[       OK ] TestSuite.testCase (0 ms)");
+        exception.expect(IllegalStateException.class);
+        handler.updateUI(manager, session);
+    }
+    
+    @Test
+    public void updateUISetsTestCaseInformation()
+    {
+        CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
+        checkedMatch(handler, "[       OK ] TestSuite.testCase (13 ms)");
+        handler.updateUI(manager, session);
+        assertThat(testCase, allOf(matchesTestCase("testCase", "TestSuite"), 
+                                    frameworkIs(FRAMEWORK), 
+                                    timeIs(13l),
+                                    sessionIs(session),
+                                    hasNoError()));
+        assertEquals("TestSuite:testCase", testCase.getLocation());
+    }
+    
+    @Test
+    public void updateUISetsErrorOnTestFailure()
+    {
+        CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
+        checkedMatch(handler, "[  FAILED  ] TestSuite.testCase (45 ms)");
+        handler.updateUI(manager, session);
+        assertThat(testCase, hasError());
     }
 }
