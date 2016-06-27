@@ -28,24 +28,24 @@ import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 /**
  * The class {@code CndTestHandler} is the base class for
  * {@code TestRecognizerHandler} with adapted {@code Manager} API.
- * 
+ *
  * @author offa
  */
 public abstract class CndTestHandler extends TestRecognizerHandler
 {
     protected final TestFramework framework;
-            
+
     public CndTestHandler(TestFramework framework, String regex)
     {
         super(regex, true, true);
         this.framework = framework;
     }
 
-    
+
     /**
-     * Updates the UI. This method should not be used directly - use 
+     * Updates the UI. This method should not be used directly - use
      * {@link #updateUI(ManagerAdapter, TestSession)} instead.
-     * 
+     *
      * @param manager       Manager
      * @param session       Test session
      */
@@ -54,21 +54,32 @@ public abstract class CndTestHandler extends TestRecognizerHandler
     {
         updateUI(ManagerAdapterImpl.adapt(manager), session);
     }
-    
-    
+
+
     /**
      * Updates the UI.
-     * 
+     *
      * @param manager       Manager Adapter
      * @param session       Test session
      */
     public abstract void updateUI(ManagerAdapter manager, TestSession session);
-        
-    
+
+
+    /**
+     * Returns the Testframework that is handled.
+     *
+     * @return      Testframework
+     */
+    public TestFramework getTestFramework()
+    {
+        return framework;
+    }
+
+
     /**
      * Returns whether {@code testCase} and the Test Case described by the
      * given name and suite are equal.
-     * 
+     *
      * @param testCase      Test Case
      * @param otherName     Name of the other Test Case
      * @param otherSuite    Suite of the other Test Case
@@ -77,16 +88,16 @@ public abstract class CndTestHandler extends TestRecognizerHandler
      */
     protected boolean isSameTestCase(CndTestCase testCase, String otherName, String otherSuite)
     {
-        return ( testCase != null ) 
-                && ( testCase.getName().equals(otherName) == true ) 
+        return ( testCase != null )
+                && ( testCase.getName().equals(otherName) == true )
                 && ( testCase.getClassName().equals(otherSuite) == true );
     }
-    
-    
+
+
     /**
      * Returns whether {@code testSuite} and the Test Suite described by the
      * given name are equal.
-     * 
+     *
      * @param testSuite         Test Suite
      * @param otherName         Name of the other Test Suite
      * @return                  Returns {@code true} if both match or
@@ -96,10 +107,10 @@ public abstract class CndTestHandler extends TestRecognizerHandler
     {
         return ( testSuite != null ) && ( testSuite.getName().equals(otherName) == true );
     }
-    
+
     /**
      * Returns the match result captured by the {@code group}.
-     * 
+     *
      * @param group     Group
      * @return          Matched String
      */
@@ -107,11 +118,11 @@ public abstract class CndTestHandler extends TestRecognizerHandler
     {
         return getMatcher().group(group);
     }
-    
-    
+
+
     /**
      * Returns the current Test Suite of the session.
-     * 
+     *
      * @param session       Session
      * @return              Test Suite
      */
@@ -119,11 +130,11 @@ public abstract class CndTestHandler extends TestRecognizerHandler
     {
         return (CndTestSuite) session.getCurrentSuite();
     }
-    
-    
+
+
     /**
      * Returns the current Test Case of the session.
-     * 
+     *
      * @param session       Session
      * @return              Test Case
      */
@@ -131,11 +142,11 @@ public abstract class CndTestHandler extends TestRecognizerHandler
     {
         return (CndTestCase) session.getCurrentTestCase();
     }
-    
-    
+
+
     /**
      * Starts a new Test Suite for the session.
-     * 
+     *
      * @param suiteName     Test Suite
      * @param session       Session
      * @param manager       Manager
@@ -146,14 +157,14 @@ public abstract class CndTestHandler extends TestRecognizerHandler
         CndTestSuite testSuite = new CndTestSuite(suiteName, framework);
         session.addSuite(testSuite);
         manager.displaySuiteRunning(session, testSuite);
-        
+
         return testSuite;
     }
-    
-    
+
+
     /**
      * Starts a new Test Casefor the session.
-     * 
+     *
      * @param caseName      Test Case
      * @param suiteName     Test Suite
      * @param session       Session
@@ -164,8 +175,8 @@ public abstract class CndTestHandler extends TestRecognizerHandler
         CndTestCase testcase = new CndTestCase(caseName, framework, session);
         testcase.setClassName(suiteName);
         session.addTestCase(testcase);
-        
+
         return testcase;
     }
-    
+
 }
