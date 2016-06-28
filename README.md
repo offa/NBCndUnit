@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/license-GPLv3-yellow.svg)](LICENSE)
 [![NetBeans](https://img.shields.io/badge/netbeans-8.1-lightgrey.svg)](http://plugins.netbeans.org/plugin/57174/nbcndunit)
 
-NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing. It integrates the [CppUTest](https://cpputest.github.io/), [GoogleTest (gtest) / GoogleMock (gmock)](https://github.com/google/googletest) and [libunittest C++](http://libunittest.sourceforge.net/) unit testing frameworks.
+**NBCndUnit** is a [***NetBeans***](https://netbeans.org) plugin for ***C/C++ unit testing***. It integrates the [*CppUTest*](https://cpputest.github.io/), [*GoogleTest (gtest) / GoogleMock (gmock)*](https://github.com/google/googletest) and [*libunittest C++*](http://libunittest.sourceforge.net/) unit testing frameworks.
 
 **Stable releases** are available at the [NetBeans Plugin Portal](http://plugins.netbeans.org/plugin/57174/nbcndunit).
 
@@ -21,6 +21,20 @@ NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing. I
  - [CppUTest](https://cpputest.github.io/)
  - [GoogleTest (gtest) / GoogleMock (gmock)](https://github.com/google/googletest)
  - [libunittest C++](http://libunittest.sourceforge.net/)
+
+
+## Installation
+
+The Plugin is available through the **Plugin Manager** (*Tools → Plugins → Available Plugins*)
+
+As an alternative, it’s also possible to download the *NBM* manually from the [**NetBeans Plugin Portal**](http://plugins.netbeans.org/plugin/57174/nbcndunit).
+
+
+## Update
+
+Updates are delivered as usual by the **NetBeans Updater**.
+
+
 
 
 ## Getting started
