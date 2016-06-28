@@ -46,12 +46,10 @@ Updates are delivered as usual by the **NetBeans Updater**.
 
 **Note:** Some frameworks require ***verbose*** output.
 
-*For more informations about writing tests, please see the appropriate manuals.*
-
 
 ## Creating new Tests
 
-New tests can be created either manually or using the new unit test wizard - located in the **Unit Tests** file category.
+New tests can be created either *manually* or using the *new unit test wizard* – located in the ***Unit Tests*** file category.
 
 
 ## Examples
@@ -61,9 +59,9 @@ Example test suites are available in the `examples` directory.
 
 ## Running tests
 
-The tests are run as usual using the Test button.
+The tests are run as usual using the **Test button**.
 
-The *Test Results* window shows the result of the tests.
+The ***Test Results window*** shows the result of the tests.
 
 
 ## Enabling verbose mode
