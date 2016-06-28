@@ -6,7 +6,7 @@
 [![NetBeans](https://img.shields.io/badge/netbeans-8.1-lightgrey.svg)](http://plugins.netbeans.org/plugin/57174/nbcndunit)
 [![Java](https://img.shields.io/badge/java-1.7-green.svg)](http://openjdk.java.net/)
 
-NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing. It integrates the [CppUTest](https://cpputest.github.io/), [GoogleTest (gtest) / GoogleMock (gmock)](https://github.com/google/googletest) and [libunittest C++](http://libunittest.sourceforge.net/) unit testing frameworks.
+**NBCndUnit** is a [***NetBeans***](https://netbeans.org) plugin for ***C/C++ unit testing***. It integrates the [*CppUTest*](https://cpputest.github.io/), [*GoogleTest (gtest) / GoogleMock (gmock)*](https://github.com/google/googletest) and [*libunittest C++*](http://libunittest.sourceforge.net/) unit testing frameworks.
 
 **Stable releases** are available at the [NetBeans Plugin Portal](http://plugins.netbeans.org/plugin/57174/nbcndunit).
 
@@ -24,6 +24,20 @@ NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing. I
  - [libunittest C++](http://libunittest.sourceforge.net/)
 
 
+## Installation
+
+The Plugin is available through the **Plugin Manager** (*Tools → Plugins → Available Plugins*).
+
+As an alternative, it’s also possible to download the *NBM* manually from the [**NetBeans Plugin Portal**](http://plugins.netbeans.org/plugin/57174/nbcndunit).
+
+
+## Update
+
+Updates are delivered as usual by the **NetBeans Updater**.
+
+
+
+
 ## Getting started
 
  1. **Create** a new NetBeans C/C++ **project**
@@ -33,12 +47,10 @@ NBCndUnit is a [NetBeans](https://netbeans.org) plugin for C/C++ unit testing. I
 
 **Note:** Some frameworks require ***verbose*** output.
 
-*For more informations about writing tests, please see the appropriate manuals.*
-
 
 ## Creating new Tests
 
-New tests can be created either manually or using the new unit test wizard - located in the **Unit Tests** file category.
+New tests can be created either *manually* or using the *new unit test wizard* – located in the ***Unit Tests*** file category.
 
 
 ## Examples
@@ -48,9 +60,9 @@ Example test suites are available in the `examples` directory.
 
 ## Running tests
 
-The tests are run as usual using the Test button.
+The tests are run as usual using the **Test button**.
 
-The *Test Results* window shows the result of the tests.
+The ***Test Results window*** shows the result of the tests.
 
 
 ## Enabling verbose mode
@@ -70,11 +82,10 @@ At this point it's also possible to add further options (eg. test filter).
 
 int main(int argc, char** argv)
 {
-    std::vector<const char*> args(argv, argv + argc); // Insert all arguments
+    std::vector<const char*> args(argv, argv + argc);
     args.push_back("-v"); // Set verbose mode
     args.push_back("-c"); // Set color output (Optional)
     
-    // Run all tests
     return RUN_ALL_TESTS(args.size(), &args[0]);
 }
 ```

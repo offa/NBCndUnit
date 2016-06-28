@@ -20,12 +20,11 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
-import java.util.regex.Matcher;
-import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
-import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
+import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
-import org.netbeans.modules.gsf.testrunner.api.Testcase;
-import org.netbeans.modules.gsf.testrunner.api.Trouble;
 
 
 /**
@@ -34,73 +33,78 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
  * 
  * @author offa
  */
-class GoogleTestTestFinishedHandler extends TestRecognizerHandler
+class GoogleTestTestFinishedHandler extends CndTestHandler
 {
-    private static final String MSG_OK = "     OK";
+    private static final int GROUP_RESULT = 1;
+    private static final int GROUP_SUITE = 2;
+    private static final int GROUP_CASE = 3;
+    private static final int GROUP_TIME = 4;
     private static final String MSG_FAILED = "FAILED ";
 
 
     public GoogleTestTestFinishedHandler()
     {
-        super("^.*?\\[  (     OK|FAILED ) \\].*? (.+?)\\.(.+?)(?:/.+)??"
-            + " \\(([0-9]+?) ms\\)$", true, true);
+        super(TestFramework.GOOGLETEST, "^.*?\\[  (     OK|FAILED ) \\].*? (.+?)\\.(.+?)(?:/.+)??"
+                                        + " \\(([0-9]+?) ms\\)$");
     }
 
-
-
+    
+    
     /**
-     * Updates the ui and test states.
+     * Updates the UI.
      * 
-     * @param mngr  Manager
-     * @param ts    Test session
-     * @exception IllegalStateException If the handler gets into an
-     *                                  illegal state or parses unknown
-     *                                  output values
+     * @param manager       Manager Adapter
+     * @param session       Test session
      */
     @Override
-    public void updateUI(Manager mngr, TestSession ts)
+    public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        final Matcher m = getMatcher();
-        final Testcase testCase = ts.getCurrentTestCase();
+        final CndTestCase testCase = currentTestCase(session);
+        final String caseName = getMatchGroup(GROUP_CASE);
+        final String suiteName = getMatchGroup(GROUP_SUITE);
         
-        if( testCase != null && testCase.getClassName().equals(m.group(2)) 
-                && testCase.getName().endsWith(m.group(3)) )
+        if( isSameTestCase(testCase, caseName, suiteName) == true )
         {
-            long time = Long.valueOf(m.group(4));
-            testCase.setTimeMillis(time);
-
-            final String location = m.group(2) + ":" + m.group(3);
+            final String location = suiteName + ":" + caseName;
             testCase.setLocation(location);
-
-            final String result = m.group(1);
-
-            if( result.equals(MSG_OK) == true )
-            {
-                // Testcase ok
-            }
-            else if( result.equals(MSG_FAILED) == true )
-            {
-                Trouble trouble = testCase.getTrouble();
-
-                if( trouble == null )
-                {
-                    trouble = new Trouble(true);
-                }
-
-                trouble.setError(true);
-                trouble.setStackTrace(new String[] { location });
-                testCase.setTrouble(trouble);
-            }
-            else
-            {
-                throw new IllegalStateException("Unknown result: <" + result + ">");
-            }
+            updateTime(testCase);
+            updateResult(testCase, location);
         }
         else
         {
             throw new IllegalStateException("No test found for: " 
-                    + m.group(2) + ":" + m.group(3));
+                                            + suiteName + ":" + caseName);
         }
     }
 
+    
+    /**
+     * Updates the test time.
+     * 
+     * @param testCase  Test Case
+     */
+    private void updateTime(CndTestCase testCase)
+    {
+        final String timeValue = getMatchGroup(GROUP_TIME);
+        long time = Long.valueOf(timeValue);
+        testCase.setTimeMillis(time);
+    }
+
+    
+    /**
+     * Updates the test result.
+     * 
+     * @param testCase      Test Case
+     * @param location      Test location
+     */
+    private void updateResult(CndTestCase testCase, String location)
+    {
+        final String result = getMatchGroup(GROUP_RESULT);
+        
+        if( result.equals(MSG_FAILED) == true )
+        {
+            testCase.setError(new String[] { location });
+        }
+    }
+    
 }

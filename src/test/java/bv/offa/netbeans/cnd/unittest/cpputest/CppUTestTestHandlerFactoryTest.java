@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2016  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -20,41 +20,54 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
+import java.util.List;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactory;
+import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 
 public class CppUTestTestHandlerFactoryTest
 {
     private TestHandlerFactory factory;
-    
-    
+
+
     @Before
     public void setUp()
     {
         factory = new CppUTestTestHandlerFactory();
     }
-    
+
     @Test
     public void printSummary()
     {
         assertTrue(factory.printSummary());
     }
-    
+
     @Test
     public void createHandlersContainsHandlers()
     {
         assertEquals(4, factory.createHandlers().size());
     }
-    
+
     @Test
     public void factorySetsNodeFactory()
     {
         factory.createHandlers();
         assertTrue(Manager.getInstance().getNodeFactory() instanceof TestRunnerUINodeFactory);
     }
-    
+
+    @Test
+    public void allHandlersForFramework()
+    {
+        for( TestRecognizerHandler h : factory.createHandlers() )
+        {
+            assertEquals(TestFramework.CPPUTEST, ((CndTestHandler) h).getTestFramework());
+        }
+    }
+
 }

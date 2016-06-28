@@ -20,63 +20,110 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
+import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.frameworkIs;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasNoError;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasStatus;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.matchesTestCase;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.matchesTestSuite;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.sessionIs;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.suiteFrameworkIs;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.timeIs;
 import java.util.regex.Matcher;
+import junit.framework.TestCase;
+import static org.hamcrest.CoreMatchers.allOf;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.mockito.InOrder;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
+import org.netbeans.api.project.Project;
+import org.netbeans.modules.gsf.testrunner.api.Report;
+import org.netbeans.modules.gsf.testrunner.api.TestSession;
+import org.openide.filesystems.FileUtil;
+import org.openide.util.Lookup;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.hamcrest.MockitoHamcrest.argThat;
+import org.netbeans.modules.gsf.testrunner.api.Status;
 
 public class CppUTestTestHandlerTest
 {
-    private static final TestSessionInformation DONT_CARE_INFO = new TestSessionInformation();
+    private static final TestSessionInformation INFO = new TestSessionInformation();
+    private static final TestFramework FRAMEWORK = TestFramework.CPPUTEST;
+    private static Project project;
+    private static Report report;
     private CppUTestTestHandler handler;
+    private TestSession session;
+    private ManagerAdapter manager;
     
+    
+    @BeforeClass
+    public static void setUpClass()
+    {
+        project = mock(Project.class);
+        when(project.getProjectDirectory())
+                .thenReturn(FileUtil.createMemoryFileSystem().getRoot());
+        when(project.getLookup()).thenReturn(Lookup.EMPTY);
+        report = new Report("suite", project);
+    }
     
     @Before
     public void setUp()
     {
-        handler = new CppUTestTestHandler(DONT_CARE_INFO);
+        handler = new CppUTestTestHandler(INFO);
+        session = mock(TestSession.class);
+        manager = mock(ManagerAdapter.class);
     }
     
+    @Deprecated
     @Test
-    public void matchesTestCase()
+    public void matchesTestCaseStr()
     {
         assertTrue(handler.matches("TEST(TestSuite, testCase) - 8 ms"));
     }
     
+    @Deprecated
     @Test
     public void matchesTestCaseIgnored()
     {
         assertTrue(handler.matches("IGNORE_TEST(TestSuite, testCase) - 7 ms"));
     }
     
+    @Deprecated
     @Test
     public void matchesTestCaseAndDetectsNotIgnored()
     {
-        Matcher m = handler.match("TEST(TestSuite, testCase) - 8 ms");
-        assertTrue(m.find());
+        Matcher m = checkedMatch(handler, "TEST(TestSuite, testCase) - 8 ms");
         assertNull(m.group(1));
     }
     
     @Test
     public void matchesTestCaseAndDetectsIgnored()
     {
-        Matcher m = handler.match("IGNORE_TEST(TestSuite, testCase) - 7 ms");
-        assertTrue(m.find());
+        Matcher m = checkedMatch(handler, "IGNORE_TEST(TestSuite, testCase) - 7 ms");
         assertNotNull(m.group(1));
     }
     
     @Test
     public void parsesDataTestCase()
     {
-        Matcher m = handler.match("TEST(TestSuite, testCase) - 84 ms");
-        assertTrue(m.find());
+        Matcher m = checkedMatch(handler, "TEST(TestSuite, testCase) - 84 ms");
         assertEquals("TEST(TestSuite, testCase) - 84 ms", m.group());
         assertEquals("TestSuite", m.group(2));
         assertEquals("testCase", m.group(3));
         assertEquals("84", m.group(5));
     }
     
-    
+    @Deprecated
     @Test
     public void matchesDataTestCaseWhichFailed()
     {
@@ -86,8 +133,7 @@ public class CppUTestTestHandlerTest
     @Test
     public void parsesDataTestCaseWhichFailed()
     {
-        Matcher m = handler.match("TEST(TestSuite, testThatFailed)");
-        assertTrue(m.find());
+        Matcher m = checkedMatch(handler, "TEST(TestSuite, testThatFailed)");
         assertEquals("TestSuite", m.group(2));
         assertEquals("testThatFailed", m.group(3));
         assertNull(m.group(4));
@@ -123,8 +169,7 @@ public class CppUTestTestHandlerTest
         
         for( String line : input )
         {
-            Matcher m = handler.match(line);
-            assertTrue(m.find());
+            Matcher m = checkedMatch(handler, line);
             time += Long.valueOf(m.group(5));
         }
         
@@ -135,5 +180,80 @@ public class CppUTestTestHandlerTest
     public void matchesTestCaseWithOutputNoTime()
     {
         assertTrue(handler.matches("TEST(TestSuite, testCase)"));
+    }
+    
+    @Test
+    public void updateUIStartsTestIfFirstTest()
+    {
+        checkedMatch(handler, "TEST(TestSuite, testCase) - 84 ms");
+        handler.updateUI(manager, session);
+        verify(manager).testStarted(session);
+    }
+    
+    @Test
+    public void updateUIStartsStartsTestBeforeSuite()
+    {
+        checkedMatch(handler, "TEST(TestSuite, testCase) - 84 ms");
+        handler.updateUI(manager, session);
+        InOrder inOrder = inOrder(manager);
+        inOrder.verify(manager).testStarted(any(TestSession.class));
+        inOrder.verify(manager).displaySuiteRunning(any(TestSession.class), any(CndTestSuite.class));
+    }
+    
+    @Test
+    public void updateUIDisplaysReportIfNotFirstTest()
+    {
+        checkedMatch(handler, "TEST(TestSuite, testCase) - 84 ms");
+        when(session.getReport(anyLong())).thenReturn(report);
+        handler.updateUI(manager, session);
+        handler.updateUI(manager, session);
+        verify(manager).displayReport(session, report);
+    }
+    
+    @Test
+    public void updateUIStartsNewSuiteIfFirstSuite()
+    {
+        checkedMatch(handler, "TEST(TestSuite, testCase) - 84 ms");
+        handler.updateUI(manager, session);
+        verify(session).addSuite(argThat(allOf(matchesTestSuite("TestSuite"), 
+                                                suiteFrameworkIs(FRAMEWORK))));
+        verify(manager).displaySuiteRunning(eq(session), argThat(allOf(matchesTestSuite("TestSuite"), 
+                                                                        suiteFrameworkIs(FRAMEWORK))));
+    }
+    
+    @Test
+    public void updateUIAddsTestCase()
+    {
+        checkedMatch(handler, "TEST(TestSuite, testCase) - 84 ms");
+        handler.updateUI(manager, session);
+        verify(session).addTestCase(argThat(matchesTestCase("testCase", "TestSuite")));
+    }
+    
+    @Test
+    public void updateUISetsTestCaseInformation()
+    {
+        checkedMatch(handler, "TEST(TestSuite, testCase) - 84 ms");
+        handler.updateUI(manager, session);
+        verify(session).addTestCase(argThat(allOf(matchesTestCase("testCase", "TestSuite"), 
+                                                    frameworkIs(FRAMEWORK), 
+                                                    sessionIs(session),
+                                                    timeIs(84),
+                                                    hasNoError())));
+    }
+    
+    @Test
+    public void updateUISetsSkippedOnIgnored()
+    {
+        checkedMatch(handler, "IGNORE_TEST(TestSuite, testCase) - 84 ms");
+        handler.updateUI(manager, session);
+        verify(session).addTestCase(argThat(hasStatus(Status.SKIPPED)));
+    }
+    
+    @Test
+    public void updateUIIgnoresTimeIfSeparated()
+    {
+        checkedMatch(handler, "TEST(TestSuite, testCase)");
+        handler.updateUI(manager, session);
+        verify(session).addTestCase(argThat(matchesTestCase("testCase", "TestSuite")));
     }
 }
