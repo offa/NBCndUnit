@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>bv.offa</groupId>
     <artifactId>NBCndUnit</artifactId>
     <version>0.7.3-SNAPSHOT</version>
     <packaging>nbm</packaging>
-    
+
     <name>NBCndUnit</name>
     <description>C/C++ unit tests for NetBeans - supporting CppUTest, GoogleTest (gtest) / GoogleMock (gmock) and libunittest C++.
 Test templates are under "Unit Tests" file category.</description>
@@ -30,11 +30,11 @@ Test templates are under "Unit Tests" file category.</description>
                     <homePageUrl>https://github.com/offa/NBCndUnit</homePageUrl>
                     <licenseName>GPLv3</licenseName>
                     <licenseFile>./LICENSE</licenseFile>
-                    
+
                     <keystore>${nb.module.signature.keystore}</keystore>
                     <keystorealias>${nb.module.signature.alias}</keystorealias>
                     <keystorepassword>${nb.module.signature.password}</keystorepassword>
-                    
+
                     <verifyRuntime>warn</verifyRuntime>
                 </configuration>
             </plugin>
@@ -56,7 +56,7 @@ Test templates are under "Unit Tests" file category.</description>
                     <useDefaultManifestFile>true</useDefaultManifestFile>
                 </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>animal-sniffer-maven-plugin</artifactId>
@@ -78,7 +78,7 @@ Test templates are under "Unit Tests" file category.</description>
                     </execution>
                 </executions>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -95,7 +95,7 @@ Test templates are under "Unit Tests" file category.</description>
                     </execution>
                 </executions>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -233,7 +233,7 @@ Test templates are under "Unit Tests" file category.</description>
             <artifactId>org-openide-util-ui</artifactId>
             <version>${nb.version}</version>
         </dependency>
-        
+
         <!-- Test Dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -244,7 +244,7 @@ Test templates are under "Unit Tests" file category.</description>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>2.0.31-beta</version>
+            <version>2.0.71-beta</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
