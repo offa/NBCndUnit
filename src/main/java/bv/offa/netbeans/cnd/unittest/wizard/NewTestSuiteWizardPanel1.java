@@ -128,6 +128,7 @@ public class NewTestSuiteWizardPanel1 extends AbstractWizardPanel
             wiz.putProperty(PROP_TEST_GENERATE_TESTCASES, getGenerateTestCasesFromVisualComponent());
             wiz.putProperty(PROP_TEST_TESTCASE_NAMES, getTestCaseNamesFromVisualComponent());
             wiz.putProperty(PROP_TEST_TESTSUITE_NAME, getTestSuiteNameFromVisualComponent());
+            wiz.putProperty(PROP_CONFIGURE_CUSTOM_PROJECT, getConfigureCustomProjectFromVisualPanel());
         }
     }
     
@@ -199,6 +200,18 @@ public class NewTestSuiteWizardPanel1 extends AbstractWizardPanel
     private String getTestSuiteNameFromVisualComponent()
     {
         return getComponent().getTestSuiteName();
+    }
+    
+    
+    
+    /**
+     * Returns whether to configure a custom project from the visual component.
+     * 
+     * @return  Configure Setting
+     */
+    private boolean getConfigureCustomProjectFromVisualPanel()
+    {
+        return getComponent().getConfigureCustomProject();
     }
 
     

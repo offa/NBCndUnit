@@ -109,6 +109,17 @@ public class NewTestSuiteVisualPanel1 extends AbstractVisualPanel
     {
         return tfTestSuiteName.getText();
     }
+    
+    
+    /**
+     * Returns whether a existing project should be configured for test.
+     * 
+     * @return  Configure Setting
+     */
+    public boolean getConfigureCustomProject()
+    {
+        return cbCustomProjectEnable.isSelected();
+    }
 
     
     /**
@@ -200,6 +211,7 @@ public class NewTestSuiteVisualPanel1 extends AbstractVisualPanel
         cbGenerateTestCases = new javax.swing.JCheckBox();
         lSuiteName = new javax.swing.JLabel();
         tfTestSuiteName = new javax.swing.JTextField();
+        cbCustomProjectEnable = new javax.swing.JCheckBox();
 
         tfTestCaseName.setText(org.openide.util.NbBundle.getMessage(NewTestSuiteVisualPanel1.class, "NewTestSuiteVisualPanel1.tfTestCaseName.text")); // NOI18N
 
@@ -224,6 +236,9 @@ public class NewTestSuiteVisualPanel1 extends AbstractVisualPanel
 
         tfTestSuiteName.setText(org.openide.util.NbBundle.getMessage(NewTestSuiteVisualPanel1.class, "NewTestSuiteVisualPanel1.tfTestSuiteName.text")); // NOI18N
 
+        org.openide.awt.Mnemonics.setLocalizedText(cbCustomProjectEnable, org.openide.util.NbBundle.getMessage(NewTestSuiteVisualPanel1.class, "NewTestSuiteVisualPanel1.cbCustomProjectEnable.text")); // NOI18N
+        cbCustomProjectEnable.setToolTipText("<html><p>Enables the <b>Test</b> functionality for custom projects (eg. using CMake). This is required only <i>once</i> per project (indeed enabling it repeatedly has no effect).</p>\n\n<p><b>Required make targets:</b>\n<ul>\n<li><i>build-tests</i> – Builds the tests</li>\n<li><i>test</i> – Executes the tests</li>\n</ul>\n</p>\n\n<p>See <a href=\"https://github.com/offa/NBCndUnit\">https://github.com/offa/NBCndUnit</a> for more information.</p>\n</html>"); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -234,14 +249,16 @@ public class NewTestSuiteVisualPanel1 extends AbstractVisualPanel
                     .addComponent(lSuiteName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lGenerate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cbGenerateSetup)
-                    .addComponent(cbGenerateTeardown)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(cbGenerateTestCases)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfTestCaseName))
-                    .addComponent(tfTestSuiteName, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbCustomProjectEnable)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(cbGenerateSetup)
+                        .addComponent(cbGenerateTeardown)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(cbGenerateTestCases)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(tfTestCaseName))
+                        .addComponent(tfTestSuiteName, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(158, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -261,7 +278,9 @@ public class NewTestSuiteVisualPanel1 extends AbstractVisualPanel
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbGenerateTestCases, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfTestCaseName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbCustomProjectEnable)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -277,6 +296,7 @@ public class NewTestSuiteVisualPanel1 extends AbstractVisualPanel
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox cbCustomProjectEnable;
     private javax.swing.JCheckBox cbGenerateSetup;
     private javax.swing.JCheckBox cbGenerateTeardown;
     private javax.swing.JCheckBox cbGenerateTestCases;

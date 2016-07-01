@@ -35,6 +35,7 @@ import org.openide.util.NbBundle;
  */
 public abstract class AbstractWizardPanel implements WizardDescriptor.Panel<WizardDescriptor>, ChangeListener
 {
+    protected static final String PROP_CONFIGURE_CUSTOM_PROJECT = "PROP_CONFIGURE_CUSTOM_PROJECT";
     private final ChangeSupport changeSupport;
 
 

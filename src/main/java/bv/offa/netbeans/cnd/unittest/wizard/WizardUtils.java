@@ -20,6 +20,8 @@
 
 package bv.offa.netbeans.cnd.unittest.wizard;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.netbeans.api.project.Project;
 import org.netbeans.modules.cnd.makeproject.api.configurations.ConfigurationDescriptorProvider;
 import org.netbeans.modules.cnd.makeproject.api.configurations.Folder;
@@ -33,6 +35,9 @@ import org.openide.util.NbBundle;
  */
 public final class WizardUtils
 {
+    private static final Logger LOGGER = Logger.getLogger(WizardUtils.class.getName());
+    
+    
     private WizardUtils()
     {
         /* Empty */
@@ -127,8 +132,13 @@ public final class WizardUtils
         
         if( testFolder == null )
         {
+            LOGGER.log(Level.INFO, "Enable Test Files Folder");
             return rootFolder.addNewFolder(MakeConfigurationDescriptor.TEST_FILES_FOLDER,
                     NbBundle.getMessage(MakeConfigurationDescriptor.class, "TestsFilesTxt"), false, Folder.Kind.TEST_LOGICAL_FOLDER);
+        }
+        else
+        {
+            LOGGER.log(Level.INFO, "Test Files Folder already enabled");
         }
         
         return testFolder;
