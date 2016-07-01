@@ -105,6 +105,8 @@ public abstract class AbstractWizardIterator implements WizardDescriptor.Instant
         DataObject createdTemplate = templateDO.createFromTemplate(targetFolderDF, targetName, args);
         FileObject createdFile = createdTemplate.getPrimaryFile();
         
+        WizardUtils.createTestsRootFolder(Templates.getProject(wizard));
+        
         return Collections.singleton(createdFile);
     }
     
