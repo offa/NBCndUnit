@@ -20,6 +20,14 @@
 
 package bv.offa.netbeans.cnd.unittest.wizard;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.netbeans.api.project.Project;
+import org.netbeans.modules.cnd.makeproject.api.configurations.ConfigurationDescriptorProvider;
+import org.netbeans.modules.cnd.makeproject.api.configurations.Folder;
+import org.netbeans.modules.cnd.makeproject.api.configurations.MakeConfigurationDescriptor;
+import org.openide.util.NbBundle;
+
 /**
  * The class {@code WizardUtils} provides helper methods.
  * 
@@ -27,6 +35,9 @@ package bv.offa.netbeans.cnd.unittest.wizard;
  */
 public final class WizardUtils
 {
+    private static final Logger LOGGER = Logger.getLogger(WizardUtils.class.getName());
+    
+    
     private WizardUtils()
     {
         /* Empty */
@@ -103,6 +114,34 @@ public final class WizardUtils
         }
         
         return true;
+    }
+    
+    
+    /**
+     * Adds a test files folder to the project if there isn't one yet.
+     * 
+     * @param project       Project
+     * @return              Test Folder
+     */
+    public static Folder createTestsRootFolder(Project project)
+    {
+        ConfigurationDescriptorProvider config = project.getLookup().lookup(ConfigurationDescriptorProvider.class);
+        MakeConfigurationDescriptor projectDescriptor = config.getConfigurationDescriptor();
+        Folder rootFolder = projectDescriptor.getLogicalFolders();
+        Folder testFolder = rootFolder.findFolderByName(MakeConfigurationDescriptor.TEST_FILES_FOLDER);
+        
+        if( testFolder == null )
+        {
+            LOGGER.log(Level.INFO, "Enable Test Files Folder");
+            return rootFolder.addNewFolder(MakeConfigurationDescriptor.TEST_FILES_FOLDER,
+                    NbBundle.getMessage(MakeConfigurationDescriptor.class, "TestsFilesTxt"), false, Folder.Kind.TEST_LOGICAL_FOLDER);
+        }
+        else
+        {
+            LOGGER.log(Level.INFO, "Test Files Folder already enabled");
+        }
+        
+        return testFolder;
     }
     
 }

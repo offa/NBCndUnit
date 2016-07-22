@@ -108,6 +108,7 @@ public class NewTestMainWizardPanel1 extends AbstractWizardPanel
         {
             wiz.putProperty(PROP_MAIN_ENABLE_VERBOSE, getEnableVerboseOutputFromVisualPanel());
             wiz.putProperty(PROP_MAIN_ENABLE_COLOR, getEnableColorOutputFromVisualPanel());
+            wiz.putProperty(PROP_CONFIGURE_CUSTOM_PROJECT, getConfigureCustomProjectFromVisualPanel());
         }
     }
     
@@ -142,6 +143,17 @@ public class NewTestMainWizardPanel1 extends AbstractWizardPanel
     private boolean getEnableColorOutputFromVisualPanel()
     {
         return getComponent().getEnableColor();
+    }
+    
+    
+    /**
+     * Returns whether to configure a custom project from the visual component.
+     * 
+     * @return  Configure Setting
+     */
+    private boolean getConfigureCustomProjectFromVisualPanel()
+    {
+        return getComponent().getConfigureCustomProject();
     }
 
 }

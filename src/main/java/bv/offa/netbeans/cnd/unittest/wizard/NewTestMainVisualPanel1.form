@@ -21,10 +21,11 @@
               <Component id="lSettings" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="cbCustomProjectEnable" min="-2" max="-2" attributes="0"/>
                   <Component id="cbColoredOutput" min="-2" max="-2" attributes="0"/>
                   <Component id="cbVerboseOutput" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="127" max="32767" attributes="0"/>
+              <EmptySpace pref="65" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -38,7 +39,9 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="cbColoredOutput" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="240" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="cbCustomProjectEnable" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="211" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -66,6 +69,14 @@
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="bv/offa/netbeans/cnd/unittest/wizard/Bundle.properties" key="NewTestMainVisualPanel1.cbColoredOutput.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="cbCustomProjectEnable">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="bv/offa/netbeans/cnd/unittest/wizard/Bundle.properties" key="NewTestMainVisualPanel1.cbCustomProjectEnable.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;p&gt;Enables the &lt;b&gt;Test&lt;/b&gt; functionality for custom projects (eg. using CMake). This is required only &lt;i&gt;once&lt;/i&gt; per project (indeed enabling it repeatedly has no effect).&lt;/p&gt;&#xa;&#xa;&lt;p&gt;&lt;b&gt;Required make targets:&lt;/b&gt;&#xa;&lt;ul&gt;&#xa;&lt;li&gt;&lt;i&gt;build-tests&lt;/i&gt; &#x2013; Builds the tests&lt;/li&gt;&#xa;&lt;li&gt;&lt;i&gt;test&lt;/i&gt; &#x2013; Executes the tests&lt;/li&gt;&#xa;&lt;/ul&gt;&#xa;&lt;/p&gt;&#xa;&#xa;&lt;p&gt;See &lt;a href=&quot;https://github.com/offa/NBCndUnit&quot;&gt;https://github.com/offa/NBCndUnit&lt;/a&gt; for more information.&lt;/p&gt;&#xa;&lt;/html&gt;" noResource="true"/>
       </Properties>
     </Component>
   </SubComponents>

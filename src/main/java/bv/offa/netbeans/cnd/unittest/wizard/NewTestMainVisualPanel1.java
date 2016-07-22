@@ -60,6 +60,17 @@ public class NewTestMainVisualPanel1 extends AbstractVisualPanel
     {
         return cbColoredOutput.isSelected();
     }
+    
+    
+    /**
+     * Returns whether a existing project should be configured for test.
+     * 
+     * @return  Configure Setting
+     */
+    public boolean getConfigureCustomProject()
+    {
+        return cbCustomProjectEnable.isSelected();
+    }
 
     
     /**
@@ -75,6 +86,7 @@ public class NewTestMainVisualPanel1 extends AbstractVisualPanel
         lSettings = new javax.swing.JLabel();
         cbVerboseOutput = new javax.swing.JCheckBox();
         cbColoredOutput = new javax.swing.JCheckBox();
+        cbCustomProjectEnable = new javax.swing.JCheckBox();
 
         org.openide.awt.Mnemonics.setLocalizedText(lSettings, org.openide.util.NbBundle.getMessage(NewTestMainVisualPanel1.class, "NewTestMainVisualPanel1.lSettings.text")); // NOI18N
 
@@ -85,6 +97,9 @@ public class NewTestMainVisualPanel1 extends AbstractVisualPanel
         cbColoredOutput.setSelected(true);
         org.openide.awt.Mnemonics.setLocalizedText(cbColoredOutput, org.openide.util.NbBundle.getMessage(NewTestMainVisualPanel1.class, "NewTestMainVisualPanel1.cbColoredOutput.text")); // NOI18N
 
+        org.openide.awt.Mnemonics.setLocalizedText(cbCustomProjectEnable, org.openide.util.NbBundle.getMessage(NewTestMainVisualPanel1.class, "NewTestMainVisualPanel1.cbCustomProjectEnable.text")); // NOI18N
+        cbCustomProjectEnable.setToolTipText("<html><p>Enables the <b>Test</b> functionality for custom projects (eg. using CMake). This is required only <i>once</i> per project (indeed enabling it repeatedly has no effect).</p>\n\n<p><b>Required make targets:</b>\n<ul>\n<li><i>build-tests</i> – Builds the tests</li>\n<li><i>test</i> – Executes the tests</li>\n</ul>\n</p>\n\n<p>See <a href=\"https://github.com/offa/NBCndUnit\">https://github.com/offa/NBCndUnit</a> for more information.</p>\n</html>"); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -94,9 +109,10 @@ public class NewTestMainVisualPanel1 extends AbstractVisualPanel
                 .addComponent(lSettings)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbCustomProjectEnable)
                     .addComponent(cbColoredOutput)
                     .addComponent(cbVerboseOutput))
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,13 +123,16 @@ public class NewTestMainVisualPanel1 extends AbstractVisualPanel
                     .addComponent(cbVerboseOutput))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbColoredOutput)
-                .addContainerGap(240, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbCustomProjectEnable)
+                .addContainerGap(211, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbColoredOutput;
+    private javax.swing.JCheckBox cbCustomProjectEnable;
     private javax.swing.JCheckBox cbVerboseOutput;
     private javax.swing.JLabel lSettings;
     // End of variables declaration//GEN-END:variables
