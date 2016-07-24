@@ -113,6 +113,8 @@ NetBeans projects created from ***existing projects*** (eg. using custom Makefil
 
 To enable it, there are ***two Make-Targets*** and a ***configuration update*** required. For more information on this, please see [***Wiki → Using exsiting projects***](https://github.com/offa/NBCndUnit/wiki/Using-exsiting-projects).
 
+_**Note:** This fature is currently **experimental**!_
+
 
 ## Project requirements
 
