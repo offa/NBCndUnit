@@ -9,34 +9,34 @@
 **NBCndUnit** is a [***NetBeans***](https://netbeans.org) plugin for ***C/C++ unit testing***. It integrates the [*CppUTest*](https://cpputest.github.io/), [*GoogleTest (gtest) / GoogleMock (gmock)*](https://github.com/google/googletest) and [*libunittest C++*](http://libunittest.sourceforge.net/) unit testing frameworks.
 
 
-## Requirements
+# Requirements
 
  - [**NetBeans 8.1**](https://netbeans.org)
  - **Testing framework(s)**
 
 
-## Supported C/C++ unit testing frameworks
+# Supported C/C++ unit testing frameworks
 
  - [CppUTest](https://cpputest.github.io/)
  - [GoogleTest (gtest) / GoogleMock (gmock)](https://github.com/google/googletest)
  - [libunittest C++](http://libunittest.sourceforge.net/)
 
 
-## Installation
+# Installation
 
 The Plugin is available through the **Plugin Manager** (*Tools → Plugins → Available Plugins*).
 
 As an alternative, it’s also possible to download the *NBM* manually from the [**NetBeans Plugin Portal**](http://plugins.netbeans.org/plugin/57174/nbcndunit).
 
 
-## Update
+# Update
 
 Updates are delivered as usual by the **NetBeans Updater**.
 
 
 
 
-## Getting started
+# Getting started
 
  1. **Create** a new NetBeans C/C++ **project**
  1. **Add** unit testing **framework** (binaries and headers) to the test settings
@@ -107,14 +107,14 @@ int main(int argc, char** argv)
 ```
 
 
-## Using existing Projects
+# Using existing Projects
 
 NetBeans projects created from ***existing projects*** (eg. using custom Makefiles, CMake, …) do *not* have Test Support enabled by default.
 
 To enable it, there are ***two Make-Targets*** and a ***configuration update*** required. For more information on this, please see [***Wiki → Using exsiting projects***](https://github.com/offa/NBCndUnit/wiki/Using-exsiting-projects).
 
 
-### Project requirements
+## Project requirements
 
 The project must have these Make-Targets:
 
@@ -126,7 +126,7 @@ The project must have these Make-Targets:
 ***Note:*** CMake has `make test` reserved, please see Wiki for a workaround.
 
 
-### Enable Test Support
+## Enable Test Support
 
 In addition, the Netbeans Project configuration must contain a Test Files Folder. The project can be upgraded using the ***New File Wizzard*** for Unit Test / Test Main files:
 
@@ -138,7 +138,7 @@ This step is needed only once per project, though doing this more than once has 
 
 
 
-## License
+# License
 
 **GNU General Public License (GPL)**
 
