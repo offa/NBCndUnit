@@ -121,7 +121,7 @@ The project must have these Make-Targets:
 | Target            |                          |
 |-------------------|--------------------------|
 | **`build-tests`** | builds the tests, executed before running the tests (can be empty) |
-| **`test`**        | ***executes*** the tests |
+| **`test`**        | ***executes*** the tests *(verbose output)* |
 
 ***Note:*** CMake has `make test` reserved, please see Wiki for a workaround.
 
