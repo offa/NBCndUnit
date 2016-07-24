@@ -107,6 +107,37 @@ int main(int argc, char** argv)
 ```
 
 
+## Using existing Projects
+
+NetBeans projects created from ***existing projects*** (eg. using custom Makefiles, CMake, …) do *not* have Test Support enabled by default.
+
+To enable it, there are ***two Make-Targets*** and a ***configuration update*** required. For more information on this, please see [***Wiki → Using exsiting projects***](https://github.com/offa/NBCndUnit/wiki/Using-exsiting-projects).
+
+
+### Project requirements
+
+The project must have these Make-Targets:
+
+| Target            |                          |
+|-------------------|--------------------------|
+| **`build-tests`** | builds the tests, executed before running the tests (can be empty) |
+| **`test`**        | ***executes*** the tests |
+
+***Note:*** CMake has `make test` reserved, please see Wiki for a workaround.
+
+
+### Enable Test Support
+
+In addition, the Netbeans Project configuration must contain a Test Files Folder. The project can be upgraded using the ***New File Wizzard*** for Unit Test / Test Main files:
+
+**`New Files → Unit Tests → <select any>`** and *enable* **`Configure custom Project`**
+
+A *Test Files* folder is added to the NetBeans project – not visible at file level.
+
+This step is needed only once per project, though doing this more than once has no effect.
+
+
+
 ## License
 
 **GNU General Public License (GPL)**
