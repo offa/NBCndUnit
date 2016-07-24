@@ -111,7 +111,7 @@ int main(int argc, char** argv)
 
 NetBeans projects created from ***existing projects*** (eg. using custom Makefiles, CMake, …) do *not* have Test Support enabled by default.
 
-To enable it, there are ***two Make-Targets*** and a ***configuration update*** required. For more information on this, please see [***Wiki → Using exsiting projects***](https://github.com/offa/NBCndUnit/wiki/Using-exsiting-projects).
+To enable it, there are ***two Make-Targets*** and a ***configuration update*** required. For more information on this, please see [***Wiki → Using exsiting projects***](https://github.com/offa/NBCndUnit/wiki/Using-existing-projects).
 
 _**Note:** This fature is currently **experimental**!_
 
