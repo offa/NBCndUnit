@@ -44,6 +44,28 @@ public class GoToSourceTestMethodNodeAction extends AbstractTestNodeAction
 
     
     /**
+     * Returns the Test case.
+     * 
+     * @return  Test case
+     */
+    public CndTestCase getTestCase()
+    {
+        return testCase;
+    }
+    
+    
+    /**
+     * Returns the project.
+     * 
+     * @return  Project
+     */
+    public Project getProject()
+    {
+        return project;
+    }
+    
+    
+    /**
      * Performs the action.
      * 
      * @param ae    Action event
@@ -53,4 +75,5 @@ public class GoToSourceTestMethodNodeAction extends AbstractTestNodeAction
     {
         TestSupportUtils.goToSourceOfTestCase(project, testCase);
     }
+    
 }

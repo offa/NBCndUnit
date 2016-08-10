@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest;
 
+import bv.offa.netbeans.cnd.unittest.api.FailureInfo;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import java.util.concurrent.Callable;
@@ -27,10 +28,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.netbeans.api.project.Project;
 import org.netbeans.modules.cnd.api.model.CsmDeclaration;
+import org.netbeans.modules.cnd.api.model.CsmFile;
 import org.netbeans.modules.cnd.api.model.CsmModelAccessor;
 import org.netbeans.modules.cnd.api.model.CsmProject;
 import org.netbeans.modules.cnd.modelutil.CsmUtilities;
 import org.netbeans.modules.gsf.testrunner.api.Status;
+import org.netbeans.modules.gsf.testrunner.api.Trouble;
 import org.openide.util.RequestProcessor;
 
 /**
@@ -109,6 +112,43 @@ public final class TestSupportUtils
     {
         final String uniqueDecl = getUniqueDeclaratonName(testCase);
         goToDeclaration(project, uniqueDecl);
+    }
+
+    
+    /**
+     * Executes a Go-To-Source to the given failure. If the jump
+     * target isn't available, this method does nothing.
+     * 
+     * <p>The execution is done in a task; the method doesn't block.</p>
+     * 
+     * @param project       Project
+     * @param failure       Failure
+     */
+    public static void goToSourceOfFailure(final Project project, final FailureInfo failure)
+    {
+        POOL.submit(new Callable<Boolean>()
+        {
+            @Override
+            public Boolean call() throws Exception
+            {
+                CsmProject csmProject = CsmModelAccessor.getModel().getProject(project);
+                final String fileName = failure.getFile();
+                final int line = failure.getLine();
+
+                for( CsmFile f : csmProject.getSourceFiles() )
+                {
+                    if( f.getAbsolutePath().toString().endsWith(fileName) == true )
+                    {
+                        return CsmUtilities.openSource(f, line, 0);
+                    }
+                }
+
+                LOGGER.log(Level.INFO, "No source found for {0}:{1}", new Object[] { fileName, line });
+                return Boolean.FALSE;
+            }
+
+
+        });
     }
     
     

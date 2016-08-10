@@ -34,6 +34,7 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
 public class CndTestCase extends Testcase
 {
     private final TestFramework framework;
+    private FailureInfo failureInfo;
     
     
     public CndTestCase(String name, TestFramework framework, TestSession session)
@@ -59,20 +60,47 @@ public class CndTestCase extends Testcase
      */
     public void setError()
     {
-        setError(new String[] { });
+        Trouble trouble = getTrouble();
+        
+        if( trouble == null )
+        {
+            trouble = new Trouble(true);
+        }
+        
+        trouble.setError(true);
+        setTrouble(trouble);
     }
-    
-    
+
+
     /**
      * Sets the Test as failed.
      * 
      * @param stackTrace    Stacktrace of the failure
+     * @deprecated          Replaced by {@link #setError(String, int)}
      */
+    @Deprecated
     public void setError(String stackTrace[])
     {
         Trouble trouble = new Trouble(true);
         trouble.setStackTrace(stackTrace);
         setTrouble(trouble);
+    }
+    
+    
+
+    /**
+     * Sets the test as {@link #setError() failed}. The source of failure is
+     * described by the parameters.
+     * 
+     * @param file      File of failure
+     * @param line      Line of failure
+     */
+    public void setError(String file, int line)
+    {
+        Trouble trouble = new Trouble(true);
+        trouble.setStackTrace(new String[] { file + ":" + line });
+        setTrouble(trouble);
+        this.failureInfo = new FailureInfo(file, line);
     }
     
     
@@ -82,6 +110,17 @@ public class CndTestCase extends Testcase
     public void setSkipped()
     {
         setStatus(Status.SKIPPED);
+    }
+
+
+    /**
+     * Returns the failure info if the test has failed or {@code null} otherwise.
+     * 
+     * @return      Failure or {@code null} if not failed
+     */
+    public FailureInfo getFailureInfo()
+    {
+        return failureInfo;
     }
     
 }

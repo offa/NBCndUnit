@@ -38,7 +38,7 @@ import org.openide.util.lookup.Lookups;
  */
 public class TestRunnerTestSuiteNode extends TestsuiteNode
 {
-    private final String actionName = NbBundle.getMessage(TestRunnerTestMethodNode.class, "LBL_Action_GoToSource"); 
+    private final String actionName = NbBundle.getMessage(TestRunnerTestMethodNode.class, "LBL_Action_GoToSource");
     
     public TestRunnerTestSuiteNode(String suiteName, boolean filtered)
     {

@@ -20,7 +20,10 @@
 
 package bv.offa.netbeans.cnd.unittest.ui;
 
+import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import java.awt.event.ActionEvent;
+import org.netbeans.api.project.Project;
 
 /**
  * The class {@code GoToCallstackNodeAction} implements an
@@ -31,10 +34,20 @@ import java.awt.event.ActionEvent;
 public class GoToCallstackNodeAction extends AbstractTestNodeAction
 {
     private static final long serialVersionUID = 1L;
+    private final CndTestCase testCase;
     
+    /** @deprecated Obsolete - will be removed */
+    @Deprecated
     public GoToCallstackNodeAction(String actionName, String frameInfo)
     {
         super(actionName, null);
+        this.testCase = null;
+    }
+    
+    public GoToCallstackNodeAction(String actionName, CndTestCase testCase, Project project)
+    {
+        super(actionName, project);
+        this.testCase = testCase;
     }
 
     
@@ -46,7 +59,9 @@ public class GoToCallstackNodeAction extends AbstractTestNodeAction
     @Override
     protected void doActionPerformed(ActionEvent ae)
     {
-        /* Not implemented. */
+        TestSupportUtils.goToSourceOfFailure(project, testCase.getFailureInfo());
     }
+    
+    
     
 }

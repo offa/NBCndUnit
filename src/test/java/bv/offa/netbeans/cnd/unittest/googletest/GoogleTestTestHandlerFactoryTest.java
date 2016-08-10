@@ -50,7 +50,7 @@ public class GoogleTestTestHandlerFactoryTest
     @Test
     public void createHandlersContainsHandlers()
     {
-        assertEquals(5, factory.createHandlers().size());
+        assertEquals(6, factory.createHandlers().size());
     }
 
     @Test

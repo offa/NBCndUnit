@@ -54,14 +54,16 @@ public class TestRunnerCallstackFrameNode extends CallstackFrameNode
     public Action getPreferredAction()
     {
         Action action = findActionOfParentNode(this);
-        
-        if( action == null )
+
+        if( action instanceof GoToSourceTestMethodNodeAction )
         {
-            action = new GoToCallstackNodeAction(actionName, frameInfo);
-            action.setEnabled(false);
+            final GoToSourceTestMethodNodeAction parent = (GoToSourceTestMethodNodeAction) action;
+            return new GoToCallstackNodeAction(actionName, parent.getTestCase(), parent.getProject());
         }
-        
-        return action;
+        else
+        {
+            throw new IllegalStateException("Invalid action instance: " + action.getClass().getName());
+        }
     }
     
     

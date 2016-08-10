@@ -54,6 +54,7 @@ public class GoogleTestTestHandlerFactory implements TestHandlerFactory
         testHandler.add(new GoogleTestTestStartedHandler());
         testHandler.add(new GoogleTestTestFinishedHandler());
         testHandler.add(new GoogleTestSessionFinishedHandler());
+        testHandler.add(new GoogleTestErrorHandler());
         
         return testHandler;
     }

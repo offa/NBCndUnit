@@ -68,7 +68,7 @@ class GoogleTestTestFinishedHandler extends CndTestHandler
             final String location = suiteName + ":" + caseName;
             testCase.setLocation(location);
             updateTime(testCase);
-            updateResult(testCase, location);
+            updateResult(testCase);
         }
         else
         {
@@ -95,15 +95,14 @@ class GoogleTestTestFinishedHandler extends CndTestHandler
      * Updates the test result.
      * 
      * @param testCase      Test Case
-     * @param location      Test location
      */
-    private void updateResult(CndTestCase testCase, String location)
+    private void updateResult(CndTestCase testCase)
     {
         final String result = getMatchGroup(GROUP_RESULT);
         
         if( result.equals(MSG_FAILED) == true )
         {
-            testCase.setError(new String[] { location });
+            testCase.setError();
         }
     }
     

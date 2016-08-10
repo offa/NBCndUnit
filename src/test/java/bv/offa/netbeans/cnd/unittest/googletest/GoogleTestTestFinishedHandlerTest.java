@@ -36,6 +36,7 @@ import static org.hamcrest.CoreMatchers.allOf;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import static org.mockito.Mockito.*;
@@ -163,28 +164,26 @@ public class GoogleTestTestFinishedHandlerTest
         assertNull(testCase.getTrouble());
     }
     
-    @Deprecated
     @Test
     public void updateUISetsTroubleIfFailed()
     {
         checkedMatch(handler, "[  FAILED  ] TestSuite.testCase (45 ms)");
         CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
         handler.updateUI((Manager) null, session);
-        Trouble t = testCase.getTrouble();
-        assertNotNull(t);
-        assertTrue(t.isError());
-        assertEquals("TestSuite:testCase", t.getStackTrace()[0]);
+        assertThat(testCase, hasError());
     }
     
-    @Deprecated
     @Test
     public void updateUIUpdatesTroubleIfFailed()
     {
         checkedMatch(handler, "[  FAILED  ] TestSuite.testCase (45 ms)");
         CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
-        testCase.setTrouble(new Trouble(false));
+        Trouble trouble = new Trouble(false);
+        trouble.setStackTrace(new String[] { "abc" });
+        testCase.setTrouble(trouble);
         handler.updateUI((Manager) null, session);
         assertThat(testCase, hasError());
+        assertEquals("abc", testCase.getTrouble().getStackTrace()[0]);
     }
     
     @Test
