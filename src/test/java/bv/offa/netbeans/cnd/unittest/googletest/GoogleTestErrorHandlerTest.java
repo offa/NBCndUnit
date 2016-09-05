@@ -75,6 +75,5 @@ public class GoogleTestErrorHandlerTest
         assertEquals(38, failure.getLine());
         assertEquals("test/Example.cpp:38", testCase.getTrouble().getStackTrace()[0]);
     }
-    
 
 }

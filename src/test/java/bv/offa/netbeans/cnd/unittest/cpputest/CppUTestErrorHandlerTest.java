@@ -21,6 +21,7 @@
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
+import bv.offa.netbeans.cnd.unittest.api.FailureInfo;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
@@ -122,6 +123,20 @@ public class CppUTestErrorHandlerTest
         testCase.setTrouble(new Trouble(false));
         handler.updateUI(manager, session);
         assertThat(testCase, hasError());
+    }
+    
+    @Test
+    public void updateUISetsFailureInfo()
+    {
+        CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
+        checkedMatch(handler, "test/TestSuite.cpp:37: error: Failure "
+                                    + "in TEST(TestSuite, testCase)");
+        handler.updateUI(manager, session);
+        assertThat(testCase, hasError());
+        FailureInfo failure = testCase.getFailureInfo();
+        assertEquals("test/TestSuite.cpp", failure.getFile());
+        assertEquals(37, failure.getLine());
+        assertEquals("test/TestSuite.cpp:37", testCase.getTrouble().getStackTrace()[0]);
     }
 
 }

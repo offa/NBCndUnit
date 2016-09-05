@@ -64,9 +64,7 @@ class CppUTestErrorHandler extends CndTestHandler
         {
             final String file = getMatchGroup(GROUP_FILE);
             final String lineNumber = getMatchGroup(GROUP_LINE);
-            final String location = file + ":" + lineNumber;
-            testCase.setLocation(location);
-            testCase.setError(new String[] { location });
+            testCase.setError(file, Integer.valueOf(lineNumber));
         }
     }
 
