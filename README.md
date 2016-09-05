@@ -28,6 +28,8 @@ The Plugin is available through the **Plugin Manager** (*Tools → Plugins → A
 
 As an alternative, it’s also possible to download the *NBM* manually from the [**NetBeans Plugin Portal**](http://plugins.netbeans.org/plugin/57174/nbcndunit).
 
+#### [***`Signature Info`***](https://github.com/offa/NBCndUnit/wiki/NBM-Signature)
+
 
 # Update
 
