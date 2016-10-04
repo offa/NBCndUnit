@@ -140,7 +140,7 @@ public class NewTestSuiteWizardPanel1Test
     {
         when(wizardMock.getValue()).thenReturn(WizardDescriptor.PREVIOUS_OPTION);
         panel.storeSettings(wizardMock);
-        verify(wizardMock, never()).putProperty(anyString(), anyObject());
+        verify(wizardMock, never()).putProperty(anyString(), any());
     }
     
     @Test
@@ -151,11 +151,11 @@ public class NewTestSuiteWizardPanel1Test
         when(spyPanel.isValid()).thenReturn(true);
         when(wizardMock.getValue()).thenReturn(WizardDescriptor.FINISH_OPTION);
         spyPanel.storeSettings(wizardMock);
-        verify(wizardMock).putProperty(eq(NewTestSuiteWizardPanel1.PROP_TEST_GENERATE_SETUP), anyObject());
-        verify(wizardMock).putProperty(eq(NewTestSuiteWizardPanel1.PROP_TEST_GENERATE_TEARDOWN), anyObject());
-        verify(wizardMock).putProperty(eq(NewTestSuiteWizardPanel1.PROP_TEST_GENERATE_TESTCASES), anyObject());
-        verify(wizardMock).putProperty(eq(NewTestSuiteWizardPanel1.PROP_TEST_TESTCASE_NAMES), anyObject());
-        verify(wizardMock).putProperty(eq(NewTestSuiteWizardPanel1.PROP_TEST_TESTSUITE_NAME), anyObject());
+        verify(wizardMock).putProperty(eq(NewTestSuiteWizardPanel1.PROP_TEST_GENERATE_SETUP), any());
+        verify(wizardMock).putProperty(eq(NewTestSuiteWizardPanel1.PROP_TEST_GENERATE_TEARDOWN), any());
+        verify(wizardMock).putProperty(eq(NewTestSuiteWizardPanel1.PROP_TEST_GENERATE_TESTCASES), any());
+        verify(wizardMock).putProperty(eq(NewTestSuiteWizardPanel1.PROP_TEST_TESTCASE_NAMES), any());
+        verify(wizardMock).putProperty(eq(NewTestSuiteWizardPanel1.PROP_TEST_TESTSUITE_NAME), any());
     }
     
     @Test
@@ -166,7 +166,7 @@ public class NewTestSuiteWizardPanel1Test
         when(spyPanel.isValid()).thenReturn(false);
         when(wizardMock.getValue()).thenReturn(WizardDescriptor.FINISH_OPTION);
         spyPanel.storeSettings(wizardMock);
-        verify(wizardMock, never()).putProperty(anyString(), anyObject());
+        verify(wizardMock, never()).putProperty(anyString(), any());
     }
     
     @Test

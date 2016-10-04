@@ -56,7 +56,7 @@ public class NewTestMainWizardPanel1Test
     {
         when(wizardMock.getValue()).thenReturn(WizardDescriptor.PREVIOUS_OPTION);
         panel.storeSettings(wizardMock);
-        verify(wizardMock, never()).putProperty(anyString(), anyObject());
+        verify(wizardMock, never()).putProperty(anyString(), any());
     }
 
     @Test
@@ -67,8 +67,8 @@ public class NewTestMainWizardPanel1Test
         when(spyPanel.isValid()).thenReturn(true);
         when(wizardMock.getValue()).thenReturn(WizardDescriptor.FINISH_OPTION);
         spyPanel.storeSettings(wizardMock);
-        verify(wizardMock).putProperty(eq(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_VERBOSE), anyObject());
-        verify(wizardMock).putProperty(eq(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_COLOR), anyObject());
+        verify(wizardMock).putProperty(eq(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_VERBOSE), any());
+        verify(wizardMock).putProperty(eq(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_COLOR), any());
     }
 
     @Test
@@ -79,7 +79,7 @@ public class NewTestMainWizardPanel1Test
         when(spyPanel.isValid()).thenReturn(false);
         when(wizardMock.getValue()).thenReturn(WizardDescriptor.FINISH_OPTION);
         spyPanel.storeSettings(wizardMock);
-        verify(wizardMock, never()).putProperty(anyString(), anyObject());
+        verify(wizardMock, never()).putProperty(anyString(), any());
     }
 
     @Test
