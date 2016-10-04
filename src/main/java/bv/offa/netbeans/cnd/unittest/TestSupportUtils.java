@@ -33,7 +33,6 @@ import org.netbeans.modules.cnd.api.model.CsmModelAccessor;
 import org.netbeans.modules.cnd.api.model.CsmProject;
 import org.netbeans.modules.cnd.modelutil.CsmUtilities;
 import org.netbeans.modules.gsf.testrunner.api.Status;
-import org.netbeans.modules.gsf.testrunner.api.Trouble;
 import org.openide.util.RequestProcessor;
 
 /**
