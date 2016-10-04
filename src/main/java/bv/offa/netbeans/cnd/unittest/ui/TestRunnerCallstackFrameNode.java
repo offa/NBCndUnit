@@ -36,7 +36,7 @@ import org.openide.util.NbBundle;
  */
 public class TestRunnerCallstackFrameNode extends CallstackFrameNode
 {
-    private final String actionName = NbBundle.getMessage(TestRunnerTestMethodNode.class, "LBL_Action_GoToSource"); 
+    private final String actionName = NbBundle.getMessage(TestRunnerCallstackFrameNode.class, "LBL_Action_GoToSource"); 
     
     public TestRunnerCallstackFrameNode(String frameInfo, String displayName)
     {
