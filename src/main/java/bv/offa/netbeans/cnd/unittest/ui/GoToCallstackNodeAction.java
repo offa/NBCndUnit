@@ -36,14 +36,7 @@ public class GoToCallstackNodeAction extends AbstractTestNodeAction
     private static final long serialVersionUID = 1L;
     private final CndTestCase testCase;
     
-    /** @deprecated Obsolete - will be removed */
-    @Deprecated
-    public GoToCallstackNodeAction(String actionName, String frameInfo)
-    {
-        super(actionName, null);
-        this.testCase = null;
-    }
-    
+
     public GoToCallstackNodeAction(String actionName, CndTestCase testCase, Project project)
     {
         super(actionName, project);

@@ -49,13 +49,6 @@ public class GoogleTestTestStartedHandlerTest
         manager = mock(ManagerAdapter.class);
     }
 
-    @Deprecated
-    @Test
-    public void matchesTestCaseStr()
-    {
-        assertTrue(handler.matches("[ RUN      ] TestSuite.testCase"));
-    }
-
     @Test
     public void parseDataTestCase()
     {

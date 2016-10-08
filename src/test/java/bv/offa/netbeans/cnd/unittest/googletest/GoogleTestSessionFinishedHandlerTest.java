@@ -61,25 +61,11 @@ public class GoogleTestSessionFinishedHandlerTest
         manager = mock(ManagerAdapter.class);
     }
 
-    @Deprecated
-    @Test
-    public void matchesTestSessionResult()
-    {
-        assertTrue(handler.matches("[==========] 1200 tests from 307 test cases ran. (1234 ms total)"));
-    }
-
     @Test
     public void parseDataTestSession()
     {
         Matcher m = checkedMatch(handler, "[==========] 1200 tests from 307 test cases ran. (1234 ms total)");
         assertEquals("1234", m.group(1));
-    }
-
-    @Deprecated
-    @Test
-    public void matchesSingleTests()
-    {
-        assertTrue(handler.matches("[==========] 1 test from 1 test case ran. (3 ms total)"));
     }
 
     @Test

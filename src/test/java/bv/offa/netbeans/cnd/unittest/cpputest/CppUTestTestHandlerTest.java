@@ -83,28 +83,6 @@ public class CppUTestTestHandlerTest
         manager = mock(ManagerAdapter.class);
     }
     
-    @Deprecated
-    @Test
-    public void matchesTestCaseStr()
-    {
-        assertTrue(handler.matches("TEST(TestSuite, testCase) - 8 ms"));
-    }
-    
-    @Deprecated
-    @Test
-    public void matchesTestCaseIgnored()
-    {
-        assertTrue(handler.matches("IGNORE_TEST(TestSuite, testCase) - 7 ms"));
-    }
-    
-    @Deprecated
-    @Test
-    public void matchesTestCaseAndDetectsNotIgnored()
-    {
-        Matcher m = checkedMatch(handler, "TEST(TestSuite, testCase) - 8 ms");
-        assertNull(m.group(1));
-    }
-    
     @Test
     public void matchesTestCaseAndDetectsIgnored()
     {
@@ -120,13 +98,6 @@ public class CppUTestTestHandlerTest
         assertEquals("TestSuite", m.group(2));
         assertEquals("testCase", m.group(3));
         assertEquals("84", m.group(5));
-    }
-    
-    @Deprecated
-    @Test
-    public void matchesDataTestCaseWhichFailed()
-    {
-        assertTrue(handler.matches("TEST(TestSuite, testThatFailed)"));
     }
     
     @Test

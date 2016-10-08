@@ -44,26 +44,12 @@ public class GoogleTestSuiteFinishedHandlerTest
         manager = mock(ManagerAdapter.class);
     }
     
-    @Deprecated
-    @Test
-    public void matchesSuccessfulTestSuite()
-    {
-        assertTrue(handler.matches("[----------] 3 tests from TestSuite (259 ms total)"));
-    }
-    
     @Test
     public void parseDataSuccessfulTestSuite()
     {
         Matcher m = checkedMatch(handler, "[----------] 3 tests from TestSuite (259 ms total)");
         assertEquals("TestSuite", m.group(1));
         assertEquals("259", m.group(2));
-    }
-    
-    @Deprecated
-    @Test
-    public void matchesSingleTestSuite()
-    {
-        assertTrue(handler.matches("[----------] 1 test from TestSuite (123 ms total)"));
     }
     
     @Test

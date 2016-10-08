@@ -61,20 +61,6 @@ public class GoogleTestTestFinishedHandlerTest
         manager = mock(ManagerAdapter.class);
     }
     
-    @Deprecated
-    @Test
-    public void matchesSuccessfulTestCase()
-    {
-        assertTrue(handler.matches("[       OK ] TestSuite.testCase (0 ms)"));
-    }
-    
-    @Deprecated
-    @Test
-    public void matchesFailedTestCase()
-    {
-        assertTrue(handler.matches("[  FAILED  ] TestSuite.testCase (45 ms)"));
-    }
-    
     @Test
     public void rejectsUnknownTestCaseResult()
     {
@@ -121,46 +107,6 @@ public class GoogleTestTestFinishedHandlerTest
         assertEquals("TestSuite", m.group(2));
         assertEquals("testCase", m.group(3));
         assertEquals("45", m.group(4));
-    }
-    
-    @Deprecated
-    @Test
-    public void updateUIThrowsIfNoTest()
-    {
-        checkedMatch(handler, "[       OK ] TestSuite.testCase (0 ms)");
-        exception.expect(IllegalStateException.class);
-        handler.updateUI((Manager) null, session);
-    }
-    
-    @Deprecated
-    @Test
-    public void updateUIThrownsIfNotMatchingTestCase()
-    {
-        checkedMatch(handler, "[       OK ] withParameterImpl/"
-                            + "TestSuite.withParameter/0 (0 ms)");
-        createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
-        exception.expect(IllegalStateException.class);
-        handler.updateUI((Manager) null, session);
-    }
-    
-    @Deprecated
-    @Test
-    public void updateUIIgnoresNotMatchingTestSuite()
-    {
-        checkedMatch(handler, "[       OK ] TestSuite.testCase (0 ms)");
-        createCurrentTestCase("WrongTestSuite", "testCase", FRAMEWORK, session);
-        exception.expect(IllegalStateException.class);
-        handler.updateUI((Manager) null, session);
-    }
-    
-    @Deprecated
-    @Test
-    public void updateUIDoesNothingIfSuccessful()
-    {
-        checkedMatch(handler, "[       OK ] TestSuite.testCase (0 ms)");
-        CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
-        handler.updateUI((Manager) null, session);
-        assertNull(testCase.getTrouble());
     }
     
     @Test

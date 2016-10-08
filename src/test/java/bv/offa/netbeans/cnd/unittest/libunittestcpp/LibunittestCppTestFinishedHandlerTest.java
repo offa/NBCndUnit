@@ -113,13 +113,6 @@ public class LibunittestCppTestFinishedHandlerTest
         assertEquals("FAIL", m.group(4));
     }
 
-    @Deprecated
-    @Test
-    public void matchesIgnoredTestCase()
-    {
-        assertTrue(handler.matches("TestSuite::testExample::test ... [0s] SKIP A message"));
-    }
-
     @Test
     public void parseDataIgnoredTestCase()
     {

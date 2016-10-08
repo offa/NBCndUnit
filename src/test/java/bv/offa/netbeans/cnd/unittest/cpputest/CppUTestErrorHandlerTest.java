@@ -54,14 +54,6 @@ public class CppUTestErrorHandlerTest
         
     }
     
-    @Deprecated
-    @Test
-    public void matchesErrorLocationLine()
-    {
-        assertTrue(handler.matches("test/TestSuite.cpp:37: error: Failure "
-                                    + "in TEST(TestSuite, testCase)"));
-    }
-    
     @Test
     public void parsesDataErrorLocationLine()
     {

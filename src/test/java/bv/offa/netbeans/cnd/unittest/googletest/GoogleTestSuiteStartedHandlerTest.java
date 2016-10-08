@@ -74,13 +74,6 @@ public class GoogleTestSuiteStartedHandlerTest
         manager = mock(ManagerAdapter.class);
     }
 
-    @Deprecated
-    @Test
-    public void matchesTestSuiteStr()
-    {
-        assertTrue(handler.matches("[----------] 5 tests from TestSuite"));
-    }
-
     @Test
     public void parseDataTestSuite()
     {
@@ -93,13 +86,6 @@ public class GoogleTestSuiteStartedHandlerTest
     {
         Matcher m = checkedMatch(handler, "[----------] 5 tests from withParameterImpl/TestSuite");
         assertEquals("withParameterImpl/TestSuite", m.group(1));
-    }
-
-    @Deprecated
-    @Test
-    public void matchesSingleTestSuiteParameterized()
-    {
-        assertTrue(handler.matches("[----------] 1 test from TestSuite"));
     }
 
     @Test

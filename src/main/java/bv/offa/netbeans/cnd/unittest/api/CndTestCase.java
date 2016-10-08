@@ -70,22 +70,6 @@ public class CndTestCase extends Testcase
         trouble.setError(true);
         setTrouble(trouble);
     }
-
-
-    /**
-     * Sets the Test as failed.
-     * 
-     * @param stackTrace    Stacktrace of the failure
-     * @deprecated          Replaced by {@link #setError(String, int)}
-     */
-    @Deprecated
-    public void setError(String stackTrace[])
-    {
-        Trouble trouble = new Trouble(true);
-        trouble.setStackTrace(stackTrace);
-        setTrouble(trouble);
-    }
-    
     
 
     /**

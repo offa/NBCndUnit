@@ -50,14 +50,6 @@ public class CppUTestTimeHandlerTest
         manager = mock(ManagerAdapter.class);
     }
     
-    @Deprecated
-    @Test
-    public void matchesTime()
-    {
-        assertTrue(handler.matches(" - 0 ms"));
-        assertTrue(handler.matches(" - 123 ms"));
-    }
-    
     @Test
     public void parsesDataTime()
     {
