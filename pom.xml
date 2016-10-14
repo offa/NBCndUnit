@@ -23,7 +23,7 @@ Test templates are under "Unit Tests" file category.</description>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>nbm-maven-plugin</artifactId>
-                <version>3.13</version>
+                <version>4.1</version>
                 <extensions>true</extensions>
                 <configuration>
                     <author>offa</author>
