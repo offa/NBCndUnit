@@ -102,9 +102,9 @@ public class GoogleTestSuiteStartedHandlerTest
         handler.updateUI(manager, session);
         verify(manager).testStarted(session);
     }
-    
+
     @Test
-    public void updateUIStartsStartsTestBeforeSuite()
+    public void updateUIStartsTestBeforeSuite()
     {
         checkedMatch(handler, "[----------] 1 test from TestSuite");
         handler.updateUI(manager, session);
@@ -112,7 +112,7 @@ public class GoogleTestSuiteStartedHandlerTest
         inOrder.verify(manager).testStarted(any(TestSession.class));
         inOrder.verify(manager).displaySuiteRunning(any(TestSession.class), any(CndTestSuite.class));
     }
-    
+
     @Test
     public void updateUIDisplaysReportIfNotFirstTest()
     {
@@ -122,7 +122,7 @@ public class GoogleTestSuiteStartedHandlerTest
         handler.updateUI(manager, session);
         verify(manager).displayReport(session, report);
     }
-    
+
     @Test
     public void updateUIStartsNewSuiteIfFirstSuite()
     {
@@ -131,7 +131,7 @@ public class GoogleTestSuiteStartedHandlerTest
         verify(session).addSuite(argThat(matchesTestSuite("TestSuite")));
         verify(manager).displaySuiteRunning(eq(session), argThat(matchesTestSuite("TestSuite")));
     }
-    
+
     @Test
     public void updateUIStartsNewSuiteIfNewSuiteStarted()
     {
@@ -142,7 +142,7 @@ public class GoogleTestSuiteStartedHandlerTest
         verify(session).addSuite(argThat(matchesTestSuite("TestSuite")));
         verify(manager).displaySuiteRunning(eq(session), argThat(matchesTestSuite("TestSuite")));
     }
-    
+
     @Test
     public void updateUIDoesNothingIfSameSuite()
     {

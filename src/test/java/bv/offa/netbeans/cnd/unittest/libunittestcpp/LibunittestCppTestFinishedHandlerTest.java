@@ -131,9 +131,9 @@ public class LibunittestCppTestFinishedHandlerTest
         handler.updateUI(manager, session);
         verify(manager).testStarted(session);
     }
-    
+
     @Test
-    public void updateUIStartsStartsTestBeforeSuite()
+    public void updateUIStartsTestBeforeSuite()
     {
         checkedMatch(handler, "TestSuite::testCase ... [1.551e-05s] ok");
         handler.updateUI(manager, session);
@@ -141,7 +141,7 @@ public class LibunittestCppTestFinishedHandlerTest
         inOrder.verify(manager).testStarted(any(TestSession.class));
         inOrder.verify(manager).displaySuiteRunning(any(TestSession.class), any(CndTestSuite.class));
     }
-    
+
     @Test
     public void updateUIDisplaysReportIfNotFirstTest()
     {
@@ -151,30 +151,30 @@ public class LibunittestCppTestFinishedHandlerTest
         handler.updateUI(manager, session);
         verify(manager).displayReport(session, report);
     }
-    
+
     @Test
     public void updateUIStartsNewSuiteIfFirstSuite()
     {
         checkedMatch(handler, "TestSuite::testCase ... [1.551e-05s] ok");
         handler.updateUI(manager, session);
-        verify(session).addSuite(argThat(allOf(matchesTestSuite("TestSuite"), 
+        verify(session).addSuite(argThat(allOf(matchesTestSuite("TestSuite"),
                                                 suiteFrameworkIs(FRAMEWORK))));
-        verify(manager).displaySuiteRunning(eq(session), argThat(allOf(matchesTestSuite("TestSuite"), 
+        verify(manager).displaySuiteRunning(eq(session), argThat(allOf(matchesTestSuite("TestSuite"),
                                                                         suiteFrameworkIs(FRAMEWORK))));
     }
-    
+
     @Test
     public void updateUIStartsNewSuiteIfNewSuiteStarted()
     {
         checkedMatch(handler, "TestSuite::testCase ... [1.551e-05s] ok");
         Helper.createCurrentTestSuite("TestSuit", FRAMEWORK, session);
         handler.updateUI(manager, session);
-        verify(session).addSuite(argThat(allOf(matchesTestSuite("TestSuite"), 
+        verify(session).addSuite(argThat(allOf(matchesTestSuite("TestSuite"),
                                                 suiteFrameworkIs(FRAMEWORK))));
-        verify(manager).displaySuiteRunning(eq(session), argThat(allOf(matchesTestSuite("TestSuite"), 
+        verify(manager).displaySuiteRunning(eq(session), argThat(allOf(matchesTestSuite("TestSuite"),
                                                                         suiteFrameworkIs(FRAMEWORK))));
     }
-    
+
     @Test
     public void updateUIDoesNothingIfSameSuite()
     {
@@ -182,11 +182,11 @@ public class LibunittestCppTestFinishedHandlerTest
         CndTestSuite suite = new CndTestSuite("TestSuite", FRAMEWORK);
         when(session.getCurrentSuite()).thenReturn(suite);
         handler.updateUI(manager, session);
-        
+
         verify(session, never()).addSuite(any(CndTestSuite.class));
         verify(manager, never()).displaySuiteRunning(any(TestSession.class), any(TestSuite.class));
     }
-    
+
     @Test
     public void updateUIAddsTestCase()
     {
@@ -194,19 +194,19 @@ public class LibunittestCppTestFinishedHandlerTest
         handler.updateUI(manager, session);
         verify(session).addTestCase(argThat(matchesTestCase("testCase", "TestSuite")));
     }
-    
+
     @Test
     public void updateUISetsTestCaseInformation()
     {
         checkedMatch(handler, "TestSuite::testCase ... [477.100486s] ok");
         handler.updateUI(manager, session);
-        verify(session).addTestCase(argThat(allOf(matchesTestCase("testCase", "TestSuite"), 
-                                                    frameworkIs(FRAMEWORK), 
+        verify(session).addTestCase(argThat(allOf(matchesTestCase("testCase", "TestSuite"),
+                                                    frameworkIs(FRAMEWORK),
                                                     sessionIs(session),
                                                     timeIs(477100),
                                                     hasNoError())));
     }
-    
+
     @Test
     public void updateUISetsErrorOnFailure()
     {
@@ -214,7 +214,7 @@ public class LibunittestCppTestFinishedHandlerTest
         handler.updateUI(manager, session);
         verify(session).addTestCase(argThat(hasError()));
     }
-    
+
     @Test
     public void updateUISetsSkippedOnIgnored()
     {
@@ -222,5 +222,5 @@ public class LibunittestCppTestFinishedHandlerTest
         handler.updateUI(manager, session);
         verify(session).addTestCase(argThat(hasStatus(Status.SKIPPED)));
     }
-    
+
 }
