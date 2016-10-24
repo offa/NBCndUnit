@@ -18,33 +18,30 @@
  * along with NBCndUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package bv.offa.netbeans.cnd.unittest.cpputest;
+package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 /**
- * The class {@code CppUTestSuiteFinishedHandler} handles the finish of a
- * test suite.
+ * The class {@code CppUTestTCTestStartedHandler} handles the start of a test
+ * case.
  *
  * @author offa
  */
-class CppUTestSuiteFinishedHandler extends CndTestHandler
+public class CppUTestTCTestStartedHandler extends CndTestHandler
 {
-    private final TestSessionInformation info;
+    private static final int GROUP_CASE = 1;
 
-
-    public CppUTestSuiteFinishedHandler(TestSessionInformation info)
+    public CppUTestTCTestStartedHandler()
     {
-        super(TestFramework.CPPUTEST, "(\u001B\\[[;\\d]*m)?(Errors|OK) \\([0-9]+?.+?\\)"
-                                    + "(\u001B\\[[;\\d]*m)?$");
-        this.info = info;
+        super(TestFramework.CPPUTEST_TC, "##teamcity\\[testStarted name='(.+?)'\\]");
     }
 
-
-
+    
     /**
      * Updates the UI.
      *
@@ -54,11 +51,9 @@ class CppUTestSuiteFinishedHandler extends CndTestHandler
     @Override
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        manager.displayReport(session, session.getReport(info.getTimeTotal()));
-        manager.sessionFinished(session);
-        info.setTimeTotal(0L);
-
-        CppUTestTestHandler.suiteFinished();
+        final String caseName = getMatchGroup(GROUP_CASE);
+        final String suiteName = currentSuite(session).getName();
+        startNewTestCase(caseName, suiteName, session);
     }
 
 }

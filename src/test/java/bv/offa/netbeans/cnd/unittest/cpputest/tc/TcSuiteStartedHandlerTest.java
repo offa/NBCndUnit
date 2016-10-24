@@ -17,8 +17,10 @@
  * You should have received a copy of the GNU General Public License
  * along with NBCndUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
-package bv.offa.netbeans.cnd.unittest.googletest;
 
+package bv.offa.netbeans.cnd.unittest.cpputest.tc;
+
+import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCSuiteStartedHandler;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
@@ -30,29 +32,29 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.mockito.InOrder;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
+import org.mockito.InOrder;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 import org.netbeans.api.project.Project;
 import org.netbeans.modules.gsf.testrunner.api.Report;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Lookup;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 
-public class GoogleTestSuiteStartedHandlerTest
+public class TcSuiteStartedHandlerTest
 {
-    private static final TestFramework FRAMEWORK = TestFramework.GOOGLETEST;
+    private static final TestFramework FRAMEWORK = TestFramework.CPPUTEST_TC;
     private static Project project;
     private static Report report;
-    private GoogleTestSuiteStartedHandler handler;
+    private CppUTestTCSuiteStartedHandler handler;
     private TestSession session;
     private ManagerAdapter manager;
 
@@ -69,7 +71,7 @@ public class GoogleTestSuiteStartedHandlerTest
     @Before
     public void setUp()
     {
-        handler = new GoogleTestSuiteStartedHandler();
+        handler = new CppUTestTCSuiteStartedHandler();
         session = mock(TestSession.class);
         manager = mock(ManagerAdapter.class);
     }
@@ -77,80 +79,65 @@ public class GoogleTestSuiteStartedHandlerTest
     @Test
     public void parseDataTestSuite()
     {
-        Matcher m = checkedMatch(handler, "[----------] 5 tests from TestSuite");
-        assertEquals("TestSuite", m.group(1));
-    }
-
-    @Test
-    public void parseDataTestSuiteParameterized()
-    {
-        Matcher m = checkedMatch(handler, "[----------] 5 tests from withParameterImpl/TestSuite");
-        assertEquals("withParameterImpl/TestSuite", m.group(1));
-    }
-
-    @Test
-    public void parseDataSingleTestSuite()
-    {
-        Matcher m = checkedMatch(handler, "[----------] 1 test from TestSuite");
+        Matcher m = checkedMatch(handler, "##teamcity[testSuiteStarted name='TestSuite']");
         assertEquals("TestSuite", m.group(1));
     }
 
     @Test
     public void updateUIStartsTestIfFirstTest()
     {
-        checkedMatch(handler, "[----------] 1 test from TestSuite");
+        checkedMatch(handler, "##teamcity[testSuiteStarted name='TestSuite']");
         handler.updateUI(manager, session);
         verify(manager).testStarted(session);
     }
-    
+
     @Test
-    public void updateUIStartsStartsTestBeforeSuite()
+    public void updateUIStartsTestBeforeSuite()
     {
-        checkedMatch(handler, "[----------] 1 test from TestSuite");
+        checkedMatch(handler, "##teamcity[testSuiteStarted name='TestSuite']");
         handler.updateUI(manager, session);
         InOrder inOrder = inOrder(manager);
         inOrder.verify(manager).testStarted(any(TestSession.class));
         inOrder.verify(manager).displaySuiteRunning(any(TestSession.class), any(CndTestSuite.class));
     }
-    
+
     @Test
     public void updateUIDisplaysReportIfNotFirstTest()
     {
-        checkedMatch(handler, "[----------] 1 test from TestSuite");
+        checkedMatch(handler, "##teamcity[testSuiteStarted name='TestSuite']");
         when(session.getReport(anyLong())).thenReturn(report);
         handler.updateUI(manager, session);
         handler.updateUI(manager, session);
         verify(manager).displayReport(session, report);
     }
-    
+
     @Test
     public void updateUIStartsNewSuiteIfFirstSuite()
     {
-        checkedMatch(handler, "[----------] 1 test from TestSuite");
+        checkedMatch(handler, "##teamcity[testSuiteStarted name='TestSuite']");
         handler.updateUI(manager, session);
         verify(session).addSuite(argThat(matchesTestSuite("TestSuite")));
         verify(manager).displaySuiteRunning(eq(session), argThat(matchesTestSuite("TestSuite")));
     }
-    
+
     @Test
     public void updateUIStartsNewSuiteIfNewSuiteStarted()
     {
-        checkedMatch(handler, "[----------] 1 test from TestSuite");
-        CndTestSuite suite = new CndTestSuite("TestSuiteFirst", TestFramework.GOOGLETEST);
-        when(session.getCurrentSuite()).thenReturn(suite);
+        checkedMatch(handler, "##teamcity[testSuiteStarted name='TestSuite']");
+        createCurrentTestSuite("TestSuiteFirst", FRAMEWORK, session);
         handler.updateUI(manager, session);
         verify(session).addSuite(argThat(matchesTestSuite("TestSuite")));
         verify(manager).displaySuiteRunning(eq(session), argThat(matchesTestSuite("TestSuite")));
     }
-    
+
     @Test
     public void updateUIDoesNothingIfSameSuite()
     {
-        checkedMatch(handler, "[----------] 1 test from TestSuite");
-        CndTestSuite suite = createCurrentTestSuite("TestSuite", FRAMEWORK, session);
-        when(session.getCurrentSuite()).thenReturn(suite);
+        checkedMatch(handler, "##teamcity[testSuiteStarted name='TestSuite']");
+        createCurrentTestSuite("TestSuite", FRAMEWORK, session);
         handler.updateUI(manager, session);
         verify(session, never()).addSuite(any(CndTestSuite.class));
         verify(manager, never()).displaySuiteRunning(any(TestSession.class), any(TestSuite.class));
     }
+
 }

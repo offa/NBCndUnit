@@ -18,31 +18,30 @@
  * along with NBCndUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package bv.offa.netbeans.cnd.unittest.cpputest;
+package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 /**
- * The class {@code CppUTestSuiteFinishedHandler} handles the finish of a
- * test suite.
+ * The class {@code CppUTestTCTestFinishedHandler} handles the finish of a
+ * test case.
  *
  * @author offa
  */
-class CppUTestSuiteFinishedHandler extends CndTestHandler
+public class CppUTestTCTestFinishedHandler extends CndTestHandler
 {
-    private final TestSessionInformation info;
+    private static final int GROUP_CASE = 1;
+    private static final int GROUP_TIME = 2;
 
-
-    public CppUTestSuiteFinishedHandler(TestSessionInformation info)
+    public CppUTestTCTestFinishedHandler()
     {
-        super(TestFramework.CPPUTEST, "(\u001B\\[[;\\d]*m)?(Errors|OK) \\([0-9]+?.+?\\)"
-                                    + "(\u001B\\[[;\\d]*m)?$");
-        this.info = info;
+        super(TestFramework.CPPUTEST_TC, "##teamcity\\[testFinished name='(.+?)' "
+                                            + "duration='([0-9]+?)'\\]");
     }
-
 
 
     /**
@@ -54,11 +53,26 @@ class CppUTestSuiteFinishedHandler extends CndTestHandler
     @Override
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        manager.displayReport(session, session.getReport(info.getTimeTotal()));
-        manager.sessionFinished(session);
-        info.setTimeTotal(0L);
+        // TODO: Check matching suite / case in all these handlers
+        final CndTestCase testCase = currentTestCase(session);
+        final String caseName = getMatchGroup(GROUP_CASE);
+        final String suiteName = currentSuite(session).getName();
 
-        CppUTestTestHandler.suiteFinished();
+        final String location = suiteName + ":" + caseName;
+        testCase.setLocation(location);
+        updateTime(testCase);
     }
 
+    
+    /**
+     * Updates the test time.
+     *
+     * @param testCase  Test Case
+     */
+    private void updateTime(CndTestCase testCase)
+    {
+        final String timeValue = getMatchGroup(GROUP_TIME);
+        final long time = Long.valueOf(timeValue);
+        testCase.setTimeMillis(time);
+    }
 }

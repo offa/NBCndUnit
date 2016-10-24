@@ -18,31 +18,31 @@
  * along with NBCndUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package bv.offa.netbeans.cnd.unittest.cpputest;
+package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 /**
- * The class {@code CppUTestSuiteFinishedHandler} handles the finish of a
- * test suite.
+ * The class {@code CppUTestTCErrorHandler} handles test errors and their
+ * information.
  *
  * @author offa
  */
-class CppUTestSuiteFinishedHandler extends CndTestHandler
+public class CppUTestTCErrorHandler extends CndTestHandler
 {
-    private final TestSessionInformation info;
+    private static final int GROUP_FILE = 2;
+    private static final int GROUP_LINE = 3;
 
-
-    public CppUTestSuiteFinishedHandler(TestSessionInformation info)
+    public CppUTestTCErrorHandler()
     {
-        super(TestFramework.CPPUTEST, "(\u001B\\[[;\\d]*m)?(Errors|OK) \\([0-9]+?.+?\\)"
-                                    + "(\u001B\\[[;\\d]*m)?$");
-        this.info = info;
+        super(TestFramework.CPPUTEST_TC, "##teamcity\\[testFailed name='(.+?)' "
+                                            + "message='(.+?):([0-9]+?)' "
+                                            + "details='(.+?)'\\]");
     }
-
 
 
     /**
@@ -54,11 +54,8 @@ class CppUTestSuiteFinishedHandler extends CndTestHandler
     @Override
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        manager.displayReport(session, session.getReport(info.getTimeTotal()));
-        manager.sessionFinished(session);
-        info.setTimeTotal(0L);
-
-        CppUTestTestHandler.suiteFinished();
+        final CndTestCase testCase = currentTestCase(session);
+        testCase.setError(getMatchGroup(GROUP_FILE), Integer.valueOf(getMatchGroup(GROUP_LINE)));
     }
 
 }

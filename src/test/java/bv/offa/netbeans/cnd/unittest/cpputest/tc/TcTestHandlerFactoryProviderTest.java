@@ -18,41 +18,22 @@
  * along with NBCndUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package bv.offa.netbeans.cnd.unittest.api;
+package bv.offa.netbeans.cnd.unittest.cpputest.tc;
 
-/**
- * The enum {@code TestFramework} represents test frameworks.
- *
- * @author offa
- */
-public enum TestFramework
+import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCTestHandlerFactory;
+import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCTestHandlerFactoryProvider;
+import org.junit.Test;
+import static org.junit.Assert.*;
+import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactoryProvider;
+
+public class TcTestHandlerFactoryProviderTest
 {
-    /** CppUTest. */
-    CPPUTEST("CppUTest"),
-    /** CppUTest (TeamCity) */
-    CPPUTEST_TC("CppUTest (TeamCity)"),
-    /** GoogleTest / GoogleMock. */
-    GOOGLETEST("GoogleTest"),
-    /** LibunittestC++. */
-    LIBUNITTESTCPP("LibunittestCpp");
 
-
-    private final String name;
-
-
-    private TestFramework(String name)
+    @Test
+    public void getFactoryReturnsInstance()
     {
-        this.name = name;
+        TestHandlerFactoryProvider provider = new CppUTestTCTestHandlerFactoryProvider();
+        assertEquals(CppUTestTCTestHandlerFactory.class, provider.getFactory().getClass());
     }
 
-
-    /**
-     * Returns the name of the framework.
-     *
-     * @return  Name
-     */
-    public String getName()
-    {
-        return name;
-    }
 }
