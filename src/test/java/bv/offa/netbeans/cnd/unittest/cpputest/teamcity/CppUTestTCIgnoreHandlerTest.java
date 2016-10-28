@@ -37,7 +37,7 @@ import static org.mockito.Mockito.mock;
 import org.netbeans.modules.gsf.testrunner.api.Status;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
-public class CppUTestTcIgnoreHandlerTest
+public class CppUTestTCIgnoreHandlerTest
 {
     private static final TestFramework FRAMEWORK = TestFramework.CPPUTEST_TC;
     private CppUTestTCIgnoreHandler handler;

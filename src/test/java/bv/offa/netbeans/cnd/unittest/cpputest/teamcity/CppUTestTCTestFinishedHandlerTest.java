@@ -20,56 +20,62 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 
-import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCTestStartedHandler;
-import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
+import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCTestFinishedHandler;
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
+import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestCase;
+import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestSuite;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.frameworkIs;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasNoError;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.matchesTestCase;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.sessionIs;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.timeIs;
 import java.util.regex.Matcher;
 import static org.hamcrest.CoreMatchers.allOf;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
-public class CppUTestTcTestHandlerTest
+public class CppUTestTCTestFinishedHandlerTest
 {
-
     private static final TestFramework FRAMEWORK = TestFramework.CPPUTEST_TC;
-    private CppUTestTCTestStartedHandler handler;
+    private CppUTestTCTestFinishedHandler handler;
     private TestSession session;
     private ManagerAdapter manager;
+
 
     @Before
     public void setUp()
     {
-        handler = new CppUTestTCTestStartedHandler();
+        handler = new CppUTestTCTestFinishedHandler();
         session = mock(TestSession.class);
         manager = mock(ManagerAdapter.class);
     }
 
     @Test
-    public void parseDataTestCase()
+    public void parseDataSuccessfulTestCase()
     {
-        Matcher m = checkedMatch(handler, "##teamcity[testStarted name='testCase']");
+        Matcher m = checkedMatch(handler, "##teamcity[testFinished name='testCase' duration='123']");
         assertEquals("testCase", m.group(1));
+        assertEquals("123", m.group(2));
     }
 
     @Test
-    public void updateUIAddsTestCase()
+    public void updateUISetsTestCaseInformation()
     {
-        checkedMatch(handler, "##teamcity[testStarted name='testCase']");
-        CndTestSuite suite = new CndTestSuite("TestSuite", FRAMEWORK);
-        when(session.getCurrentSuite()).thenReturn(suite);
+        CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
+        checkedMatch(handler, "##teamcity[testFinished name='testCase' duration='123']");
+        createCurrentTestSuite("TestSuite", FRAMEWORK, session);
         handler.updateUI(manager, session);
-        verify(session).addTestCase(argThat(allOf(matchesTestCase("testCase", "TestSuite"),
-                                                    frameworkIs(FRAMEWORK))));
+        assertThat(testCase, allOf(matchesTestCase("testCase", "TestSuite"),
+                                    frameworkIs(FRAMEWORK),
+                                    timeIs(123l),
+                                    sessionIs(session),
+                                    hasNoError()));
+        assertEquals("TestSuite:testCase", testCase.getLocation());
     }
-
 }

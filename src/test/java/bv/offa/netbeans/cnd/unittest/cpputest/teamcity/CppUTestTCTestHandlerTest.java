@@ -20,62 +20,56 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 
-import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCErrorHandler;
-import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
-import bv.offa.netbeans.cnd.unittest.api.FailureInfo;
+import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCTestStartedHandler;
+import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
-import bv.offa.netbeans.cnd.unittest.googletest.GoogleTestErrorHandler;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
-import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestCase;
-import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasError;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.frameworkIs;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.matchesTestCase;
 import java.util.regex.Matcher;
+import static org.hamcrest.CoreMatchers.allOf;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
-public class CppUTestTcErrorHandlerTest
+public class CppUTestTCTestHandlerTest
 {
+
     private static final TestFramework FRAMEWORK = TestFramework.CPPUTEST_TC;
-    private CppUTestTCErrorHandler handler;
+    private CppUTestTCTestStartedHandler handler;
     private TestSession session;
     private ManagerAdapter manager;
 
     @Before
     public void setUp()
     {
-        handler = new CppUTestTCErrorHandler();
+        handler = new CppUTestTCTestStartedHandler();
         session = mock(TestSession.class);
         manager = mock(ManagerAdapter.class);
     }
 
     @Test
-    public void parseDataFailure()
+    public void parseDataTestCase()
     {
-        Matcher m = checkedMatch(handler, "##teamcity[testFailed name='testCase' "
-                                            + "message='test/TestSuite.cpp:25' "
-                                            + "details='Expected failure message']");
+        Matcher m = checkedMatch(handler, "##teamcity[testStarted name='testCase']");
         assertEquals("testCase", m.group(1));
-        assertEquals("test/TestSuite.cpp", m.group(2));
-        assertEquals("25", m.group(3));
-        assertEquals("Expected failure message", m.group(4));
     }
 
     @Test
-    public void updateUISetsFailureInfo()
+    public void updateUIAddsTestCase()
     {
-        CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
-        checkedMatch(handler, "##teamcity[testFailed name='testCase' "
-                                + "message='test/TestSuite.cpp:25' "
-                                + "details='Expected failure message']");
+        checkedMatch(handler, "##teamcity[testStarted name='testCase']");
+        CndTestSuite suite = new CndTestSuite("TestSuite", FRAMEWORK);
+        when(session.getCurrentSuite()).thenReturn(suite);
         handler.updateUI(manager, session);
-        assertThat(testCase, hasError());
-        FailureInfo failure = testCase.getFailureInfo();
-        assertEquals("test/TestSuite.cpp", failure.getFile());
-        assertEquals(25, failure.getLine());
-        assertEquals("test/TestSuite.cpp:25", testCase.getTrouble().getStackTrace()[0]);
+        verify(session).addTestCase(argThat(allOf(matchesTestCase("testCase", "TestSuite"),
+                                                    frameworkIs(FRAMEWORK))));
     }
 
 }

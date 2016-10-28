@@ -30,7 +30,7 @@ import org.junit.Before;
 import static org.mockito.Mockito.mock;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
-public class CppUTestTcSuiteFinishedHandlerTest
+public class CppUTestTCSuiteFinishedHandlerTest
 {
     private CppUTestTCSuiteFinishedHandler handler;
     private TestSession session;

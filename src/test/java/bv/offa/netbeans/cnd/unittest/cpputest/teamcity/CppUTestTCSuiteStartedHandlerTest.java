@@ -49,7 +49,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Lookup;
 
-public class CppUTestTcSuiteStartedHandlerTest
+public class CppUTestTCSuiteStartedHandlerTest
 {
     private static final TestFramework FRAMEWORK = TestFramework.CPPUTEST_TC;
     private static Project project;
