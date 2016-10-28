@@ -18,7 +18,7 @@
  * along with NBCndUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package bv.offa.netbeans.cnd.unittest.cpputest.tc;
+package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 
 import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCTestHandlerFactory;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;

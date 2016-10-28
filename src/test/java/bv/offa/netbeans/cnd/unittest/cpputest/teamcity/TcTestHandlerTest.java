@@ -18,53 +18,58 @@
  * along with NBCndUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package bv.offa.netbeans.cnd.unittest.cpputest.tc;
+package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 
-import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCIgnoreHandler;
-import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
-import bv.offa.netbeans.cnd.unittest.api.FailureInfo;
+import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCTestStartedHandler;
+import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
-import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestCase;
-import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasError;
-import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasStatus;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.frameworkIs;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.matchesTestCase;
 import java.util.regex.Matcher;
+import static org.hamcrest.CoreMatchers.allOf;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import static org.mockito.Mockito.mock;
-import org.netbeans.modules.gsf.testrunner.api.Status;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
-public class TcIgnoreHandlerTest
+public class TcTestHandlerTest
 {
+
     private static final TestFramework FRAMEWORK = TestFramework.CPPUTEST_TC;
-    private CppUTestTCIgnoreHandler handler;
+    private CppUTestTCTestStartedHandler handler;
     private TestSession session;
     private ManagerAdapter manager;
 
     @Before
     public void setUp()
     {
-        handler = new CppUTestTCIgnoreHandler();
+        handler = new CppUTestTCTestStartedHandler();
         session = mock(TestSession.class);
         manager = mock(ManagerAdapter.class);
     }
 
     @Test
-    public void parseDataFailure()
+    public void parseDataTestCase()
     {
-        Matcher m = checkedMatch(handler, "##teamcity[testIgnored name='testCase']");
+        Matcher m = checkedMatch(handler, "##teamcity[testStarted name='testCase']");
         assertEquals("testCase", m.group(1));
     }
 
     @Test
-    public void updateUISetsStatus()
+    public void updateUIAddsTestCase()
     {
-        CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
-        checkedMatch(handler, "##teamcity[testIgnored name='testCase']");
+        checkedMatch(handler, "##teamcity[testStarted name='testCase']");
+        CndTestSuite suite = new CndTestSuite("TestSuite", FRAMEWORK);
+        when(session.getCurrentSuite()).thenReturn(suite);
         handler.updateUI(manager, session);
-        assertThat(testCase, hasStatus(Status.SKIPPED));
+        verify(session).addTestCase(argThat(allOf(matchesTestCase("testCase", "TestSuite"),
+                                                    frameworkIs(FRAMEWORK))));
     }
+
 }
