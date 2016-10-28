@@ -34,12 +34,12 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
  */
 public class CppUTestTCSuiteFinishedHandler extends CndTestHandler
 {
-    private TestSessionInformation info;
+    private final TestSessionInformation info;
 
 
     public CppUTestTCSuiteFinishedHandler(TestSessionInformation info)
     {
-        super(TestFramework.CPPUTEST_TC, "##teamcity\\[testSuiteFinished name='(.+?)'\\]");
+        super(TestFramework.CPPUTEST_TC, "^##teamcity\\[testSuiteFinished name='(.+?)'\\]$");
         this.info = info;
     }
 

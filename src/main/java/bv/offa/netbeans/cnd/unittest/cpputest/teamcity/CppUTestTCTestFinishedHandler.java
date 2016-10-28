@@ -37,12 +37,12 @@ public class CppUTestTCTestFinishedHandler extends CndTestHandler
 {
     private static final int GROUP_CASE = 1;
     private static final int GROUP_TIME = 2;
-    private TestSessionInformation info;
+    private final TestSessionInformation info;
 
     public CppUTestTCTestFinishedHandler(TestSessionInformation info)
     {
-        super(TestFramework.CPPUTEST_TC, "##teamcity\\[testFinished name='(.+?)' "
-                                            + "duration='([0-9]+?)'\\]");
+        super(TestFramework.CPPUTEST_TC, "^##teamcity\\[testFinished name='(.+?)' "
+                                            + "duration='([0-9]+?)'\\]$");
         this.info = info;
     }
 

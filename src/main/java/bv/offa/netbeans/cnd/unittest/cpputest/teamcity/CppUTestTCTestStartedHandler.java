@@ -38,10 +38,10 @@ public class CppUTestTCTestStartedHandler extends CndTestHandler
 
     public CppUTestTCTestStartedHandler()
     {
-        super(TestFramework.CPPUTEST_TC, "##teamcity\\[testStarted name='(.+?)'\\]");
+        super(TestFramework.CPPUTEST_TC, "^##teamcity\\[testStarted name='(.+?)'\\]$");
     }
 
-    
+
     /**
      * Updates the UI.
      *

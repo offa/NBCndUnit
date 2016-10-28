@@ -39,9 +39,9 @@ public class CppUTestTCErrorHandler extends CndTestHandler
 
     public CppUTestTCErrorHandler()
     {
-        super(TestFramework.CPPUTEST_TC, "##teamcity\\[testFailed name='(.+?)' "
+        super(TestFramework.CPPUTEST_TC, "^##teamcity\\[testFailed name='(.+?)' "
                                             + "message='(.+?):([0-9]+?)' "
-                                            + "details='(.+?)'\\]");
+                                            + "details='(.+?)'\\]$");
     }
 
 

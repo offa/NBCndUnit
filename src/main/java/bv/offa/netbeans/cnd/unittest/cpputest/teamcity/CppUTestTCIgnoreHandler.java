@@ -36,10 +36,10 @@ public class CppUTestTCIgnoreHandler extends CndTestHandler
 
     public CppUTestTCIgnoreHandler()
     {
-        super(TestFramework.CPPUTEST_TC, "##teamcity\\[testIgnored name='(.+?)'\\]");
+        super(TestFramework.CPPUTEST_TC, "^##teamcity\\[testIgnored name='(.+?)'\\]$");
     }
 
-    
+
     /**
      * Updates the UI.
      *

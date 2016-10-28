@@ -87,7 +87,7 @@ public class CppUTestTCSuiteStartedHandler extends CndTestHandler
      */
     static void suiteFinished()
     {
-        CppUTestTCSuiteStartedHandler.firstSuite = true; // TODO: Must be called on suite end?
+        CppUTestTCSuiteStartedHandler.firstSuite = true;
     }
 
 }
