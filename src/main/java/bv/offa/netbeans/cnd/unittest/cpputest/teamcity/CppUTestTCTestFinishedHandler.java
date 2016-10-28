@@ -24,6 +24,7 @@ import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import bv.offa.netbeans.cnd.unittest.cpputest.TestSessionInformation;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 /**
@@ -36,11 +37,13 @@ public class CppUTestTCTestFinishedHandler extends CndTestHandler
 {
     private static final int GROUP_CASE = 1;
     private static final int GROUP_TIME = 2;
+    private TestSessionInformation info;
 
-    public CppUTestTCTestFinishedHandler()
+    public CppUTestTCTestFinishedHandler(TestSessionInformation info)
     {
         super(TestFramework.CPPUTEST_TC, "##teamcity\\[testFinished name='(.+?)' "
                                             + "duration='([0-9]+?)'\\]");
+        this.info = info;
     }
 
 
@@ -63,7 +66,7 @@ public class CppUTestTCTestFinishedHandler extends CndTestHandler
         updateTime(testCase);
     }
 
-    
+
     /**
      * Updates the test time.
      *
@@ -74,5 +77,6 @@ public class CppUTestTCTestFinishedHandler extends CndTestHandler
         final String timeValue = getMatchGroup(GROUP_TIME);
         final long time = Long.valueOf(timeValue);
         testCase.setTimeMillis(time);
+        info.addTime(time);
     }
 }

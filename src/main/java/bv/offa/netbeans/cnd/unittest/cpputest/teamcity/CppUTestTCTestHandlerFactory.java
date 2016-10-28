@@ -21,6 +21,7 @@
 package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import bv.offa.netbeans.cnd.unittest.cpputest.TestSessionInformation;
 import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,17 +48,18 @@ public class CppUTestTCTestHandlerFactory implements TestHandlerFactory
         Manager.getInstance().setNodeFactory(new TestRunnerUINodeFactory());
         Manager.getInstance().setTestingFramework(TestFramework.CPPUTEST.getName());
 
+        TestSessionInformation info = new TestSessionInformation();
         List<TestRecognizerHandler> testHandler = new ArrayList<>();
         testHandler.add(new CppUTestTCSuiteStartedHandler());
-        testHandler.add(new CppUTestTCSuiteFinishedHandler());
+        testHandler.add(new CppUTestTCSuiteFinishedHandler(info));
         testHandler.add(new CppUTestTCTestStartedHandler());
-        testHandler.add(new CppUTestTCTestFinishedHandler());
+        testHandler.add(new CppUTestTCTestFinishedHandler(info));
         testHandler.add(new CppUTestTCIgnoreHandler());
         testHandler.add(new CppUTestTCErrorHandler());
 
         return testHandler;
     }
-    
+
     /**
      * Returns whether a summary is printed.
      *

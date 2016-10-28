@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2016  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -23,12 +23,12 @@ package bv.offa.netbeans.cnd.unittest.cpputest;
 /**
  * The class {@code TestSessionInformation} holds data for sharing between
  * handler instances.
- * 
+ *
  * <p><i>This class is not intended for usage outside the test handlers.</i></p>
- * 
+ *
  * @author offa
  */
-class TestSessionInformation
+public class TestSessionInformation
 {
     private long timeTotal;
 
@@ -55,7 +55,7 @@ class TestSessionInformation
      *
      * @param timeTotal New totoal time
      */
-    void setTimeTotal(long timeTotal)
+    public void setTimeTotal(long timeTotal)
     {
         this.timeTotal = timeTotal;
     }

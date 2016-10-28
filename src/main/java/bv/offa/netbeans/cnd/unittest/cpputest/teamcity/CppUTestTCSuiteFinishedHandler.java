@@ -23,6 +23,7 @@ package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import bv.offa.netbeans.cnd.unittest.cpputest.TestSessionInformation;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 /**
@@ -33,12 +34,16 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
  */
 public class CppUTestTCSuiteFinishedHandler extends CndTestHandler
 {
-    public CppUTestTCSuiteFinishedHandler()
+    private TestSessionInformation info;
+
+
+    public CppUTestTCSuiteFinishedHandler(TestSessionInformation info)
     {
         super(TestFramework.CPPUTEST_TC, "##teamcity\\[testSuiteFinished name='(.+?)'\\]");
+        this.info = info;
     }
 
-    
+
     /**
      * Updates the UI.
      *
@@ -48,7 +53,11 @@ public class CppUTestTCSuiteFinishedHandler extends CndTestHandler
     @Override
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        // TODO: Should the Test suite be ended here?
+        manager.displayReport(session, session.getReport(info.getTimeTotal()));
+        manager.sessionFinished(session);
+        info.setTimeTotal(0L);
+
+        CppUTestTCSuiteStartedHandler.suiteFinished();
     }
 
 }

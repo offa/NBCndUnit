@@ -24,6 +24,7 @@ import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCTestFinishedHan
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import bv.offa.netbeans.cnd.unittest.cpputest.TestSessionInformation;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestCase;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestSuite;
@@ -38,11 +39,13 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 public class CppUTestTCTestFinishedHandlerTest
 {
     private static final TestFramework FRAMEWORK = TestFramework.CPPUTEST_TC;
+    private TestSessionInformation info;
     private CppUTestTCTestFinishedHandler handler;
     private TestSession session;
     private ManagerAdapter manager;
@@ -51,7 +54,8 @@ public class CppUTestTCTestFinishedHandlerTest
     @Before
     public void setUp()
     {
-        handler = new CppUTestTCTestFinishedHandler();
+        info = new TestSessionInformation();
+        handler = new CppUTestTCTestFinishedHandler(info);
         session = mock(TestSession.class);
         manager = mock(ManagerAdapter.class);
     }
@@ -77,5 +81,6 @@ public class CppUTestTCTestFinishedHandlerTest
                                     sessionIs(session),
                                     hasNoError()));
         assertEquals("TestSuite:testCase", testCase.getLocation());
+        assertEquals(123l, info.getTimeTotal());
     }
 }

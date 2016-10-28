@@ -20,26 +20,48 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 
-import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCSuiteFinishedHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
+import bv.offa.netbeans.cnd.unittest.cpputest.TestSessionInformation;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
+import static com.sun.javafx.scene.CameraHelper.project;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.netbeans.api.project.Project;
+import org.netbeans.modules.gsf.testrunner.api.Report;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
+import org.openide.filesystems.FileUtil;
+import org.openide.util.Lookup;
 
 public class CppUTestTCSuiteFinishedHandlerTest
 {
+    private static Project project;
+    private static Report report;
+    private TestSessionInformation info;
     private CppUTestTCSuiteFinishedHandler handler;
     private TestSession session;
     private ManagerAdapter manager;
 
+    @BeforeClass
+    public static void setUpClass()
+    {
+        project = mock(Project.class);
+        when(project.getProjectDirectory())
+                .thenReturn(FileUtil.createMemoryFileSystem().getRoot());
+        when(project.getLookup()).thenReturn(Lookup.EMPTY);
+        report = new Report("suite", project);
+    }
+
     @Before
     public void setUp()
     {
-        handler = new CppUTestTCSuiteFinishedHandler();
+        info = new TestSessionInformation();
+        handler = new CppUTestTCSuiteFinishedHandler(info);
         session = mock(TestSession.class);
         manager = mock(ManagerAdapter.class);
     }
@@ -55,6 +77,24 @@ public class CppUTestTCSuiteFinishedHandlerTest
     public void updateUIHasNoInteraction()
     {
         handler.updateUI(manager, session);
+    }
+
+    @Test
+    public void updateUIDisplaysReport()
+    {
+        info.setTimeTotal(16l);
+        when(session.getReport(info.getTimeTotal())).thenReturn(report);
+        handler.updateUI(manager, session);
+        verify(manager).displayReport(session, report);
+    }
+
+    @Test
+    public void udpateUIFinishesSession()
+    {
+        info.setTimeTotal(16l);
+        handler.updateUI(manager, session);
+        verify(manager).sessionFinished(session);
+        assertEquals(0L, info.getTimeTotal());
     }
 
 }
