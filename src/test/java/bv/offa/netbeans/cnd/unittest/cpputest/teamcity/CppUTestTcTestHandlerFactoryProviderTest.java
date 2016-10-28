@@ -26,7 +26,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactoryProvider;
 
-public class TcTestHandlerFactoryProviderTest
+public class CppUTestTcTestHandlerFactoryProviderTest
 {
 
     @Test

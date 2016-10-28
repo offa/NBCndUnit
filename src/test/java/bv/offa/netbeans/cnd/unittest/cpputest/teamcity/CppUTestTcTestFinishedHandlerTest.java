@@ -40,7 +40,7 @@ import org.junit.Before;
 import static org.mockito.Mockito.mock;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
-public class TcTestFinishedHandlerTest
+public class CppUTestTcTestFinishedHandlerTest
 {
     private static final TestFramework FRAMEWORK = TestFramework.CPPUTEST_TC;
     private CppUTestTCTestFinishedHandler handler;

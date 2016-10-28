@@ -20,33 +20,34 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 
-import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCErrorHandler;
+import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCIgnoreHandler;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.FailureInfo;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
-import bv.offa.netbeans.cnd.unittest.googletest.GoogleTestErrorHandler;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestCase;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasError;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasStatus;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import static org.mockito.Mockito.mock;
+import org.netbeans.modules.gsf.testrunner.api.Status;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
-public class TcErrorHandlerTest
+public class CppUTestTcIgnoreHandlerTest
 {
     private static final TestFramework FRAMEWORK = TestFramework.CPPUTEST_TC;
-    private CppUTestTCErrorHandler handler;
+    private CppUTestTCIgnoreHandler handler;
     private TestSession session;
     private ManagerAdapter manager;
 
     @Before
     public void setUp()
     {
-        handler = new CppUTestTCErrorHandler();
+        handler = new CppUTestTCIgnoreHandler();
         session = mock(TestSession.class);
         manager = mock(ManagerAdapter.class);
     }
@@ -54,28 +55,16 @@ public class TcErrorHandlerTest
     @Test
     public void parseDataFailure()
     {
-        Matcher m = checkedMatch(handler, "##teamcity[testFailed name='testCase' "
-                                            + "message='test/TestSuite.cpp:25' "
-                                            + "details='Expected failure message']");
+        Matcher m = checkedMatch(handler, "##teamcity[testIgnored name='testCase']");
         assertEquals("testCase", m.group(1));
-        assertEquals("test/TestSuite.cpp", m.group(2));
-        assertEquals("25", m.group(3));
-        assertEquals("Expected failure message", m.group(4));
     }
 
     @Test
-    public void updateUISetsFailureInfo()
+    public void updateUISetsStatus()
     {
         CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
-        checkedMatch(handler, "##teamcity[testFailed name='testCase' "
-                                + "message='test/TestSuite.cpp:25' "
-                                + "details='Expected failure message']");
+        checkedMatch(handler, "##teamcity[testIgnored name='testCase']");
         handler.updateUI(manager, session);
-        assertThat(testCase, hasError());
-        FailureInfo failure = testCase.getFailureInfo();
-        assertEquals("test/TestSuite.cpp", failure.getFile());
-        assertEquals(25, failure.getLine());
-        assertEquals("test/TestSuite.cpp:25", testCase.getTrouble().getStackTrace()[0]);
+        assertThat(testCase, hasStatus(Status.SKIPPED));
     }
-
 }

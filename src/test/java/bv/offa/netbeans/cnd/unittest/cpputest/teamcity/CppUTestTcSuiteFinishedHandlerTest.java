@@ -20,51 +20,41 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 
-import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCIgnoreHandler;
-import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
-import bv.offa.netbeans.cnd.unittest.api.FailureInfo;
+import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCSuiteFinishedHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
-import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
-import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestCase;
-import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasError;
-import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasStatus;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import static org.mockito.Mockito.mock;
-import org.netbeans.modules.gsf.testrunner.api.Status;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
-public class TcIgnoreHandlerTest
+public class CppUTestTcSuiteFinishedHandlerTest
 {
-    private static final TestFramework FRAMEWORK = TestFramework.CPPUTEST_TC;
-    private CppUTestTCIgnoreHandler handler;
+    private CppUTestTCSuiteFinishedHandler handler;
     private TestSession session;
     private ManagerAdapter manager;
 
     @Before
     public void setUp()
     {
-        handler = new CppUTestTCIgnoreHandler();
+        handler = new CppUTestTCSuiteFinishedHandler();
         session = mock(TestSession.class);
         manager = mock(ManagerAdapter.class);
     }
 
     @Test
-    public void parseDataFailure()
+    public void parseDataTestSuite()
     {
-        Matcher m = checkedMatch(handler, "##teamcity[testIgnored name='testCase']");
-        assertEquals("testCase", m.group(1));
+        Matcher m = checkedMatch(handler, "##teamcity[testSuiteFinished name='TestSuite']");
+        assertEquals("TestSuite", m.group(1));
     }
 
     @Test
-    public void updateUISetsStatus()
+    public void updateUIHasNoInteraction()
     {
-        CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
-        checkedMatch(handler, "##teamcity[testIgnored name='testCase']");
         handler.updateUI(manager, session);
-        assertThat(testCase, hasStatus(Status.SKIPPED));
     }
+
 }

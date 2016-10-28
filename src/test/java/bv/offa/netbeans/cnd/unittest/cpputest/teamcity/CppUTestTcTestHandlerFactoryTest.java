@@ -31,7 +31,7 @@ import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactory;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 
-public class TcTestHandlerFactoryTest
+public class CppUTestTcTestHandlerFactoryTest
 {
     private TestHandlerFactory factory;
 
