@@ -1,10 +1,11 @@
 language: java
 
 dist: trusty
+sudo: required  # Woraround for #25
 
 jdk:
-#   - openjdk7
-#   - oraclejdk7
+    - openjdk7
+    - oraclejdk7
     - oraclejdk8
 
 cache:
