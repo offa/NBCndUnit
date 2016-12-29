@@ -31,7 +31,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
  * 
  * @author offa
  */
-class GoogleTestSessionFinishedHandler extends CndTestHandler
+public class GoogleTestSessionFinishedHandler extends CndTestHandler
 {
     private static final int GROUP_TIME = 1;
     

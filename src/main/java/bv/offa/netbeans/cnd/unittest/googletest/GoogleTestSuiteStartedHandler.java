@@ -32,7 +32,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
  * 
  * @author offa
  */
-class GoogleTestSuiteStartedHandler extends CndTestHandler
+public class GoogleTestSuiteStartedHandler extends CndTestHandler
 {
     private static final int GROUP_SUITE = 1;
     private static boolean firstSuite;

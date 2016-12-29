@@ -31,7 +31,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
  * 
  * @author offa
  */
-class GoogleTestSuiteFinishedHandler extends CndTestHandler
+public class GoogleTestSuiteFinishedHandler extends CndTestHandler
 {
     public GoogleTestSuiteFinishedHandler()
     {

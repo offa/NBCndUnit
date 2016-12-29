@@ -32,7 +32,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
  * 
  * @author offa
  */
-class CppUTestErrorHandler extends CndTestHandler
+public class CppUTestErrorHandler extends CndTestHandler
 {
     private static final int GROUP_FILE = 1;
     private static final int GROUP_LINE = 2;

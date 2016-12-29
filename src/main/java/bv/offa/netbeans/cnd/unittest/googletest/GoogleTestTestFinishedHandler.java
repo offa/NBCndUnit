@@ -33,7 +33,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
  * 
  * @author offa
  */
-class GoogleTestTestFinishedHandler extends CndTestHandler
+public class GoogleTestTestFinishedHandler extends CndTestHandler
 {
     private static final int GROUP_RESULT = 1;
     private static final int GROUP_SUITE = 2;

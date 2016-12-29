@@ -31,7 +31,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
  *
  * @author offa
  */
-class CppUTestSuiteFinishedHandler extends CndTestHandler
+public class CppUTestSuiteFinishedHandler extends CndTestHandler
 {
     private final TestSessionInformation info;
 
