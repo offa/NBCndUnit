@@ -32,7 +32,7 @@ import org.netbeans.modules.gsf.testrunner.api.Testcase;
  * 
  * @author offa
  */
-class CppUTestTimeHandler extends CndTestHandler
+public class CppUTestTimeHandler extends CndTestHandler
 {
     private static final int GROUP_TIME = 1;
     private final TestSessionInformation info;

@@ -60,6 +60,12 @@ public class LibunittestCppTestHandlerFactoryTest
         assertTrue(Manager.getInstance().getNodeFactory() instanceof TestRunnerUINodeFactory);
     }
 
+    @Test
+    public void factorySetsFrameWork()
+    {
+        factory.createHandlers();
+        assertEquals(TestFramework.LIBUNITTESTCPP.getName(), Manager.getInstance().getTestingFramework() );
+    }
 
     @Test
     public void allHandlersForFramework()

@@ -61,6 +61,13 @@ public class GoogleTestTestHandlerFactoryTest
     }
 
     @Test
+    public void factorySetsFrameWork()
+    {
+        factory.createHandlers();
+        assertEquals(TestFramework.GOOGLETEST.getName(), Manager.getInstance().getTestingFramework() );
+    }
+    
+    @Test
     public void allHandlersForFramework()
     {
         for( TestRecognizerHandler h : factory.createHandlers() )

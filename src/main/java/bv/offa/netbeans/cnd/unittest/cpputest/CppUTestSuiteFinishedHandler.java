@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2016  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -26,11 +26,12 @@ import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 /**
- * The class {@code CppUTestSuiteFinishedHandler} handles the test end.
- * 
+ * The class {@code CppUTestSuiteFinishedHandler} handles the finish of a
+ * test suite.
+ *
  * @author offa
  */
-class CppUTestSuiteFinishedHandler extends CndTestHandler
+public class CppUTestSuiteFinishedHandler extends CndTestHandler
 {
     private final TestSessionInformation info;
 
@@ -43,10 +44,10 @@ class CppUTestSuiteFinishedHandler extends CndTestHandler
     }
 
 
-    
+
     /**
      * Updates the UI.
-     * 
+     *
      * @param manager       Manager Adapter
      * @param session       Test session
      */
@@ -56,7 +57,7 @@ class CppUTestSuiteFinishedHandler extends CndTestHandler
         manager.displayReport(session, session.getReport(info.getTimeTotal()));
         manager.sessionFinished(session);
         info.setTimeTotal(0L);
-        
+
         CppUTestTestHandler.suiteFinished();
     }
 

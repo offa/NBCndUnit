@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2016  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -37,25 +37,25 @@ import org.openide.util.RequestProcessor;
 
 /**
  * The class {@code TestSupportUtils} provides methods to work with tests.
- * 
+ *
  * @author offa
  */
 public final class TestSupportUtils
 {
     private static final RequestProcessor POOL = new RequestProcessor("NBCndUnit Utility Processor", 1);
     private static final Logger LOGGER = Logger.getLogger(TestSupportUtils.class.getName());
-    
+
     private TestSupportUtils()
     {
         /* Empty */
     }
-    
-    
-    
+
+
+
     /**
      * Parses the input string - containing a seconds time - to milliseconds.
      * The value is rounded.
-     * 
+     *
      * @param str   Input string (sec)
      * @return      Time in ms or {@code 0L} if an invalid or negative time is
      *               passed
@@ -63,11 +63,11 @@ public final class TestSupportUtils
     public static long parseTimeSecToMillis(String str)
     {
         long result = 0L;
-        
+
         try
         {
             final double value = Double.parseDouble(str) * 1000.0;
-            
+
             if( Math.signum(value) > 0 )
             {
                 result = Math.round(value);
@@ -77,17 +77,17 @@ public final class TestSupportUtils
         {
             result = 0L;
         }
-        
+
         return result;
     }
 
-    
+
     /**
-     * Executes a Go-To-Source to the given TestSuite. If the jump target isn't 
+     * Executes a Go-To-Source to the given TestSuite. If the jump target isn't
      * available, this method does nothing.
-     * 
+     *
      * <p>The execution is done in a task; the method doesn't block.</p>
-     * 
+     *
      * @param project       Project
      * @param testSuite     TestSuite
      */
@@ -96,14 +96,14 @@ public final class TestSupportUtils
         final String uniqueDecl = getUniqueDeclaratonName(testSuite);
         goToDeclaration(project, uniqueDecl);
     }
-    
-    
+
+
     /**
-     * Executes a Go-To-Source to the given TestCase. If the jump target isn't 
+     * Executes a Go-To-Source to the given TestCase. If the jump target isn't
      * available, this method does nothing.
-     * 
+     *
      * <p>The execution is done in a task; the method doesn't block.</p>
-     * 
+     *
      * @param project   Project
      * @param testCase  TestCase
      */
@@ -113,13 +113,13 @@ public final class TestSupportUtils
         goToDeclaration(project, uniqueDecl);
     }
 
-    
+
     /**
      * Executes a Go-To-Source to the given failure. If the jump
      * target isn't available, this method does nothing.
-     * 
+     *
      * <p>The execution is done in a task; the method doesn't block.</p>
-     * 
+     *
      * @param project       Project
      * @param failure       Failure
      */
@@ -149,14 +149,14 @@ public final class TestSupportUtils
 
         });
     }
-    
-    
+
+
     /**
      * Executes a Go-To-Source to the given (unique) declaration. If the jump
      * target isn't available, this method does nothing.
-     * 
+     *
      * <p>The execution is done in a task; the method doesn't block.</p>
-     * 
+     *
      * @param project               Project
      * @param uniqueDeclaration     Unique declaration
      */
@@ -169,7 +169,7 @@ public final class TestSupportUtils
             {
                 CsmProject csmProject = CsmModelAccessor.getModel().getProject(project);
                 CsmDeclaration decl = csmProject.findDeclaration(uniqueDeclaration);
-                
+
                 if( decl != null )
                 {
                     return CsmUtilities.openSource(decl);
@@ -178,16 +178,16 @@ public final class TestSupportUtils
                 {
                     LOGGER.log(Level.INFO, "No declaration found for {0}", uniqueDeclaration);
                 }
-                
+
                 return Boolean.FALSE;
             }
         });
     }
-    
-    
+
+
     /**
      * Returns the unique declaration name for the TestCase.
-     * 
+     *
      * @param testCase  TestCase
      * @return          Unique declaration name
      * @exception       IllegalArgumentException - if it's a TestCase of a
@@ -198,25 +198,26 @@ public final class TestSupportUtils
         switch(testCase.getFramework())
         {
             case CPPUTEST:
+            case CPPUTEST_TC:
                 final String enabled = ( testCase.getStatus() == Status.SKIPPED ? "IGNORE" : "TEST_" );
-                return "C:" +  enabled + testCase.getClassName() 
+                return "C:" +  enabled + testCase.getClassName()
                         + "_" + testCase.getName() + "_Test";
             case GOOGLETEST:
-                return "C:" + removeGTestParameter(testCase.getClassName()) 
+                return "C:" + removeGTestParameter(testCase.getClassName())
                         + "_" + testCase.getName() + "_Test";
             case LIBUNITTESTCPP:
-                return "S:" + testCase.getClassName() + "::" 
+                return "S:" + testCase.getClassName() + "::"
                         + removeLibUnittestScope(testCase.getName());
             default:
-                throw new IllegalArgumentException("Unsupported framework: " 
+                throw new IllegalArgumentException("Unsupported framework: "
                         + testCase.getFramework().getName());
         }
     }
-    
-    
+
+
     /**
      * Returns the unique declaration name for the TestSuite.
-     * 
+     *
      * @param testSuite TestSuite
      * @return          Unique declaration name
      * @exception       IllegalArgumentException - if it's a TestCase of a
@@ -227,21 +228,22 @@ public final class TestSupportUtils
         switch(testSuite.getFramework())
         {
             case CPPUTEST:
+            case CPPUTEST_TC:
                 return "S:TEST_GROUP_CppUTestGroup" + testSuite.getName();
             case GOOGLETEST:
                 return "C:" + removeGTestParameter(testSuite.getName());
             case LIBUNITTESTCPP:
                 return "S:" + testSuite.getName() + "::__testcollection_child__";
             default:
-                throw new IllegalArgumentException("Unsupported framework: " 
+                throw new IllegalArgumentException("Unsupported framework: "
                         + testSuite.getFramework().getName());
         }
     }
-    
-    
+
+
     /**
      * Removes parameter strings from gtest suite name.
-     * 
+     *
      * @param suiteName     Suite name
      * @return              Cleared suite name
      */
@@ -251,14 +253,14 @@ public final class TestSupportUtils
         {
             return suiteName.replaceFirst(".*?/", "");
         }
-        
+
         return suiteName;
     }
-    
-    
+
+
     /**
      * Removes scope strings from libunittestcpp test case name.
-     * 
+     *
      * @param testCase      Test case name
      * @return              Cleared test case name
      */
@@ -270,7 +272,7 @@ public final class TestSupportUtils
         {
             return testCase.substring(0, sepPos);
         }
-        
+
         return testCase;
     }
 }

@@ -34,7 +34,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
  * 
  * @author offa
  */
-class LibunittestCppTestFinishedHandler extends CndTestHandler
+public class LibunittestCppTestFinishedHandler extends CndTestHandler
 {
     private static final int GROUP_SUITE = 1;
     private static final int GROUP_CASE = 2;

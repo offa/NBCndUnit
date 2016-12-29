@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2016  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -18,37 +18,39 @@
  * along with NBCndUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package bv.offa.netbeans.cnd.unittest.googletest;
+package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 /**
- * The class {@code GoogleTestSuiteFinishedHandler} handles the finish of a
- * test suite.
- * 
+ * The class {@code CppUTestTCIgnoreHandler} handles ignored tests.
+ *
  * @author offa
  */
-public class GoogleTestSuiteFinishedHandler extends CndTestHandler
+public class CppUTestTCIgnoreHandler extends CndTestHandler
 {
-    public GoogleTestSuiteFinishedHandler()
+
+    public CppUTestTCIgnoreHandler()
     {
-        super(TestFramework.GOOGLETEST, "^.*?\\[[-]{10}\\].*? [0-9]+? tests?? from "
-                                        + "([^ ]+?) \\(([0-9]+?) ms total\\)$");
+        super(TestFramework.CPPUTEST_TC, "^##teamcity\\[testIgnored name='(.+?)'\\]$");
     }
 
-    
+
     /**
      * Updates the UI.
-     * 
+     *
      * @param manager       Manager Adapter
      * @param session       Test session
      */
     @Override
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        // Disabled since this causes an assert failure if a trouble is set.
+        final CndTestCase testCase = currentTestCase(session);
+        testCase.setSkipped();
     }
+
 }

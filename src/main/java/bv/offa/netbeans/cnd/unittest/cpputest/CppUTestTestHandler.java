@@ -32,7 +32,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
  *
  * @author offa
  */
-class CppUTestTestHandler extends CndTestHandler
+public class CppUTestTestHandler extends CndTestHandler
 {
     private static final int GROUP_IGNORED = 1;
     private static final int GROUP_SUITE = 2;

@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2016  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -18,92 +18,65 @@
  * along with NBCndUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package bv.offa.netbeans.cnd.unittest.googletest;
+package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import bv.offa.netbeans.cnd.unittest.cpputest.TestSessionInformation;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
-
 /**
- * The class {@code GoogleTestTestFinishedHandler} handles the finish of a
+ * The class {@code CppUTestTCTestFinishedHandler} handles the finish of a
  * test case.
- * 
+ *
  * @author offa
  */
-public class GoogleTestTestFinishedHandler extends CndTestHandler
+public class CppUTestTCTestFinishedHandler extends CndTestHandler
 {
-    private static final int GROUP_RESULT = 1;
-    private static final int GROUP_SUITE = 2;
-    private static final int GROUP_CASE = 3;
-    private static final int GROUP_TIME = 4;
-    private static final String MSG_FAILED = "FAILED ";
+    private static final int GROUP_CASE = 1;
+    private static final int GROUP_TIME = 2;
+    private final TestSessionInformation info;
 
-
-    public GoogleTestTestFinishedHandler()
+    public CppUTestTCTestFinishedHandler(TestSessionInformation info)
     {
-        super(TestFramework.GOOGLETEST, "^.*?\\[  (     OK|FAILED ) \\].*? (.+?)\\.(.+?)(?:/.+)??"
-                                        + " \\(([0-9]+?) ms\\)$");
+        super(TestFramework.CPPUTEST_TC, "^##teamcity\\[testFinished name='(.+?)' "
+                                            + "duration='([0-9]+?)'\\]$");
+        this.info = info;
     }
 
-    
-    
+
     /**
      * Updates the UI.
-     * 
+     *
      * @param manager       Manager Adapter
      * @param session       Test session
      */
     @Override
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
+        // TODO: Check matching suite / case in all these handlers
         final CndTestCase testCase = currentTestCase(session);
         final String caseName = getMatchGroup(GROUP_CASE);
-        final String suiteName = getMatchGroup(GROUP_SUITE);
-        
-        if( isSameTestCase(testCase, caseName, suiteName) == true )
-        {
-            final String location = suiteName + ":" + caseName;
-            testCase.setLocation(location);
-            updateTime(testCase);
-            updateResult(testCase);
-        }
-        else
-        {
-            throw new IllegalStateException("No test found for: " 
-                                            + suiteName + ":" + caseName);
-        }
+        final String suiteName = currentSuite(session).getName();
+
+        final String location = suiteName + ":" + caseName;
+        testCase.setLocation(location);
+        updateTime(testCase);
     }
 
-    
+
     /**
      * Updates the test time.
-     * 
+     *
      * @param testCase  Test Case
      */
     private void updateTime(CndTestCase testCase)
     {
         final String timeValue = getMatchGroup(GROUP_TIME);
-        long time = Long.valueOf(timeValue);
+        final long time = Long.valueOf(timeValue);
         testCase.setTimeMillis(time);
+        info.addTime(time);
     }
-
-    
-    /**
-     * Updates the test result.
-     * 
-     * @param testCase      Test Case
-     */
-    private void updateResult(CndTestCase testCase)
-    {
-        final String result = getMatchGroup(GROUP_RESULT);
-        
-        if( result.equals(MSG_FAILED) == true )
-        {
-            testCase.setError();
-        }
-    }
-    
 }

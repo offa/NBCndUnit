@@ -18,19 +18,20 @@
  * along with NBCndUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package bv.offa.netbeans.cnd.unittest.cpputest;
+package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 
+import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCTestHandlerFactory;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
+import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
-import org.junit.Test;
 import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactory;
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 
-public class CppUTestTestHandlerFactoryTest
+public class CppUTestTCTestHandlerFactoryTest
 {
     private TestHandlerFactory factory;
 
@@ -38,7 +39,7 @@ public class CppUTestTestHandlerFactoryTest
     @Before
     public void setUp()
     {
-        factory = new CppUTestTestHandlerFactory();
+        factory = new CppUTestTCTestHandlerFactory();
     }
 
     @Test
@@ -50,7 +51,7 @@ public class CppUTestTestHandlerFactoryTest
     @Test
     public void createHandlersContainsHandlers()
     {
-        assertEquals(4, factory.createHandlers().size());
+        assertEquals(6, factory.createHandlers().size());
     }
 
     @Test
@@ -64,15 +65,15 @@ public class CppUTestTestHandlerFactoryTest
     public void factorySetsFrameWork()
     {
         factory.createHandlers();
-        assertEquals(TestFramework.CPPUTEST.getName(), Manager.getInstance().getTestingFramework() );
+        assertEquals(TestFramework.CPPUTEST_TC.getName(), Manager.getInstance().getTestingFramework() );
     }
-
+    
     @Test
     public void allHandlersForFramework()
     {
         for( TestRecognizerHandler h : factory.createHandlers() )
         {
-            assertEquals(TestFramework.CPPUTEST, ((CndTestHandler) h).getTestFramework());
+            assertEquals(TestFramework.CPPUTEST_TC, ((CndTestHandler) h).getTestFramework());
         }
     }
 

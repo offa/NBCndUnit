@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2016  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -18,37 +18,42 @@
  * along with NBCndUnit.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package bv.offa.netbeans.cnd.unittest.googletest;
+package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 
+import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 /**
- * The class {@code GoogleTestSuiteFinishedHandler} handles the finish of a
- * test suite.
- * 
+ * The class {@code CppUTestTCTestStartedHandler} handles the start of a test
+ * case.
+ *
  * @author offa
  */
-public class GoogleTestSuiteFinishedHandler extends CndTestHandler
+public class CppUTestTCTestStartedHandler extends CndTestHandler
 {
-    public GoogleTestSuiteFinishedHandler()
+    private static final int GROUP_CASE = 1;
+
+    public CppUTestTCTestStartedHandler()
     {
-        super(TestFramework.GOOGLETEST, "^.*?\\[[-]{10}\\].*? [0-9]+? tests?? from "
-                                        + "([^ ]+?) \\(([0-9]+?) ms total\\)$");
+        super(TestFramework.CPPUTEST_TC, "^##teamcity\\[testStarted name='(.+?)'\\]$");
     }
 
-    
+
     /**
      * Updates the UI.
-     * 
+     *
      * @param manager       Manager Adapter
      * @param session       Test session
      */
     @Override
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        // Disabled since this causes an assert failure if a trouble is set.
+        final String caseName = getMatchGroup(GROUP_CASE);
+        final String suiteName = currentSuite(session).getName();
+        startNewTestCase(caseName, suiteName, session);
     }
+
 }
