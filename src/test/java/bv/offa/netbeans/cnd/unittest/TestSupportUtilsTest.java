@@ -26,7 +26,6 @@ import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import static org.mockito.Mockito.when;

@@ -22,7 +22,6 @@ package bv.offa.netbeans.cnd.unittest.api;
 
 import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
-import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 
 /**

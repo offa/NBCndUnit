@@ -20,7 +20,6 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 
-import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;

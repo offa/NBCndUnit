@@ -39,7 +39,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
 public class CppUTestTCTestFinishedHandlerTest

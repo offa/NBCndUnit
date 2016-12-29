@@ -23,7 +23,6 @@ package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.cpputest.TestSessionInformation;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
-import static com.sun.javafx.scene.CameraHelper.project;
 import java.util.regex.Matcher;
 import org.junit.Test;
 import static org.junit.Assert.*;

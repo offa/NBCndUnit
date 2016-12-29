@@ -25,7 +25,6 @@ import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.FailureInfo;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
-import bv.offa.netbeans.cnd.unittest.googletest.GoogleTestErrorHandler;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestCase;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasError;

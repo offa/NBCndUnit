@@ -22,12 +22,10 @@ package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 
 import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCIgnoreHandler;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
-import bv.offa.netbeans.cnd.unittest.api.FailureInfo;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestCase;
-import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasError;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasStatus;
 import java.util.regex.Matcher;
 import org.junit.Test;
