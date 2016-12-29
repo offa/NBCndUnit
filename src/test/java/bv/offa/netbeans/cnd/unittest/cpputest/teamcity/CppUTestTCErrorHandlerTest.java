@@ -20,7 +20,6 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 
-import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCErrorHandler;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.FailureInfo;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
@@ -29,9 +28,9 @@ import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestCase;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasError;
 import java.util.regex.Matcher;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 

@@ -24,10 +24,10 @@ import java.util.Arrays;
 import java.util.List;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import static org.mockito.Mockito.*;
 
 public class NewTestSuiteVisualPanel1Test

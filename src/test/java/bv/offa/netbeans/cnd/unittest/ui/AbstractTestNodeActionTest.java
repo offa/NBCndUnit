@@ -22,8 +22,8 @@ package bv.offa.netbeans.cnd.unittest.ui;
 
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
 import org.netbeans.api.project.Project;
 
 public class AbstractTestNodeActionTest

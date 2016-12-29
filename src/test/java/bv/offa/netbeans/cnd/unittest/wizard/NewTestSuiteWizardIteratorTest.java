@@ -23,13 +23,13 @@ package bv.offa.netbeans.cnd.unittest.wizard;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.openide.WizardDescriptor;
-import static org.mockito.Mockito.*;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.mockito.Mockito.*;
+import org.openide.WizardDescriptor;
 
 public class NewTestSuiteWizardIteratorTest
 {

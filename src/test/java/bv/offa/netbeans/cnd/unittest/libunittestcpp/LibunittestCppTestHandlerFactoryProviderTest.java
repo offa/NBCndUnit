@@ -20,8 +20,8 @@
 
 package bv.offa.netbeans.cnd.unittest.libunittestcpp;
 
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
 import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactoryProvider;
 
 public class LibunittestCppTestHandlerFactoryProviderTest

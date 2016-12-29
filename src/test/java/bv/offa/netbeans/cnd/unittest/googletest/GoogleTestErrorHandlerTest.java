@@ -20,8 +20,8 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
-import bv.offa.netbeans.cnd.unittest.api.FailureInfo;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
+import bv.offa.netbeans.cnd.unittest.api.FailureInfo;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
@@ -29,9 +29,9 @@ import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestC
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasError;
 import java.util.regex.Matcher;
 import org.junit.After;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 

@@ -20,10 +20,8 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest.teamcity;
 
-import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCTestHandlerFactory;
-import bv.offa.netbeans.cnd.unittest.cpputest.teamcity.CppUTestTCTestHandlerFactoryProvider;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
 import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactoryProvider;
 
 public class CppUTestTCTestHandlerFactoryProviderTest

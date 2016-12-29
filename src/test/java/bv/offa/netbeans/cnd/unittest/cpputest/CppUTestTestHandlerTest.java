@@ -34,25 +34,25 @@ import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.suiteFramewor
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.timeIs;
 import java.util.regex.Matcher;
 import static org.hamcrest.CoreMatchers.allOf;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.mockito.InOrder;
+import org.junit.Test;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import org.netbeans.api.project.Project;
-import org.netbeans.modules.gsf.testrunner.api.Report;
-import org.netbeans.modules.gsf.testrunner.api.TestSession;
-import org.openide.filesystems.FileUtil;
-import org.openide.util.Lookup;
 import static org.mockito.ArgumentMatchers.eq;
+import org.mockito.InOrder;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.hamcrest.MockitoHamcrest.argThat;
+import org.netbeans.api.project.Project;
+import org.netbeans.modules.gsf.testrunner.api.Report;
 import org.netbeans.modules.gsf.testrunner.api.Status;
+import org.netbeans.modules.gsf.testrunner.api.TestSession;
+import org.openide.filesystems.FileUtil;
+import org.openide.util.Lookup;
 
 public class CppUTestTestHandlerTest
 {

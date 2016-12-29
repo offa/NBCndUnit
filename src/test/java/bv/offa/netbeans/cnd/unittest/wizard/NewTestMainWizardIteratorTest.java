@@ -21,12 +21,12 @@
 package bv.offa.netbeans.cnd.unittest.wizard;
 
 import java.util.Map;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 import org.openide.WizardDescriptor;
-import static org.junit.Assert.assertEquals;
 
 public class NewTestMainWizardIteratorTest
 {

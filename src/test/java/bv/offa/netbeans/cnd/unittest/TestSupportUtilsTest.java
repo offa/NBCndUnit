@@ -23,18 +23,18 @@ package bv.offa.netbeans.cnd.unittest;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.netbeans.api.project.Project;
 import org.netbeans.modules.gsf.testrunner.api.Status;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Lookup;
-import static org.mockito.Mockito.mock;
 
 public class TestSupportUtilsTest
 {

@@ -20,8 +20,8 @@
 package bv.offa.netbeans.cnd.unittest;
 
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class InstallerTest
 {
