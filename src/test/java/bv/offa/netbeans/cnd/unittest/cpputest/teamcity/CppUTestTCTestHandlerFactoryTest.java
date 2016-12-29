@@ -62,6 +62,13 @@ public class CppUTestTCTestHandlerFactoryTest
     }
 
     @Test
+    public void factorySetsFrameWork()
+    {
+        factory.createHandlers();
+        assertEquals(TestFramework.CPPUTEST_TC.getName(), Manager.getInstance().getTestingFramework() );
+    }
+    
+    @Test
     public void allHandlersForFramework()
     {
         for( TestRecognizerHandler h : factory.createHandlers() )

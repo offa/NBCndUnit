@@ -46,7 +46,7 @@ public class CppUTestTCTestHandlerFactory implements TestHandlerFactory
     public List<TestRecognizerHandler> createHandlers()
     {
         Manager.getInstance().setNodeFactory(new TestRunnerUINodeFactory());
-        Manager.getInstance().setTestingFramework(TestFramework.CPPUTEST.getName());
+        Manager.getInstance().setTestingFramework(TestFramework.CPPUTEST_TC.getName());
 
         TestSessionInformation info = new TestSessionInformation();
         List<TestRecognizerHandler> testHandler = new ArrayList<>();
