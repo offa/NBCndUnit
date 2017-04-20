@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -29,14 +29,14 @@ import org.netbeans.modules.gsf.testrunner.api.Testcase;
 /**
  * The class {@code CppUTestTimeHandler} handles test time if it's separated
  * from the main test output.
- * 
+ *
  * @author offa
  */
 public class CppUTestTimeHandler extends CndTestHandler
 {
     private static final int GROUP_TIME = 1;
     private final TestSessionInformation info;
-    
+
     public CppUTestTimeHandler(TestSessionInformation info)
     {
         super(TestFramework.CPPUTEST, "^ \\- ([0-9]+?) ms$");
@@ -44,10 +44,10 @@ public class CppUTestTimeHandler extends CndTestHandler
     }
 
 
-    
+
     /**
      * Updates the UI.
-     * 
+     *
      * @param manager       Manager Adapter
      * @param session       Test session
      */
@@ -55,14 +55,14 @@ public class CppUTestTimeHandler extends CndTestHandler
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
         Testcase testCase = session.getCurrentTestCase();
-        
+
         if( testCase != null )
         {
             final String time = getMatchGroup(GROUP_TIME);
-            long testTime = Long.valueOf(time);
+            long testTime = Long.parseLong(time);
             testCase.setTimeMillis(testTime);
             info.addTime(testTime);
         }
     }
-    
+
 }

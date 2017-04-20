@@ -75,7 +75,7 @@ public class CppUTestTCTestFinishedHandler extends CndTestHandler
     private void updateTime(CndTestCase testCase)
     {
         final String timeValue = getMatchGroup(GROUP_TIME);
-        final long time = Long.valueOf(timeValue);
+        final long time = Long.parseLong(timeValue);
         testCase.setTimeMillis(time);
         info.addTime(time);
     }

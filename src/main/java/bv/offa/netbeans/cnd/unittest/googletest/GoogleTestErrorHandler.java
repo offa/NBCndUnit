@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -29,24 +29,24 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
 /**
  * The class {@code GoogleTestTestFinishedHandler} handles the finish of a
  * test case.
- * 
+ *
  * @author offa
  */
 public class GoogleTestErrorHandler extends CndTestHandler
 {
     private static final int GROUP_FILE = 1;
     private static final int GROUP_LINE = 2;
-    
+
     public GoogleTestErrorHandler()
     {
         super(TestFramework.GOOGLETEST, "^(.+?):([0-9]+?): Failure$");
     }
-    
+
     @Override
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
         final CndTestCase testCase = currentTestCase(session);
-        testCase.setError(getMatchGroup(GROUP_FILE), Integer.valueOf(getMatchGroup(GROUP_LINE)));
+        testCase.setError(getMatchGroup(GROUP_FILE), Integer.parseInt(getMatchGroup(GROUP_LINE)));
     }
-    
+
 }

@@ -55,7 +55,7 @@ public class CppUTestTCErrorHandler extends CndTestHandler
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
         final CndTestCase testCase = currentTestCase(session);
-        testCase.setError(getMatchGroup(GROUP_FILE), Integer.valueOf(getMatchGroup(GROUP_LINE)));
+        testCase.setError(getMatchGroup(GROUP_FILE), Integer.parseInt(getMatchGroup(GROUP_LINE)));
     }
 
 }

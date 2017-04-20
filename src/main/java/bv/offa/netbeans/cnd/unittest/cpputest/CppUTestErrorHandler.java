@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
 /**
  * The class {@code CppUTestErrorHandler} handles test errors and their
  * information.
- * 
+ *
  * @author offa
  */
 public class CppUTestErrorHandler extends CndTestHandler
@@ -38,7 +38,7 @@ public class CppUTestErrorHandler extends CndTestHandler
     private static final int GROUP_LINE = 2;
     private static final int GROUP_SUITE = 3;
     private static final int GROUP_CASE = 4;
-    
+
     public CppUTestErrorHandler(TestSessionInformation info)
     {
         super(TestFramework.CPPUTEST, "^(.+?)\\:([0-9]+?)\\: error\\: Failure in "
@@ -46,10 +46,10 @@ public class CppUTestErrorHandler extends CndTestHandler
     }
 
 
-    
+
     /**
      * Updates the UI.
-     * 
+     *
      * @param manager       Manager Adapter
      * @param session       Test session
      */
@@ -59,12 +59,12 @@ public class CppUTestErrorHandler extends CndTestHandler
         CndTestCase testCase = currentTestCase(session);
         final String suiteName = getMatchGroup(GROUP_SUITE);
         final String caseName = getMatchGroup(GROUP_CASE);
-        
+
         if( isSameTestCase(testCase, caseName, suiteName) == true )
         {
             final String file = getMatchGroup(GROUP_FILE);
             final String lineNumber = getMatchGroup(GROUP_LINE);
-            testCase.setError(file, Integer.valueOf(lineNumber));
+            testCase.setError(file, Integer.parseInt(lineNumber));
         }
     }
 

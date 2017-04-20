@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
 /**
  * The class {@code GoogleTestTestFinishedHandler} handles the finish of a
  * test case.
- * 
+ *
  * @author offa
  */
 public class GoogleTestTestFinishedHandler extends CndTestHandler
@@ -48,11 +48,11 @@ public class GoogleTestTestFinishedHandler extends CndTestHandler
                                         + " \\(([0-9]+?) ms\\)$");
     }
 
-    
-    
+
+
     /**
      * Updates the UI.
-     * 
+     *
      * @param manager       Manager Adapter
      * @param session       Test session
      */
@@ -62,7 +62,7 @@ public class GoogleTestTestFinishedHandler extends CndTestHandler
         final CndTestCase testCase = currentTestCase(session);
         final String caseName = getMatchGroup(GROUP_CASE);
         final String suiteName = getMatchGroup(GROUP_SUITE);
-        
+
         if( isSameTestCase(testCase, caseName, suiteName) == true )
         {
             final String location = suiteName + ":" + caseName;
@@ -72,38 +72,38 @@ public class GoogleTestTestFinishedHandler extends CndTestHandler
         }
         else
         {
-            throw new IllegalStateException("No test found for: " 
+            throw new IllegalStateException("No test found for: "
                                             + suiteName + ":" + caseName);
         }
     }
 
-    
+
     /**
      * Updates the test time.
-     * 
+     *
      * @param testCase  Test Case
      */
     private void updateTime(CndTestCase testCase)
     {
         final String timeValue = getMatchGroup(GROUP_TIME);
-        long time = Long.valueOf(timeValue);
+        long time = Long.parseLong(timeValue);
         testCase.setTimeMillis(time);
     }
 
-    
+
     /**
      * Updates the test result.
-     * 
+     *
      * @param testCase      Test Case
      */
     private void updateResult(CndTestCase testCase)
     {
         final String result = getMatchGroup(GROUP_RESULT);
-        
+
         if( result.equals(MSG_FAILED) == true )
         {
             testCase.setError();
         }
     }
-    
+
 }

@@ -113,7 +113,7 @@ public class CppUTestTestHandler extends CndTestHandler
         if( getMatchGroup(GROUP_TIME) != null )
         {
             final String timeValue = getMatchGroup(GROUP_TIME_VALUE);
-            long testTime = Long.valueOf(timeValue);
+            long testTime = Long.parseLong(timeValue);
             testCase.setTimeMillis(testTime);
             info.addTime(testTime);
         }
