@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -30,14 +30,14 @@ import org.openide.nodes.Node;
 /**
  * The class {@code TestRunnerUINodeFactory} implements a testrunner
  * node factory.
- * 
+ *
  * @author offa
  */
 public class TestRunnerUINodeFactory extends TestRunnerNodeFactory
 {
     /**
      * Creates a new testmethod node.
-     * 
+     *
      * @param testcase  Testcase
      * @param project   Project
      * @return          Node
@@ -48,10 +48,10 @@ public class TestRunnerUINodeFactory extends TestRunnerNodeFactory
         return new TestRunnerTestMethodNode((CndTestCase) testcase, project);
     }
 
-    
+
     /**
      * Creates a new callstack node.
-     * 
+     *
      * @param frameInfo     Callstack frameinfo
      * @param displayName   Display name
      * @return              Node
@@ -62,10 +62,10 @@ public class TestRunnerUINodeFactory extends TestRunnerNodeFactory
         return new TestRunnerCallstackFrameNode(frameInfo, displayName);
     }
 
-    
+
     /**
      * Creates a new testsuite node.
-     * 
+     *
      * @param suiteName Testsuite name
      * @param filtered  Filtered
      * @return          Node
@@ -75,5 +75,5 @@ public class TestRunnerUINodeFactory extends TestRunnerNodeFactory
     {
         return new TestRunnerTestSuiteNode(suiteName, filtered);
     }
-    
+
 }

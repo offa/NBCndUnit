@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <Match>
+        <And>
+            <Class name="bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory" />
+            <Method name="createTestMethodNode" />
+            <Bug code="BC" />
+        </And>
+    </Match>
+</FindBugsFilter>
