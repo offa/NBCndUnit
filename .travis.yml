@@ -1,7 +1,6 @@
 language: java
 
 dist: trusty
-sudo: required  # Workaround for #25
 
 jdk:
     - openjdk7
