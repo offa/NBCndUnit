@@ -198,7 +198,6 @@ public final class TestSupportUtils
         switch(testCase.getFramework())
         {
             case CPPUTEST:
-            case CPPUTEST_TC:
                 final String enabled = ( testCase.getStatus() == Status.SKIPPED ? "IGNORE" : "TEST_" );
                 return "C:" +  enabled + testCase.getClassName()
                         + "_" + testCase.getName() + "_Test";
@@ -228,7 +227,6 @@ public final class TestSupportUtils
         switch(testSuite.getFramework())
         {
             case CPPUTEST:
-            case CPPUTEST_TC:
                 return "S:TEST_GROUP_CppUTestGroup" + testSuite.getName();
             case GOOGLETEST:
                 return "C:" + removeGTestParameter(testSuite.getName());

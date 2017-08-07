@@ -29,8 +29,6 @@ public enum TestFramework
 {
     /** CppUTest. */
     CPPUTEST("CppUTest"),
-    /** CppUTest (TeamCity) */
-    CPPUTEST_TC("CppUTest (TeamCity)"),
     /** GoogleTest / GoogleMock. */
     GOOGLETEST("GoogleTest"),
     /** LibunittestC++. */

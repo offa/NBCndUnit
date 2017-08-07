@@ -119,36 +119,6 @@ public class TestSupportUtilsTest
     }
 
     @Test
-    public void getUniqueDeclaratonNameTestCaseCppUTestTeamCity()
-    {
-        CndTestCase testCase = new CndTestCase(CASE_NAME, TestFramework.CPPUTEST_TC, testSessionMock);
-        testCase.setClassName(SUITE_NAME);
-
-        final String expected = "C:TEST_" + SUITE_NAME + "_" + CASE_NAME + "_Test";
-        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testCase));
-    }
-
-    @Test
-    public void getUniqueDeclaratonNameTestCaseCppUTestTeamCityIgnored()
-    {
-        CndTestCase testCase = new CndTestCase(CASE_NAME, TestFramework.CPPUTEST_TC, testSessionMock);
-        testCase.setClassName(SUITE_NAME);
-        testCase.setStatus(Status.SKIPPED);
-
-        final String expected = "C:IGNORE" + SUITE_NAME + "_" + CASE_NAME + "_Test";
-        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testCase));
-    }
-
-    @Test
-    public void getUniqueDeclaratonNameTestSuiteCppUTestTeamCity()
-    {
-        CndTestSuite testSuite = new CndTestSuite(SUITE_NAME, TestFramework.CPPUTEST_TC);
-
-        final String expected = "S:TEST_GROUP_CppUTestGroup" + SUITE_NAME;
-        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testSuite));
-    }
-
-    @Test
     public void getUniqueDeclaratonNameTestCaseGoogleTest()
     {
         CndTestCase testCase = new CndTestCase(CASE_NAME, TestFramework.GOOGLETEST, testSessionMock);
