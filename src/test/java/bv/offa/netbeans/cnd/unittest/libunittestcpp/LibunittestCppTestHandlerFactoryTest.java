@@ -70,10 +70,10 @@ public class LibunittestCppTestHandlerFactoryTest
     @Test
     public void allHandlersForFramework()
     {
-        for( TestRecognizerHandler h : factory.createHandlers() )
+        factory.createHandlers().forEach((h) ->
         {
             assertEquals(TestFramework.LIBUNITTESTCPP, ((CndTestHandler) h).getTestFramework());
-        }
+        });
     }
 
 }

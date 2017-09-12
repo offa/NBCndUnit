@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ import org.openide.util.NbBundle;
 /**
  * The class {@code AbstractWizardPanel} is an abstract base class for
  * wizard panels.
- * 
+ *
  * @author offa
  */
 public abstract class AbstractWizardPanel implements WizardDescriptor.Panel<WizardDescriptor>, ChangeListener
@@ -44,11 +44,11 @@ public abstract class AbstractWizardPanel implements WizardDescriptor.Panel<Wiza
         this.changeSupport = new ChangeSupport(this);
     }
 
-    
-    
+
+
     /**
      * Adds the {@link ChangeListener ChangeListener}.
-     * 
+     *
      * @param l     Listener
      */
     @Override
@@ -56,11 +56,11 @@ public abstract class AbstractWizardPanel implements WizardDescriptor.Panel<Wiza
     {
         this.changeSupport.addChangeListener(l);
     }
-    
+
 
     /**
      * Removes the {@link ChangeListener ChangeListener}.
-     * 
+     *
      * @param l     Listener
      */
     @Override
@@ -72,7 +72,7 @@ public abstract class AbstractWizardPanel implements WizardDescriptor.Panel<Wiza
 
     /**
      * Invoked when the target of the listener has changed its state.
-     * 
+     *
      * @param e     Event
      */
     @Override
@@ -84,21 +84,14 @@ public abstract class AbstractWizardPanel implements WizardDescriptor.Panel<Wiza
         }
         else
         {
-            SwingUtilities.invokeLater(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    changeSupport.fireChange();
-                }
-            });
+            SwingUtilities.invokeLater(changeSupport::fireChange);
         }
     }
-    
-    
+
+
     /**
      * Returns the localized message with the given key using this class.
-     * 
+     *
      * @param key   Key
      * @return      Message
      */
@@ -106,11 +99,11 @@ public abstract class AbstractWizardPanel implements WizardDescriptor.Panel<Wiza
     {
         return NbBundle.getMessage(AbstractWizardPanel.class , key);
     }
-    
-    
+
+
     /**
      * Returns whether there are {@code ChangeSupport}-listener.
-     * 
+     *
      * @return  Returns {@code true} if there is at least one listener or
      *          {@code none} if there is none
      */
@@ -118,11 +111,11 @@ public abstract class AbstractWizardPanel implements WizardDescriptor.Panel<Wiza
     {
         return changeSupport.hasListeners();
     }
-    
-    
+
+
     /**
      * Tests if <code>wiz</code> is a next option with valid data.
-     * 
+     *
      * @param wizValue  Wizard value
      * @return          Returns <tt>true</tt> if valid next or <tt>false</tt>
      *                  otherwise
@@ -133,8 +126,8 @@ public abstract class AbstractWizardPanel implements WizardDescriptor.Panel<Wiza
         {
             return false;
         }
-        
-        return ( WizardDescriptor.CANCEL_OPTION.equals(wizValue) == false ) 
+
+        return ( WizardDescriptor.CANCEL_OPTION.equals(wizValue) == false )
                 && ( isValid() == true );
     }
 }

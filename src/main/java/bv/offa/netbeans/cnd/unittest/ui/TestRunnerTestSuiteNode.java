@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -33,35 +33,31 @@ import org.openide.util.lookup.Lookups;
 /**
  * The class {@code TestRunnerTestSuiteNode} implements a frame node for
  * a testsuite.
- * 
+ *
  * @author offa
  */
 public class TestRunnerTestSuiteNode extends TestsuiteNode
 {
     private final String actionName = NbBundle.getMessage(TestRunnerTestSuiteNode.class, "LBL_Action_GoToSource");
-    
+
     public TestRunnerTestSuiteNode(String suiteName, boolean filtered)
     {
-        super(null, suiteName, filtered, Lookups.singleton(new Locator()
+        super(null, suiteName, filtered, Lookups.singleton((Locator) (Node node) ->
         {
-            @Override
-            public void jumpToSource(Node node)
+            Action jumpTo = node.getPreferredAction();
+
+            if( jumpTo != null )
             {
-                Action jumpTo = node.getPreferredAction();
-                
-                if( jumpTo != null )
-                {
-                    jumpTo.actionPerformed(null);
-                }
+                jumpTo.actionPerformed(null);
             }
         }));
     }
-    
-    
-    
+
+
+
     /**
      * Returns the preferred action.
-     * 
+     *
      * @return      Action
      */
     @Override
@@ -69,12 +65,12 @@ public class TestRunnerTestSuiteNode extends TestsuiteNode
     {
         return new GoToSourceSuiteTestNodeAction(actionName, (CndTestSuite) suite, report.getProject());
     }
-    
-    
+
+
     /**
      * Returns actions that are associated with this node. These are used to
      * construct the context menu for the node.
-     * 
+     *
      * @param context   Whether to find actions for context meaning or for the
      *                  node itself
      * @return          Returns an empty array if {@code context} is
@@ -88,10 +84,10 @@ public class TestRunnerTestSuiteNode extends TestsuiteNode
         {
             return new Action[0];
         }
-        
+
         List<Action> actions = new ArrayList<>(1);
         actions.add(getPreferredAction());
-        
+
         return actions.toArray(new Action[actions.size()]);
     }
 }

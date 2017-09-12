@@ -27,7 +27,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactory;
-import org.netbeans.modules.cnd.testrunner.spi.TestRecognizerHandler;
 import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 
 public class CppUTestTestHandlerFactoryTest
@@ -70,10 +69,10 @@ public class CppUTestTestHandlerFactoryTest
     @Test
     public void allHandlersForFramework()
     {
-        for( TestRecognizerHandler h : factory.createHandlers() )
+        factory.createHandlers().forEach((h) ->
         {
             assertEquals(TestFramework.CPPUTEST, ((CndTestHandler) h).getTestFramework());
-        }
+        });
     }
 
 }

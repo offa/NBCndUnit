@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -21,7 +21,6 @@
 package bv.offa.netbeans.cnd.unittest.wizard;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JCheckBox;
@@ -31,89 +30,89 @@ import javax.swing.event.DocumentListener;
 /**
  * The class {@code NewTestSuiteVisualPanel1} implements a visual panel for
  * test suites.
- * 
+ *
  * @author offa
  */
 public class NewTestSuiteVisualPanel1 extends AbstractVisualPanel
 {
     private static final long serialVersionUID = 1L;
-    
+
     public NewTestSuiteVisualPanel1()
     {
         super("Step #1");
-        
+
         initComponents();
         initListener();
     }
-    
-    
-    
+
+
+
     /**
      * Returns whether the setup generation is enabled.
-     * 
+     *
      * @return  Setting
      */
     public boolean getGenerateSetup()
     {
         return cbGenerateSetup.isSelected();
     }
-    
-    
+
+
     /**
      * Returns whether the teardown generation is enabled.
-     * 
+     *
      * @return  Setting
      */
     public boolean getGenerateTeardown()
     {
         return cbGenerateTeardown.isSelected();
     }
-    
-    
+
+
     /**
      * Returns a list of the test case names. Empty names are <i>not</i> added.
-     * 
+     *
      * @return  Names
      */
     public List<String> getTestCaseNames()
     {
         List<String> testCases = new ArrayList<>();
         final String testCaseName = tfTestCaseName.getText();
-        
+
         if( testCaseName.isEmpty() == false )
         {
             testCases.add(testCaseName);
         }
-        
+
         return testCases;
     }
-    
-    
+
+
     /**
      * Returns whether the test case generation is enabled.
-     * 
+     *
      * @return  Setting
      */
     public boolean getGenerateTestCases()
     {
         return cbGenerateTestCases.isSelected();
     }
-    
-    
+
+
     /**
      * Returns the test suite name.
-     * 
+     *
      * @return  Name
      */
     public String getTestSuiteName()
     {
         return tfTestSuiteName.getText();
     }
-    
-    
+
+
     /**
      * Returns whether a existing project should be configured for test.
-     * 
+     *
      * @return  Configure Setting
      */
     public boolean getConfigureCustomProject()
@@ -121,32 +120,32 @@ public class NewTestSuiteVisualPanel1 extends AbstractVisualPanel
         return cbCustomProjectEnable.isSelected();
     }
 
-    
+
     /**
      * Sets the test suite name.
-     * 
+     *
      * @param name  Name
      */
     void setTestSuiteName(String name)
     {
         tfTestSuiteName.setText(name);
     }
-    
-    
+
+
     /**
      * Sets the test case names.
-     * 
+     *
      * @param names     Names
      */
     void setTestCaseNames(List<String> names)
     {
         tfTestCaseName.setText(names.get(0));
     }
-    
-    
+
+
     /**
      * Sets the test generation.
-     * 
+     *
      * @param generate  Test generation
      */
     void setGenerateTestCases(boolean generate)
@@ -154,7 +153,7 @@ public class NewTestSuiteVisualPanel1 extends AbstractVisualPanel
         cbGenerateTestCases.setSelected(generate);
     }
 
-    
+
     /**
      * Initializes the listeners.
      */
@@ -180,20 +179,16 @@ public class NewTestSuiteVisualPanel1 extends AbstractVisualPanel
                 updateChangeListener();
             }
         };
-        
+
         tfTestSuiteName.getDocument().addDocumentListener(dl);
         tfTestCaseName.getDocument().addDocumentListener(dl);
-        cbGenerateTestCases.addActionListener(new ActionListener()
+        cbGenerateTestCases.addActionListener((ActionEvent e) ->
         {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                updateChangeListener();
-            }
+            updateChangeListener();
         });
     }
-    
-    
+
+
     /**
      * This method is called from within the constructor to
      * initialize the form.
@@ -286,7 +281,7 @@ public class NewTestSuiteVisualPanel1 extends AbstractVisualPanel
 
     /**
      * Sets the visible state of the input field according the checkbox state.
-     * 
+     *
      * @param evt   Event
      */
     private void cbGenerateTestCasesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_cbGenerateTestCasesActionPerformed

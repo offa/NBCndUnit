@@ -125,28 +125,22 @@ public final class TestSupportUtils
      */
     public static void goToSourceOfFailure(final Project project, final FailureInfo failure)
     {
-        POOL.submit(new Callable<Boolean>()
+        POOL.submit(() ->
         {
-            @Override
-            public Boolean call() throws Exception
+            CsmProject csmProject = CsmModelAccessor.getModel().getProject(project);
+            final String fileName = failure.getFile();
+            final int line = failure.getLine();
+
+            for( CsmFile f : csmProject.getSourceFiles() )
             {
-                CsmProject csmProject = CsmModelAccessor.getModel().getProject(project);
-                final String fileName = failure.getFile();
-                final int line = failure.getLine();
-
-                for( CsmFile f : csmProject.getSourceFiles() )
+                if( f.getAbsolutePath().toString().endsWith(fileName) == true )
                 {
-                    if( f.getAbsolutePath().toString().endsWith(fileName) == true )
-                    {
-                        return CsmUtilities.openSource(f, line, 0);
-                    }
+                    return CsmUtilities.openSource(f, line, 0);
                 }
-
-                LOGGER.log(Level.INFO, "No source found for {0}:{1}", new Object[] { fileName, line });
-                return Boolean.FALSE;
             }
 
-
+            LOGGER.log(Level.INFO, "No source found for {0}:{1}", new Object[] { fileName, line });
+            return Boolean.FALSE;
         });
     }
 
@@ -162,25 +156,21 @@ public final class TestSupportUtils
      */
     private static void goToDeclaration(final Project project, final String uniqueDeclaration)
     {
-        POOL.submit(new Callable<Boolean>()
+        POOL.submit(() ->
         {
-            @Override
-            public Boolean call() throws Exception
+            CsmProject csmProject = CsmModelAccessor.getModel().getProject(project);
+            CsmDeclaration decl = csmProject.findDeclaration(uniqueDeclaration);
+
+            if( decl != null )
             {
-                CsmProject csmProject = CsmModelAccessor.getModel().getProject(project);
-                CsmDeclaration decl = csmProject.findDeclaration(uniqueDeclaration);
-
-                if( decl != null )
-                {
-                    return CsmUtilities.openSource(decl);
-                }
-                else
-                {
-                    LOGGER.log(Level.INFO, "No declaration found for {0}", uniqueDeclaration);
-                }
-
-                return Boolean.FALSE;
+                return CsmUtilities.openSource(decl);
             }
+            else
+            {
+                LOGGER.log(Level.INFO, "No declaration found for {0}", uniqueDeclaration);
+            }
+
+            return Boolean.FALSE;
         });
     }
 

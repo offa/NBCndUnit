@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -35,30 +35,26 @@ import org.openide.util.lookup.Lookups;
 /**
  * The class {@code TestRunnerTestMethodNode} implements a frame node for
  * a testmethod.
- * 
+ *
  * @author offa
  */
 public class TestRunnerTestMethodNode extends TestMethodNode
 {
     private final String actionName = NbBundle.getMessage(TestRunnerTestMethodNode.class, "LBL_Action_GoToSource");
-    
+
     public TestRunnerTestMethodNode(CndTestCase testcase, Project project)
     {
-        super(testcase, project, Lookups.singleton(new Locator()
+        super(testcase, project, Lookups.singleton((Locator) (Node node) ->
         {
-            @Override
-            public void jumpToSource(Node node)
-            {
-                node.getPreferredAction().actionPerformed(null);
-            }
+            node.getPreferredAction().actionPerformed(null);
         }));
     }
 
 
-    
+
     /**
      * Returns the preferred action.
-     * 
+     *
      * @return      Action
      */
     @Override
@@ -66,12 +62,12 @@ public class TestRunnerTestMethodNode extends TestMethodNode
     {
         return new GoToSourceTestMethodNodeAction(actionName, (CndTestCase) testcase, getProject());
     }
-    
-    
+
+
     /**
      * Returns actions that are associated with this node. These are used to
      * construct the context menu for the node.
-     * 
+     *
      * @param context   Whether to find actions for context meaning or for the
      *                  node itself
      * @return          Returns an empty array if {@code context} is
@@ -85,11 +81,11 @@ public class TestRunnerTestMethodNode extends TestMethodNode
         {
             return new Action[0];
         }
-        
+
         List<Action> actions = new ArrayList<>(2);
         actions.add(getPreferredAction());
         actions.add(new DiffViewAction(testcase));
-        
+
         return actions.toArray(new Action[actions.size()]);
     }
 
