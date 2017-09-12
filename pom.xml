@@ -43,8 +43,8 @@ Test templates are under "Unit Tests" file category.</description>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
@@ -89,7 +89,7 @@ Test templates are under "Unit Tests" file category.</description>
                         <configuration>
                             <signature>
                                 <groupId>org.codehaus.mojo.signature</groupId>
-                                <artifactId>java17</artifactId>
+                                <artifactId>java18</artifactId>
                                 <version>1.0</version>
                             </signature>
                         </configuration>
