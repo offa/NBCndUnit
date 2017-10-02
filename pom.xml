@@ -103,15 +103,6 @@ Test templates are under "Unit Tests" file category.</description>
                 <version>2.10.4</version>
                 <configuration>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-javadoc</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>
