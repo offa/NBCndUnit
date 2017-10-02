@@ -41,10 +41,10 @@ Test templates are under "Unit Tests" file category.</description>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.7.0</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
@@ -78,7 +78,7 @@ Test templates are under "Unit Tests" file category.</description>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>animal-sniffer-maven-plugin</artifactId>
-                <version>1.15</version>
+                <version>1.16</version>
                 <executions>
                     <execution>
                         <id>animal-sniffer</id>
@@ -89,7 +89,7 @@ Test templates are under "Unit Tests" file category.</description>
                         <configuration>
                             <signature>
                                 <groupId>org.codehaus.mojo.signature</groupId>
-                                <artifactId>java17</artifactId>
+                                <artifactId>java18</artifactId>
                                 <version>1.0</version>
                             </signature>
                         </configuration>
@@ -100,18 +100,9 @@ Test templates are under "Unit Tests" file category.</description>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
+                <version>3.0.0-M1</version>
                 <configuration>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-javadoc</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>
@@ -137,29 +128,9 @@ Test templates are under "Unit Tests" file category.</description>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.20</version>
+                <version>2.20.1</version>
             </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>3.0.4</version>
-                <configuration>
-                    <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>analyze-compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
-
     </build>
 
     <repositories>
@@ -289,7 +260,7 @@ Test templates are under "Unit Tests" file category.</description>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>2.8.47</version>
+            <version>2.10.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
