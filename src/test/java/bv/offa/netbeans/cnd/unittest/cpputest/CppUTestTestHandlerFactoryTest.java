@@ -24,8 +24,8 @@ import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactory;
 import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 
@@ -34,7 +34,7 @@ public class CppUTestTestHandlerFactoryTest
     private TestHandlerFactory factory;
 
 
-    @Before
+    @BeforeEach
     public void setUp()
     {
         factory = new CppUTestTestHandlerFactory();

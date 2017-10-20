@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -30,8 +30,8 @@ import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasError;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasNoError;
 import java.util.regex.Matcher;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.Trouble;
@@ -43,17 +43,17 @@ public class CppUTestErrorHandlerTest
     private CppUTestErrorHandler handler;
     private TestSession session;
     private ManagerAdapter manager;
-    
-    @Before
+
+    @BeforeEach
     public void setUp()
     {
         info = new TestSessionInformation();
         handler = new CppUTestErrorHandler(info);
         session = mock(TestSession.class);
         manager = mock(ManagerAdapter.class);
-        
+
     }
-    
+
     @Test
     public void parsesDataErrorLocationLine()
     {
@@ -65,7 +65,7 @@ public class CppUTestErrorHandlerTest
         assertEquals("TestSuite", m.group(3));
         assertEquals("testCase", m.group(4));
     }
-    
+
     @Test
     public void updateUIDoesNothingIfNoTestCase()
     {
@@ -74,7 +74,7 @@ public class CppUTestErrorHandlerTest
         when(session.getCurrentTestCase()).thenReturn(null);
         handler.updateUI(manager, session);
     }
-    
+
     @Test
     public void updateUIIgnoresNotMatchingTestCase()
     {
@@ -85,7 +85,7 @@ public class CppUTestErrorHandlerTest
         assertThat(testCase, hasNoError());
         assertNull(testCase.getLocation());
     }
-    
+
     @Test
     public void updateUIIgnoresNotMatchingTestSuite()
     {
@@ -95,7 +95,7 @@ public class CppUTestErrorHandlerTest
         handler.updateUI(manager, session);
         assertThat(testCase, hasNoError());
     }
-    
+
     @Test
     public void updateUISetsTrouble()
     {
@@ -105,7 +105,7 @@ public class CppUTestErrorHandlerTest
         handler.updateUI(manager, session);
         assertThat(testCase, hasError());
     }
-    
+
     @Test
     public void updateUIUpdatesTrouble()
     {
@@ -116,7 +116,7 @@ public class CppUTestErrorHandlerTest
         handler.updateUI(manager, session);
         assertThat(testCase, hasError());
     }
-    
+
     @Test
     public void updateUISetsFailureInfo()
     {

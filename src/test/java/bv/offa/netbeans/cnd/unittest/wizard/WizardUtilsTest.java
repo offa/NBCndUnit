@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
 package bv.offa.netbeans.cnd.unittest.wizard;
 
 import static org.junit.Assert.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class WizardUtilsTest
 {
@@ -33,7 +33,7 @@ public class WizardUtilsTest
         assertEquals("abc", WizardUtils.toIdentifier(" abc"));
         assertEquals("abc", WizardUtils.toIdentifier(" abc  "));
     }
-    
+
     @Test
     public void toIdentifierReplacesInvalidChars()
     {
@@ -41,7 +41,7 @@ public class WizardUtilsTest
         assertEquals("aB__c3_", WizardUtils.toIdentifier("aB &c3!"));
         assertEquals("aB_c3_", WizardUtils.toIdentifier("aB$c3_"));
     }
-    
+
     @Test
     public void toIdentifierReplacesInvalidFirstChar()
     {
@@ -49,26 +49,26 @@ public class WizardUtilsTest
         assertEquals("_abc", WizardUtils.toIdentifier(" 3abc"));
         assertEquals("_abc", WizardUtils.toIdentifier("$abc"));
     }
-    
+
     @Test
     public void isValidIdentifierRejectsInnerBlanks()
     {
         assertFalse(WizardUtils.isValidIdentifier("a b"));
     }
-    
+
     @Test
     public void isValidIdentifierRejectsLeadingTrailingBlanks()
     {
         assertFalse(WizardUtils.isValidIdentifier(" b"));
         assertFalse(WizardUtils.isValidIdentifier("b "));
     }
-    
+
     @Test
     public void isValidRejectsEmpty()
     {
         assertFalse(WizardUtils.isValidIdentifier(""));
     }
-    
+
     @Test
     public void isValidRejectsInvalidChars()
     {
@@ -84,7 +84,7 @@ public class WizardUtilsTest
         assertFalse(WizardUtils.isValidIdentifier("a#"));
         assertFalse(WizardUtils.isValidIdentifier("$a"));
     }
-    
+
     @Test
     public void isValidAcceptsValidNames()
     {
@@ -94,12 +94,12 @@ public class WizardUtilsTest
         assertTrue(WizardUtils.isValidIdentifier("a3B"));
         assertTrue(WizardUtils.isValidIdentifier("_3J"));
     }
-    
+
     @Test
     public void isValidAcceptsOneAndTwoChars()
     {
         assertTrue(WizardUtils.isValidIdentifier("a"));
         assertTrue(WizardUtils.isValidIdentifier("ab"));
     }
-    
+
 }

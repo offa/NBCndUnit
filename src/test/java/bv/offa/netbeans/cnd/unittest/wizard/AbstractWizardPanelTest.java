@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -23,17 +23,17 @@ package bv.offa.netbeans.cnd.unittest.wizard;
 import javax.swing.event.ChangeListener;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 
 public class AbstractWizardPanelTest
 {
     private AbstractWizardPanel panelMock;
     private ChangeListener listenerMock;
-    
-    
-    @Before
+
+
+    @BeforeEach
     public void setUp()
     {
         panelMock = mock(AbstractWizardPanel.class, withSettings()
@@ -41,14 +41,14 @@ public class AbstractWizardPanelTest
                                                     .defaultAnswer(CALLS_REAL_METHODS));
         listenerMock = mock(ChangeListener.class);
     }
-    
+
     @Test
     public void listenerAdded()
     {
         panelMock.addChangeListener(listenerMock);
         assertTrue(panelMock.hasChangeSupportListeners());
     }
-    
+
     @Test
     public void listenerRemoved()
     {
@@ -56,5 +56,5 @@ public class AbstractWizardPanelTest
         panelMock.removeChangeListener(listenerMock);
         assertFalse(panelMock.hasChangeSupportListeners());
     }
-    
+
 }

@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -34,9 +34,9 @@ import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.timeIs;
 import java.util.regex.Matcher;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.junit.Assert.*;
-import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
 import static org.mockito.Mockito.*;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
@@ -51,22 +51,22 @@ public class GoogleTestTestFinishedHandlerTest
     private GoogleTestTestFinishedHandler handler;
     private TestSession session;
     private ManagerAdapter manager;
-    
-    
-    @Before
+
+
+    @BeforeEach
     public void setUp()
     {
         handler = new GoogleTestTestFinishedHandler();
         session = mock(TestSession.class);
         manager = mock(ManagerAdapter.class);
     }
-    
+
     @Test
     public void rejectsUnknownTestCaseResult()
     {
         assertFalse(handler.matches("[      UKN ] TestSuite.testCase (0 ms)"));
     }
-    
+
     @Test
     public void parseDataSuccessfulTestCase()
     {
@@ -76,7 +76,7 @@ public class GoogleTestTestFinishedHandlerTest
         assertEquals("testCase", m.group(3));
         assertEquals("0", m.group(4));
     }
-    
+
     @Test
     public void parseDataSuccessfulTestCaseParameterized()
     {
@@ -87,7 +87,7 @@ public class GoogleTestTestFinishedHandlerTest
         assertEquals("testCase", m.group(3));
         assertEquals("0", m.group(4));
     }
-    
+
     @Test
     public void parseDataFailTestCaseParameterized()
     {
@@ -98,7 +98,7 @@ public class GoogleTestTestFinishedHandlerTest
         assertEquals("testCase", m.group(3));
         assertEquals("0", m.group(4));
     }
-    
+
     @Test
     public void parseDataFailedTestCase()
     {
@@ -108,7 +108,7 @@ public class GoogleTestTestFinishedHandlerTest
         assertEquals("testCase", m.group(3));
         assertEquals("45", m.group(4));
     }
-    
+
     @Test
     public void updateUISetsTroubleIfFailed()
     {
@@ -117,7 +117,7 @@ public class GoogleTestTestFinishedHandlerTest
         handler.updateUI((Manager) null, session);
         assertThat(testCase, hasError());
     }
-    
+
     @Test
     public void updateUIUpdatesTroubleIfFailed()
     {
@@ -130,7 +130,7 @@ public class GoogleTestTestFinishedHandlerTest
         assertThat(testCase, hasError());
         assertEquals("abc", testCase.getTrouble().getStackTrace()[0]);
     }
-    
+
     @Test
     public void updateUIThrowsIfNoTestCase()
     {
@@ -138,7 +138,7 @@ public class GoogleTestTestFinishedHandlerTest
         exception.expect(IllegalStateException.class);
         handler.updateUI(manager, session);
     }
-    
+
     @Test
     public void updateUIThrowsIfNoMatchingTestCaseIsFoundByWrongSuite()
     {
@@ -147,7 +147,7 @@ public class GoogleTestTestFinishedHandlerTest
         exception.expect(IllegalStateException.class);
         handler.updateUI(manager, session);
     }
-    
+
     @Test
     public void updateUIThrowsIfNoMatchingTestCaseIsFoundByWrongCase()
     {
@@ -156,21 +156,21 @@ public class GoogleTestTestFinishedHandlerTest
         exception.expect(IllegalStateException.class);
         handler.updateUI(manager, session);
     }
-    
+
     @Test
     public void updateUISetsTestCaseInformation()
     {
         CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
         checkedMatch(handler, "[       OK ] TestSuite.testCase (13 ms)");
         handler.updateUI(manager, session);
-        assertThat(testCase, allOf(matchesTestCase("testCase", "TestSuite"), 
-                                    frameworkIs(FRAMEWORK), 
+        assertThat(testCase, allOf(matchesTestCase("testCase", "TestSuite"),
+                                    frameworkIs(FRAMEWORK),
                                     timeIs(13l),
                                     sessionIs(session),
                                     hasNoError()));
         assertEquals("TestSuite:testCase", testCase.getLocation());
     }
-    
+
     @Test
     public void updateUISetsErrorOnTestFailure()
     {

@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -26,8 +26,8 @@ import java.util.Map;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import org.openide.WizardDescriptor;
 
@@ -35,33 +35,33 @@ public class NewTestSuiteWizardIteratorTest
 {
     private static WizardDescriptor wizardMock;
     private final NewTestSuiteWizardIterator wizardIterator = new NewTestSuiteWizardIterator();
-    
-    
-    @BeforeClass
+
+
+    @BeforeAll
     public static void setUpClass()
     {
-        wizardMock = createMock(true, false, true, 
+        wizardMock = createMock(true, false, true,
                 Arrays.asList("testCase1", "testCase2", "testCase3"), "TestSuite");
     }
-    
+
     @Test
     @SuppressWarnings("unchecked")
     public void getTemplateParameters()
     {
         wizardIterator.wizard = wizardMock;
         final Map<String, Object> params = wizardIterator.getTemplateParameters();
-        
+
         assertEquals(Boolean.TRUE, params.get("generateSetup"));
         assertEquals(Boolean.FALSE, params.get("generateTeardown"));
         assertEquals(Boolean.TRUE, params.get("generateTestCases"));
-        assertThat((List<String>) params.get("testCases"), 
+        assertThat((List<String>) params.get("testCases"),
                     hasItems("testCase1", "testCase2", "testCase3"));
         assertEquals("TestSuite", params.get("suiteName"));
     }
-    
-    
-    private static  WizardDescriptor createMock(boolean genSetup, boolean genTeardown, 
-                                                boolean genTestCases, List<String> testCases, 
+
+
+    private static  WizardDescriptor createMock(boolean genSetup, boolean genTeardown,
+                                                boolean genTestCases, List<String> testCases,
                                                 String testSuite)
     {
         WizardDescriptor wiz = mock(WizardDescriptor.class);
@@ -70,7 +70,7 @@ public class NewTestSuiteWizardIteratorTest
         when(wiz.getProperty(NewTestSuiteWizardPanel1.PROP_TEST_GENERATE_TESTCASES)).thenReturn(genTestCases);
         when(wiz.getProperty(NewTestSuiteWizardPanel1.PROP_TEST_TESTCASE_NAMES)).thenReturn(testCases);
         when(wiz.getProperty(NewTestSuiteWizardPanel1.PROP_TEST_TESTSUITE_NAME)).thenReturn(testSuite);
-        
+
         return wiz;
     }
 

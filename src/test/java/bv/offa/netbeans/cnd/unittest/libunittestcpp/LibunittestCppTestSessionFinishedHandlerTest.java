@@ -23,9 +23,9 @@ import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import java.util.regex.Matcher;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -44,7 +44,7 @@ public class LibunittestCppTestSessionFinishedHandlerTest
     private TestSession session;
     private ManagerAdapter manager;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass()
     {
         project = mock(Project.class);
@@ -53,8 +53,8 @@ public class LibunittestCppTestSessionFinishedHandlerTest
         when(project.getLookup()).thenReturn(Lookup.EMPTY);
         report = new Report("suite", project);
     }
-    
-    @Before
+
+    @BeforeEach
     public void setUp()
     {
         handler = new LibunittestCppTestSessionFinishedHandler();

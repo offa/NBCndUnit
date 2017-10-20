@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -22,9 +22,9 @@ package bv.offa.netbeans.cnd.unittest.cpputest;
 
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import org.netbeans.api.project.Project;
 import org.netbeans.modules.gsf.testrunner.api.Report;
@@ -40,9 +40,9 @@ public class CppUTestSuiteFinishedHandlerTest
     private CppUTestSuiteFinishedHandler handler;
     private TestSession session;
     private ManagerAdapter manager;
-    
-    
-    @BeforeClass
+
+
+    @BeforeAll
     public static void setUpClass()
     {
         project = mock(Project.class);
@@ -51,8 +51,8 @@ public class CppUTestSuiteFinishedHandlerTest
         when(project.getLookup()).thenReturn(Lookup.EMPTY);
         report = new Report("suite", project);
     }
-    
-    @Before
+
+    @BeforeEach
     public void setUp()
     {
         info = new TestSessionInformation();
@@ -60,14 +60,14 @@ public class CppUTestSuiteFinishedHandlerTest
         session = mock(TestSession.class);
         manager = mock(ManagerAdapter.class);
     }
-    
+
     @Test
     public void matchesSuccessfulTest()
     {
         assertTrue(handler.matches("OK (8 tests, 8 ran, 7 checks, 0 ignored, "
                                     + "0 filtered out, 123 ms)"));
     }
-    
+
     @Test
     public void rejectsMalformedResult()
     {
@@ -75,30 +75,30 @@ public class CppUTestSuiteFinishedHandlerTest
         assertFalse(handler.matches("OK ("));
         assertFalse(handler.matches("OK ( )"));
     }
-    
+
     @Test
     public void matchesErrorWithoutEscapeColor()
     {
         assertTrue(handler.matches("Errors (1 failures, 9 tests, 9 ran, 7 checks, "
                                     + "0 ignored, 0 filtered out, 123 ms)"));
     }
-    
+
     @Test
     public void matchesErrorWithEscapeColor()
     {
-        assertTrue(handler.matches("\u001B[31;1m" 
+        assertTrue(handler.matches("\u001B[31;1m"
                 + "Errors (1 failures, 9 tests, 9 ran, 7 checks, 0 ignored, "
-                + "0 filtered out, 123 ms)"  
+                + "0 filtered out, 123 ms)"
                 + "\u001B[m"));
     }
-    
+
     @Test
     public void matchesSuccessfulWithoutEscapeColor()
     {
         assertTrue(handler.matches("OK (9 tests, 9 ran, 7 checks, 0 ignored, "
                                     + "0 filtered out, 124 ms)"));
     }
-    
+
     @Test
     public void matchesSuccessfulWithEscapeColor()
     {
@@ -107,7 +107,7 @@ public class CppUTestSuiteFinishedHandlerTest
                                     + "0 filtered out, 124 ms)"
                                     + "\u001B[m"));
     }
-    
+
     @Test
     public void updateUIDisplaysReport()
     {
@@ -116,7 +116,7 @@ public class CppUTestSuiteFinishedHandlerTest
         handler.updateUI(manager, session);
         verify(manager).displayReport(session, report);
     }
-    
+
     @Test
     public void udpateUIFinishesSession()
     {
@@ -125,5 +125,5 @@ public class CppUTestSuiteFinishedHandlerTest
         verify(manager).sessionFinished(session);
         assertEquals(0L, info.getTimeTotal());
     }
-    
+
 }

@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@ import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import java.util.regex.Matcher;
 import static org.junit.Assert.*;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
@@ -34,7 +34,7 @@ public class GoogleTestSuiteFinishedHandlerTest
     private GoogleTestSuiteFinishedHandler handler;
     private TestSession session;
     private ManagerAdapter manager;
-    
+
 
     @Before
     public void setUp()
@@ -43,7 +43,7 @@ public class GoogleTestSuiteFinishedHandlerTest
         session = mock(TestSession.class);
         manager = mock(ManagerAdapter.class);
     }
-    
+
     @Test
     public void parseDataSuccessfulTestSuite()
     {
@@ -51,7 +51,7 @@ public class GoogleTestSuiteFinishedHandlerTest
         assertEquals("TestSuite", m.group(1));
         assertEquals("259", m.group(2));
     }
-    
+
     @Test
     public void parseDataSingleTestSuite()
     {
@@ -59,11 +59,11 @@ public class GoogleTestSuiteFinishedHandlerTest
         assertEquals("TestSuite", m.group(1));
         assertEquals("123", m.group(2));
     }
-    
+
     @Test
     public void updateUIHasNoInteraction()
     {
         handler.updateUI(manager, session);
     }
-    
+
 }

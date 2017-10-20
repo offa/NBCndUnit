@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -35,9 +35,9 @@ import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.timeIs;
 import java.util.regex.Matcher;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
@@ -63,9 +63,9 @@ public class CppUTestTestHandlerTest
     private CppUTestTestHandler handler;
     private TestSession session;
     private ManagerAdapter manager;
-    
-    
-    @BeforeClass
+
+
+    @BeforeAll
     public static void setUpClass()
     {
         project = mock(Project.class);
@@ -74,22 +74,22 @@ public class CppUTestTestHandlerTest
         when(project.getLookup()).thenReturn(Lookup.EMPTY);
         report = new Report("suite", project);
     }
-    
-    @Before
+
+    @BeforeEach
     public void setUp()
     {
         handler = new CppUTestTestHandler(INFO);
         session = mock(TestSession.class);
         manager = mock(ManagerAdapter.class);
     }
-    
+
     @Test
     public void matchesTestCaseAndDetectsIgnored()
     {
         Matcher m = checkedMatch(handler, "IGNORE_TEST(TestSuite, testCase) - 7 ms");
         assertNotNull(m.group(1));
     }
-    
+
     @Test
     public void parsesDataTestCase()
     {
@@ -99,7 +99,7 @@ public class CppUTestTestHandlerTest
         assertEquals("testCase", m.group(3));
         assertEquals("84", m.group(5));
     }
-    
+
     @Test
     public void parsesDataTestCaseWhichFailed()
     {
@@ -108,7 +108,7 @@ public class CppUTestTestHandlerTest
         assertEquals("testThatFailed", m.group(3));
         assertNull(m.group(4));
     }
-    
+
     @Test
     public void rejectsMalformedTestCase()
     {
@@ -122,7 +122,7 @@ public class CppUTestTestHandlerTest
         assertFalse(handler.matches("TEST(TestSuite, testCase, wrong) - 5 ms"));
         assertFalse(handler.matches("TEST(TestSuite, testCase) - 5 ms - 7 ms"));
     }
-    
+
     @Test
     public void suiteTimeParsing()
     {
@@ -133,25 +133,25 @@ public class CppUTestTestHandlerTest
             "TEST(TestSuite2, testCase2) - 25 ms",
             "TEST(TestSuite3, testCase1) - 0 ms",
         };
-        
+
         final long expected = 17005L + 8L + 25L;
         long time = 0L;
-        
+
         for( String line : input )
         {
             Matcher m = checkedMatch(handler, line);
             time += Long.valueOf(m.group(5));
         }
-        
+
         assertEquals(expected, time);
     }
-    
+
     @Test
     public void matchesTestCaseWithOutputNoTime()
     {
         assertTrue(handler.matches("TEST(TestSuite, testCase)"));
     }
-    
+
     @Test
     public void updateUIStartsTestIfFirstTest()
     {
@@ -159,7 +159,7 @@ public class CppUTestTestHandlerTest
         handler.updateUI(manager, session);
         verify(manager).testStarted(session);
     }
-    
+
     @Test
     public void updateUIStartsStartsTestBeforeSuite()
     {
@@ -169,7 +169,7 @@ public class CppUTestTestHandlerTest
         inOrder.verify(manager).testStarted(any(TestSession.class));
         inOrder.verify(manager).displaySuiteRunning(any(TestSession.class), any(CndTestSuite.class));
     }
-    
+
     @Test
     public void updateUIDisplaysReportIfNotFirstTest()
     {
@@ -179,18 +179,18 @@ public class CppUTestTestHandlerTest
         handler.updateUI(manager, session);
         verify(manager).displayReport(session, report);
     }
-    
+
     @Test
     public void updateUIStartsNewSuiteIfFirstSuite()
     {
         checkedMatch(handler, "TEST(TestSuite, testCase) - 84 ms");
         handler.updateUI(manager, session);
-        verify(session).addSuite(argThat(allOf(matchesTestSuite("TestSuite"), 
+        verify(session).addSuite(argThat(allOf(matchesTestSuite("TestSuite"),
                                                 suiteFrameworkIs(FRAMEWORK))));
-        verify(manager).displaySuiteRunning(eq(session), argThat(allOf(matchesTestSuite("TestSuite"), 
+        verify(manager).displaySuiteRunning(eq(session), argThat(allOf(matchesTestSuite("TestSuite"),
                                                                         suiteFrameworkIs(FRAMEWORK))));
     }
-    
+
     @Test
     public void updateUIAddsTestCase()
     {
@@ -198,19 +198,19 @@ public class CppUTestTestHandlerTest
         handler.updateUI(manager, session);
         verify(session).addTestCase(argThat(matchesTestCase("testCase", "TestSuite")));
     }
-    
+
     @Test
     public void updateUISetsTestCaseInformation()
     {
         checkedMatch(handler, "TEST(TestSuite, testCase) - 84 ms");
         handler.updateUI(manager, session);
-        verify(session).addTestCase(argThat(allOf(matchesTestCase("testCase", "TestSuite"), 
-                                                    frameworkIs(FRAMEWORK), 
+        verify(session).addTestCase(argThat(allOf(matchesTestCase("testCase", "TestSuite"),
+                                                    frameworkIs(FRAMEWORK),
                                                     sessionIs(session),
                                                     timeIs(84),
                                                     hasNoError())));
     }
-    
+
     @Test
     public void updateUISetsSkippedOnIgnored()
     {
@@ -218,7 +218,7 @@ public class CppUTestTestHandlerTest
         handler.updateUI(manager, session);
         verify(session).addTestCase(argThat(hasStatus(Status.SKIPPED)));
     }
-    
+
     @Test
     public void updateUIIgnoresTimeIfSeparated()
     {

@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -22,9 +22,9 @@ package bv.offa.netbeans.cnd.unittest.wizard;
 
 import java.util.Map;
 import static org.junit.Assert.assertEquals;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import org.openide.WizardDescriptor;
 
@@ -32,22 +32,22 @@ public class NewTestMainWizardIteratorTest
 {
     private static WizardDescriptor wizardMock;
     private final NewTestMainWizardIterator wizardIterator = new NewTestMainWizardIterator();
-    
-    
-    @BeforeClass
+
+
+    @BeforeAll
     public static void setUpClass()
     {
         wizardMock = mock(WizardDescriptor.class);
         when(wizardMock.getProperty(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_VERBOSE)).thenReturn(true);
         when(wizardMock.getProperty(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_COLOR)).thenReturn(false);
     }
-    
-    @Before
+
+    @BeforeEach
     public void setUp()
     {
         wizardIterator.wizard = wizardMock;
     }
-    
+
     @Test
     public void getTemplateParameters()
     {

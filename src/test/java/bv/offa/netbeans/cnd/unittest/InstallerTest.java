@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@ package bv.offa.netbeans.cnd.unittest;
 
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.junit.Assert.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class InstallerTest
 {
@@ -40,7 +40,7 @@ public class InstallerTest
             "org.netbeans.modules.cnd",
             "org.netbeans.modules.cnd.utils"
         };
-        
+
         Installer installer = new Installer();
         assertThat(installer.getTargetModules(), hasItems(requiredFriends));
     }

@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -21,9 +21,9 @@
 package bv.offa.netbeans.cnd.unittest.wizard;
 
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
@@ -33,24 +33,24 @@ public class NewTestMainWizardPanel1Test
     private static WizardDescriptor wizardMock;
     private final NewTestMainWizardPanel1 panel = new NewTestMainWizardPanel1();
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass()
     {
         wizardMock = mock(WizardDescriptor.class);
     }
-    
-    @Before
+
+    @BeforeEach
     public void setUp()
     {
         reset(wizardMock);
     }
-    
+
     @Test
     public void validPerDefault()
     {
         assertTrue(panel.isValid());
     }
-    
+
     @Test
     public void storeSettingsWithPreviousOption()
     {
@@ -90,7 +90,7 @@ public class NewTestMainWizardPanel1Test
         verify(wizardMock, atLeastOnce()).getValue();
         verifyNoMoreInteractions(wizardMock);
     }
-    
+
     @Test
     public void getHelpReturnsDefaultHelp()
     {

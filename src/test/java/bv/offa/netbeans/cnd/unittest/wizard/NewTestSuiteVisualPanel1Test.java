@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -25,38 +25,38 @@ import java.util.List;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 
 public class NewTestSuiteVisualPanel1Test
 {
     private static ChangeListener listenerMock;
     private final NewTestSuiteVisualPanel1 panel = new NewTestSuiteVisualPanel1();
-    
-    
-    @BeforeClass
+
+
+    @BeforeAll
     public static void setUpClass()
     {
         listenerMock = mock(ChangeListener.class);
     }
-    
-    @Before
+
+    @BeforeEach
     public void setUp()
     {
         reset(listenerMock);
         panel.removeChangeListener(listenerMock);
     }
-    
-    
+
+
     @Test
     public void getTestCaseNamesIsEmptyIfNothingSet()
     {
         panel.setTestCaseNames(Arrays.asList(""));
         assertTrue(panel.getTestCaseNames().isEmpty());
     }
-    
+
     @Test
     public void getTestCaseNamesContainsValue()
     {
@@ -65,7 +65,7 @@ public class NewTestSuiteVisualPanel1Test
         assertEquals(1, names.size());
         assertEquals("abc", names.get(0));
     }
-    
+
     @Test
     public void changeListenerUpdatedOnSuiteNameChange()
     {
@@ -73,7 +73,7 @@ public class NewTestSuiteVisualPanel1Test
         panel.setTestSuiteName("abc");
         verify(listenerMock, atLeastOnce()).stateChanged(any(ChangeEvent.class));
     }
-    
+
     @Test
     public void changeListenerUpdatedOnTestCaseNamesChange()
     {

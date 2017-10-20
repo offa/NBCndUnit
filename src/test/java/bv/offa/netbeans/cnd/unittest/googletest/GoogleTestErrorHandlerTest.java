@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -28,10 +28,9 @@ import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestCase;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasError;
 import java.util.regex.Matcher;
-import org.junit.After;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
@@ -41,8 +40,8 @@ public class GoogleTestErrorHandlerTest
     private GoogleTestErrorHandler handler;
     private TestSession session;
     private ManagerAdapter manager;
-    
-    @Before
+
+    @BeforeEach
     public void setUp()
     {
         handler = new GoogleTestErrorHandler();
@@ -50,10 +49,6 @@ public class GoogleTestErrorHandlerTest
         manager = mock(ManagerAdapter.class);
     }
 
-    @After
-    public void tearDown()
-    {
-    }
 
     @Test
     public void parseDataFailure()
@@ -62,7 +57,7 @@ public class GoogleTestErrorHandlerTest
         assertEquals("test/Example.cpp", m.group(1));
         assertEquals("38", m.group(2));
     }
-    
+
     @Test
     public void updateUISetsFailureInfo()
     {

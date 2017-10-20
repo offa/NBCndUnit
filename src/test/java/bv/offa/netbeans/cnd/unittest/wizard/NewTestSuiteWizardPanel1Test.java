@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2017  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -24,9 +24,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
@@ -36,16 +36,16 @@ public class NewTestSuiteWizardPanel1Test
     private static NewTestSuiteVisualPanel1 compMock;
     private static WizardDescriptor wizardMock;
     private final NewTestSuiteWizardPanel1 panel = new NewTestSuiteWizardPanel1();
-    
-    
-    @BeforeClass
+
+
+    @BeforeAll
     public static void setUpClass()
     {
         compMock = mock(NewTestSuiteVisualPanel1.class);
         wizardMock = mock(WizardDescriptor.class);
     }
-    
-    @Before
+
+    @BeforeEach
     public void setUp()
     {
         reset(wizardMock);
@@ -53,29 +53,29 @@ public class NewTestSuiteWizardPanel1Test
         when(compMock.getTestSuiteName()).thenReturn("SuiteName");
         panel.setComponent(compMock);
     }
-    
-    
+
+
     @Test
     public void validPerDefault()
     {
         when(compMock.getTestSuiteName()).thenReturn("abc");
         assertTrue(panel.isValid());
     }
-    
+
     @Test
     public void invalidIfNoSuiteName()
     {
         when(compMock.getTestSuiteName()).thenReturn("");
         assertFalse(panel.isValid());
     }
-    
+
     @Test
     public void validIfSuiteName()
     {
         when(compMock.getTestSuiteName()).thenReturn("abc");
         assertTrue(panel.isValid());
     }
-    
+
     @Test
     public void invalidIfTestCasesSelectedButNoValue()
     {
@@ -84,7 +84,7 @@ public class NewTestSuiteWizardPanel1Test
         when(compMock.getGenerateTestCases()).thenReturn(true);
         assertFalse(panel.isValid());
     }
-    
+
     @Test
     public void validIfTestCasesSelectedAndValue()
     {
@@ -92,7 +92,7 @@ public class NewTestSuiteWizardPanel1Test
         when(compMock.getTestSuiteName()).thenReturn("Suite");
         assertTrue(panel.isValid());
     }
-    
+
     @Test
     public void validIfTestCasesSelectedAndNoValue()
     {
@@ -101,7 +101,7 @@ public class NewTestSuiteWizardPanel1Test
         when(compMock.getTestSuiteName()).thenReturn("Suite");
         assertTrue(panel.isValid());
     }
-    
+
     @Test
     public void invalidIfTestTaseSelectedAndInvalidTestCaseName()
     {
@@ -110,7 +110,7 @@ public class NewTestSuiteWizardPanel1Test
         when(compMock.getTestSuiteName()).thenReturn("Suite");
         assertFalse(panel.isValid());
     }
-    
+
     @Test
     public void validIfTestCasesNotSelectedAndInvalidName()
     {
@@ -118,7 +118,7 @@ public class NewTestSuiteWizardPanel1Test
         when(compMock.getGenerateTestCases()).thenReturn(false);
         assertTrue(panel.isValid());
     }
-    
+
     @Test
     public void invalidIfTestSuiteNameIsNotValid()
     {
@@ -126,7 +126,7 @@ public class NewTestSuiteWizardPanel1Test
         when(compMock.getTestSuiteName()).thenReturn(" $Suite");
         assertFalse(panel.isValid());
     }
-    
+
     @Test
     public void validIfTestSuiteNameIsValid()
     {
@@ -134,7 +134,7 @@ public class NewTestSuiteWizardPanel1Test
         when(compMock.getTestSuiteName()).thenReturn("Suite");
         assertTrue(panel.isValid());
     }
-    
+
     @Test
     public void storeSettingsWithPreviousOption()
     {
@@ -142,7 +142,7 @@ public class NewTestSuiteWizardPanel1Test
         panel.storeSettings(wizardMock);
         verify(wizardMock, never()).putProperty(anyString(), any());
     }
-    
+
     @Test
     public void storeSettingsWithNoCancelOptionAndValid()
     {
@@ -157,7 +157,7 @@ public class NewTestSuiteWizardPanel1Test
         verify(wizardMock).putProperty(eq(NewTestSuiteWizardPanel1.PROP_TEST_TESTCASE_NAMES), any());
         verify(wizardMock).putProperty(eq(NewTestSuiteWizardPanel1.PROP_TEST_TESTSUITE_NAME), any());
     }
-    
+
     @Test
     public void storeSettingsWithNoCancelOptionAndInvalid()
     {
@@ -168,7 +168,7 @@ public class NewTestSuiteWizardPanel1Test
         spyPanel.storeSettings(wizardMock);
         verify(wizardMock, never()).putProperty(anyString(), any());
     }
-    
+
     @Test
     public void storeSettingsWithCancelOption()
     {
@@ -177,7 +177,7 @@ public class NewTestSuiteWizardPanel1Test
         verify(wizardMock, atLeastOnce()).getValue();
         verifyNoMoreInteractions(wizardMock);
     }
-    
+
     @Test
     public void getHelpReturnsDefaultHelp()
     {

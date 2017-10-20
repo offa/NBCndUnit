@@ -24,9 +24,9 @@ import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static org.junit.Assert.*;
-import org.junit.BeforeClass;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -45,7 +45,7 @@ public class TestSupportUtilsTest
     private static TestSession testSessionMock;
     private static Project projectMock;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass()
     {
         testSessionMock = mock(TestSession.class);
