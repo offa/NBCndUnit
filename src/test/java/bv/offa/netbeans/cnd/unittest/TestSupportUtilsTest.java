@@ -25,6 +25,7 @@ import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -34,6 +35,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Lookup;
 
+@Tag("util")
 public class TestSupportUtilsTest
 {
     private static final String CASE_NAME = "testCase";

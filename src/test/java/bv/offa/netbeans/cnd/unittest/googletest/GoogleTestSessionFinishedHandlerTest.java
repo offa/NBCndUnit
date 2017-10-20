@@ -25,6 +25,7 @@ import java.util.regex.Matcher;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -35,6 +36,8 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Lookup;
 
+@Tag("Test-Framework")
+@Tag("GoogleTest")
 public class GoogleTestSessionFinishedHandlerTest
 {
     private static Project project;

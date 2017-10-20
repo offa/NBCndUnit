@@ -23,11 +23,13 @@ package bv.offa.netbeans.cnd.unittest.wizard;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
 
+@Tag("ui")
 public class NewTestMainWizardPanel1Test
 {
     private static WizardDescriptor wizardMock;

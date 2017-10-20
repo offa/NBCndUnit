@@ -24,6 +24,7 @@ import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import org.netbeans.api.project.Project;
@@ -32,6 +33,8 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Lookup;
 
+@Tag("Test-Framework")
+@Tag("CppUTest")
 public class CppUTestSuiteFinishedHandlerTest
 {
     private static Project project;

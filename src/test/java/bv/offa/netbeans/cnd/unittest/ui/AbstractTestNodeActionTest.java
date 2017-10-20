@@ -23,9 +23,11 @@ package bv.offa.netbeans.cnd.unittest.ui;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.netbeans.api.project.Project;
 
+@Tag("ui")
 public class AbstractTestNodeActionTest
 {
 

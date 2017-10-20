@@ -38,6 +38,7 @@ import static org.hamcrest.CoreMatchers.allOf;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -57,6 +58,8 @@ import org.netbeans.modules.gsf.testrunner.api.TestSuite;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Lookup;
 
+@Tag("Test-Framework")
+@Tag("LibUnittestCpp")
 public class LibunittestCppTestFinishedHandlerTest
 {
     private static final TestFramework FRAMEWORK = TestFramework.LIBUNITTESTCPP;

@@ -28,12 +28,15 @@ import java.util.regex.Matcher;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
+@Tag("Test-Framework")
+@Tag("GoogleTest")
 public class GoogleTestTestStartedHandlerTest
 {
     private static final TestFramework FRAMEWORK = TestFramework.GOOGLETEST;

@@ -36,12 +36,15 @@ import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.Trouble;
 import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 
+@Tag("Test-Framework")
+@Tag("GoogleTest")
 public class GoogleTestTestFinishedHandlerTest
 {
     private static final TestFramework FRAMEWORK = TestFramework.GOOGLETEST;

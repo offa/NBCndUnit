@@ -21,9 +21,12 @@
 package bv.offa.netbeans.cnd.unittest.googletest;
 
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactoryProvider;
 
+@Tag("Test-Framework")
+@Tag("GoogleTest")
 public class GoogleTestTestHandlerFactoryProviderTest
 {
     @Test
