@@ -35,7 +35,7 @@ import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.suiteFramewor
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.timeIs;
 import java.util.regex.Matcher;
 import static org.hamcrest.CoreMatchers.allOf;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

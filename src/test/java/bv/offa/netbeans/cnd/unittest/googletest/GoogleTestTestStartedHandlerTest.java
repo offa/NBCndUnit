@@ -26,7 +26,7 @@ import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.frameworkIs;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.matchesTestCase;
 import java.util.regex.Matcher;
 import static org.hamcrest.CoreMatchers.allOf;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;

@@ -23,8 +23,8 @@ package bv.offa.netbeans.cnd.unittest.googletest;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import java.util.regex.Matcher;
-import static org.junit.Assert.*;
-import org.junit.Before;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
@@ -36,7 +36,7 @@ public class GoogleTestSuiteFinishedHandlerTest
     private ManagerAdapter manager;
 
 
-    @Before
+    @BeforeEach
     public void setUp()
     {
         handler = new GoogleTestSuiteFinishedHandler();

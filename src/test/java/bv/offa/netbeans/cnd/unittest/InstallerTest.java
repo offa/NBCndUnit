@@ -19,8 +19,8 @@
  */
 package bv.offa.netbeans.cnd.unittest;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
-import static org.junit.Assert.*;
 import org.junit.jupiter.api.Test;
 
 public class InstallerTest

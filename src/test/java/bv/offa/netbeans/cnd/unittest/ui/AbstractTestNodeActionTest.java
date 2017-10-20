@@ -22,7 +22,7 @@ package bv.offa.netbeans.cnd.unittest.ui;
 
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.netbeans.api.project.Project;
 

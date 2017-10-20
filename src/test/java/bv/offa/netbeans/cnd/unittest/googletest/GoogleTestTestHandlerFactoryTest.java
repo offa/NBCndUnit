@@ -23,7 +23,7 @@ package bv.offa.netbeans.cnd.unittest.googletest;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.netbeans.modules.cnd.testrunner.spi.TestHandlerFactory;

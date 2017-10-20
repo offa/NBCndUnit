@@ -36,7 +36,7 @@ public final class TestMatcher
         /* Empty */
     }
 
-    
+
     public static Matcher<Trouble> isError()
     {
         return new BaseMatcher<Trouble>()
@@ -55,8 +55,8 @@ public final class TestMatcher
             }
         };
     }
-    
-    
+
+
     public static Matcher<Trouble> isNoError()
     {
         return new BaseMatcher<Trouble>()
@@ -74,8 +74,8 @@ public final class TestMatcher
             }
         };
     }
-    
-    
+
+
     public static Matcher<CndTestCase> matchesTestCase(final String name, final String suite)
     {
         return new BaseMatcher<CndTestCase>()
@@ -98,8 +98,8 @@ public final class TestMatcher
             }
         };
     }
-    
-    
+
+
     public static Matcher<CndTestCase> frameworkIs(final TestFramework framework)
     {
         return new BaseMatcher<CndTestCase>()
@@ -119,8 +119,8 @@ public final class TestMatcher
             }
         };
     }
-    
-    
+
+
     public static Matcher<CndTestCase> timeIs(final long timeMs)
     {
         return new BaseMatcher<CndTestCase>()
@@ -141,8 +141,8 @@ public final class TestMatcher
             }
         };
     }
-        
-    
+
+
     public static Matcher<CndTestCase> sessionIs(final TestSession session)
     {
         return new BaseMatcher<CndTestCase>()
@@ -161,8 +161,8 @@ public final class TestMatcher
             }
         };
     }
-    
-    
+
+
     public static Matcher<CndTestCase> hasError()
     {
         return new BaseMatcher<CndTestCase>()
@@ -181,8 +181,8 @@ public final class TestMatcher
             }
         };
     }
-    
-    
+
+
     public static Matcher<CndTestCase> hasNoError()
     {
         return new BaseMatcher<CndTestCase>()
@@ -202,7 +202,7 @@ public final class TestMatcher
         };
     }
 
-    
+
     public static Matcher<CndTestCase> hasStatus(final Status status)
     {
         return new BaseMatcher<CndTestCase>()
@@ -221,8 +221,8 @@ public final class TestMatcher
             }
         };
     }
-    
-    
+
+
     public static Matcher<CndTestSuite> matchesTestSuite(final String name)
     {
         return new BaseMatcher<CndTestSuite>()
@@ -241,8 +241,8 @@ public final class TestMatcher
             }
         };
     }
-    
-    
+
+
     public static Matcher<CndTestSuite> suiteFrameworkIs(final TestFramework framework)
     {
         return new BaseMatcher<CndTestSuite>()
@@ -261,5 +261,5 @@ public final class TestMatcher
             }
         };
     }
-    
+
 }

@@ -22,7 +22,7 @@ package bv.offa.netbeans.cnd.unittest.googletest;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import java.util.regex.Matcher;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
