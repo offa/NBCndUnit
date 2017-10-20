@@ -26,6 +26,7 @@ import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.timeIs;
 import java.util.regex.Matcher;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

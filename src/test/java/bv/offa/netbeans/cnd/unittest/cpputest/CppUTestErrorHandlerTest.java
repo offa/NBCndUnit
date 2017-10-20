@@ -29,6 +29,7 @@ import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestC
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasError;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasNoError;
 import java.util.regex.Matcher;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
