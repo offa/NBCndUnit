@@ -24,10 +24,8 @@ import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.Rule;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.rules.ExpectedException;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.netbeans.api.project.Project;
@@ -40,8 +38,6 @@ public class TestSupportUtilsTest
 {
     private static final String CASE_NAME = "testCase";
     private static final String SUITE_NAME = "TestSuite";
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
     private static TestSession testSessionMock;
     private static Project projectMock;
 

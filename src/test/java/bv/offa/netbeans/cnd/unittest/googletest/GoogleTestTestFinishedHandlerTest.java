@@ -35,10 +35,8 @@ import java.util.regex.Matcher;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.rules.ExpectedException;
 import static org.mockito.Mockito.*;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.Trouble;
@@ -47,8 +45,6 @@ import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 public class GoogleTestTestFinishedHandlerTest
 {
     private static final TestFramework FRAMEWORK = TestFramework.GOOGLETEST;
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
     private GoogleTestTestFinishedHandler handler;
     private TestSession session;
     private ManagerAdapter manager;
@@ -136,8 +132,9 @@ public class GoogleTestTestFinishedHandlerTest
     public void updateUIThrowsIfNoTestCase()
     {
         checkedMatch(handler, "[       OK ] TestSuite.testCase (0 ms)");
-        exception.expect(IllegalStateException.class);
-        handler.updateUI(manager, session);
+        IllegalStateException ex = assertThrows(IllegalStateException.class,
+                                                () -> handler.updateUI(manager, session));
+        assertNotNull(ex);
     }
 
     @Test
@@ -145,8 +142,9 @@ public class GoogleTestTestFinishedHandlerTest
     {
         createCurrentTestCase("WrongTestSuite", "testCase", FRAMEWORK, session);
         checkedMatch(handler, "[       OK ] TestSuite.testCase (0 ms)");
-        exception.expect(IllegalStateException.class);
-        handler.updateUI(manager, session);
+        IllegalStateException ex = assertThrows(IllegalStateException.class,
+                                                () -> handler.updateUI(manager, session));
+        assertNotNull(ex);
     }
 
     @Test
@@ -154,8 +152,9 @@ public class GoogleTestTestFinishedHandlerTest
     {
         createCurrentTestCase("TestSuite", "wrongTestCase", FRAMEWORK, session);
         checkedMatch(handler, "[       OK ] TestSuite.testCase (0 ms)");
-        exception.expect(IllegalStateException.class);
-        handler.updateUI(manager, session);
+        IllegalStateException ex = assertThrows(IllegalStateException.class,
+                                                () -> handler.updateUI(manager, session));
+        assertNotNull(ex);
     }
 
     @Test
