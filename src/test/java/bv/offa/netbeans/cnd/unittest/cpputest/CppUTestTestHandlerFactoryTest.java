@@ -66,7 +66,7 @@ public class CppUTestTestHandlerFactoryTest
     public void factorySetsFrameWork()
     {
         factory.createHandlers();
-        assertEquals(TestFramework.CPPUTEST.getName(), Manager.getInstance().getTestingFramework() );
+        assertEquals(TestFramework.CPPUTEST.getName(), Manager.getInstance().getTestingFramework());
     }
 
     @Test
