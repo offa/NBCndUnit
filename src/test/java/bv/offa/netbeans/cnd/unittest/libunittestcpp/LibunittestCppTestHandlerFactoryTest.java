@@ -66,7 +66,7 @@ public class LibunittestCppTestHandlerFactoryTest
     public void factorySetsFrameWork()
     {
         factory.createHandlers();
-        assertEquals(TestFramework.LIBUNITTESTCPP.getName(), Manager.getInstance().getTestingFramework() );
+        assertEquals(TestFramework.LIBUNITTESTCPP.getName(), Manager.getInstance().getTestingFramework());
     }
 
     @Test
