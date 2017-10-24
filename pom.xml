@@ -150,6 +150,7 @@ Test templates are under "Unit Tests" file category.</description>
             </snapshots>
         </repository>
     </repositories>
+    
     <dependencies>
         <dependency>
             <groupId>org.netbeans.api</groupId>
