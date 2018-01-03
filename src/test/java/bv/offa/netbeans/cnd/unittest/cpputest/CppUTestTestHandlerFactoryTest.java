@@ -1,6 +1,6 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
- * Copyright (C) 2015-2017  offa
+ * Copyright (C) 2015-2018  offa
  *
  * This file is part of NBCndUnit.
  *
