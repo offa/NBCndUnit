@@ -2,7 +2,7 @@
 
 set -ex
 
-update-ca-certificates -f
+wget --version
 
 # Install Dependencies
 mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
