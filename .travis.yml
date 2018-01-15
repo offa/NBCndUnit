@@ -6,6 +6,10 @@ sudo: required
 services:
   - docker
 
+env:
+  global:
+    - DOCKER_IMG="maven:3-jdk"
+
 matrix:
     include:
     - env: JDK=8
@@ -13,8 +17,8 @@ matrix:
 
 
 before_install:
-  - docker pull maven:3-jdk-${JDK}
+  - docker pull ${DOCKER_IMG}-${JDK}
 
 script:
   - echo "**** Building JDK ${JDK} ****"
-  - docker run -v ${PWD}:/mnt -it ${DOCKER_IMG}/${COMPILER} /bin/bash -c "cd /mnt; script/ci_build.sh"
+  - docker run -v ${PWD}:/mnt -it ${DOCKER_IMG}-${JDK} /bin/bash -c "cd /mnt; script/ci_build.sh"
