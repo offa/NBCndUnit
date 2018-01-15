@@ -42,7 +42,7 @@ public class NewTestSuiteWizardIteratorTest
     @BeforeAll
     public static void setUpClass()
     {
-        wizardMock = createMock(true, false, true,
+        wizardMock = createMock(true, false, true, true,
                 Arrays.asList("testCase1", "testCase2", "testCase3"), "TestSuite");
     }
 
@@ -56,6 +56,7 @@ public class NewTestSuiteWizardIteratorTest
         assertEquals(Boolean.TRUE, params.get("generateSetup"));
         assertEquals(Boolean.FALSE, params.get("generateTeardown"));
         assertEquals(Boolean.TRUE, params.get("generateTestCases"));
+        assertEquals(Boolean.TRUE, params.get("enableModernCpp"));
         assertThat((List<String>) params.get("testCases"),
                     hasItems("testCase1", "testCase2", "testCase3"));
         assertEquals("TestSuite", params.get("suiteName"));
@@ -63,8 +64,8 @@ public class NewTestSuiteWizardIteratorTest
 
 
     private static  WizardDescriptor createMock(boolean genSetup, boolean genTeardown,
-                                                boolean genTestCases, List<String> testCases,
-                                                String testSuite)
+                                                boolean genTestCases, boolean enableModernCpp,
+                                                List<String> testCases, String testSuite)
     {
         WizardDescriptor wiz = mock(WizardDescriptor.class);
         when(wiz.getProperty(NewTestSuiteWizardPanel1.PROP_TEST_GENERATE_SETUP)).thenReturn(genSetup);
@@ -72,6 +73,7 @@ public class NewTestSuiteWizardIteratorTest
         when(wiz.getProperty(NewTestSuiteWizardPanel1.PROP_TEST_GENERATE_TESTCASES)).thenReturn(genTestCases);
         when(wiz.getProperty(NewTestSuiteWizardPanel1.PROP_TEST_TESTCASE_NAMES)).thenReturn(testCases);
         when(wiz.getProperty(NewTestSuiteWizardPanel1.PROP_TEST_TESTSUITE_NAME)).thenReturn(testSuite);
+        when(wiz.getProperty(NewTestSuiteWizardPanel1.PROP_TEST_ENABLE_MODERNCPP)).thenReturn(enableModernCpp);
 
         return wiz;
     }
