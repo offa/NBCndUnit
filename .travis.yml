@@ -1,12 +1,20 @@
-language: java
+language: generic
 
 dist: trusty
+sudo: required
 
-jdk:
-    - openjdk8
-    - oraclejdk8
-    - oraclejdk9
+services:
+  - docker
 
-cache:
-    directories:
-        - $HOME/.m2
+matrix:
+    include:
+    - env: JDK=8
+    - env: JDK=9
+
+
+before_install:
+  - docker pull maven:3-jdk-${JDK}
+
+script:
+  - echo "**** Building JDK ${JDK} ****"
+  - docker run -v ${PWD}:/mnt -it ${DOCKER_IMG}/${COMPILER} /bin/bash -c "cd /mnt; script/ci_build.sh"
