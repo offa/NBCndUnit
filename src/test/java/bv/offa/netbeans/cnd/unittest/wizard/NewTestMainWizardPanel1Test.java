@@ -71,6 +71,7 @@ public class NewTestMainWizardPanel1Test
         spyPanel.storeSettings(wizardMock);
         verify(wizardMock).putProperty(eq(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_VERBOSE), any());
         verify(wizardMock).putProperty(eq(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_COLOR), any());
+        verify(wizardMock).putProperty(eq(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_MODERNCPP), any());
     }
 
     @Test

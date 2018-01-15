@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2018  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -26,19 +26,20 @@ import org.openide.util.HelpCtx;
 /**
  * The class {@code NewTestMainWizardPanel1} implements a wizard panel for
  * test mains.
- * 
+ *
  * @author offa
  */
 public class NewTestMainWizardPanel1 extends AbstractWizardPanel
 {
     protected static final String PROP_MAIN_ENABLE_VERBOSE = "PROP_MAIN_ENABLE_VERBOSE";
     protected static final String PROP_MAIN_ENABLE_COLOR = "PROP_MAIN_ENABLE_COLOR";
+    protected static final String PROP_MAIN_ENABLE_MODERNCPP = "PROP_MAIN_ENABLE_MODERNCPP";
     private NewTestMainVisualPanel1 component;
 
-    
+
     /**
      * Gets the visual component.
-     * 
+     *
      * @return  Component
      */
     @Override
@@ -49,16 +50,16 @@ public class NewTestMainWizardPanel1 extends AbstractWizardPanel
             component = new NewTestMainVisualPanel1();
             component.addChangeListener(this);
         }
-        
+
         return component;
     }
 
-    
-    
+
+
     /**
      * Help for this panel. When the panel is active, this is used as the help
      * for the wizard dialog.
-     * 
+     *
      * @return  The help or {@code null} if no help is supplied
      */
     @Override
@@ -71,10 +72,10 @@ public class NewTestMainWizardPanel1 extends AbstractWizardPanel
     /**
      * Tests whether the panel meets all conditions to be valid. If so, the
      * panel is finished and it is safe to proceed to the next one.
-     * 
+     *
      * <p><b>Note:</b> The "Next" (or "Finish") button will only be enabled if
      * this method returns {@code true}.</p>
-     * 
+     *
      * @return  Returns {@code true} if valid, or {@code false} otherwise
      */
     @Override
@@ -86,7 +87,7 @@ public class NewTestMainWizardPanel1 extends AbstractWizardPanel
 
     /**
      * Reads the settings from the wizard descriptor.
-     * 
+     *
      * @param wiz   Wizard descriptor
      */
     @Override
@@ -98,7 +99,7 @@ public class NewTestMainWizardPanel1 extends AbstractWizardPanel
 
     /**
      * Stores the settings to the wizard descriptor.
-     * 
+     *
      * @param wiz   Wizard descriptor
      */
     @Override
@@ -108,47 +109,58 @@ public class NewTestMainWizardPanel1 extends AbstractWizardPanel
         {
             wiz.putProperty(PROP_MAIN_ENABLE_VERBOSE, getEnableVerboseOutputFromVisualPanel());
             wiz.putProperty(PROP_MAIN_ENABLE_COLOR, getEnableColorOutputFromVisualPanel());
+            wiz.putProperty(PROP_MAIN_ENABLE_MODERNCPP, getEnableModernCppFromVisualPanel());
             wiz.putProperty(PROP_CONFIGURE_CUSTOM_PROJECT, getConfigureCustomProjectFromVisualPanel());
         }
     }
-    
-    
+
+
     /**
      * Sets the visual component.
-     * 
+     *
      * @param comp  Component
      */
     void setComponent(NewTestMainVisualPanel1 comp)
     {
         this.component = comp;
     }
-    
-    
+
+
     /**
      * Returns the verbose mode setting from the visual component.
-     * 
+     *
      * @return  Setting
      */
     private boolean getEnableVerboseOutputFromVisualPanel()
     {
         return getComponent().getEnableVerbose();
     }
-    
-    
+
+
     /**
      * Returns the color mode setting from the visual component.
-     * 
+     *
      * @return  Setting
      */
     private boolean getEnableColorOutputFromVisualPanel()
     {
         return getComponent().getEnableColor();
     }
-    
-    
+
+    /**
+     * Returns the <i>modern C++</i> setting from the visual component.
+     *
+     * @return  Setting
+     */
+    private boolean getEnableModernCppFromVisualPanel()
+    {
+        return getComponent().getEnableModernCpp();
+    }
+
+
     /**
      * Returns whether to configure a custom project from the visual component.
-     * 
+     *
      * @return  Configure Setting
      */
     private boolean getConfigureCustomProjectFromVisualPanel()

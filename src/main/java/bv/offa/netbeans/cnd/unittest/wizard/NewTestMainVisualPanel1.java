@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2018  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -23,26 +23,26 @@ package bv.offa.netbeans.cnd.unittest.wizard;
 /**
  * The class {@code NewTestMainVisualPanel1} implements a visual panel for
  * test mains.
- * 
+ *
  * @author offa
  */
 public class NewTestMainVisualPanel1 extends AbstractVisualPanel
 {
     private static final long serialVersionUID = 1L;
-    
-    
+
+
     public NewTestMainVisualPanel1()
     {
         super("Step #1");
-        
+
         initComponents();
     }
 
 
-    
+
     /**
      * Returns whether the verbose mode is enabled.
-     * 
+     *
      * @return  Setting of verbose mode
      */
     public boolean getEnableVerbose()
@@ -53,18 +53,29 @@ public class NewTestMainVisualPanel1 extends AbstractVisualPanel
 
     /**
      * Returns whether the color mode is enabled.
-     * 
+     *
      * @return  Setting of color mode
      */
     public boolean getEnableColor()
     {
         return cbColoredOutput.isSelected();
     }
-    
-    
+
+
+    /**
+     * Returns whether the <i>modern C++</i> option is enabled.
+     *
+     * @return  Setting of the <i>modern C++</i> option
+     */
+    public boolean getEnableModernCpp()
+    {
+        return cbEnableModernCpp.isSelected();
+    }
+
+
     /**
      * Returns whether a existing project should be configured for test.
-     * 
+     *
      * @return  Configure Setting
      */
     public boolean getConfigureCustomProject()
@@ -72,7 +83,7 @@ public class NewTestMainVisualPanel1 extends AbstractVisualPanel
         return cbCustomProjectEnable.isSelected();
     }
 
-    
+
     /**
      * This method is called from within the constructor to
      * initialize the form.
@@ -87,18 +98,17 @@ public class NewTestMainVisualPanel1 extends AbstractVisualPanel
         cbVerboseOutput = new javax.swing.JCheckBox();
         cbColoredOutput = new javax.swing.JCheckBox();
         cbCustomProjectEnable = new javax.swing.JCheckBox();
+        cbEnableModernCpp = new javax.swing.JCheckBox();
 
         org.openide.awt.Mnemonics.setLocalizedText(lSettings, org.openide.util.NbBundle.getMessage(NewTestMainVisualPanel1.class, "NewTestMainVisualPanel1.lSettings.text")); // NOI18N
 
-        cbVerboseOutput.setSelected(true);
         org.openide.awt.Mnemonics.setLocalizedText(cbVerboseOutput, org.openide.util.NbBundle.getMessage(NewTestMainVisualPanel1.class, "NewTestMainVisualPanel1.cbVerboseOutput.text")); // NOI18N
-        cbVerboseOutput.setEnabled(false);
 
-        cbColoredOutput.setSelected(true);
         org.openide.awt.Mnemonics.setLocalizedText(cbColoredOutput, org.openide.util.NbBundle.getMessage(NewTestMainVisualPanel1.class, "NewTestMainVisualPanel1.cbColoredOutput.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(cbCustomProjectEnable, org.openide.util.NbBundle.getMessage(NewTestMainVisualPanel1.class, "NewTestMainVisualPanel1.cbCustomProjectEnable.text")); // NOI18N
-        cbCustomProjectEnable.setToolTipText("<html><p>Enables the <b>Test</b> functionality for custom projects (eg. using CMake). This is required only <i>once</i> per project (indeed enabling it repeatedly has no effect).</p>\n\n<p><b>Required make targets:</b>\n<ul>\n<li><i>build-tests</i> – Builds the tests</li>\n<li><i>test</i> – Executes the tests</li>\n</ul>\n</p>\n\n<p>See <a href=\"https://github.com/offa/NBCndUnit\">https://github.com/offa/NBCndUnit</a> for more information.</p>\n</html>"); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(cbEnableModernCpp, org.openide.util.NbBundle.getMessage(NewTestMainVisualPanel1.class, "NewTestMainVisualPanel1.cbEnableModernCpp.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -110,6 +120,7 @@ public class NewTestMainVisualPanel1 extends AbstractVisualPanel
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cbCustomProjectEnable)
+                    .addComponent(cbEnableModernCpp)
                     .addComponent(cbColoredOutput)
                     .addComponent(cbVerboseOutput))
                 .addContainerGap(65, Short.MAX_VALUE))
@@ -124,8 +135,10 @@ public class NewTestMainVisualPanel1 extends AbstractVisualPanel
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbColoredOutput)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbEnableModernCpp)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbCustomProjectEnable)
-                .addContainerGap(211, Short.MAX_VALUE))
+                .addContainerGap(182, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -133,6 +146,7 @@ public class NewTestMainVisualPanel1 extends AbstractVisualPanel
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbColoredOutput;
     private javax.swing.JCheckBox cbCustomProjectEnable;
+    private javax.swing.JCheckBox cbEnableModernCpp;
     private javax.swing.JCheckBox cbVerboseOutput;
     private javax.swing.JLabel lSettings;
     // End of variables declaration//GEN-END:variables
