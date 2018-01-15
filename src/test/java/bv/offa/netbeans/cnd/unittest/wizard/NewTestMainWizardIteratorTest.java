@@ -42,6 +42,7 @@ public class NewTestMainWizardIteratorTest
         wizardMock = mock(WizardDescriptor.class);
         when(wizardMock.getProperty(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_VERBOSE)).thenReturn(true);
         when(wizardMock.getProperty(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_COLOR)).thenReturn(false);
+        when(wizardMock.getProperty(NewTestMainWizardPanel1.PROP_MAIN_ENABLE_MODERNCPP)).thenReturn(true);
     }
 
     @BeforeEach
@@ -56,5 +57,6 @@ public class NewTestMainWizardIteratorTest
         final Map<String, Object> params = wizardIterator.getTemplateParameters();
         assertEquals(Boolean.TRUE, params.get("enableVerbose"));
         assertEquals(Boolean.FALSE, params.get("enableColor"));
+        assertEquals(Boolean.TRUE, params.get("enableModernCpp"));
     }
 }
