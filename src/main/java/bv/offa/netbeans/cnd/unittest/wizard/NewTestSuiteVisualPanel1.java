@@ -155,17 +155,6 @@ public class NewTestSuiteVisualPanel1 extends AbstractVisualPanel
 
 
     /**
-     * Sets the test generation.
-     *
-     * @param generate  Test generation
-     */
-    void setGenerateTestCases(boolean generate)
-    {
-        cbGenerateTestCases.setSelected(generate);
-    }
-
-
-    /**
      * Initializes the listeners.
      */
     private void initListener()
