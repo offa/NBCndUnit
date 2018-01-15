@@ -2,7 +2,7 @@
 
 set -ex
 
-uname -a
+update-ca-certificates -f
 
 # Install Dependencies
 mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
