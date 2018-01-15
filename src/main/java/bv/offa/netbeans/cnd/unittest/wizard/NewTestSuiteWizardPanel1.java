@@ -238,7 +238,7 @@ public class NewTestSuiteWizardPanel1 extends AbstractWizardPanel
         return getComponent().getEnableModernCpp();
     }
 
-    
+
     /**
      * Checks if {@code testCases} are valid test cases. If not,
      * an error is set.
@@ -254,15 +254,14 @@ public class NewTestSuiteWizardPanel1 extends AbstractWizardPanel
             setErrorMessage(getMessageFromBundle("MSG_Err_Empty_TestCase_Name"));
             return false;
         }
-        else if( WizardUtils.isValidIdentifier(testCases.get(0)) == false )
+
+        if( WizardUtils.isValidIdentifier(testCases.get(0)) == false )
         {
             setErrorMessage(getMessageFromBundle("MSG_Err_Invalid_TestCase_Name"));
             return false;
         }
-        else
-        {
-            return true;
-        }
+        
+        return true;
     }
 
 
