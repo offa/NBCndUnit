@@ -2,6 +2,8 @@
 
 set -ex
 
+set _JAVA_OPTIONS=-Djavax.net.ssl.trustStorePassword=changeit
+
 # Install Dependencies
 mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
