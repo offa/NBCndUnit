@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   ${nameAndExt}
  * Author: ${user}
  *
@@ -10,14 +10,22 @@
 TEST_GROUP(${suiteName})
 {
 <#if generateSetup == true >
+    <#if enableModernCpp == true>
+    void setup() override
+    <#else>
     void setup()
+    </#if>
     {
         // Setup ...
     }
 
 </#if>
 <#if generateTeardown == true >
+    <#if enableModernCpp == true>
+    void teardown() override
+    <#else>
     void teardown()
+    </#if>
     {
         // Teardown ...
     }
