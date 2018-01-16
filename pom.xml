@@ -108,7 +108,7 @@ Test templates are under "Unit Tests" file category.</description>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.9</version>
+                <version>0.8.0</version>
                 <executions>
                     <execution>
                         <goals>
