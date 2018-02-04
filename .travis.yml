@@ -8,7 +8,7 @@ services:
 
 env:
   global:
-    - DOCKER_IMG="maven:3-jdk"
+    - DOCKER_IMG="registry.gitlab.com/offa/docker-images/openjdk"
 
 matrix:
     include:
@@ -17,7 +17,7 @@ matrix:
 
 
 before_install:
-  - docker pull ${DOCKER_IMG}-${JDK}
+  - docker pull ${DOCKER_IMG}-${JDK}-maven:latest
 
 script:
-  - docker run -v ${PWD}:/mnt -it ${DOCKER_IMG}-${JDK} /bin/bash -c "cd /mnt; script/ci_build.sh"
+  - docker run -v ${PWD}:/mnt -it ${DOCKER_IMG}-${JDK}-maven:latest /bin/bash -c "cd /mnt; script/ci_build.sh"
