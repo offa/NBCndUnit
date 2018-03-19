@@ -164,7 +164,7 @@ public class CppUTestTestHandlerTest
     }
 
     @Test
-    public void updateUIStartsStartsTestBeforeSuite()
+    public void updateUIStartsTestBeforeSuite()
     {
         checkedMatch(handler, "TEST(TestSuite, testCase) - 84 ms");
         handler.updateUI(manager, session);

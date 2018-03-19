@@ -107,7 +107,7 @@ public class GoogleTestSuiteStartedHandlerTest
     }
 
     @Test
-    public void updateUIStartsStartsTestBeforeSuite()
+    public void updateUIStartsTestBeforeSuite()
     {
         checkedMatch(handler, "[----------] 1 test from TestSuite");
         handler.updateUI(manager, session);

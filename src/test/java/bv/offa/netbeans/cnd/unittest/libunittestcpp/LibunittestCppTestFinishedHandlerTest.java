@@ -136,7 +136,7 @@ public class LibunittestCppTestFinishedHandlerTest
     }
 
     @Test
-    public void updateUIStartsStartsTestBeforeSuite()
+    public void updateUIStartsTestBeforeSuite()
     {
         checkedMatch(handler, "TestSuite::testCase ... [1.551e-05s] ok");
         handler.updateUI(manager, session);
