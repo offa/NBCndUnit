@@ -1,9 +1,9 @@
 #!/bin/sh
 
+set -ex
+
 java -version
 mvn --version
-
-set -ex
 
 
 # Install Dependencies
