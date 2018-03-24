@@ -51,6 +51,17 @@ public class NewTestSuiteVisualPanel1Test
         panel.removeChangeListener(listenerMock);
     }
 
+    @Test
+    public void defaultSettings()
+    {
+        assertFalse(panel.getTestSuiteName().isEmpty());
+        assertTrue(panel.getGenerateTestCases());
+        assertFalse(panel.getTestCaseNames().isEmpty());
+        assertTrue(panel.getGenerateSetup());
+        assertTrue(panel.getGenerateTeardown());
+        assertTrue(panel.getEnableModernCpp());
+        assertFalse(panel.getConfigureCustomProject());
+    }
 
     @Test
     public void getTestCaseNamesIsEmptyIfNothingSet()
