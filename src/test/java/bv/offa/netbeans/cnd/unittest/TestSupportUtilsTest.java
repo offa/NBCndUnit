@@ -87,100 +87,100 @@ public class TestSupportUtilsTest
     }
 
     @Test
-    public void getUniqueDeclaratonNameTestCaseCppUTest()
+    public void getUniqueDeclarationNameTestCaseCppUTest()
     {
         CndTestCase testCase = new CndTestCase(CASE_NAME, TestFramework.CPPUTEST, testSessionMock);
         testCase.setClassName(SUITE_NAME);
 
         final String expected = "C:TEST_" + SUITE_NAME + "_" + CASE_NAME + "_Test";
-        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testCase));
+        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testCase));
     }
 
     @Test
-    public void getUniqueDeclaratonNameTestCaseCppUTestIgnored()
+    public void getUniqueDeclarationNameTestCaseCppUTestIgnored()
     {
         CndTestCase testCase = new CndTestCase(CASE_NAME, TestFramework.CPPUTEST, testSessionMock);
         testCase.setClassName(SUITE_NAME);
         testCase.setStatus(Status.SKIPPED);
 
         final String expected = "C:IGNORE" + SUITE_NAME + "_" + CASE_NAME + "_Test";
-        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testCase));
+        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testCase));
     }
 
     @Test
-    public void getUniqueDeclaratonNameTestSuiteCppUTest()
+    public void getUniqueDeclarationNameTestSuiteCppUTest()
     {
         CndTestSuite testSuite = new CndTestSuite(SUITE_NAME, TestFramework.CPPUTEST);
 
         final String expected = "S:TEST_GROUP_CppUTestGroup" + SUITE_NAME;
-        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testSuite));
+        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testSuite));
     }
 
     @Test
-    public void getUniqueDeclaratonNameTestCaseGoogleTest()
+    public void getUniqueDeclarationNameTestCaseGoogleTest()
     {
         CndTestCase testCase = new CndTestCase(CASE_NAME, TestFramework.GOOGLETEST, testSessionMock);
         testCase.setClassName(SUITE_NAME);
 
         final String expected = "C:" + SUITE_NAME + "_" + CASE_NAME + "_Test";
-        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testCase));
+        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testCase));
     }
 
     @Test
-    public void getUniqueDeclaratonNameTestCaseGoogleTestWithParameter()
+    public void getUniqueDeclarationNameTestCaseGoogleTestWithParameter()
     {
         CndTestCase testCase = new CndTestCase(CASE_NAME, TestFramework.GOOGLETEST, testSessionMock);
         testCase.setClassName("withParam/" + SUITE_NAME);
 
         final String expected = "C:" + SUITE_NAME + "_" + CASE_NAME + "_Test";
-        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testCase));
+        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testCase));
     }
 
     @Test
-    public void getUniqueDeclaratonNameTestSuiteGoogleTest()
+    public void getUniqueDeclarationNameTestSuiteGoogleTest()
     {
         CndTestSuite testSuite = new CndTestSuite(SUITE_NAME, TestFramework.GOOGLETEST);
 
         final String expected = "C:" + SUITE_NAME;
-        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testSuite));
+        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testSuite));
     }
 
     @Test
-    public void getUniqueDeclaratonNameTestSuiteGoogleTestWithParameter()
+    public void getUniqueDeclarationNameTestSuiteGoogleTestWithParameter()
     {
         CndTestSuite testSuite = new CndTestSuite("withParam/" + SUITE_NAME, TestFramework.GOOGLETEST);
 
         final String expected = "C:" + SUITE_NAME;
-        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testSuite));
+        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testSuite));
     }
 
     @Test
-    public void getUniqueDeclaratonNameTestCaseLibunittestCpp()
+    public void getUniqueDeclarationNameTestCaseLibunittestCpp()
     {
         CndTestCase testCase = new CndTestCase(CASE_NAME, TestFramework.LIBUNITTESTCPP, testSessionMock);
         testCase.setClassName(SUITE_NAME);
 
         final String expected = "S:" + SUITE_NAME + "::" + CASE_NAME;
-        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testCase));
+        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testCase));
     }
 
     @Test
-    public void getUniqueDeclaratonNameTestCaseLibunittestCppWithToken()
+    public void getUniqueDeclarationNameTestCaseLibunittestCppWithToken()
     {
         CndTestCase testCase = new CndTestCase(CASE_NAME + "::test", TestFramework.LIBUNITTESTCPP, testSessionMock);
         testCase.setClassName(SUITE_NAME);
 
         final String expected = "S:" + SUITE_NAME + "::" + CASE_NAME;
-        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testCase));
+        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testCase));
     }
 
     @Test
-    public void getUniqueDeclaratonNameTestSuiteLibunittestCpp()
+    public void getUniqueDeclarationNameTestSuiteLibunittestCpp()
     {
         CndTestSuite testSuite = new CndTestSuite(SUITE_NAME, TestFramework.LIBUNITTESTCPP);
 
         final String expected = "S:" + SUITE_NAME + "::__testcollection_child__";
-        assertEquals(expected, TestSupportUtils.getUniqueDeclaratonName(testSuite));
+        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testSuite));
     }
 
     private long parseMs(String timeSec)

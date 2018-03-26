@@ -93,7 +93,7 @@ public final class TestSupportUtils
      */
     public static void goToSourceOfTestSuite(Project project, CndTestSuite testSuite)
     {
-        final String uniqueDecl = getUniqueDeclaratonName(testSuite);
+        final String uniqueDecl = TestSupportUtils.getUniqueDeclarationName(testSuite);
         goToDeclaration(project, uniqueDecl);
     }
 
@@ -109,7 +109,7 @@ public final class TestSupportUtils
      */
     public static void goToSourceOfTestCase(Project project, CndTestCase testCase)
     {
-        final String uniqueDecl = getUniqueDeclaratonName(testCase);
+        final String uniqueDecl = getUniqueDeclarationName(testCase);
         goToDeclaration(project, uniqueDecl);
     }
 
@@ -183,7 +183,7 @@ public final class TestSupportUtils
      * @exception       IllegalArgumentException - if it's a TestCase of a
      *                  unsupported test framework.
      */
-    static String getUniqueDeclaratonName(CndTestCase testCase)
+    static String getUniqueDeclarationName(CndTestCase testCase)
     {
         switch(testCase.getFramework())
         {
@@ -212,7 +212,7 @@ public final class TestSupportUtils
      * @exception       IllegalArgumentException - if it's a TestCase of a
      *                  unsupported test framework.
      */
-    static String getUniqueDeclaratonName(CndTestSuite testSuite)
+    static String getUniqueDeclarationName(CndTestSuite testSuite)
     {
         switch(testSuite.getFramework())
         {
