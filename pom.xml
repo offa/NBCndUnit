@@ -128,7 +128,7 @@ Test templates are under "Unit Tests" file category.</description>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19.1</version> <!-- Surefire v2.20 is broken (see #46) -->
+                <version>2.21.0</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.junit.platform</groupId>
