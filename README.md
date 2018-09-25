@@ -4,7 +4,7 @@
 [![GitHub release](https://img.shields.io/github/release/offa/NBCndUnit.svg)](https://github.com/offa/NBCndUnit/releases)
 [![License](https://img.shields.io/badge/license-GPLv3-yellow.svg)](LICENSE)
 [![NetBeans](https://img.shields.io/badge/netbeans-8.2-lightgrey.svg)](http://plugins.netbeans.org/plugin/57174/nbcndunit)
-![Java](https://img.shields.io/badge/java-1.7-green.svg)
+![Java](https://img.shields.io/badge/java-1.8-green.svg)
 
 **NBCndUnit** is a [***NetBeans***](https://netbeans.org) plugin for ***C/C++ unit testing***. It integrates the [_**CppUTest**_](https://cpputest.github.io/), [_**GoogleTest** (gtest) / **GoogleMock** (gmock)_](https://github.com/google/googletest) and [_**libunittest C++**_](http://libunittest.sourceforge.net/) unit testing frameworks.
 
