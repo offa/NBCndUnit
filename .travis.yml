@@ -16,6 +16,7 @@ matrix:
     - env: JDK=8
     - env: JDK=9
     - env: JDK=10
+    - env: JDK=11
 
 
 before_install:
