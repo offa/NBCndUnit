@@ -51,7 +51,7 @@ Test templates are under "Unit Tests" file category.</description>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>3.1.0</version>
                 <configuration>
                 </configuration>
                 <executions>
@@ -78,7 +78,7 @@ Test templates are under "Unit Tests" file category.</description>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>animal-sniffer-maven-plugin</artifactId>
-                <version>1.17</version>
+                <version>1.18</version>
                 <executions>
                     <execution>
                         <id>animal-sniffer</id>
@@ -279,7 +279,7 @@ Test templates are under "Unit Tests" file category.</description>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>2.27.0</version>
+            <version>2.28.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
