@@ -271,6 +271,12 @@ Test templates are under "Unit Tests" file category.</description>
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>com.google.truth</groupId>
+            <artifactId>truth</artifactId>
+            <version>0.46</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.apiguardian</groupId>
             <artifactId>apiguardian-api</artifactId>
             <version>1.0.0</version>
