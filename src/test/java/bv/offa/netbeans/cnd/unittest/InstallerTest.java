@@ -19,8 +19,9 @@
  */
 package bv.offa.netbeans.cnd.unittest;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsCollectionContaining.hasItems;
+import com.google.common.collect.Lists;
+import static com.google.common.truth.Truth.assertThat;
+import java.util.List;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -31,20 +32,19 @@ public class InstallerTest
     @Test
     public void installerHasAllFriends()
     {
-        final String requiredFriends[] = new String[]
-        {
-            "org.netbeans.modules.cnd.testrunner",
-            "org.netbeans.modules.gsf.testrunner",
-            "org.netbeans.modules.gsf.testrunner.ui",
-            "org.netbeans.modules.cnd.modelutil",
-            "org.netbeans.modules.cnd.makeproject",
-            "org.netbeans.modules.cnd.api.model",
-            "org.netbeans.modules.cnd",
-            "org.netbeans.modules.cnd.utils"
-        };
+        final List<String> requiredFriends = Lists.newArrayList(
+                "org.netbeans.modules.cnd.testrunner",
+                "org.netbeans.modules.gsf.testrunner",
+                "org.netbeans.modules.gsf.testrunner.ui",
+                "org.netbeans.modules.cnd.modelutil",
+                "org.netbeans.modules.cnd.makeproject",
+                "org.netbeans.modules.cnd.api.model",
+                "org.netbeans.modules.cnd",
+                "org.netbeans.modules.cnd.utils"
+        );
 
-        Installer installer = new Installer();
-        assertThat(installer.getTargetModules(), hasItems(requiredFriends));
+        final Installer installer = new Installer();
+        assertThat(installer.getTargetModules()).containsExactlyElementsIn(requiredFriends);
     }
 
 }

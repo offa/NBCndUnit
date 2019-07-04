@@ -23,7 +23,7 @@ package bv.offa.netbeans.cnd.unittest;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.google.common.truth.Truth.assertThat;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -57,33 +57,33 @@ public class TestSupportUtilsTest
     @Test
     public void parseTimeToMillis()
     {
-        assertEquals(12345000L, parseMs("12345.0"));
-        assertEquals(67890000L, parseMs("67890"));
-        assertEquals(3000L, parseMs("3"));
-        assertEquals(100L, parseMs("0.100471"));
-        assertEquals(477100L, parseMs("477.100486"));
-        assertEquals(101L, parseMs("0.1005"));
-        assertEquals(12000L, parseMs("12.00"));
-        assertEquals(10L, parseMs("0.01"));
-        assertEquals(0L, parseMs("0.0"));
-        assertEquals(0L, parseMs("2.646e-05"));
-        assertEquals(4L, parseMs("427.4272e-05"));
-        assertEquals(74L, parseMs("7.4272e-02"));
-        assertEquals(320000L, parseMs("3.2e02"));
-        assertEquals(0L, parseMs("0.000144571"));
-        assertEquals(1L, parseMs("0.00144571"));
-        assertEquals(234L, parseMs("0.234108"));
+        assertThat(parseMs("12345.0")).isEqualTo(12345000L);
+        assertThat(parseMs("67890")).isEqualTo(67890000L);
+        assertThat(parseMs("3")).isEqualTo(3000L);
+        assertThat(parseMs("0.100471")).isEqualTo(100L);
+        assertThat(parseMs("477.100486")).isEqualTo(477100L);
+        assertThat(parseMs("0.1005")).isEqualTo(101L);
+        assertThat(parseMs("12.00")).isEqualTo(12000L);
+        assertThat(parseMs("0.01")).isEqualTo(10L);
+        assertThat(parseMs("0.0")).isEqualTo(0L);
+        assertThat(parseMs("2.646e-05")).isEqualTo(0L);
+        assertThat(parseMs("427.4272e-05")).isEqualTo(4L);
+        assertThat(parseMs("7.4272e-02")).isEqualTo(74L);
+        assertThat(parseMs("3.2e02")).isEqualTo(320000L);
+        assertThat(parseMs("0.000144571")).isEqualTo(0L);
+        assertThat(parseMs("0.00144571")).isEqualTo(1L);
+        assertThat(parseMs("0.234108")).isEqualTo(234L);
     }
 
     @Test
     public void parseTimeToMillisWithInvalidInput()
     {
-        assertEquals(0L, parseMs("-7.4272e-02"));
-        assertEquals(0L, parseMs("-0.100471"));
-        assertEquals(0L, parseMs("-477.100486"));
-        assertEquals(0L, parseMs("7.4272b-02"));
-        assertEquals(0L, parseMs("7.4272e"));
-        assertEquals(0L, parseMs(""));
+        assertThat(parseMs("-7.4272e-02")).isEqualTo(0L);
+        assertThat(parseMs("-0.100471")).isEqualTo(0L);
+        assertThat(parseMs("-477.100486")).isEqualTo(0L);
+        assertThat(parseMs("7.4272b-02")).isEqualTo(0L);
+        assertThat(parseMs("7.4272e")).isEqualTo(0L);
+        assertThat(parseMs("")).isEqualTo(0L);
     }
 
     @Test
@@ -93,7 +93,7 @@ public class TestSupportUtilsTest
         testCase.setClassName(SUITE_NAME);
 
         final String expected = "C:TEST_" + SUITE_NAME + "_" + CASE_NAME + "_Test";
-        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testCase));
+        assertThat(TestSupportUtils.getUniqueDeclarationName(testCase)).isEqualTo(expected);
     }
 
     @Test
@@ -104,7 +104,7 @@ public class TestSupportUtilsTest
         testCase.setStatus(Status.SKIPPED);
 
         final String expected = "C:IGNORE" + SUITE_NAME + "_" + CASE_NAME + "_Test";
-        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testCase));
+        assertThat(TestSupportUtils.getUniqueDeclarationName(testCase)).isEqualTo(expected);
     }
 
     @Test
@@ -113,7 +113,7 @@ public class TestSupportUtilsTest
         CndTestSuite testSuite = new CndTestSuite(SUITE_NAME, TestFramework.CPPUTEST);
 
         final String expected = "S:TEST_GROUP_CppUTestGroup" + SUITE_NAME;
-        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testSuite));
+        assertThat(TestSupportUtils.getUniqueDeclarationName(testSuite)).isEqualTo(expected);
     }
 
     @Test
@@ -123,7 +123,7 @@ public class TestSupportUtilsTest
         testCase.setClassName(SUITE_NAME);
 
         final String expected = "C:" + SUITE_NAME + "_" + CASE_NAME + "_Test";
-        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testCase));
+        assertThat(TestSupportUtils.getUniqueDeclarationName(testCase)).isEqualTo(expected);
     }
 
     @Test
@@ -133,7 +133,7 @@ public class TestSupportUtilsTest
         testCase.setClassName("withParam/" + SUITE_NAME);
 
         final String expected = "C:" + SUITE_NAME + "_" + CASE_NAME + "_Test";
-        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testCase));
+        assertThat(TestSupportUtils.getUniqueDeclarationName(testCase)).isEqualTo(expected);
     }
 
     @Test
@@ -142,7 +142,7 @@ public class TestSupportUtilsTest
         CndTestSuite testSuite = new CndTestSuite(SUITE_NAME, TestFramework.GOOGLETEST);
 
         final String expected = "C:" + SUITE_NAME;
-        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testSuite));
+        assertThat(TestSupportUtils.getUniqueDeclarationName(testSuite)).isEqualTo(expected);
     }
 
     @Test
@@ -151,7 +151,7 @@ public class TestSupportUtilsTest
         CndTestSuite testSuite = new CndTestSuite("withParam/" + SUITE_NAME, TestFramework.GOOGLETEST);
 
         final String expected = "C:" + SUITE_NAME;
-        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testSuite));
+        assertThat(TestSupportUtils.getUniqueDeclarationName(testSuite)).isEqualTo(expected);
     }
 
     @Test
@@ -161,7 +161,7 @@ public class TestSupportUtilsTest
         testCase.setClassName(SUITE_NAME);
 
         final String expected = "S:" + SUITE_NAME + "::" + CASE_NAME;
-        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testCase));
+        assertThat(TestSupportUtils.getUniqueDeclarationName(testCase)).isEqualTo(expected);
     }
 
     @Test
@@ -171,7 +171,7 @@ public class TestSupportUtilsTest
         testCase.setClassName(SUITE_NAME);
 
         final String expected = "S:" + SUITE_NAME + "::" + CASE_NAME;
-        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testCase));
+        assertThat(TestSupportUtils.getUniqueDeclarationName(testCase)).isEqualTo(expected);
     }
 
     @Test
@@ -180,7 +180,7 @@ public class TestSupportUtilsTest
         CndTestSuite testSuite = new CndTestSuite(SUITE_NAME, TestFramework.LIBUNITTESTCPP);
 
         final String expected = "S:" + SUITE_NAME + "::__testcollection_child__";
-        assertEquals(expected, TestSupportUtils.getUniqueDeclarationName(testSuite));
+        assertThat(TestSupportUtils.getUniqueDeclarationName(testSuite)).isEqualTo(expected);
     }
 
     private long parseMs(String timeSec)
