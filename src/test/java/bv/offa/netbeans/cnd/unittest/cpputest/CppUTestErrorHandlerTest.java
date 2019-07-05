@@ -26,11 +26,9 @@ import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestCase;
-import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasError;
-import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasNoError;
 import java.util.regex.Matcher;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.google.common.truth.Truth.assertThat;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestCaseSubject.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -62,19 +60,19 @@ public class CppUTestErrorHandlerTest
     public void parsesDataErrorLocationLine()
     {
         Matcher m = checkedMatch(handler, "test/TestSuite.cpp:37: error: "
-                                        + "Failure in TEST(TestSuite, testCase)");
-        assertEquals(4, m.groupCount());
-        assertEquals("test/TestSuite.cpp", m.group(1));
-        assertEquals("37", m.group(2));
-        assertEquals("TestSuite", m.group(3));
-        assertEquals("testCase", m.group(4));
+                + "Failure in TEST(TestSuite, testCase)");
+        assertThat(m.groupCount()).isEqualTo(4);
+        assertThat(m.group(1)).isEqualTo("test/TestSuite.cpp");
+        assertThat(m.group(2)).isEqualTo("37");
+        assertThat(m.group(3)).isEqualTo("TestSuite");
+        assertThat(m.group(4)).isEqualTo("testCase");
     }
 
     @Test
     public void updateUIDoesNothingIfNoTestCase()
     {
         checkedMatch(handler, "test/TestSuite.cpp:37: error: Failure "
-                                    + "in TEST(TestSuite, testCase)");
+                + "in TEST(TestSuite, testCase)");
         when(session.getCurrentTestCase()).thenReturn(null);
         handler.updateUI(manager, session);
     }
@@ -83,42 +81,42 @@ public class CppUTestErrorHandlerTest
     public void updateUIIgnoresNotMatchingTestCase()
     {
         checkedMatch(handler, "test/TestSuite.cpp:37: error: Failure "
-                                    + "in TEST(TestSuite, testCase)");
+                + "in TEST(TestSuite, testCase)");
         CndTestCase testCase = createCurrentTestCase("TestSuite", "wrongTestCase", FRAMEWORK, session);
         handler.updateUI(manager, session);
-        assertThat(testCase, hasNoError());
-        assertNull(testCase.getLocation());
+        assertThat(testCase).hasNoError();
+        assertThat(testCase.getLocation()).isNull();
     }
 
     @Test
     public void updateUIIgnoresNotMatchingTestSuite()
     {
         checkedMatch(handler, "test/TestSuite.cpp:37: error: Failure in "
-                                    + "TEST(TestSuite, testName)");
+                + "TEST(TestSuite, testName)");
         CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
         handler.updateUI(manager, session);
-        assertThat(testCase, hasNoError());
+        assertThat(testCase).hasNoError();
     }
 
     @Test
     public void updateUISetsTrouble()
     {
         checkedMatch(handler, "test/TestSuite.cpp:37: error: Failure "
-                                    + "in TEST(TestSuite, testCase)");
+                + "in TEST(TestSuite, testCase)");
         CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
         handler.updateUI(manager, session);
-        assertThat(testCase, hasError());
+        assertThat(testCase).hasError();
     }
 
     @Test
     public void updateUIUpdatesTrouble()
     {
         checkedMatch(handler, "test/TestSuite.cpp:37: error: Failure "
-                                    + "in TEST(TestSuite, testCase)");
+                + "in TEST(TestSuite, testCase)");
         CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
         testCase.setTrouble(new Trouble(false));
         handler.updateUI(manager, session);
-        assertThat(testCase, hasError());
+        assertThat(testCase).hasError();
     }
 
     @Test
@@ -126,13 +124,13 @@ public class CppUTestErrorHandlerTest
     {
         CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
         checkedMatch(handler, "test/TestSuite.cpp:37: error: Failure "
-                                    + "in TEST(TestSuite, testCase)");
+                + "in TEST(TestSuite, testCase)");
         handler.updateUI(manager, session);
-        assertThat(testCase, hasError());
+        assertThat(testCase).hasError();
         FailureInfo failure = testCase.getFailureInfo();
-        assertEquals("test/TestSuite.cpp", failure.getFile());
-        assertEquals(37, failure.getLine());
-        assertEquals("test/TestSuite.cpp:37", testCase.getTrouble().getStackTrace()[0]);
+        assertThat(failure.getFile()).isEqualTo("test/TestSuite.cpp");
+        assertThat(failure.getLine()).isEqualTo(37);
+        assertThat(testCase.getTrouble().getStackTrace()[0]).isEqualTo("test/TestSuite.cpp:37");
     }
 
 }

@@ -23,7 +23,7 @@ package bv.offa.netbeans.cnd.unittest.cpputest;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.google.common.truth.Truth.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -46,27 +46,27 @@ public class CppUTestTestHandlerFactoryTest
     @Test
     public void printSummary()
     {
-        assertTrue(factory.printSummary());
+        assertThat(factory.printSummary()).isTrue();
     }
 
     @Test
     public void createHandlersContainsHandlers()
     {
-        assertEquals(4, factory.createHandlers().size());
+        assertThat(factory.createHandlers().size()).isEqualTo(4);
     }
 
     @Test
     public void factorySetsNodeFactory()
     {
         factory.createHandlers();
-        assertTrue(Manager.getInstance().getNodeFactory() instanceof TestRunnerUINodeFactory);
+        assertThat(Manager.getInstance().getNodeFactory() instanceof TestRunnerUINodeFactory).isTrue();
     }
 
     @Test
     public void factorySetsFrameWork()
     {
         factory.createHandlers();
-        assertEquals(TestFramework.CPPUTEST.getName(), Manager.getInstance().getTestingFramework());
+        assertThat(Manager.getInstance().getTestingFramework()).isEqualTo(TestFramework.CPPUTEST.getName());
     }
 
     @Test
@@ -74,7 +74,7 @@ public class CppUTestTestHandlerFactoryTest
     {
         factory.createHandlers().forEach((h) ->
         {
-            assertEquals(TestFramework.CPPUTEST, ((CndTestHandler) h).getTestFramework());
+            assertThat(((CndTestHandler) h).getTestFramework()).isEqualTo(TestFramework.CPPUTEST);
         });
     }
 

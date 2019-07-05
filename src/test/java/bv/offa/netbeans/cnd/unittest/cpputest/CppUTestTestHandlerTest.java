@@ -32,9 +32,9 @@ import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.matchesTestSu
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.sessionIs;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.suiteFrameworkIs;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.timeIs;
+import static com.google.common.truth.Truth.assertThat;
 import java.util.regex.Matcher;
 import static org.hamcrest.CoreMatchers.allOf;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -90,40 +90,40 @@ public class CppUTestTestHandlerTest
     public void matchesTestCaseAndDetectsIgnored()
     {
         Matcher m = checkedMatch(handler, "IGNORE_TEST(TestSuite, testCase) - 7 ms");
-        assertNotNull(m.group(1));
+        assertThat(m.group(1)).isNotNull();
     }
 
     @Test
     public void parsesDataTestCase()
     {
         Matcher m = checkedMatch(handler, "TEST(TestSuite, testCase) - 84 ms");
-        assertEquals("TEST(TestSuite, testCase) - 84 ms", m.group());
-        assertEquals("TestSuite", m.group(2));
-        assertEquals("testCase", m.group(3));
-        assertEquals("84", m.group(5));
+        assertThat(m.group()).isEqualTo("TEST(TestSuite, testCase) - 84 ms");
+        assertThat(m.group(2)).isEqualTo("TestSuite");
+        assertThat(m.group(3)).isEqualTo("testCase");
+        assertThat(m.group(5)).isEqualTo("84");
     }
 
     @Test
     public void parsesDataTestCaseWhichFailed()
     {
         Matcher m = checkedMatch(handler, "TEST(TestSuite, testThatFailed)");
-        assertEquals("TestSuite", m.group(2));
-        assertEquals("testThatFailed", m.group(3));
-        assertNull(m.group(4));
+        assertThat(m.group(2)).isEqualTo("TestSuite");
+        assertThat(m.group(3)).isEqualTo("testThatFailed");
+        assertThat(m.group(4)).isNull();
     }
 
     @Test
     public void rejectsMalformedTestCase()
     {
-        assertFalse(handler.matches("TEST(TestSuite, testCase) - 1"));
-        assertFalse(handler.matches("TEST(TestSuite, testCase) - a"));
-        assertFalse(handler.matches("TEST(TestSuite, testCase) - abc ms"));
-        assertFalse(handler.matches("TEST(TestSuite, testCase) - ms"));
-        assertFalse(handler.matches("TEST(TestSuite, testCase) -  ms"));
-        assertFalse(handler.matches("TEST(TestSuite, testCase) - 11 ms "));
-        assertFalse(handler.matches("TEST(TestSuite, )"));
-        assertFalse(handler.matches("TEST(TestSuite, testCase, wrong) - 5 ms"));
-        assertFalse(handler.matches("TEST(TestSuite, testCase) - 5 ms - 7 ms"));
+        assertThat(handler.matches("TEST(TestSuite, testCase) - 1")).isFalse();
+        assertThat(handler.matches("TEST(TestSuite, testCase) - a")).isFalse();
+        assertThat(handler.matches("TEST(TestSuite, testCase) - abc ms")).isFalse();
+        assertThat(handler.matches("TEST(TestSuite, testCase) - ms")).isFalse();
+        assertThat(handler.matches("TEST(TestSuite, testCase) -  ms")).isFalse();
+        assertThat(handler.matches("TEST(TestSuite, testCase) - 11 ms ")).isFalse();
+        assertThat(handler.matches("TEST(TestSuite, )")).isFalse();
+        assertThat(handler.matches("TEST(TestSuite, testCase, wrong) - 5 ms")).isFalse();
+        assertThat(handler.matches("TEST(TestSuite, testCase) - 5 ms - 7 ms")).isFalse();
     }
 
     @Test
@@ -137,7 +137,6 @@ public class CppUTestTestHandlerTest
             "TEST(TestSuite3, testCase1) - 0 ms",
         };
 
-        final long expected = 17005L + 8L + 25L;
         long time = 0L;
 
         for( String line : input )
@@ -146,13 +145,13 @@ public class CppUTestTestHandlerTest
             time += Long.valueOf(m.group(5));
         }
 
-        assertEquals(expected, time);
+        assertThat(time).isEqualTo(17005L + 8L + 25L);
     }
 
     @Test
     public void matchesTestCaseWithOutputNoTime()
     {
-        assertTrue(handler.matches("TEST(TestSuite, testCase)"));
+        assertThat(handler.matches("TEST(TestSuite, testCase)")).isTrue();
     }
 
     @Test

@@ -21,7 +21,7 @@
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.google.common.truth.Truth.assertThat;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -37,13 +37,13 @@ import org.openide.util.Lookup;
 @Tag("CppUTest")
 public class CppUTestSuiteFinishedHandlerTest
 {
+
     private static Project project;
     private static Report report;
     private TestSessionInformation info;
     private CppUTestSuiteFinishedHandler handler;
     private TestSession session;
     private ManagerAdapter manager;
-
 
     @BeforeAll
     public static void setUpClass()
@@ -67,48 +67,48 @@ public class CppUTestSuiteFinishedHandlerTest
     @Test
     public void matchesSuccessfulTest()
     {
-        assertTrue(handler.matches("OK (8 tests, 8 ran, 7 checks, 0 ignored, "
-                                    + "0 filtered out, 123 ms)"));
+        assertThat(handler.matches("OK (8 tests, 8 ran, 7 checks, 0 ignored, "
+                + "0 filtered out, 123 ms)")).isTrue();
     }
 
     @Test
     public void rejectsMalformedResult()
     {
-        assertFalse(handler.matches("OK"));
-        assertFalse(handler.matches("OK ("));
-        assertFalse(handler.matches("OK ( )"));
+        assertThat(handler.matches("OK")).isFalse();
+        assertThat(handler.matches("OK (")).isFalse();
+        assertThat(handler.matches("OK ( )")).isFalse();
     }
 
     @Test
     public void matchesErrorWithoutEscapeColor()
     {
-        assertTrue(handler.matches("Errors (1 failures, 9 tests, 9 ran, 7 checks, "
-                                    + "0 ignored, 0 filtered out, 123 ms)"));
+        assertThat(handler.matches("Errors (1 failures, 9 tests, 9 ran, 7 checks, "
+                + "0 ignored, 0 filtered out, 123 ms)")).isTrue();
     }
 
     @Test
     public void matchesErrorWithEscapeColor()
     {
-        assertTrue(handler.matches("\u001B[31;1m"
+        assertThat(handler.matches("\u001B[31;1m"
                 + "Errors (1 failures, 9 tests, 9 ran, 7 checks, 0 ignored, "
                 + "0 filtered out, 123 ms)"
-                + "\u001B[m"));
+                + "\u001B[m")).isTrue();
     }
 
     @Test
     public void matchesSuccessfulWithoutEscapeColor()
     {
-        assertTrue(handler.matches("OK (9 tests, 9 ran, 7 checks, 0 ignored, "
-                                    + "0 filtered out, 124 ms)"));
+        assertThat(handler.matches("OK (9 tests, 9 ran, 7 checks, 0 ignored, "
+                + "0 filtered out, 124 ms)")).isTrue();
     }
 
     @Test
     public void matchesSuccessfulWithEscapeColor()
     {
-        assertTrue(handler.matches("\u001B[32;1m"
-                                    + "OK (9 tests, 9 ran, 7 checks, 0 ignored, "
-                                    + "0 filtered out, 124 ms)"
-                                    + "\u001B[m"));
+        assertThat(handler.matches("\u001B[32;1m"
+                + "OK (9 tests, 9 ran, 7 checks, 0 ignored, "
+                + "0 filtered out, 124 ms)"
+                + "\u001B[m")).isTrue();
     }
 
     @Test
@@ -126,7 +126,7 @@ public class CppUTestSuiteFinishedHandlerTest
         info.setTimeTotal(15l);
         handler.updateUI(manager, session);
         verify(manager).sessionFinished(session);
-        assertEquals(0L, info.getTimeTotal());
+        assertThat(info.getTimeTotal()).isEqualTo(0L);
     }
 
 }

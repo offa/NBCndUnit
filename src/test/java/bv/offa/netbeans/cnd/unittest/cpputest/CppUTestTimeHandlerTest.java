@@ -24,10 +24,9 @@ import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
-import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.timeIs;
+import static com.google.common.truth.Truth.assertThat;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestCaseSubject.assertThat;
 import java.util.regex.Matcher;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -57,11 +56,11 @@ public class CppUTestTimeHandlerTest
     @Test
     public void parsesDataTime()
     {
-        Matcher m = checkedMatch(handler, " - 0 ms");
-        assertEquals("0", m.group(1));
-        m = handler.match(" - 123 ms");
-        assertTrue(m.matches());
-        assertEquals("123", m.group(1));
+        assertThat(checkedMatch(handler, " - 0 ms").group(1)).isEqualTo("0");
+
+        Matcher m = handler.match(" - 123 ms");
+        assertThat(m.matches()).isTrue();
+        assertThat(m.group(1)).isEqualTo("123");
     }
 
     @Test
@@ -71,8 +70,8 @@ public class CppUTestTimeHandlerTest
         CndTestCase testCase = new CndTestCase("testCase", FRAMEWORK, session);
         when(session.getCurrentTestCase()).thenReturn(testCase);
         handler.updateUI(manager, session);
-        assertEquals(123l, info.getTimeTotal());
-        assertThat(testCase, timeIs(123l));
+        assertThat(info.getTimeTotal()).isEqualTo(123L);
+        assertThat(testCase).timeIs(123l);
     }
 
 }
