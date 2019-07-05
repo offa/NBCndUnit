@@ -32,7 +32,7 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
 /**
  * @deprecated  Obsoleted by Truth migration
  */
-@Deprecated(forRemoval = true)
+@Deprecated()
 public final class TestMatcher
 {
     private TestMatcher()
