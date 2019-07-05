@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.wizard;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -30,78 +31,78 @@ public class WizardUtilsTest
     @Test
     public void toIdentifierTrims()
     {
-        assertEquals("", WizardUtils.toIdentifier(""));
-        assertEquals("", WizardUtils.toIdentifier(" "));
-        assertEquals("abc", WizardUtils.toIdentifier(" abc"));
-        assertEquals("abc", WizardUtils.toIdentifier(" abc  "));
+        assertThat(WizardUtils.toIdentifier("")).isEqualTo("");
+        assertThat(WizardUtils.toIdentifier(" ")).isEqualTo("");
+        assertThat(WizardUtils.toIdentifier(" abc")).isEqualTo("abc");
+        assertThat(WizardUtils.toIdentifier(" abc  ")).isEqualTo("abc");
     }
 
     @Test
     public void toIdentifierReplacesInvalidChars()
     {
-        assertEquals("aB_c3", WizardUtils.toIdentifier("aB c3"));
-        assertEquals("aB__c3_", WizardUtils.toIdentifier("aB &c3!"));
-        assertEquals("aB_c3_", WizardUtils.toIdentifier("aB$c3_"));
+        assertThat(WizardUtils.toIdentifier("aB c3")).isEqualTo("aB_c3");
+        assertThat(WizardUtils.toIdentifier("aB &c3!")).isEqualTo("aB__c3_");
+        assertThat(WizardUtils.toIdentifier("aB$c3_")).isEqualTo("aB_c3_");
     }
 
     @Test
     public void toIdentifierReplacesInvalidFirstChar()
     {
-        assertEquals("_abc", WizardUtils.toIdentifier("3abc"));
-        assertEquals("_abc", WizardUtils.toIdentifier(" 3abc"));
-        assertEquals("_abc", WizardUtils.toIdentifier("$abc"));
+        assertThat(WizardUtils.toIdentifier("3abc")).isEqualTo("_abc");
+        assertThat(WizardUtils.toIdentifier(" 3abc")).isEqualTo("_abc");
+        assertThat(WizardUtils.toIdentifier("$abc")).isEqualTo("_abc");
     }
 
     @Test
     public void isValidIdentifierRejectsInnerBlanks()
     {
-        assertFalse(WizardUtils.isValidIdentifier("a b"));
+        assertThat(WizardUtils.isValidIdentifier("a b")).isFalse();
     }
 
     @Test
     public void isValidIdentifierRejectsLeadingTrailingBlanks()
     {
-        assertFalse(WizardUtils.isValidIdentifier(" b"));
-        assertFalse(WizardUtils.isValidIdentifier("b "));
+        assertThat(WizardUtils.isValidIdentifier(" b")).isFalse();
+        assertThat(WizardUtils.isValidIdentifier("b ")).isFalse();
     }
 
     @Test
     public void isValidRejectsEmpty()
     {
-        assertFalse(WizardUtils.isValidIdentifier(""));
+        assertThat(WizardUtils.isValidIdentifier("")).isFalse();
     }
 
     @Test
     public void isValidRejectsInvalidChars()
     {
-        assertFalse(WizardUtils.isValidIdentifier("3a"));
-        assertFalse(WizardUtils.isValidIdentifier("X$a"));
-        assertFalse(WizardUtils.isValidIdentifier("n-a"));
-        assertFalse(WizardUtils.isValidIdentifier("h\"a"));
-        assertFalse(WizardUtils.isValidIdentifier("{a}"));
-        assertFalse(WizardUtils.isValidIdentifier("a[]"));
-        assertFalse(WizardUtils.isValidIdentifier("a)("));
-        assertFalse(WizardUtils.isValidIdentifier("a\t"));
-        assertFalse(WizardUtils.isValidIdentifier("a\n"));
-        assertFalse(WizardUtils.isValidIdentifier("a#"));
-        assertFalse(WizardUtils.isValidIdentifier("$a"));
+        assertThat(WizardUtils.isValidIdentifier("3a")).isFalse();
+        assertThat(WizardUtils.isValidIdentifier("X$a")).isFalse();
+        assertThat(WizardUtils.isValidIdentifier("n-a")).isFalse();
+        assertThat(WizardUtils.isValidIdentifier("h\"a")).isFalse();
+        assertThat(WizardUtils.isValidIdentifier("{a}")).isFalse();
+        assertThat(WizardUtils.isValidIdentifier("a[]")).isFalse();
+        assertThat(WizardUtils.isValidIdentifier("a)(")).isFalse();
+        assertThat(WizardUtils.isValidIdentifier("a\t")).isFalse();
+        assertThat(WizardUtils.isValidIdentifier("a\n")).isFalse();
+        assertThat(WizardUtils.isValidIdentifier("a#")).isFalse();
+        assertThat(WizardUtils.isValidIdentifier("$a")).isFalse();
     }
 
     @Test
     public void isValidAcceptsValidNames()
     {
-        assertTrue(WizardUtils.isValidIdentifier("aB"));
-        assertTrue(WizardUtils.isValidIdentifier("_aB"));
-        assertTrue(WizardUtils.isValidIdentifier("a_B_"));
-        assertTrue(WizardUtils.isValidIdentifier("a3B"));
-        assertTrue(WizardUtils.isValidIdentifier("_3J"));
+        assertThat(WizardUtils.isValidIdentifier("aB")).isTrue();
+        assertThat(WizardUtils.isValidIdentifier("_aB")).isTrue();
+        assertThat(WizardUtils.isValidIdentifier("a_B_")).isTrue();
+        assertThat(WizardUtils.isValidIdentifier("a3B")).isTrue();
+        assertThat(WizardUtils.isValidIdentifier("_3J")).isTrue();
     }
 
     @Test
     public void isValidAcceptsOneAndTwoChars()
     {
-        assertTrue(WizardUtils.isValidIdentifier("a"));
-        assertTrue(WizardUtils.isValidIdentifier("ab"));
+        assertThat(WizardUtils.isValidIdentifier("a")).isTrue();
+        assertThat(WizardUtils.isValidIdentifier("ab")).isTrue();
     }
 
 }

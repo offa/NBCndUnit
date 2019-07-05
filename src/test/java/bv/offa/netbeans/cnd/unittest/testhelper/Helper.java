@@ -24,8 +24,8 @@ import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
+import static com.google.common.truth.Truth.assertThat;
 import java.util.regex.Matcher;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
@@ -39,8 +39,8 @@ public final class Helper
 
     public static Matcher checkedMatch(CndTestHandler handler, String input)
     {
-        Matcher m = handler.match(input);
-        assertTrue(m.find());
+        final Matcher m = handler.match(input);
+        assertThat(m.find()).isTrue();
         return m;
     }
 
@@ -48,7 +48,7 @@ public final class Helper
     public static CndTestCase createCurrentTestCase(String suiteName, String caseName,
                                                     TestFramework framework, TestSession session)
     {
-        CndTestCase testCase = new CndTestCase(caseName, framework, session);
+        final CndTestCase testCase = new CndTestCase(caseName, framework, session);
         testCase.setClassName(suiteName);
         when(session.getCurrentTestCase()).thenReturn(testCase);
 
@@ -59,7 +59,7 @@ public final class Helper
     public static CndTestSuite createCurrentTestSuite(String suiteName, TestFramework framework,
                                                         TestSession session)
     {
-        CndTestSuite testSuite = new CndTestSuite(suiteName, framework);
+        final CndTestSuite testSuite = new CndTestSuite(suiteName, framework);
         when(session.getCurrentSuite()).thenReturn(testSuite);
 
         return testSuite;

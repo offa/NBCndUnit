@@ -20,10 +20,10 @@
 
 package bv.offa.netbeans.cnd.unittest.wizard;
 
+import static com.google.common.truth.Truth.assertThat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -61,21 +61,21 @@ public class NewTestSuiteWizardPanel1Test
     public void validPerDefault()
     {
         when(compMock.getTestSuiteName()).thenReturn("abc");
-        assertTrue(panel.isValid());
+        assertThat(panel.isValid()).isTrue();
     }
 
     @Test
     public void invalidIfNoSuiteName()
     {
         when(compMock.getTestSuiteName()).thenReturn("");
-        assertFalse(panel.isValid());
+        assertThat(panel.isValid()).isFalse();
     }
 
     @Test
     public void validIfSuiteName()
     {
         when(compMock.getTestSuiteName()).thenReturn("abc");
-        assertTrue(panel.isValid());
+        assertThat(panel.isValid()).isTrue();
     }
 
     @Test
@@ -84,7 +84,7 @@ public class NewTestSuiteWizardPanel1Test
         final List<String> l = Collections.emptyList();
         when(compMock.getTestCaseNames()).thenReturn(l);
         when(compMock.getGenerateTestCases()).thenReturn(true);
-        assertFalse(panel.isValid());
+        assertThat(panel.isValid()).isFalse();
     }
 
     @Test
@@ -92,7 +92,7 @@ public class NewTestSuiteWizardPanel1Test
     {
         when(compMock.getTestCaseNames()).thenReturn(Arrays.asList("Case"));
         when(compMock.getTestSuiteName()).thenReturn("Suite");
-        assertTrue(panel.isValid());
+        assertThat(panel.isValid()).isTrue();
     }
 
     @Test
@@ -101,7 +101,7 @@ public class NewTestSuiteWizardPanel1Test
         when(compMock.getTestCaseNames()).thenReturn(Arrays.asList(""));
         when(compMock.getGenerateTestCases()).thenReturn(false);
         when(compMock.getTestSuiteName()).thenReturn("Suite");
-        assertTrue(panel.isValid());
+        assertThat(panel.isValid()).isTrue();
     }
 
     @Test
@@ -110,7 +110,7 @@ public class NewTestSuiteWizardPanel1Test
         when(compMock.getTestCaseNames()).thenReturn(Arrays.asList(" $invalid"));
         when(compMock.getGenerateTestCases()).thenReturn(true);
         when(compMock.getTestSuiteName()).thenReturn("Suite");
-        assertFalse(panel.isValid());
+        assertThat(panel.isValid()).isFalse();
     }
 
     @Test
@@ -118,7 +118,7 @@ public class NewTestSuiteWizardPanel1Test
     {
         when(compMock.getTestCaseNames()).thenReturn(Arrays.asList(" $invalid"));
         when(compMock.getGenerateTestCases()).thenReturn(false);
-        assertTrue(panel.isValid());
+        assertThat(panel.isValid()).isTrue();
     }
 
     @Test
@@ -126,7 +126,7 @@ public class NewTestSuiteWizardPanel1Test
     {
         when(compMock.getGenerateTestCases()).thenReturn(false);
         when(compMock.getTestSuiteName()).thenReturn(" $Suite");
-        assertFalse(panel.isValid());
+        assertThat(panel.isValid()).isFalse();
     }
 
     @Test
@@ -134,7 +134,7 @@ public class NewTestSuiteWizardPanel1Test
     {
         when(compMock.getGenerateTestCases()).thenReturn(false);
         when(compMock.getTestSuiteName()).thenReturn("Suite");
-        assertTrue(panel.isValid());
+        assertThat(panel.isValid()).isTrue();
     }
 
     @Test
@@ -183,6 +183,6 @@ public class NewTestSuiteWizardPanel1Test
     @Test
     public void getHelpReturnsDefaultHelp()
     {
-        assertEquals(HelpCtx.DEFAULT_HELP, panel.getHelp());
+        assertThat(panel.getHelp()).isEqualTo(HelpCtx.DEFAULT_HELP);
     }
 }

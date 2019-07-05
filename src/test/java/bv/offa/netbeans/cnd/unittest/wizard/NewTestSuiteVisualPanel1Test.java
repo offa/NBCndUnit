@@ -20,11 +20,11 @@
 
 package bv.offa.netbeans.cnd.unittest.wizard;
 
+import static com.google.common.truth.Truth.assertThat;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -54,20 +54,20 @@ public class NewTestSuiteVisualPanel1Test
     @Test
     public void defaultSettings()
     {
-        assertFalse(panel.getTestSuiteName().isEmpty());
-        assertTrue(panel.getGenerateTestCases());
-        assertFalse(panel.getTestCaseNames().isEmpty());
-        assertTrue(panel.getGenerateSetup());
-        assertTrue(panel.getGenerateTeardown());
-        assertTrue(panel.getEnableModernCpp());
-        assertFalse(panel.getConfigureCustomProject());
+        assertThat(panel.getTestSuiteName().isEmpty()).isFalse();
+        assertThat(panel.getGenerateTestCases()).isTrue();
+        assertThat(panel.getTestCaseNames().isEmpty()).isFalse();
+        assertThat(panel.getGenerateSetup()).isTrue();
+        assertThat(panel.getGenerateTeardown()).isTrue();
+        assertThat(panel.getEnableModernCpp()).isTrue();
+        assertThat(panel.getConfigureCustomProject()).isFalse();
     }
 
     @Test
     public void getTestCaseNamesIsEmptyIfNothingSet()
     {
         panel.setTestCaseNames(Arrays.asList(""));
-        assertTrue(panel.getTestCaseNames().isEmpty());
+        assertThat(panel.getTestCaseNames().isEmpty()).isTrue();
     }
 
     @Test
@@ -75,8 +75,8 @@ public class NewTestSuiteVisualPanel1Test
     {
         panel.setTestCaseNames(Arrays.asList("abc"));
         final List<String> names = panel.getTestCaseNames();
-        assertEquals(1, names.size());
-        assertEquals("abc", names.get(0));
+        assertThat(names.size()).isEqualTo(1);
+        assertThat(names.get(0)).isEqualTo("abc");
     }
 
     @Test

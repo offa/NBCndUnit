@@ -20,9 +20,9 @@
 
 package bv.offa.netbeans.cnd.unittest.ui;
 
+import static com.google.common.truth.Truth.assertThat;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.netbeans.api.project.Project;
@@ -35,7 +35,7 @@ public class AbstractTestNodeActionTest
     public void getValueReturnsActionName()
     {
         AbstractTestNodeAction nodeAction = new AbstractTestNodeActionMock("actionName", null);
-        assertEquals(nodeAction.getValue(Action.NAME), "actionName");
+        assertThat(nodeAction.getValue(Action.NAME)).isEqualTo("actionName");
     }
 
 

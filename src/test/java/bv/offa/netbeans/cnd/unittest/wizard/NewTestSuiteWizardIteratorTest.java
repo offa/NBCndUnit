@@ -20,12 +20,10 @@
 
 package bv.offa.netbeans.cnd.unittest.wizard;
 
+import static com.google.common.truth.Truth.assertThat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import static org.hamcrest.CoreMatchers.hasItems;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -53,13 +51,12 @@ public class NewTestSuiteWizardIteratorTest
         wizardIterator.wizard = wizardMock;
         final Map<String, Object> params = wizardIterator.getTemplateParameters();
 
-        assertEquals(Boolean.TRUE, params.get("generateSetup"));
-        assertEquals(Boolean.FALSE, params.get("generateTeardown"));
-        assertEquals(Boolean.TRUE, params.get("generateTestCases"));
-        assertEquals(Boolean.TRUE, params.get("enableModernCpp"));
-        assertThat((List<String>) params.get("testCases"),
-                    hasItems("testCase1", "testCase2", "testCase3"));
-        assertEquals("TestSuite", params.get("suiteName"));
+        assertThat(params.get("generateSetup")).isEqualTo(Boolean.TRUE);
+        assertThat(params.get("generateTeardown")).isEqualTo(Boolean.FALSE);
+        assertThat(params.get("generateTestCases")).isEqualTo(Boolean.TRUE);
+        assertThat(params.get("enableModernCpp")).isEqualTo(Boolean.TRUE);
+        assertThat((List<String>) params.get("testCases")).containsExactly("testCase1", "testCase2", "testCase3");
+        assertThat(params.get("suiteName")).isEqualTo("TestSuite");
     }
 
 

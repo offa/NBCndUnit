@@ -20,7 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.wizard;
 
-import static org.junit.Assert.*;
+import static com.google.common.truth.Truth.assertThat;
 import org.junit.Test;
 import org.junit.jupiter.api.Tag;
 
@@ -33,10 +33,10 @@ public class NewTestMainVisualPanel1Test
     @Test
     public void defaultSettings()
     {
-        assertTrue(panel.getEnableVerbose());
-        assertTrue(panel.getEnableColor());
-        assertTrue(panel.getEnableModernCpp());
-        assertFalse(panel.getConfigureCustomProject());
+        assertThat(panel.getEnableVerbose()).isTrue();
+        assertThat(panel.getEnableColor()).isTrue();
+        assertThat(panel.getEnableModernCpp()).isTrue();
+        assertThat(panel.getConfigureCustomProject()).isTrue();
     }
 
 }

@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.wizard;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -97,7 +98,7 @@ public class NewTestMainWizardPanel1Test
     @Test
     public void getHelpReturnsDefaultHelp()
     {
-        assertEquals(HelpCtx.DEFAULT_HELP, panel.getHelp());
+        assertThat(panel.getHelp()).isEqualTo(HelpCtx.DEFAULT_HELP);
     }
 
 }

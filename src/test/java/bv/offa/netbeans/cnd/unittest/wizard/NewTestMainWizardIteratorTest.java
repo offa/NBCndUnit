@@ -20,8 +20,8 @@
 
 package bv.offa.netbeans.cnd.unittest.wizard;
 
+import static com.google.common.truth.Truth.assertThat;
 import java.util.Map;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -55,8 +55,8 @@ public class NewTestMainWizardIteratorTest
     public void getTemplateParameters()
     {
         final Map<String, Object> params = wizardIterator.getTemplateParameters();
-        assertEquals(Boolean.TRUE, params.get("enableVerbose"));
-        assertEquals(Boolean.FALSE, params.get("enableColor"));
-        assertEquals(Boolean.TRUE, params.get("enableModernCpp"));
+        assertThat(params.get("enableVerbose")).isEqualTo(Boolean.TRUE);
+        assertThat(params.get("enableColor")).isEqualTo(Boolean.FALSE);
+        assertThat(params.get("enableModernCpp")).isEqualTo(Boolean.TRUE);
     }
 }

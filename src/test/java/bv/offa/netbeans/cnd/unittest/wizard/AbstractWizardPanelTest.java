@@ -20,8 +20,8 @@
 
 package bv.offa.netbeans.cnd.unittest.wizard;
 
+import static com.google.common.truth.Truth.assertThat;
 import javax.swing.event.ChangeListener;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -47,7 +47,7 @@ public class AbstractWizardPanelTest
     public void listenerAdded()
     {
         panelMock.addChangeListener(listenerMock);
-        assertTrue(panelMock.hasChangeSupportListeners());
+        assertThat(panelMock.hasChangeSupportListeners()).isTrue();
     }
 
     @Test
@@ -55,7 +55,7 @@ public class AbstractWizardPanelTest
     {
         panelMock.addChangeListener(listenerMock);
         panelMock.removeChangeListener(listenerMock);
-        assertFalse(panelMock.hasChangeSupportListeners());
+        assertThat(panelMock.hasChangeSupportListeners()).isFalse();
     }
 
 }
