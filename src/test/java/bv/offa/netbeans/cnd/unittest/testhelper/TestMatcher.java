@@ -29,6 +29,10 @@ import org.netbeans.modules.gsf.testrunner.api.Status;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.Trouble;
 
+/**
+ * @deprecated  Obsoleted by Truth migration
+ */
+@Deprecated(forRemoval = true)
 public final class TestMatcher
 {
     private TestMatcher()
