@@ -22,8 +22,8 @@ package bv.offa.netbeans.cnd.unittest.googletest;
 
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
+import static com.google.common.truth.Truth.assertThat;
 import java.util.regex.Matcher;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -51,16 +51,16 @@ public class GoogleTestSuiteFinishedHandlerTest
     public void parseDataSuccessfulTestSuite()
     {
         Matcher m = checkedMatch(handler, "[----------] 3 tests from TestSuite (259 ms total)");
-        assertEquals("TestSuite", m.group(1));
-        assertEquals("259", m.group(2));
+        assertThat(m.group(1)).isEqualTo("TestSuite");
+        assertThat(m.group(2)).isEqualTo("259");
     }
 
     @Test
     public void parseDataSingleTestSuite()
     {
         Matcher m = checkedMatch(handler, "[----------] 1 test from TestSuite (123 ms total)");
-        assertEquals("TestSuite", m.group(1));
-        assertEquals("123", m.group(2));
+        assertThat(m.group(1)).isEqualTo("TestSuite");
+        assertThat(m.group(2)).isEqualTo("123");
     }
 
     @Test

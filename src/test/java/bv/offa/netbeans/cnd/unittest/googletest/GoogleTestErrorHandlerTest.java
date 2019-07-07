@@ -26,10 +26,9 @@ import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestCase;
-import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasError;
+import static com.google.common.truth.Truth.assertThat;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestCaseSubject.assertThat;
 import java.util.regex.Matcher;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -58,8 +57,8 @@ public class GoogleTestErrorHandlerTest
     public void parseDataFailure()
     {
         Matcher m = checkedMatch(handler, "test/Example.cpp:38: Failure");
-        assertEquals("test/Example.cpp", m.group(1));
-        assertEquals("38", m.group(2));
+        assertThat(m.group(1)).isEqualTo("test/Example.cpp");
+        assertThat(m.group(2)).isEqualTo("38");
     }
 
     @Test
@@ -68,11 +67,11 @@ public class GoogleTestErrorHandlerTest
         CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
         checkedMatch(handler, "test/Example.cpp:38: Failure");
         handler.updateUI(manager, session);
-        assertThat(testCase, hasError());
+        assertThat(testCase).hasError();
         FailureInfo failure = testCase.getFailureInfo();
-        assertEquals("test/Example.cpp", failure.getFile());
-        assertEquals(38, failure.getLine());
-        assertEquals("test/Example.cpp:38", testCase.getTrouble().getStackTrace()[0]);
+        assertThat(failure.getFile()).isEqualTo("test/Example.cpp");
+        assertThat(failure.getLine()).isEqualTo(38);
+        assertThat(testCase.getTrouble().getStackTrace()[0]).isEqualTo("test/Example.cpp:38");
     }
 
 }

@@ -24,9 +24,9 @@ import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.frameworkIs;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.matchesTestCase;
+import static com.google.common.truth.Truth.assertThat;
 import java.util.regex.Matcher;
 import static org.hamcrest.CoreMatchers.allOf;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -56,16 +56,16 @@ public class GoogleTestTestStartedHandlerTest
     public void parseDataTestCase()
     {
         Matcher m = checkedMatch(handler, "[ RUN      ] TestSuite.testCase");
-        assertEquals("TestSuite", m.group(1));
-        assertEquals("testCase", m.group(2));
+        assertThat(m.group(1)).isEqualTo("TestSuite");
+        assertThat(m.group(2)).isEqualTo("testCase");
     }
 
     @Test
     public void parseDataTestCaseParameterized()
     {
         Matcher m = checkedMatch(handler, "[ RUN      ] withParameterImpl/TestSuite.testCase/0");
-        assertEquals("withParameterImpl/TestSuite", m.group(1));
-        assertEquals("testCase", m.group(2));
+        assertThat(m.group(1)).isEqualTo("withParameterImpl/TestSuite");
+        assertThat(m.group(2)).isEqualTo("testCase");
     }
 
     @Test

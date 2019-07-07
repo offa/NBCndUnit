@@ -25,8 +25,8 @@ import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestSuite;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.matchesTestSuite;
+import static com.google.common.truth.Truth.assertThat;
 import java.util.regex.Matcher;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -81,21 +81,21 @@ public class GoogleTestSuiteStartedHandlerTest
     public void parseDataTestSuite()
     {
         Matcher m = checkedMatch(handler, "[----------] 5 tests from TestSuite");
-        assertEquals("TestSuite", m.group(1));
+        assertThat(m.group(1)).isEqualTo("TestSuite");
     }
 
     @Test
     public void parseDataTestSuiteParameterized()
     {
         Matcher m = checkedMatch(handler, "[----------] 5 tests from withParameterImpl/TestSuite");
-        assertEquals("withParameterImpl/TestSuite", m.group(1));
+        assertThat(m.group(1)).isEqualTo("withParameterImpl/TestSuite");
     }
 
     @Test
     public void parseDataSingleTestSuite()
     {
         Matcher m = checkedMatch(handler, "[----------] 1 test from TestSuite");
-        assertEquals("TestSuite", m.group(1));
+        assertThat(m.group(1)).isEqualTo("TestSuite");
     }
 
     @Test

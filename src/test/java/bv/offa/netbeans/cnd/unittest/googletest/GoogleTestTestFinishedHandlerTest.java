@@ -26,14 +26,14 @@ import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestCase;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.frameworkIs;
-import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasError;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasNoError;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.matchesTestCase;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.sessionIs;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.timeIs;
+import static com.google.common.truth.Truth.assertThat;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestCaseSubject.assertThat;
 import java.util.regex.Matcher;
 import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -64,17 +64,17 @@ public class GoogleTestTestFinishedHandlerTest
     @Test
     public void rejectsUnknownTestCaseResult()
     {
-        assertFalse(handler.matches("[      UKN ] TestSuite.testCase (0 ms)"));
+        assertThat(handler.matches("[      UKN ] TestSuite.testCase (0 ms)")).isFalse();
     }
 
     @Test
     public void parseDataSuccessfulTestCase()
     {
         Matcher m = checkedMatch(handler, "[       OK ] TestSuite.testCase (0 ms)");
-        assertEquals("     OK", m.group(1));
-        assertEquals("TestSuite", m.group(2));
-        assertEquals("testCase", m.group(3));
-        assertEquals("0", m.group(4));
+        assertThat(m.group(1)).isEqualTo("     OK");
+        assertThat(m.group(2)).isEqualTo("TestSuite");
+        assertThat(m.group(3)).isEqualTo("testCase");
+        assertThat(m.group(4)).isEqualTo("0");
     }
 
     @Test
@@ -82,10 +82,10 @@ public class GoogleTestTestFinishedHandlerTest
     {
         Matcher m = checkedMatch(handler, "[       OK ] withParameterImpl/TestSuite"
                                         + ".testCase/0 (0 ms)");
-        assertEquals("     OK", m.group(1));
-        assertEquals("withParameterImpl/TestSuite", m.group(2));
-        assertEquals("testCase", m.group(3));
-        assertEquals("0", m.group(4));
+        assertThat(m.group(1)).isEqualTo("     OK");
+        assertThat(m.group(2)).isEqualTo("withParameterImpl/TestSuite");
+        assertThat(m.group(3)).isEqualTo("testCase");
+        assertThat(m.group(4)).isEqualTo("0");
     }
 
     @Test
@@ -93,20 +93,20 @@ public class GoogleTestTestFinishedHandlerTest
     {
         Matcher m = checkedMatch(handler, "[  FAILED  ] withParameterImpl/TestSuite"
                                         + ".testCase/3, where GetParam() = 0 (0 ms)");
-        assertEquals("FAILED ", m.group(1));
-        assertEquals("withParameterImpl/TestSuite", m.group(2));
-        assertEquals("testCase", m.group(3));
-        assertEquals("0", m.group(4));
+        assertThat(m.group(1)).isEqualTo("FAILED ");
+        assertThat(m.group(2)).isEqualTo("withParameterImpl/TestSuite");
+        assertThat(m.group(3)).isEqualTo("testCase");
+        assertThat(m.group(4)).isEqualTo("0");
     }
 
     @Test
     public void parseDataFailedTestCase()
     {
         Matcher m = checkedMatch(handler, "[  FAILED  ] TestSuite.testCase (45 ms)");
-        assertEquals("FAILED ", m.group(1));
-        assertEquals("TestSuite", m.group(2));
-        assertEquals("testCase", m.group(3));
-        assertEquals("45", m.group(4));
+        assertThat(m.group(1)).isEqualTo("FAILED ");
+        assertThat(m.group(2)).isEqualTo("TestSuite");
+        assertThat(m.group(3)).isEqualTo("testCase");
+        assertThat(m.group(4)).isEqualTo("45");
     }
 
     @Test
@@ -115,7 +115,7 @@ public class GoogleTestTestFinishedHandlerTest
         checkedMatch(handler, "[  FAILED  ] TestSuite.testCase (45 ms)");
         CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
         handler.updateUI((Manager) null, session);
-        assertThat(testCase, hasError());
+        assertThat(testCase).hasError();
     }
 
     @Test
@@ -127,8 +127,8 @@ public class GoogleTestTestFinishedHandlerTest
         trouble.setStackTrace(new String[] { "abc" });
         testCase.setTrouble(trouble);
         handler.updateUI((Manager) null, session);
-        assertThat(testCase, hasError());
-        assertEquals("abc", testCase.getTrouble().getStackTrace()[0]);
+        assertThat(testCase).hasError();
+        assertThat(testCase.getTrouble().getStackTrace()[0]).isEqualTo("abc");
     }
 
     @Test
@@ -137,7 +137,7 @@ public class GoogleTestTestFinishedHandlerTest
         checkedMatch(handler, "[       OK ] TestSuite.testCase (0 ms)");
         IllegalStateException ex = assertThrows(IllegalStateException.class,
                                                 () -> handler.updateUI(manager, session));
-        assertNotNull(ex);
+        assertThat(ex).isNotNull();
     }
 
     @Test
@@ -147,7 +147,7 @@ public class GoogleTestTestFinishedHandlerTest
         checkedMatch(handler, "[       OK ] TestSuite.testCase (0 ms)");
         IllegalStateException ex = assertThrows(IllegalStateException.class,
                                                 () -> handler.updateUI(manager, session));
-        assertNotNull(ex);
+        assertThat(ex).isNotNull();
     }
 
     @Test
@@ -157,7 +157,7 @@ public class GoogleTestTestFinishedHandlerTest
         checkedMatch(handler, "[       OK ] TestSuite.testCase (0 ms)");
         IllegalStateException ex = assertThrows(IllegalStateException.class,
                                                 () -> handler.updateUI(manager, session));
-        assertNotNull(ex);
+        assertThat(ex).isNotNull();
     }
 
     @Test
@@ -166,12 +166,13 @@ public class GoogleTestTestFinishedHandlerTest
         CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
         checkedMatch(handler, "[       OK ] TestSuite.testCase (13 ms)");
         handler.updateUI(manager, session);
-        assertThat(testCase, allOf(matchesTestCase("testCase", "TestSuite"),
-                                    frameworkIs(FRAMEWORK),
-                                    timeIs(13l),
-                                    sessionIs(session),
-                                    hasNoError()));
-        assertEquals("TestSuite:testCase", testCase.getLocation());
+
+        assertThat(testCase).isTestCase("TestSuite", "testCase");
+        assertThat(testCase).isFramework(FRAMEWORK);
+        assertThat(testCase).timeIs(13L);
+        assertThat(testCase).isSession(session);
+        assertThat(testCase).hasNoError();
+        assertThat(testCase).isLocation("TestSuite:testCase");
     }
 
     @Test
@@ -180,6 +181,6 @@ public class GoogleTestTestFinishedHandlerTest
         CndTestCase testCase = createCurrentTestCase("TestSuite", "testCase", FRAMEWORK, session);
         checkedMatch(handler, "[  FAILED  ] TestSuite.testCase (45 ms)");
         handler.updateUI(manager, session);
-        assertThat(testCase, hasError());
+        assertThat(testCase).hasError();
     }
 }

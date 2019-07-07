@@ -23,7 +23,7 @@ package bv.offa.netbeans.cnd.unittest.googletest;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.google.common.truth.Truth.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -46,27 +46,27 @@ public class GoogleTestTestHandlerFactoryTest
     @Test
     public void printSummary()
     {
-        assertTrue(factory.printSummary());
+        assertThat(factory.printSummary()).isTrue();
     }
 
     @Test
     public void createHandlersContainsHandlers()
     {
-        assertEquals(6, factory.createHandlers().size());
+        assertThat(factory.createHandlers().size()).isEqualTo(6);
     }
 
     @Test
     public void factorySetsNodeFactory()
     {
         factory.createHandlers();
-        assertTrue(Manager.getInstance().getNodeFactory() instanceof TestRunnerUINodeFactory);
+        assertThat(Manager.getInstance().getNodeFactory() instanceof TestRunnerUINodeFactory).isTrue();
     }
 
     @Test
     public void factorySetsFrameWork()
     {
         factory.createHandlers();
-        assertEquals(TestFramework.GOOGLETEST.getName(), Manager.getInstance().getTestingFramework());
+        assertThat(Manager.getInstance().getTestingFramework()).isEqualTo(TestFramework.GOOGLETEST.getName());
     }
 
     @Test
@@ -74,7 +74,7 @@ public class GoogleTestTestHandlerFactoryTest
     {
         factory.createHandlers().forEach((h) ->
         {
-            assertEquals(TestFramework.GOOGLETEST, ((CndTestHandler) h).getTestFramework());
+            assertThat(((CndTestHandler) h).getTestFramework()).isEqualTo(TestFramework.GOOGLETEST);
         });
     }
 }

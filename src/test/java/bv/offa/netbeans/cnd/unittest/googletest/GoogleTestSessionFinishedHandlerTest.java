@@ -21,8 +21,8 @@ package bv.offa.netbeans.cnd.unittest.googletest;
 
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
+import static com.google.common.truth.Truth.assertThat;
 import java.util.regex.Matcher;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -68,14 +68,14 @@ public class GoogleTestSessionFinishedHandlerTest
     public void parseDataTestSession()
     {
         Matcher m = checkedMatch(handler, "[==========] 1200 tests from 307 test cases ran. (1234 ms total)");
-        assertEquals("1234", m.group(1));
+        assertThat(m.group(1)).isEqualTo("1234");
     }
 
     @Test
     public void parseDataSingleTests()
     {
         Matcher m = checkedMatch(handler, "[==========] 1 test from 1 test case ran. (3 ms total)");
-        assertEquals("3", m.group(1));
+        assertThat(m.group(1)).isEqualTo("3");
     }
 
     @Test

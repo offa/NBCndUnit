@@ -20,11 +20,13 @@
 package bv.offa.netbeans.cnd.unittest.testhelper;
 
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
+import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
 import static com.google.common.truth.Truth.assertAbout;
 import javax.annotation.Nullable;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.Trouble;
 
 public final class TestCaseSubject extends Subject
@@ -56,7 +58,27 @@ public final class TestCaseSubject extends Subject
         check("timeIs").that(actual.getTimeMillis()).isEqualTo(timeMs);
     }
 
+    public void isFramework(TestFramework expected)
+    {
+        check("isFramework").that(actual.getFramework()).isEqualTo(expected);
+    }
 
+    public void isSession(TestSession expected)
+    {
+        check("isSession").that(actual.getSession()).isEqualTo(expected);
+    }
+
+    public void isTestCase(String testSuite, String testCase)
+    {
+        check("isTestCase").that(actual.getClassName()).isEqualTo(testSuite);
+        check("isTestCase").that(actual.getName()).isEqualTo(testCase);
+    }
+
+    public void isLocation(String expected)
+    {
+        check("isLocation").that(actual.getLocation()).isEqualTo(expected);
+    }
+    
     public static TestCaseSubject assertThat(@Nullable CndTestCase actual)
     {
         return assertAbout(testcases()).that(actual);
