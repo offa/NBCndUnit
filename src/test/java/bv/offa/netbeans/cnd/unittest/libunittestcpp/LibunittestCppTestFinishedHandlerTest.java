@@ -33,9 +33,9 @@ import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.matchesTestSu
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.sessionIs;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.suiteFrameworkIs;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.timeIs;
+import static com.google.common.truth.Truth.assertThat;
 import java.util.regex.Matcher;
 import static org.hamcrest.CoreMatchers.allOf;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -90,41 +90,41 @@ public class LibunittestCppTestFinishedHandlerTest
     @Test
     public void matchesSuccessfulTest()
     {
-        assertTrue(handler.matches("test_name::testA ... [1.551e-05s] ok"));
-        assertTrue(handler.matches("test_name::testB ... [0.000108249s] ok"));
-        assertTrue(handler.matches("test_name::testC ... [477.100486s] ok"));
-        assertTrue(handler.matches("test_suite::test_name::test_case ... [9.217e-06s] ok"));
+        assertThat(handler.matches("test_name::testA ... [1.551e-05s] ok")).isTrue();
+        assertThat(handler.matches("test_name::testB ... [0.000108249s] ok")).isTrue();
+        assertThat(handler.matches("test_name::testC ... [477.100486s] ok")).isTrue();
+        assertThat(handler.matches("test_suite::test_name::test_case ... [9.217e-06s] ok")).isTrue();
     }
 
     @Test
     public void parseDataSuccessfulTest()
     {
         Matcher m = checkedMatch(handler, "test_name::testA ... [1.551e-05s] ok");
-        assertEquals("test_name", m.group(1));
-        assertEquals("testA", m.group(2));
-        assertEquals("1.551e-05", m.group(3));
-        assertEquals("ok", m.group(4));
+        assertThat(m.group(1)).isEqualTo("test_name");
+        assertThat(m.group(2)).isEqualTo("testA");
+        assertThat(m.group(3)).isEqualTo("1.551e-05");
+        assertThat(m.group(4)).isEqualTo("ok");
     }
 
     @Test
     public void parseDataFailedTest()
     {
         Matcher m = checkedMatch(handler, "test_name::testB ... [0.000108249s] FAIL");
-        assertEquals("test_name", m.group(1));
-        assertEquals("testB", m.group(2));
-        assertEquals("0.000108249", m.group(3));
-        assertEquals("FAIL", m.group(4));
+        assertThat(m.group(1)).isEqualTo("test_name");
+        assertThat(m.group(2)).isEqualTo("testB");
+        assertThat(m.group(3)).isEqualTo("0.000108249");
+        assertThat(m.group(4)).isEqualTo("FAIL");
     }
 
     @Test
     public void parseDataIgnoredTestCase()
     {
         Matcher m = handler.match("TestSuite::testExample::test ... [0s] SKIP A message");
-        assertTrue(m.find());
-        assertEquals("TestSuite", m.group(1));
-        assertEquals("testExample::test", m.group(2));
-        assertEquals("0", m.group(3));
-        assertEquals("SKIP", m.group(4));
+        assertThat(m.find()).isTrue();
+        assertThat(m.group(1)).isEqualTo("TestSuite");
+        assertThat(m.group(2)).isEqualTo("testExample::test");
+        assertThat(m.group(3)).isEqualTo("0");
+        assertThat(m.group(4)).isEqualTo("SKIP");
     }
 
     @Test

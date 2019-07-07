@@ -21,8 +21,8 @@ package bv.offa.netbeans.cnd.unittest.libunittestcpp;
 
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
+import static com.google.common.truth.Truth.assertThat;
 import java.util.regex.Matcher;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -68,22 +68,22 @@ public class LibunittestCppTestSessionFinishedHandlerTest
     @Test
     public void matchesSuccessfulTest()
     {
-        assertTrue(handler.matches("Ran 60 tests in 0.100471s"));
-        assertTrue(handler.matches("Ran 5 tests in 127.000288703s"));
+        assertThat(handler.matches("Ran 60 tests in 0.100471s")).isTrue();
+        assertThat(handler.matches("Ran 5 tests in 127.000288703s")).isTrue();
     }
 
     @Test
     public void parseDataSuccessfulTest()
     {
         Matcher m = checkedMatch(handler, "Ran 5 tests in 127.000288703s");
-        assertEquals("127.000288703", m.group(1));
+        assertThat(m.group(1)).isEqualTo("127.000288703");
     }
 
     @Test
     public void rejectsMalformedTests()
     {
-        assertFalse(handler.matches("Ran 2 tests in"));
-        assertFalse(handler.matches("Ran 2 tests in "));
+        assertThat(handler.matches("Ran 2 tests in")).isFalse();
+        assertThat(handler.matches("Ran 2 tests in ")).isFalse();
     }
 
     @Test
