@@ -25,15 +25,9 @@ import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestCase;
-import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.frameworkIs;
-import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.hasNoError;
-import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.matchesTestCase;
-import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.sessionIs;
-import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.timeIs;
-import static com.google.common.truth.Truth.assertThat;
 import static bv.offa.netbeans.cnd.unittest.testhelper.TestCaseSubject.assertThat;
+import static com.google.common.truth.Truth.assertThat;
 import java.util.regex.Matcher;
-import static org.hamcrest.CoreMatchers.allOf;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -169,7 +163,7 @@ public class GoogleTestTestFinishedHandlerTest
 
         assertThat(testCase).isTestCase("TestSuite", "testCase");
         assertThat(testCase).isFramework(FRAMEWORK);
-        assertThat(testCase).timeIs(13L);
+        assertThat(testCase).isTime(13L);
         assertThat(testCase).isSession(session);
         assertThat(testCase).hasNoError();
         assertThat(testCase).isLocation("TestSuite:testCase");

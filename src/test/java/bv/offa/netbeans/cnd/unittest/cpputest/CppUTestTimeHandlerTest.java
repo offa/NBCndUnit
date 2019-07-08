@@ -71,7 +71,7 @@ public class CppUTestTimeHandlerTest
         when(session.getCurrentTestCase()).thenReturn(testCase);
         handler.updateUI(manager, session);
         assertThat(info.getTimeTotal()).isEqualTo(123L);
-        assertThat(testCase).timeIs(123l);
+        assertThat(testCase).isTime(123l);
     }
 
 }

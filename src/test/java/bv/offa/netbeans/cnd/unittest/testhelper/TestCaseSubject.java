@@ -27,6 +27,7 @@ import static com.google.common.truth.Truth.assertAbout;
 import javax.annotation.Nullable;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
+import org.netbeans.modules.gsf.testrunner.api.Testcase;
 import org.netbeans.modules.gsf.testrunner.api.Trouble;
 
 public final class TestCaseSubject extends Subject
@@ -53,7 +54,7 @@ public final class TestCaseSubject extends Subject
         check("hasNoError()").that(actual.getTrouble()).isNull();
     }
 
-    public void timeIs(long timeMs)
+    public void isTime(long timeMs)
     {
         check("timeIs").that(actual.getTimeMillis()).isEqualTo(timeMs);
     }
@@ -78,10 +79,15 @@ public final class TestCaseSubject extends Subject
     {
         check("isLocation").that(actual.getLocation()).isEqualTo(expected);
     }
-    
+
     public static TestCaseSubject assertThat(@Nullable CndTestCase actual)
     {
         return assertAbout(testcases()).that(actual);
+    }
+
+    public static TestCaseSubject assertThat(@Nullable Testcase actual)
+    {
+        return assertAbout(testcases()).that((CndTestCase) actual);
     }
 
     public static Subject.Factory<TestCaseSubject, CndTestCase> testcases()

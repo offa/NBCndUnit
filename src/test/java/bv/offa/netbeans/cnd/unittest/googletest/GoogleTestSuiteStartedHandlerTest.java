@@ -24,7 +24,7 @@ import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
 import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.createCurrentTestSuite;
-import static bv.offa.netbeans.cnd.unittest.testhelper.TestMatcher.matchesTestSuite;
+import static bv.offa.netbeans.cnd.unittest.testhelper.MockArgumentMatcher.isSuite;
 import static com.google.common.truth.Truth.assertThat;
 import java.util.regex.Matcher;
 import org.junit.jupiter.api.BeforeAll;
@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import org.mockito.InOrder;
 import static org.mockito.Mockito.inOrder;
@@ -40,7 +41,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 import org.netbeans.api.project.Project;
 import org.netbeans.modules.gsf.testrunner.api.Report;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
@@ -131,8 +131,8 @@ public class GoogleTestSuiteStartedHandlerTest
     {
         checkedMatch(handler, "[----------] 1 test from TestSuite");
         handler.updateUI(manager, session);
-        verify(session).addSuite(argThat(matchesTestSuite("TestSuite")));
-        verify(manager).displaySuiteRunning(eq(session), argThat(matchesTestSuite("TestSuite")));
+        verify(session).addSuite(argThat(isSuite("TestSuite")));
+        verify(manager).displaySuiteRunning(eq(session), argThat(isSuite("TestSuite")));
     }
 
     @Test
@@ -142,8 +142,8 @@ public class GoogleTestSuiteStartedHandlerTest
         CndTestSuite suite = new CndTestSuite("TestSuiteFirst", TestFramework.GOOGLETEST);
         when(session.getCurrentSuite()).thenReturn(suite);
         handler.updateUI(manager, session);
-        verify(session).addSuite(argThat(matchesTestSuite("TestSuite")));
-        verify(manager).displaySuiteRunning(eq(session), argThat(matchesTestSuite("TestSuite")));
+        verify(session).addSuite(argThat(isSuite("TestSuite")));
+        verify(manager).displaySuiteRunning(eq(session), argThat(isSuite("TestSuite")));
     }
 
     @Test
