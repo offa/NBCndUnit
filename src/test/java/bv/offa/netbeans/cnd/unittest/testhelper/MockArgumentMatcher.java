@@ -38,98 +38,67 @@ public final class MockArgumentMatcher
 
     public static ArgumentMatcher<Testcase> hasStatus(Status status)
     {
-        return new ArgumentMatcher<Testcase>()
+        return new ArgumentMatcherImpl<Testcase>("hasStatus()", status.toString())
         {
             @Override
             public boolean matches(Testcase t)
             {
                 return t.getStatus() == status;
             }
-
-            @Override
-            public String toString()
-            {
-                return "hasStatus(): " + status.toString();
-            }
         };
     }
 
     public static ArgumentMatcher<Testcase> isTime(long ms)
     {
-        return new ArgumentMatcher<Testcase>()
+        return new ArgumentMatcherImpl<Testcase>("isTime()", ms + " ms")
         {
             @Override
             public boolean matches(Testcase t)
             {
                 return t.getTimeMillis() == ms;
             }
-
-            @Override
-            public String toString()
-            {
-                return "isTime(): " + ms + " ms";
-            }
         };
     }
 
     public static ArgumentMatcher<Testcase> isSession(TestSession session)
     {
-        return new ArgumentMatcher<Testcase>()
+        return new ArgumentMatcherImpl<Testcase>("isSession()", session)
         {
             @Override
             public boolean matches(Testcase t)
             {
                 return t.getSession().equals(session);
             }
-
-            @Override
-            public String toString()
-            {
-                return "isSession(): " + session;
-            }
-
         };
     }
 
     public static ArgumentMatcher<Testcase> hasError()
     {
-        return new ArgumentMatcher<Testcase>()
+        return new ArgumentMatcherImpl<Testcase>("hasError()")
         {
             @Override
             public boolean matches(Testcase t)
             {
                 return Objects.requireNonNull(t.getTrouble()).isError();
             }
-
-            @Override
-            public String toString()
-            {
-                return "hasError()";
-            }
         };
     }
 
     public static ArgumentMatcher<Testcase> hasNoError()
     {
-        return new ArgumentMatcher<Testcase>()
+        return new ArgumentMatcherImpl<Testcase>("hasNoError()")
         {
             @Override
             public boolean matches(Testcase t)
             {
                 return t.getTrouble() == null;
             }
-
-            @Override
-            public String toString()
-            {
-                return "hasNoError()";
-            }
         };
     }
 
     public static ArgumentMatcher<Testcase> isTest(String suite, String name)
     {
-        return new ArgumentMatcher<Testcase>()
+        return new ArgumentMatcherImpl<Testcase>("isTest()", suite + "::" + name)
         {
             @Override
             public boolean matches(Testcase t)
@@ -138,102 +107,94 @@ public final class MockArgumentMatcher
                 return (testCase.getName().equals(name) == true)
                         && (testCase.getClassName().equals(suite) == true);
             }
-
-            @Override
-            public String toString()
-            {
-                return "isTest(): " + suite + "::" + name;
-            }
         };
     }
 
     public static ArgumentMatcher<Testcase> isFramework(TestFramework framework)
     {
-        return new ArgumentMatcher<Testcase>()
+        return new ArgumentMatcherImpl<Testcase>("isFramework()", framework)
         {
             @Override
             public boolean matches(Testcase t)
             {
                 return ((CndTestCase) t).getFramework() == framework;
             }
-
-            @Override
-            public String toString()
-            {
-                return "isFramework(): " + framework;
-            }
         };
     }
 
     public static ArgumentMatcher<TestSuite> isSuiteFramework(TestFramework framework)
     {
-        return new ArgumentMatcher<TestSuite>()
+        return new ArgumentMatcherImpl<TestSuite>("isSuiteFramework()", framework)
         {
             @Override
             public boolean matches(TestSuite t)
             {
                 return ((CndTestSuite) t).getFramework() == framework;
             }
-
-            @Override
-            public String toString()
-            {
-                return "isSuiteFramework(): " + framework;
-            }
         };
     }
 
     public static ArgumentMatcher<TestSuite> isSuite(String suite)
     {
-        return new ArgumentMatcher<TestSuite>()
+        return new ArgumentMatcherImpl<TestSuite>("isSuite()", suite)
         {
             @Override
             public boolean matches(TestSuite t)
             {
                 return t.getName().equals(suite);
             }
-
-            @Override
-            public String toString()
-            {
-                return "isSuite(): " + suite;
-            }
         };
     }
 
     public static ArgumentMatcher<TestSuite> isSuiteOfFramework(String suite, TestFramework framework)
     {
-        return new ArgumentMatcher<TestSuite>()
+        return new ArgumentMatcherImpl<TestSuite>("isSuiteOfFramework()", suite + " - " + framework)
         {
             @Override
             public boolean matches(TestSuite t)
             {
                 return isSuite(suite).matches(t) && isSuiteFramework(framework).matches(t);
             }
-
-            @Override
-            public String toString()
-            {
-                return "isSuiteOfFramework(): " + suite + " - " + framework;
-            }
         };
     }
 
     public static ArgumentMatcher<Testcase> isTestOfFramework(String suite, String test, TestFramework framework)
     {
-        return new ArgumentMatcher<Testcase>()
+        return new ArgumentMatcherImpl<Testcase>("isTestframework()", suite + "::" + test + " - " + framework)
         {
             @Override
             public boolean matches(Testcase t)
             {
                 return isTest(suite, test).matches(t) && isFramework(framework).matches(t);
             }
-
-            @Override
-            public String toString()
-            {
-                return "isTestOfFramework(): " + suite + "::" + test + " - " + framework;
-            }
         };
+    }
+
+    private static abstract class ArgumentMatcherImpl<T> implements ArgumentMatcher<T>
+    {
+
+        private final String name;
+        private final String detail;
+
+        public ArgumentMatcherImpl(String name, Object detail)
+        {
+            this.name = name;
+            this.detail = Objects.toString(detail, "");
+        }
+
+        public ArgumentMatcherImpl(String name)
+        {
+            this(name, null);
+        }
+
+        @Override
+        public abstract boolean matches(T t);
+
+        @Override
+        public String toString()
+        {
+            return name + (detail.isEmpty() ? "" : ": " + detail);
+        }
+
     }
 }
