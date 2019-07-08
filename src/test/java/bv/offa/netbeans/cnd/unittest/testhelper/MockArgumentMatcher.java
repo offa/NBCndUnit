@@ -85,7 +85,7 @@ public final class MockArgumentMatcher
             @Override
             public String toString()
             {
-                return "isSession(): " + session; // TODO
+                return "isSession(): " + session;
             }
 
         };
@@ -147,74 +147,74 @@ public final class MockArgumentMatcher
         };
     }
 
-    public static ArgumentMatcher<Testcase> isFramework(TestFramework expected)
+    public static ArgumentMatcher<Testcase> isFramework(TestFramework framework)
     {
         return new ArgumentMatcher<Testcase>()
         {
             @Override
             public boolean matches(Testcase t)
             {
-                return ((CndTestCase) t).getFramework() == expected;
+                return ((CndTestCase) t).getFramework() == framework;
             }
 
             @Override
             public String toString()
             {
-                return "isFramework(): " + expected;
+                return "isFramework(): " + framework;
             }
         };
     }
 
-    public static ArgumentMatcher<TestSuite> isSuiteFramework(TestFramework expected)
+    public static ArgumentMatcher<TestSuite> isSuiteFramework(TestFramework framework)
     {
         return new ArgumentMatcher<TestSuite>()
         {
             @Override
             public boolean matches(TestSuite t)
             {
-                return ((CndTestSuite) t).getFramework() == expected;
+                return ((CndTestSuite) t).getFramework() == framework;
             }
 
             @Override
             public String toString()
             {
-                return "isSuiteFramework(): " + expected;
+                return "isSuiteFramework(): " + framework;
             }
         };
     }
 
-    public static ArgumentMatcher<TestSuite> isSuite(String expected)
+    public static ArgumentMatcher<TestSuite> isSuite(String suite)
     {
         return new ArgumentMatcher<TestSuite>()
         {
             @Override
             public boolean matches(TestSuite t)
             {
-                return t.getName().equals(expected);
+                return t.getName().equals(suite);
             }
 
             @Override
             public String toString()
             {
-                return "isSuite(): " + expected;
+                return "isSuite(): " + suite;
             }
         };
     }
 
-    public static ArgumentMatcher<TestSuite> isSuiteOfFramework(String expected, TestFramework framework)
+    public static ArgumentMatcher<TestSuite> isSuiteOfFramework(String suite, TestFramework framework)
     {
         return new ArgumentMatcher<TestSuite>()
         {
             @Override
             public boolean matches(TestSuite t)
             {
-                return t.getName().equals(expected) && ((CndTestSuite) t).getFramework() == framework;
+                return isSuite(suite).matches(t) && isSuiteFramework(framework).matches(t);
             }
 
             @Override
             public String toString()
             {
-                return "isSuiteOfFramework(): " + expected + " - " + framework;
+                return "isSuiteOfFramework(): " + suite + " - " + framework;
             }
         };
     }
