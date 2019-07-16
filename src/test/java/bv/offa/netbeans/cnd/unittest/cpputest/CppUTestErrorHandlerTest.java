@@ -41,7 +41,6 @@ import org.netbeans.modules.gsf.testrunner.api.Trouble;
 public class CppUTestErrorHandlerTest
 {
     private static final TestFramework FRAMEWORK = TestFramework.CPPUTEST;
-    private TestSessionInformation info;
     private CppUTestErrorHandler handler;
     private TestSession session;
     private ManagerAdapter manager;
@@ -49,8 +48,7 @@ public class CppUTestErrorHandlerTest
     @BeforeEach
     public void setUp()
     {
-        info = new TestSessionInformation();
-        handler = new CppUTestErrorHandler(info);
+        handler = new CppUTestErrorHandler();
         session = mock(TestSession.class);
         manager = mock(ManagerAdapter.class);
 

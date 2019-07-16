@@ -39,7 +39,7 @@ public class CppUTestErrorHandler extends CndTestHandler
     private static final int GROUP_SUITE = 3;
     private static final int GROUP_CASE = 4;
 
-    public CppUTestErrorHandler(TestSessionInformation info)
+    public CppUTestErrorHandler()
     {
         super(TestFramework.CPPUTEST, "^(.+?)\\:([0-9]+?)\\: error\\: Failure in "
                                     + "TEST\\(([^, ]+?), ([^, ]+?)\\)$");

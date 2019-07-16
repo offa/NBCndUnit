@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2019  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ import org.netbeans.modules.gsf.testrunner.ui.api.Manager;
 /**
  * The class {@code CppUTestTestHandlerFactory} implements a factory for
  * <i>CppUTest</i> test handler.
- * 
+ *
  * @author offa
  */
 public class CppUTestTestHandlerFactory implements TestHandlerFactory
@@ -39,7 +39,7 @@ public class CppUTestTestHandlerFactory implements TestHandlerFactory
 
     /**
      * Creates handlers for the unit test output.
-     * 
+     *
      * @return  Test output handler
      */
     @Override
@@ -47,22 +47,22 @@ public class CppUTestTestHandlerFactory implements TestHandlerFactory
     {
         Manager.getInstance().setNodeFactory(new TestRunnerUINodeFactory());
         Manager.getInstance().setTestingFramework(TestFramework.CPPUTEST.getName());
-        
+
         TestSessionInformation info = new TestSessionInformation();
 
         List<TestRecognizerHandler> testHandler = new ArrayList<>();
         testHandler.add(new CppUTestTestHandler(info));
         testHandler.add(new CppUTestSuiteFinishedHandler(info));
-        testHandler.add(new CppUTestErrorHandler(info));
+        testHandler.add(new CppUTestErrorHandler());
         testHandler.add(new CppUTestTimeHandler(info));
 
         return testHandler;
     }
-    
-    
+
+
     /**
      * Returns whether a summary is printed.
-     * 
+     *
      * @return  Always {@code true}
      */
     @Override
@@ -70,5 +70,5 @@ public class CppUTestTestHandlerFactory implements TestHandlerFactory
     {
         return true;
     }
-    
+
 }
