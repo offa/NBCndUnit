@@ -24,6 +24,7 @@ import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import bv.offa.netbeans.cnd.unittest.ui.TestRunnerUINodeFactory;
 import static com.google.common.truth.Truth.assertThat;
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -62,6 +63,8 @@ public class LibunittestCppTestHandlerFactoryTest
         assertThat(Manager.getInstance().getNodeFactory() instanceof TestRunnerUINodeFactory).isTrue();
     }
 
+    @Ignore("Will be removed in the future")
+    @Deprecated
     @Test
     public void factorySetsFrameWork()
     {
