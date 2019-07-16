@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2019  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
 /**
  * The class {@code LibunittestCppTestFinishedHandler} handles the test
  * output.
- * 
+ *
  * @author offa
  */
 public class LibunittestCppTestFinishedHandler extends CndTestHandler
@@ -50,11 +50,11 @@ public class LibunittestCppTestFinishedHandler extends CndTestHandler
         suiteFinished();
     }
 
-    
-    
+
+
     /**
      * Updates the UI.
-     * 
+     *
      * @param manager       Manager Adapter
      * @param session       Test session
      */
@@ -68,7 +68,7 @@ public class LibunittestCppTestFinishedHandler extends CndTestHandler
             updateSessionState(manager, session);
             startNewTestSuite(suiteName, session, manager);
         }
-        
+
         final String testName = normalise(getMatchGroup(GROUP_CASE));
         CndTestCase testCase = startNewTestCase(testName, suiteName, session);
         updateTime(testCase);
@@ -84,10 +84,10 @@ public class LibunittestCppTestFinishedHandler extends CndTestHandler
         LibunittestCppTestFinishedHandler.firstSuite = true;
     }
 
-    
+
     /**
      * Normalises the input. This will replace all prohibited characters.
-     * 
+     *
      * @param input     Input string
      * @return          Normalised output
      */
@@ -95,11 +95,11 @@ public class LibunittestCppTestFinishedHandler extends CndTestHandler
     {
         return input.replace('<', '(').replace('>', ')');
     }
-    
-    
+
+
     /**
      * Updates the session state.
-     * 
+     *
      * @param manager   Manager
      * @param session   Session
      */
@@ -115,36 +115,36 @@ public class LibunittestCppTestFinishedHandler extends CndTestHandler
             manager.displayReport(session, session.getReport(0));
         }
     }
-    
-    
+
+
     /**
      * Updates the test result.
-     * 
+     *
      * @param testCase      Test Case
      * @param location      Test location
      */
     private void updateResult(CndTestCase testCase)
     {
         final String result = getMatchGroup(GROUP_RESULT);
-        
-        if( result.equals(MSG_FAILED) == true )
+
+        switch(result)
         {
-            testCase.setError();
-        }
-        else if( result.equals(MSG_SKIP) == true )
-        {
-            testCase.setSkipped();
-        }
-        else
-        {
-            /* Empty */
+            case MSG_FAILED:
+                testCase.setError();
+                break;
+            case MSG_SKIP:
+                testCase.setSkipped();
+                break;
+            default:
+                break;
+
         }
     }
-    
-    
+
+
     /**
      * Updates the test time.
-     * 
+     *
      * @param testCase  Test Case
      */
     private void updateTime(CndTestCase testCase)
@@ -152,6 +152,6 @@ public class LibunittestCppTestFinishedHandler extends CndTestHandler
         final String timeValue = getMatchGroup(GROUP_TIME);
         testCase.setTimeMillis(TestSupportUtils.parseTimeSecToMillis(timeValue));
     }
-    
+
 }
-    
+
