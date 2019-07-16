@@ -90,12 +90,9 @@ public class NewTestSuiteWizardPanel1 extends AbstractWizardPanel
         final List<String> testCases = getTestCaseNamesFromVisualComponent();
         final boolean genTestCases = getGenerateTestCasesFromVisualComponent();
 
-        if( genTestCases == true )
+        if( (genTestCases == true) && (checkTestCases(testCases) == false) )
         {
-            if( checkTestCases(testCases) == false )
-            {
-                return false;
-            }
+            return false;
         }
 
         return checkSuiteName(suiteName);
@@ -260,7 +257,7 @@ public class NewTestSuiteWizardPanel1 extends AbstractWizardPanel
             setErrorMessage(getMessageFromBundle("MSG_Err_Invalid_TestCase_Name"));
             return false;
         }
-        
+
         return true;
     }
 
