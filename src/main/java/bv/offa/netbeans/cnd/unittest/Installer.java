@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2019  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -33,15 +33,15 @@ import org.openide.modules.Modules;
 /**
  * The class {@code Installer} implements an installer which will add this
  * module as friend to other modules.
- * 
+ *
  * @author offa
  */
 public class Installer extends ModuleInstall
 {
     private static final long serialVersionUID = 1L;
     private final Set<String> targetModules;
-    
-    
+
+
     public Installer()
     {
         this.targetModules = new HashSet<>(Arrays.asList(
@@ -55,15 +55,15 @@ public class Installer extends ModuleInstall
                                     "org.netbeans.modules.cnd.utils"));
     }
 
-    
-    
+
+
     /**
      * Called if the module is loaded. It adds this module to the friend-list of
      * specified modules. If there are no modules specified, this method
      * does nothing.
-     * 
+     *
      * @throws IllegalStateException    Thrown if an exception occurs
-     *                                  while loading 
+     *                                  while loading
      */
     @Override
     public void validate() throws IllegalStateException
@@ -73,23 +73,23 @@ public class Installer extends ModuleInstall
             addFriends();
         }
     }
-    
-    
+
+
     /**
      * Returns the friend modules which are set by this installer.
-     * 
+     *
      * @return  Friend modules
      */
     protected Collection<String> getTargetModules()
     {
         return targetModules;
     }
-    
-    
+
+
     /**
      * Adds additional friends to specified modules. The modules are specified
      * by their module code name base within {@code targetModules}.
-     * 
+     *
      * @exception IllegalStateException     Will rethrow previous exceptions
      */
     private void addFriends()
@@ -100,7 +100,7 @@ public class Installer extends ModuleInstall
             final Method getManagerMethod = moduleInfoOfThis.getClass().getMethod("getManager");
             final Object manager = getManagerMethod.invoke(moduleInfoOfThis);
             final Method getMethod = manager.getClass().getMethod("get", String.class);
-            
+
             for( String target : targetModules )
             {
                 addModuleToFriends(target, manager, getMethod, moduleInfoOfThis.getCodeNameBase());
@@ -111,11 +111,11 @@ public class Installer extends ModuleInstall
             throw new IllegalStateException(ex);
         }
     }
-    
-    
+
+
     /**
      * Changes the friends of {@code targetModule}.
-     * 
+     *
      * @param targetModule      Module
      * @param manager           Manager object
      * @param getMethod         Get Method
@@ -123,34 +123,34 @@ public class Installer extends ModuleInstall
      * @throws ReflectiveOperationException     On reflection operation failure
      * @throws IllegalArgumentException         On illegal argument
      */
-    private void addModuleToFriends(String targetModule, Object manager, 
+    private void addModuleToFriends(String targetModule, Object manager,
                                     Method getMethod, String codeNameBase)
-                                        throws ReflectiveOperationException, 
+                                        throws ReflectiveOperationException,
                                                 IllegalArgumentException
     {
         final ModuleInfo moduleInfo = (ModuleInfo) getMethod.invoke(manager, targetModule);
-        final Class<?> moduleClass = Class.forName("org.netbeans.Module", 
-                                                    true, 
+        final Class<?> moduleClass = Class.forName("org.netbeans.Module",
+                                                    true,
                                                     moduleInfo.getClass()
                                                             .getClassLoader());
         final Method dataMethod = moduleClass.getDeclaredMethod("data");
         dataMethod.setAccessible(true);
 
         final Object dataValue = dataMethod.invoke(moduleInfo);
-        final Class<?> moduleDataClass = Class.forName("org.netbeans.ModuleData", 
-                                                        true, 
+        final Class<?> moduleDataClass = Class.forName("org.netbeans.ModuleData",
+                                                        true,
                                                         dataValue.getClass()
                                                                 .getClassLoader());
         final Field friendNamesField = moduleDataClass.getDeclaredField("friendNames");
 
         updateFriendsValue(friendNamesField, dataValue, codeNameBase);
     }
-    
-    
+
+
     /**
      * Adds the module {@code friendToAdd} to the {@code friendField} of
      * object {@code obj}.
-     * 
+     *
      * @param friendField   Field of the friendlist
      * @param obj           Object to modify
      * @param friendToAdd   Module code name base to add as friend
@@ -160,12 +160,8 @@ public class Installer extends ModuleInstall
             throws IllegalAccessException
     {
         friendField.setAccessible(true);
-        
-        @SuppressWarnings("unchecked")
-        Set<String> value = (Set<String>) friendField.get(obj);
-        assert(value != null);
-        
-        Set<String> newValue = new HashSet<>(value);
+
+        final Set<String> newValue = new HashSet<>((Set<String>) friendField.get(obj));
         newValue.add(friendToAdd);
         friendField.set(obj, newValue);
     }
