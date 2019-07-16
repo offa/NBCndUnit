@@ -38,7 +38,7 @@ public enum TestFramework
     private final String name;
 
 
-    private TestFramework(String name)
+    TestFramework(String name)
     {
         this.name = name;
     }
