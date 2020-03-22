@@ -13,8 +13,6 @@ env:
 jobs:
     include:
     - env: JDK=8
-    - env: JDK=9
-    - env: JDK=10
     - env: JDK=11
     - env: JDK=12
     - env: JDK=13
