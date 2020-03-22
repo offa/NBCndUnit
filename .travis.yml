@@ -10,7 +10,7 @@ env:
     - DOCKER_IMG="registry.gitlab.com/offa/docker-images/openjdk"
     - DOCKER_TAG="stable"
 
-matrix:
+jobs:
     include:
     - env: JDK=8
     - env: JDK=9
