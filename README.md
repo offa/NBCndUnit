@@ -1,5 +1,6 @@
 # [NBCndUnit](https://github.com/offa/NBCndUnit)
 
+[![CI](https://github.com/offa/NBCndUnit/workflows/ci/badge.svg)](https://github.com/offa/NBCndUnit/actions)
 [![Build Status](https://travis-ci.org/offa/NBCndUnit.svg?branch=master)](https://travis-ci.org/offa/NBCndUnit)
 [![GitHub release](https://img.shields.io/github/release/offa/NBCndUnit.svg)](https://github.com/offa/NBCndUnit/releases)
 [![License](https://img.shields.io/badge/license-GPLv3-yellow.svg)](LICENSE)
@@ -85,7 +86,7 @@ int main(int argc, char** argv)
     std::vector<const char*> args(argv, argv + argc);
     args.push_back("-v"); // Set verbose mode
     args.push_back("-c"); // Set color output (Optional)
-    
+
     return RUN_ALL_TESTS(args.size(), &args[0]);
 }
 ```
@@ -102,7 +103,7 @@ int main(int argc, char** argv)
 {
     std::vector<const char*> args(argv, argv + argc);
     args.push_back("-v"); // Set verbose mode
-    
+
     return unittest::process(args.size(), const_cast<char**>(&args[0]));
 }
 
