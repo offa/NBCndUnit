@@ -1,0 +1,26 @@
+name: ci
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ 8, 11, 12, 13, 14 ]
+    name: jdk-${{ matrix.java }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Setup jdk-${{ matrix.java }}
+        uses: actions/setup-java@master
+        with:
+          java-version: ${{ matrix.java }}
+      - name: Cache
+        uses: actions/cache@master
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-jdk${{ matrix.java }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-jdk${{ matrix.java }}-maven-
+      - name: Build
+        run: script/ci_build.sh
