@@ -5,10 +5,9 @@ dist: focal
 services:
   - docker
 
-env:
-  global:
-    - DOCKER_IMG="registry.gitlab.com/offa/docker-images/openjdk"
-    - DOCKER_TAG="stable"
+cache:
+  directories:
+    - $HOME/.m2/repository
 
 jobs:
     include:
@@ -20,7 +19,7 @@ jobs:
 
 
 before_install:
-  - docker pull ${DOCKER_IMG}-${JDK}-maven:${DOCKER_TAG}
+  - docker pull maven:3-jdk-${JDK}
 
 script:
-  - docker run -v ${PWD}:/mnt -it ${DOCKER_IMG}-${JDK}-maven:${DOCKER_TAG} /bin/bash -c "cd /mnt; script/ci_build.sh"
+  - docker run -v ${PWD}:/mnt -v ${HOME}:/root -it maven:3-jdk-${JDK} /bin/bash -c "cd /mnt; script/ci_build.sh"
