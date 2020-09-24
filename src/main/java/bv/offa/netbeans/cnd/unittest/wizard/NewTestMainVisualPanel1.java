@@ -36,6 +36,7 @@ public class NewTestMainVisualPanel1 extends AbstractVisualPanel
         super("Step #1");
 
         initComponents();
+        this.cbCustomProjectEnable.setSelected(true);
     }
 
 
