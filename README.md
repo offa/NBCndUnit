@@ -1,7 +1,6 @@
 # [NBCndUnit](https://github.com/offa/NBCndUnit)
 
 [![CI](https://github.com/offa/NBCndUnit/workflows/ci/badge.svg)](https://github.com/offa/NBCndUnit/actions)
-[![Build Status](https://travis-ci.org/offa/NBCndUnit.svg?branch=master)](https://travis-ci.org/offa/NBCndUnit)
 [![GitHub release](https://img.shields.io/github/release/offa/NBCndUnit.svg)](https://github.com/offa/NBCndUnit/releases)
 [![License](https://img.shields.io/badge/license-GPLv3-yellow.svg)](LICENSE)
 [![NetBeans](https://img.shields.io/badge/netbeans-8.2-lightgrey.svg)](http://plugins.netbeans.org/plugin/57174/nbcndunit)
