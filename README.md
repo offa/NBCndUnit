@@ -14,6 +14,10 @@
  - [**NetBeans 8.2**](https://netbeans.org)
  - **Testing framework(s)**
 
+#### Compatibility Note:
+
+NetBeans releases newer than 8.x don't support C / C++ yet.
+
 
 # Supported C/C++ unit testing frameworks
 
