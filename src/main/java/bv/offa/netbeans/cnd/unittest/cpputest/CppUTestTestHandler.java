@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
+import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
@@ -61,7 +62,7 @@ public class CppUTestTestHandler extends CndTestHandler
     {
         final String suiteName = getMatchGroup(GROUP_SUITE);
 
-        if( isSameTestSuite(currentSuite(session), suiteName) == false )
+        if (!isSameTestSuite(currentSuite(session), suiteName))
         {
             updateSessionState(manager, session);
             startNewTestSuite(suiteName, session, manager);
@@ -91,7 +92,7 @@ public class CppUTestTestHandler extends CndTestHandler
      */
     private void updateSessionState(ManagerAdapter manager, TestSession session)
     {
-        if( firstSuite == true )
+        if (firstSuite)
         {
             manager.testStarted(session);
             firstSuite = false;
@@ -113,7 +114,7 @@ public class CppUTestTestHandler extends CndTestHandler
         if( getMatchGroup(GROUP_TIME) != null )
         {
             final String timeValue = getMatchGroup(GROUP_TIME_VALUE);
-            long testTime = Long.parseLong(timeValue);
+            final long testTime = TestSupportUtils.parseLong(timeValue);
             testCase.setTimeMillis(testTime);
             info.addTime(testTime);
         }

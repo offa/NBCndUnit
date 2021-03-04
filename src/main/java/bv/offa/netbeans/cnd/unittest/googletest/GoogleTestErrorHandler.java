@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
+import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
@@ -46,7 +47,7 @@ public class GoogleTestErrorHandler extends CndTestHandler
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
         final CndTestCase testCase = currentTestCase(session);
-        testCase.setError(getMatchGroup(GROUP_FILE), Integer.parseInt(getMatchGroup(GROUP_LINE)));
+        testCase.setError(getMatchGroup(GROUP_FILE), TestSupportUtils.parseInt(getMatchGroup(GROUP_LINE)));
     }
 
 }

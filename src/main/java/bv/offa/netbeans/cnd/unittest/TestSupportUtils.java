@@ -61,23 +61,59 @@ public final class TestSupportUtils
      */
     public static long parseTimeSecToMillis(String str)
     {
-        long result = 0L;
-
         try
         {
             final double value = Double.parseDouble(str) * 1000.0;
 
             if( Math.signum(value) > 0 )
             {
-                result = Math.round(value);
+                return Math.round(value);
             }
         }
-        catch( NumberFormatException ex )
+        catch( NumberFormatException ex)
         {
-            result = 0L;
+            LOGGER.log(Level.WARNING, "Parsing time failed", ex);
         }
 
-        return result;
+        return 0L;
+    }
+
+    /**
+     * Parses a string to long, returns {@code 0} if an error occours.
+     *
+     * @param str   Input string to parse
+     * @return      Long value
+     */
+    public static long parseLong(String str)
+    {
+        try
+        {
+            return Long.parseLong(str);
+        }
+        catch( NumberFormatException ex)
+        {
+            LOGGER.log(Level.WARNING, "Parsing value failed", ex);
+        }
+        return 0L;
+    }
+
+    /**
+     * Parses a string to int, returns {@code 0} if an error occours.
+     *
+     * @param str   Input string to parse
+     * @return      Int value
+     */
+    public static int parseInt(String str)
+    {
+        try
+        {
+            return Integer.parseInt(str);
+        }
+        catch( NumberFormatException ex)
+        {
+            LOGGER.log(Level.WARNING, "Parsing value failed", ex);
+        }
+        return 0;
     }
 
 

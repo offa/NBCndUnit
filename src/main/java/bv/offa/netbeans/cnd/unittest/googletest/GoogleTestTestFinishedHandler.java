@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.googletest;
 
+import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
@@ -63,7 +64,7 @@ public class GoogleTestTestFinishedHandler extends CndTestHandler
         final String caseName = getMatchGroup(GROUP_CASE);
         final String suiteName = getMatchGroup(GROUP_SUITE);
 
-        if( isSameTestCase(testCase, caseName, suiteName) == true )
+        if (isSameTestCase(testCase, caseName, suiteName))
         {
             final String location = suiteName + ":" + caseName;
             testCase.setLocation(location);
@@ -73,7 +74,7 @@ public class GoogleTestTestFinishedHandler extends CndTestHandler
         else
         {
             throw new IllegalStateException("No test found for: "
-                                            + suiteName + ":" + caseName);
+                    + suiteName + ":" + caseName);
         }
     }
 
@@ -86,7 +87,7 @@ public class GoogleTestTestFinishedHandler extends CndTestHandler
     private void updateTime(CndTestCase testCase)
     {
         final String timeValue = getMatchGroup(GROUP_TIME);
-        long time = Long.parseLong(timeValue);
+        final long time = TestSupportUtils.parseLong(timeValue);
         testCase.setTimeMillis(time);
     }
 
@@ -100,7 +101,7 @@ public class GoogleTestTestFinishedHandler extends CndTestHandler
     {
         final String result = getMatchGroup(GROUP_RESULT);
 
-        if( result.equals(MSG_FAILED) == true )
+        if (result.equals(MSG_FAILED))
         {
             testCase.setError();
         }

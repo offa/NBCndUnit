@@ -30,6 +30,8 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.netbeans.modules.gsf.testrunner.api.Testcase;
 import org.netbeans.modules.gsf.testrunner.api.Trouble;
 
+import java.util.Objects;
+
 public final class TestCaseSubject extends Subject
 {
 
@@ -39,7 +41,7 @@ public final class TestCaseSubject extends Subject
     private TestCaseSubject(FailureMetadata metadata, @NullableDecl CndTestCase actual)
     {
         super(metadata, actual);
-        this.actual = actual;
+        this.actual = Objects.requireNonNull(actual);
     }
 
     public void hasError()

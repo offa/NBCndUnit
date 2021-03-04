@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2021  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -25,29 +25,29 @@ import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
 import org.netbeans.modules.gsf.testrunner.api.TestSession;
 
-    
+
 /**
  * The class {@code GoogleTestSuiteStartedHandler} handles the start of a
  * test suite.
- * 
+ *
  * @author offa
  */
 public class GoogleTestSuiteStartedHandler extends CndTestHandler
 {
     private static final int GROUP_SUITE = 1;
     private static boolean firstSuite;
-    
+
     public GoogleTestSuiteStartedHandler()
     {
         super(TestFramework.GOOGLETEST, "^.*?\\[[-]{10}\\].*? [0-9]+? tests?? from (.+?)$");
         suiteFinished();
     }
 
-    
-    
+
+
     /**
      * Updates the UI.
-     * 
+     *
      * @param manager       Manager Adapter
      * @param session       Test session
      */
@@ -55,24 +55,24 @@ public class GoogleTestSuiteStartedHandler extends CndTestHandler
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
         final String suiteName = getMatchGroup(GROUP_SUITE);
-        
-        if( isSameTestSuite(currentSuite(session), suiteName) == false )
+
+        if (!isSameTestSuite(currentSuite(session), suiteName))
         {
             updateSessionState(manager, session);
             startNewTestSuite(suiteName, session, manager);
         }
     }
 
-    
+
     /**
      * Updates the session state.
-     * 
+     *
      * @param manager   Manager
      * @param session   Session
      */
     private void updateSessionState(ManagerAdapter manager, TestSession session)
     {
-        if( firstSuite == true )
+        if (firstSuite)
         {
             manager.testStarted(session);
             firstSuite = false;
@@ -82,7 +82,7 @@ public class GoogleTestSuiteStartedHandler extends CndTestHandler
             manager.displayReport(session, session.getReport(0));
         }
     }
-    
+
 
     /**
      * Indicates the current suite has finished.
@@ -91,7 +91,7 @@ public class GoogleTestSuiteStartedHandler extends CndTestHandler
     {
         GoogleTestSuiteStartedHandler.firstSuite = true;
     }
-    
+
 }
-    
-    
+
+
