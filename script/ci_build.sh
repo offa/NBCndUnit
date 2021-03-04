@@ -2,4 +2,4 @@
 
 set -ex
 
-mvn verify -Dmaven.javadoc.skip=true -V --no-transfer-progress
+mvn verify -Dmaven.javadoc.skip=true -B -V --no-transfer-progress

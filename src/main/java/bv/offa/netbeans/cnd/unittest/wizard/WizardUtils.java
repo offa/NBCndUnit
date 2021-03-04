@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2021  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -30,96 +30,96 @@ import org.openide.util.NbBundle;
 
 /**
  * The class {@code WizardUtils} provides helper methods.
- * 
+ *
  * @author offa
  */
 public final class WizardUtils
 {
     private static final Logger LOGGER = Logger.getLogger(WizardUtils.class.getName());
-    
-    
+
+
     private WizardUtils()
     {
         /* Empty */
     }
-    
-    
+
+
     /**
      * Modifies all characters which are not valid in an identifier; leading
      * and trailing blanks are removed.
-     * 
+     *
      * @param input     Input
      * @return          Modified input
      */
     public static String toIdentifier(String input)
     {
         final String ti = input.trim();
-        
-        if( ti.isEmpty() == true )
+
+        if (ti.isEmpty())
         {
             return ti;
         }
-        
+
         final StringBuilder sb = new StringBuilder(ti);
         char c = sb.charAt(0);
-        
-        if( Character.isJavaIdentifierStart(c) == false || c == '$' )
+
+        if (!Character.isJavaIdentifierStart(c) || c == '$')
         {
             sb.setCharAt(0, '_');
         }
-        
-        for( int i=1; i<sb.length(); i++ )
+
+        for (int i = 1; i < sb.length(); i++)
         {
             c = sb.charAt(i);
-            
-            if( Character.isJavaIdentifierPart(c) == false || c == '$' )
+
+            if (!Character.isJavaIdentifierPart(c) || c == '$')
             {
                 sb.setCharAt(i, '_');
             }
         }
-        
+
         return sb.toString();
     }
-    
-    
+
+
     /**
      * Tests whether the given input is a valid identifier.
-     * 
+     *
      * @param input     Input
      * @return          Returns {@code true} if {@code input} is a valid
      *                  identifier or {@code false} if not
      */
     public static boolean isValidIdentifier(String input)
     {
-        if( input.isEmpty() == true )
+        if (input.isEmpty())
         {
             return false;
         }
-        
+
         final char fc = input.charAt(0);
-        
-        if( Character.isJavaIdentifierStart(fc) == false || fc == '$' )
+
+        if (!Character.isJavaIdentifierStart(fc) || fc == '$')
         {
             return false;
         }
-        
-        for( int i=1; i<input.length(); i++ )
+
+        for (int i = 1; i < input.length(); i++)
         {
             final char c = input.charAt(i);
-            
-            if( Character.isJavaIdentifierPart(c) == false || c == '$' )
+
+            if (!Character.isJavaIdentifierPart(c) || c == '$')
             {
                 return false;
             }
         }
-        
+
         return true;
     }
-    
-    
+
+
     /**
      * Adds a test files folder to the project if there isn't one yet.
-     * 
+     *
      * @param project       Project
      * @return              Test Folder
      */
@@ -129,7 +129,7 @@ public final class WizardUtils
         MakeConfigurationDescriptor projectDescriptor = config.getConfigurationDescriptor();
         Folder rootFolder = projectDescriptor.getLogicalFolders();
         Folder testFolder = rootFolder.findFolderByName(MakeConfigurationDescriptor.TEST_FILES_FOLDER);
-        
+
         if( testFolder == null )
         {
             LOGGER.log(Level.INFO, "Enable Test Files Folder");
@@ -140,8 +140,8 @@ public final class WizardUtils
         {
             LOGGER.log(Level.INFO, "Test Files Folder already enabled");
         }
-        
+
         return testFolder;
     }
-    
+
 }

@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
+import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
@@ -59,7 +60,7 @@ public class CppUTestTimeHandler extends CndTestHandler
         if( testCase != null )
         {
             final String time = getMatchGroup(GROUP_TIME);
-            long testTime = Long.parseLong(time);
+            final long testTime = TestSupportUtils.parseLong(time);
             testCase.setTimeMillis(testTime);
             info.addTime(testTime);
         }

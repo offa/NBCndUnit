@@ -79,7 +79,7 @@ public class NewTestSuiteVisualPanel1 extends AbstractVisualPanel
         List<String> testCases = new ArrayList<>();
         final String testCaseName = tfTestCaseName.getText();
 
-        if( testCaseName.isEmpty() == false )
+        if (!testCaseName.isEmpty())
         {
             testCases.add(testCaseName);
         }
@@ -182,10 +182,7 @@ public class NewTestSuiteVisualPanel1 extends AbstractVisualPanel
 
         tfTestSuiteName.getDocument().addDocumentListener(dl);
         tfTestCaseName.getDocument().addDocumentListener(dl);
-        cbGenerateTestCases.addActionListener((ActionEvent e) ->
-        {
-            updateChangeListener();
-        });
+        cbGenerateTestCases.addActionListener((ActionEvent e) -> updateChangeListener());
     }
 
 
@@ -221,11 +218,7 @@ public class NewTestSuiteVisualPanel1 extends AbstractVisualPanel
 
         cbGenerateTestCases.setSelected(true);
         org.openide.awt.Mnemonics.setLocalizedText(cbGenerateTestCases, org.openide.util.NbBundle.getMessage(NewTestSuiteVisualPanel1.class, "NewTestSuiteVisualPanel1.cbGenerateTestCases.text")); // NOI18N
-        cbGenerateTestCases.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbGenerateTestCasesActionPerformed(evt);
-            }
-        });
+        cbGenerateTestCases.addActionListener(this::cbGenerateTestCasesActionPerformed);
 
         org.openide.awt.Mnemonics.setLocalizedText(lSuiteName, org.openide.util.NbBundle.getMessage(NewTestSuiteVisualPanel1.class, "NewTestSuiteVisualPanel1.lSuiteName.text")); // NOI18N
 

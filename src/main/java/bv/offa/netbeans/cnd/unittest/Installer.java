@@ -68,7 +68,7 @@ public class Installer extends ModuleInstall
     @Override
     public void validate() throws IllegalStateException
     {
-        if( targetModules.isEmpty() == false )
+        if (!targetModules.isEmpty())
         {
             addFriends();
         }
@@ -125,22 +125,18 @@ public class Installer extends ModuleInstall
      */
     private void addModuleToFriends(String targetModule, Object manager,
                                     Method getMethod, String codeNameBase)
-                                        throws ReflectiveOperationException,
-                                                IllegalArgumentException
+            throws ReflectiveOperationException,
+            IllegalArgumentException
     {
         final ModuleInfo moduleInfo = (ModuleInfo) getMethod.invoke(manager, targetModule);
-        final Class<?> moduleClass = Class.forName("org.netbeans.Module",
-                                                    true,
-                                                    moduleInfo.getClass()
-                                                            .getClassLoader());
+        final Class<?> moduleClass = Class.forName("org.netbeans.Module", true,
+                moduleInfo.getClass().getClassLoader());
         final Method dataMethod = moduleClass.getDeclaredMethod("data");
         dataMethod.setAccessible(true);
 
         final Object dataValue = dataMethod.invoke(moduleInfo);
-        final Class<?> moduleDataClass = Class.forName("org.netbeans.ModuleData",
-                                                        true,
-                                                        dataValue.getClass()
-                                                                .getClassLoader());
+        final Class<?> moduleDataClass = Class.forName("org.netbeans.ModuleData", true,
+                dataValue.getClass().getClassLoader());
         final Field friendNamesField = moduleDataClass.getDeclaredField("friendNames");
 
         updateFriendsValue(friendNamesField, dataValue, codeNameBase);

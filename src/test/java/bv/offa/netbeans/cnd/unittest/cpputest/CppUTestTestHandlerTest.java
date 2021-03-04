@@ -20,30 +20,16 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
+import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
 import bv.offa.netbeans.cnd.unittest.api.CndTestSuite;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
 import bv.offa.netbeans.cnd.unittest.api.TestFramework;
-import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
-import static bv.offa.netbeans.cnd.unittest.testhelper.MockArgumentMatcher.hasStatus;
-import static bv.offa.netbeans.cnd.unittest.testhelper.MockArgumentMatcher.isSuiteOfFramework;
-import static bv.offa.netbeans.cnd.unittest.testhelper.MockArgumentMatcher.isTest;
-import static bv.offa.netbeans.cnd.unittest.testhelper.TestCaseSubject.assertThat;
-import static com.google.common.truth.Truth.assertThat;
-import java.util.regex.Matcher;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.ArgumentMatchers.eq;
 import org.mockito.InOrder;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import org.netbeans.api.project.Project;
 import org.netbeans.modules.gsf.testrunner.api.Report;
 import org.netbeans.modules.gsf.testrunner.api.Status;
@@ -52,13 +38,29 @@ import org.netbeans.modules.gsf.testrunner.api.Testcase;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Lookup;
 
+import java.util.regex.Matcher;
+
+import static bv.offa.netbeans.cnd.unittest.testhelper.Helper.checkedMatch;
+import static bv.offa.netbeans.cnd.unittest.testhelper.MockArgumentMatcher.hasStatus;
+import static bv.offa.netbeans.cnd.unittest.testhelper.MockArgumentMatcher.isSuiteOfFramework;
+import static bv.offa.netbeans.cnd.unittest.testhelper.MockArgumentMatcher.isTest;
+import static bv.offa.netbeans.cnd.unittest.testhelper.TestCaseSubject.assertThat;
+import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 @Tag("Test-Framework")
 @Tag("CppUTest")
 public class CppUTestTestHandlerTest
 {
     private static final TestSessionInformation INFO = new TestSessionInformation();
     private static final TestFramework FRAMEWORK = TestFramework.CPPUTEST;
-    private static Project project;
     private static Report report;
     private CppUTestTestHandler handler;
     private TestSession session;
@@ -68,7 +70,7 @@ public class CppUTestTestHandlerTest
     @BeforeAll
     public static void setUpClass()
     {
-        project = mock(Project.class);
+        Project project = mock(Project.class);
         when(project.getProjectDirectory())
                 .thenReturn(FileUtil.createMemoryFileSystem().getRoot());
         when(project.getLookup()).thenReturn(Lookup.EMPTY);
@@ -126,7 +128,7 @@ public class CppUTestTestHandlerTest
     @Test
     public void suiteTimeParsing()
     {
-        final String input[] = new String[]
+        final String[] input = new String[]
         {
             "TEST(TestSuite1, testCase1) - 17005 ms",
             "TEST(TestSuite2, testCase1) - 8 ms",
@@ -139,7 +141,7 @@ public class CppUTestTestHandlerTest
         for( String line : input )
         {
             Matcher m = checkedMatch(handler, line);
-            time += Long.valueOf(m.group(5));
+            time += TestSupportUtils.parseLong(m.group(5));
         }
 
         assertThat(time).isEqualTo(17005L + 8L + 25L);

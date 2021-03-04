@@ -63,7 +63,7 @@ public class LibunittestCppTestFinishedHandler extends CndTestHandler
     {
         final String suiteName = normalise(getMatchGroup(GROUP_SUITE));
 
-        if( isSameTestSuite(currentSuite(session), suiteName) == false )
+        if (!isSameTestSuite(currentSuite(session), suiteName))
         {
             updateSessionState(manager, session);
             startNewTestSuite(suiteName, session, manager);
@@ -105,7 +105,7 @@ public class LibunittestCppTestFinishedHandler extends CndTestHandler
      */
     private void updateSessionState(ManagerAdapter manager, TestSession session)
     {
-        if( firstSuite == true )
+        if (firstSuite)
         {
             manager.testStarted(session);
             firstSuite = false;
@@ -121,13 +121,12 @@ public class LibunittestCppTestFinishedHandler extends CndTestHandler
      * Updates the test result.
      *
      * @param testCase      Test Case
-     * @param location      Test location
      */
     private void updateResult(CndTestCase testCase)
     {
         final String result = getMatchGroup(GROUP_RESULT);
 
-        switch(result)
+        switch (result)
         {
             case MSG_FAILED:
                 testCase.setError();
