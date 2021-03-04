@@ -161,7 +161,7 @@ Test templates are under "Unit Tests" file category.</description>
         <repository>
             <id>netbeans-development</id>
             <name>Repository hosting NetBeans development modules</name>
-            <url>http://bits.netbeans.org/nexus/content/repositories/snapshots/</url>
+            <url>https://bits.netbeans.org/nexus/content/repositories/snapshots/</url>
         </repository>
     </repositories>
 
