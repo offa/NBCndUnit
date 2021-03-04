@@ -23,7 +23,7 @@ NetBeans releases newer than 8.x don't support C / C++ yet.
 
  - [CppUTest](https://cpputest.github.io/)
  - [GoogleTest (gtest) / GoogleMock (gmock)](https://github.com/google/googletest)
- - [libunittest C++](http://libunittest.sourceforge.net/)
+ - [libunittest C++](https://bloomen.github.io/libunittest/)
 
 
 # Installation
