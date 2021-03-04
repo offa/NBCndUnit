@@ -42,7 +42,7 @@ public abstract class AbstractTestNodeAction extends TestNodeAction
         super.putValue(Action.NAME, actionName);
     }
 
-    
+
     @Override
     protected Object clone() throws CloneNotSupportedException
     {

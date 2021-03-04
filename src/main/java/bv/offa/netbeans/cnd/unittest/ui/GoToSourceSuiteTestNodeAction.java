@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2021  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@ import org.netbeans.api.project.Project;
 /**
  * The class {@code GoToSourceSuiteTestNodeAction} implements an
  * {@link AbstractTestNodeAction action} for testsuite nodes.
- * 
+ *
  * @author offa
  */
 public class GoToSourceSuiteTestNodeAction extends AbstractTestNodeAction
@@ -41,11 +41,11 @@ public class GoToSourceSuiteTestNodeAction extends AbstractTestNodeAction
         super(actionName, project);
         this.testSuite = testSuite;
     }
-    
-    
+
+
     /**
      * Performs the action.
-     * 
+     *
      * @param ae    Action event
      */
     @Override
@@ -53,5 +53,10 @@ public class GoToSourceSuiteTestNodeAction extends AbstractTestNodeAction
     {
         TestSupportUtils.goToSourceOfTestSuite(project, testSuite);
     }
-    
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException
+    {
+        throw new CloneNotSupportedException("This class doesn't support clone.");
+    }
 }

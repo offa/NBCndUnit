@@ -56,5 +56,10 @@ public class GoToCallstackNodeAction extends AbstractTestNodeAction
     }
 
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException
+    {
+        throw new CloneNotSupportedException("This class doesn't support clone.");
+    }
 
 }
