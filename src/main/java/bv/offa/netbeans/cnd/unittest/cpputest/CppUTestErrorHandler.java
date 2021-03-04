@@ -20,6 +20,7 @@
 
 package bv.offa.netbeans.cnd.unittest.cpputest;
 
+import bv.offa.netbeans.cnd.unittest.TestSupportUtils;
 import bv.offa.netbeans.cnd.unittest.api.CndTestCase;
 import bv.offa.netbeans.cnd.unittest.api.CndTestHandler;
 import bv.offa.netbeans.cnd.unittest.api.ManagerAdapter;
@@ -56,15 +57,15 @@ public class CppUTestErrorHandler extends CndTestHandler
     @Override
     public void updateUI(ManagerAdapter manager, TestSession session)
     {
-        CndTestCase testCase = currentTestCase(session);
+        final CndTestCase testCase = currentTestCase(session);
         final String suiteName = getMatchGroup(GROUP_SUITE);
         final String caseName = getMatchGroup(GROUP_CASE);
 
-        if( isSameTestCase(testCase, caseName, suiteName) == true )
+        if (isSameTestCase(testCase, caseName, suiteName))
         {
             final String file = getMatchGroup(GROUP_FILE);
             final String lineNumber = getMatchGroup(GROUP_LINE);
-            testCase.setError(file, Integer.parseInt(lineNumber));
+            testCase.setError(file, TestSupportUtils.parseInt(lineNumber));
         }
     }
 

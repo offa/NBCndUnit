@@ -1,7 +1,7 @@
 /*
  * NBCndUnit - C/C++ unit tests for NetBeans.
  * Copyright (C) 2015-2021  offa
- * 
+ *
  * This file is part of NBCndUnit.
  *
  * NBCndUnit is free software: you can redistribute it and/or modify
@@ -28,14 +28,14 @@ import org.netbeans.api.project.Project;
 /**
  * The class {@code GoToCallstackNodeAction} implements an
  * {@link AbstractTestNodeAction action} for classtack nodes.
- * 
+ *
  * @author offa
  */
 public class GoToCallstackNodeAction extends AbstractTestNodeAction
 {
     private static final long serialVersionUID = 1L;
     private final CndTestCase testCase;
-    
+
 
     public GoToCallstackNodeAction(String actionName, CndTestCase testCase, Project project)
     {
@@ -43,10 +43,10 @@ public class GoToCallstackNodeAction extends AbstractTestNodeAction
         this.testCase = testCase;
     }
 
-    
+
     /**
      * Performs the action.
-     * 
+     *
      * @param ae    Action event
      */
     @Override
@@ -54,7 +54,7 @@ public class GoToCallstackNodeAction extends AbstractTestNodeAction
     {
         TestSupportUtils.goToSourceOfFailure(project, testCase.getFailureInfo());
     }
-    
-    
-    
+
+
+
 }
