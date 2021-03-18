@@ -44,13 +44,12 @@ public class TestSupportUtilsTest
     private static final String CASE_NAME = "testCase";
     private static final String SUITE_NAME = "TestSuite";
     private static TestSession testSessionMock;
-    private static Project projectMock;
 
     @BeforeAll
     public static void setUpClass()
     {
         testSessionMock = mock(TestSession.class);
-        projectMock = mock(Project.class);
+        final Project projectMock = mock(Project.class);
         when(projectMock.getProjectDirectory())
                 .thenReturn(FileUtil.createMemoryFileSystem().getRoot());
         when(projectMock.getLookup()).thenReturn(Lookup.EMPTY);
