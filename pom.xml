@@ -151,11 +151,8 @@ Test templates are under "Unit Tests" file category.</description>
     <repositories>
         <repository>
             <id>netbeans</id>
-            <name>Repository hosting NetBeans modules</name>
-            <url>https://bits.netbeans.org/nexus/content/groups/netbeans</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
+            <name>NetBeans</name>
+            <url>http://netbeans.apidesign.org/maven2/</url>
         </repository>
     </repositories>
 
