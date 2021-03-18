@@ -35,6 +35,9 @@ import org.netbeans.modules.gsf.testrunner.api.TestSession;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Lookup;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 @Tag("util")
 public class TestSupportUtilsTest
 {
@@ -51,6 +54,8 @@ public class TestSupportUtilsTest
         when(projectMock.getProjectDirectory())
                 .thenReturn(FileUtil.createMemoryFileSystem().getRoot());
         when(projectMock.getLookup()).thenReturn(Lookup.EMPTY);
+
+        Logger.getLogger(TestSupportUtils.class.getName()).setLevel(Level.OFF);
     }
 
 
