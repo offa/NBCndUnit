@@ -152,7 +152,7 @@ Test templates are under "Unit Tests" file category.</description>
         <repository>
             <id>netbeans</id>
             <name>NetBeans</name>
-            <url>http://netbeans.apidesign.org/maven2/</url>
+            <url>https://netbeans.apidesign.org/maven2/</url>
         </repository>
     </repositories>
 
