@@ -152,7 +152,8 @@ Test templates are under "Unit Tests" file category.</description>
         <repository>
             <id>netbeans</id>
             <name>NetBeans</name>
-            <url>https://netbeans.apidesign.org/maven2/</url>
+            <!-- Repository doesn't support HTTPS -->
+            <url>http://netbeans.apidesign.org/maven2/</url>
         </repository>
     </repositories>
 
