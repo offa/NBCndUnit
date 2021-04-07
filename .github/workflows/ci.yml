@@ -16,6 +16,7 @@ jobs:
         uses: actions/setup-java@master
         with:
           java-version: ${{ matrix.java }}
+          distribution: 'adopt'
       - name: Cache
         uses: actions/cache@master
         with:

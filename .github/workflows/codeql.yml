@@ -17,6 +17,7 @@ jobs:
         uses: actions/setup-java@master
         with:
           java-version: 11
+          distribution: 'adopt'
       - name: Cache
         uses: actions/cache@master
         with:
